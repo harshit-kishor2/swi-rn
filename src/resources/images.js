@@ -1,0 +1,1 @@
+export const Splash_logo = require('../assets/images/swi_logo.png');
