@@ -14,8 +14,7 @@
 
 // const Stack = createStackNavigator();
 
-// const PreloginNavigator = props => {
-//   return (
+ //   return (
 //     <Stack.Navigator
 //       screenOptions={{headerShown: false}}
 //       initialRouteName={props.goto}>
