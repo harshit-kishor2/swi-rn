@@ -1,14 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const walkThrough2 = () => {
+const ForgetPasswordScreen = () => {
   return (
     <View>
-      <Text>walkThrough2</Text>
+      <Text>forgetPasswordScreen</Text>
     </View>
   );
 };
 
-export default walkThrough2;
+export default ForgetPasswordScreen;
 
 const styles = StyleSheet.create({});

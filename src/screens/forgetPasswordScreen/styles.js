@@ -1,14 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const walkThrough3 = () => {
+const styles = () => {
   return (
     <View>
-      <Text>walkThrough3</Text>
+      <Text>styles</Text>
     </View>
   );
 };
 
-export default walkThrough3;
+export default styles;
 
 const styles = StyleSheet.create({});

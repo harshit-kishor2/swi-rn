@@ -1,14 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
-const walkThrough1 = () => {
+const TermsandcondtionScreen = () => {
   return (
     <View>
-      <Text>walkThrough1</Text>
+      <Text>termsandcondtionScreen</Text>
     </View>
   );
 };
 
-export default walkThrough1;
+export default TermsandcondtionScreen;
 
 const styles = StyleSheet.create({});
