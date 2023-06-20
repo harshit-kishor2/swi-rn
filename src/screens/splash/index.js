@@ -8,9 +8,9 @@ const SplashScreen = () => {
       <Image
         source={IMAGES.Splash_logo}
         resizeMode='cover'
-        style={{ maxHeight: SPACING.SCALE_60_58, maxWidth: SPACING.SCALE_230, marginBottom: SPACING.SCALE_250, marginLeft: SPACING.SCALE_80, marginTop:SPACING.SCALE_30 }}
+        style={{ maxHeight: SPACING.SCALE_60_58, maxWidth: SPACING.SCALE_230, marginBottom: SPACING.SCALE_250, marginLeft: SPACING.SCALE_80 }}
       />
-      <View style={{ marginLeft: SPACING.SCALE_70, marginTop: SPACING.SCALE_70, maxHeight:SPACING.SCALE_10, maxWidth:SPACING.SCALE_313 }}>
+      <View style={{ maxHeight: SPACING.SCALE_10, maxWidth: SPACING.SCALE_313 }}>
         <Text style={styles.text}>
           Copyright &copy; 2023 SG Watch Guru Pte Ltd
         </Text>
@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
   text: {
     color: '#4E4E4E',
     position: 'absolute',
-    fontsize: TYPOGRAPHY.FONT_SIZE_10
+    fontSize: TYPOGRAPHY.FONT_SIZE_11,
+    fontFamily: 'Open Sans',
+    lineHeight: 14.98,
+    marginLeft: 85,
     // marginTop:100
   }
 });
