@@ -3,6 +3,7 @@ import React from 'react';
 // import SplashScreen from './screens/splash';
 import AppNavigator from './navigation';
 import WalkThroughScreen from './screens/walkThroughScreen';
+import SplashScreen from './screens/splash';
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       {/* <Text>App</Text> */}
       {/* <AppNavigator /> */}
       <WalkThroughScreen />
+      {/* <SplashScreen/> */}
 
     </View>
   );
