@@ -1,6 +1,4 @@
 import React from 'react';
-
-import SplashScreen from '../screens/splash';
 import CreateAccountScreen from '../screens/createAccountScreen';
 import SignupScreen from '../screens/signupScreen';
 import LoginScreen from '../screens/loginScreen';
@@ -14,9 +12,8 @@ const PreloginNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="SplashScreen">
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name="walkThroughScreen" component={WalkthroughScreen} />
+      initialRouteName="CreateAccountScreen">
+      <Stack.Screen name="WalkthroughScreen" component={WalkthroughScreen} />
       <Stack.Screen
         name="CreateAccountScreen"
         component={CreateAccountScreen}
