@@ -1161,13 +1161,6 @@
   "resolved" "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   "version" "0.2.3"
 
-"@egjs/hammerjs@^2.0.17":
-  "integrity" "sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A=="
-  "resolved" "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz"
-  "version" "2.0.17"
-  dependencies:
-    "@types/hammerjs" "^2.0.36"
-
 "@eslint-community/eslint-utils@^4.2.0":
   "integrity" "sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA=="
   "resolved" "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz"
@@ -1890,11 +1883,6 @@
   "version" "4.1.6"
   dependencies:
     "@types/node" "*"
-
-"@types/hammerjs@^2.0.36":
-  "integrity" "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA=="
-  "resolved" "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz"
-  "version" "2.0.41"
 
 "@types/hoist-non-react-statics@^3.3.1":
   "integrity" "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA=="
@@ -5986,7 +5974,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@*", "prop-types@^15.7.2", "prop-types@^15.8.1":
+"prop-types@*", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6091,17 +6079,6 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
-"react-native-gesture-handler@^2.11.0":
-  "integrity" "sha512-qiGS2HFnuxxA067kcC4PHfp5hzB8pn6K9UqI5kdkM48DLkzv3vUJptdPlffRSvUJggsfwIyAMYVM+xM4sxg2/A=="
-  "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.11.0.tgz"
-  "version" "2.11.0"
-  dependencies:
-    "@egjs/hammerjs" "^2.0.17"
-    "hoist-non-react-statics" "^3.3.0"
-    "invariant" "^2.2.4"
-    "lodash" "^4.17.21"
-    "prop-types" "^15.7.2"
-
 "react-native-gradle-plugin@^0.71.18":
   "integrity" "sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg=="
   "resolved" "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz"
@@ -6120,12 +6097,7 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native-splash-screen@^3.3.0":
-  "integrity" "sha512-rGjt6HkoSXxMqH4SQUJ1gnPQlPJV8+J47+4yhgTIan4bVvAwJhEeJH7wWt9hXSdH4+VfwTS0GTaflj1Tw83IhA=="
-  "resolved" "https://registry.npmjs.org/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz"
-  "version" "3.3.0"
-
-"react-native@*", "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@>=0.57.0", "react-native@>=0.59", "react-native@0.71.8":
+"react-native@0.71.8":
   "integrity" "sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.8.tgz"
   "version" "0.71.8"

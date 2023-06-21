@@ -5,7 +5,7 @@ import LoginScreen from '../screens/loginScreen';
 import ForgetPasswordScreen from '../screens/forgetPasswordScreen';
 import TermsandcondtionScreen from '../screens/termsandcondtionScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import WalkthroughScreen from '../screens/walkThroughScreen';
+import WalkThroughScreen from '../screens/walkThroughScreen';
 
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
@@ -13,7 +13,7 @@ const PreloginNavigator = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="CreateAccountScreen">
-      <Stack.Screen name="WalkthroughScreen" component={WalkthroughScreen} />
+      <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
       <Stack.Screen
         name="CreateAccountScreen"
         component={CreateAccountScreen}

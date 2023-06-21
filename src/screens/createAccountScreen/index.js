@@ -10,7 +10,7 @@ const CreateAccountScreen = props => {
       <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
-          props.navigation.navigate('WalkthroughScreen');
+          props.navigation.navigate('WalkThroughScreen');
         }}
       />
       <View>
