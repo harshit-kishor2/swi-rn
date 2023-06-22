@@ -15,7 +15,7 @@ const PreloginNavigator = () => {
       initialRouteName="WalkThroughScreen">
       <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
       <Stack.Screen
-        name='CreateAccountScreen'
+        name="CreateAccountScreen"
         component={CreateAccountScreen}
       />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />

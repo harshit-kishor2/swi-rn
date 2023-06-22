@@ -19,6 +19,7 @@ const CreateAccountScreen = props => {
       <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
+          console.log('first');
           props.navigation.navigate('WalkThroughScreen');
         }}
       />
@@ -34,7 +35,7 @@ const CreateAccountScreen = props => {
           width={241}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('rrr');
+            props.navigation.navigate('SignupScreen');
           }}
         />
         <Custombutton
@@ -130,12 +131,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 10,
     width: 200,
+    color: '#000000',
   },
   subheadline: {
     textAlign: 'center',
     fontSize: 18,
     width: 200,
     marginTop: 7,
+    color: '#00958C',
   },
   topBox: {
     flexDirection: 'column',

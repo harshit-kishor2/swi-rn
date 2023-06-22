@@ -1,12 +1,103 @@
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
+import StoryScreen from '../../components/StoryScreen';
+import NavigationBar from '../../components/NavigationBar';
+import {IMAGES, SPACING} from '../../resources';
+import FormInput from '../../components/CustomtextInput';
+import CustomTextInput from '../../components/CustomtextInput';
+import Custombutton from '../../components/Button1';
 
-const SignupScreen = () => {
+const SignupScreen = props => {
   return (
-    <View>
-      <Text>index</Text>
-    </View>
+    <StoryScreen>
+      <NavigationBar
+        leftSource={IMAGES.BACKARROW}
+        leftAction={() => {
+          props.navigation.goBack();
+        }}
+      />
+      <View style={styles.container}>
+        <View style={styles.topBox}>
+          <Text style={styles.headline}>Welcome!</Text>
+          <Text style={styles.subheadline}>
+            Sign up with your email address
+          </Text>
+        </View>
+        <CustomTextInput
+          icon={IMAGES.User}
+          placeholder={'Enter name'}
+          Width={SPACING.SCALE_239}
+        />
+        <CustomTextInput
+          icon={IMAGES.Email}
+          placeholder={'Enter email address'}
+          Width={SPACING.SCALE_239}
+        />
+        <CustomTextInput
+          icon={IMAGES.Lock1}
+          placeholder={'Set password'}
+          Width={SPACING.SCALE_239}
+        />
+        <CustomTextInput
+          icon={IMAGES.Lock2}
+          placeholder={'Confirm password'}
+          Width={SPACING.SCALE_239}
+        />
+        <Custombutton
+          title="Create Now"
+          marginTop={114}
+          height={51}
+          width={241}
+          marginHorizontal={20}
+          onPress={() => {
+            Alert.alert('this navigation is being process');
+          }}
+        />
+        <View style={{flexDirection: 'row', margin: 50}}>
+          <Text style={{fontSize: 14, color: '#4E4E4E'}}>
+            Already have an account?
+          </Text>
+          <TouchableOpacity style={{marginLeft: 4}}>
+            <Text
+              style={{fontSize: 14, color: '#00958C'}}
+              onPress={() => {
+                props.navigation.navigate('LoginScreen');
+              }}>
+              Sign In now
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </StoryScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  headline: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    fontFamily: 'Cabin-Italic',
+    marginTop: 10,
+    width: 200,
+    color: '#000000',
+  },
+  subheadline: {
+    textAlign: 'center',
+    fontSize: 18,
+    width: 300,
+    marginTop: 7,
+    color: '#00958C',
+  },
+  topBox: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+});
 
 export default SignupScreen;

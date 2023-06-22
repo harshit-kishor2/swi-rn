@@ -3,3 +3,7 @@ export const BACKARROW = require('../assets/images/backarrow.png');
 export const Watch_Image1 = require('../assets/images/watch1.jpg');
 export const Watch_Image2 = require('../assets/images/watch2.jpg');
 export const Watch_Image3 = require('../assets/images/watch3.jpg');
+export const Lock1 = require('../assets/images/lock.png');
+export const Lock2 = require('../assets/images/lock2.png');
+export const User = require('../assets/images/user.png');
+export const Email = require('../assets/images/mail.png');
