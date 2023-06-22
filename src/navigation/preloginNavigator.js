@@ -1,22 +1,19 @@
 import React from 'react';
-
-import SplashScreen from '../screens/splash';
 import CreateAccountScreen from '../screens/createAccountScreen';
 import SignupScreen from '../screens/signupScreen';
 import LoginScreen from '../screens/loginScreen';
 import ForgetPasswordScreen from '../screens/forgetPasswordScreen';
 import TermsandcondtionScreen from '../screens/termsandcondtionScreen';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WalkThroughScreen from '../screens/walkThroughScreen';
 
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{headerShown: false}}
       initialRouteName="WalkThroughScreen">
-      <Stack.Screen name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen name='WalkThroughScreen' component={WalkThroughScreen} />
+      <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
       <Stack.Screen
         name='CreateAccountScreen'
         component={CreateAccountScreen}

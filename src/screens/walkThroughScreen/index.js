@@ -6,7 +6,7 @@ import { IMAGES, SPACING, TYPOGRAPHY } from '../../resources';
 import { margin } from '../../resources/mixins';
 const WalkThroughScreen = (props) => {
   const { width, height } = Dimensions.get('window');
-  console.log(">>>>>>>>>>>>>>>>",props)
+ 
   const [page, setPage] = useState(0);
   const skipFunction =()=>{
     props.navigation.navigate("CreateAccountScreen")
@@ -15,7 +15,7 @@ const WalkThroughScreen = (props) => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{flex: 1}}>
         <ScrollView
           style={{ flex: SPACING.SCALE_1 }}
           horizontal={true}
@@ -75,10 +75,7 @@ const WalkThroughScreen = (props) => {
             </View>
             </View>
             <View style={styles.imageSizeStyle}>
-              <Image
-                source={IMAGES.Watch_Image2}
-                style={styles.imageStyle}
-              />
+              <Image source={IMAGES.Watch_Image2} style={styles.imageStyle} />
             </View>
             <View style={styles.wrapper}>
               <Text style={styles.header}>Buy and Sell</Text>

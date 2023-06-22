@@ -1,18 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 // import SplashScreen from './screens/splash';
 import AppNavigator from './navigation';
-import WalkThroughScreen from './screens/walkThroughScreen';
-import SplashScreen from './screens/splash';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
-    <View style={{ flex: 1 }}>
-      {/* <Text>App</Text> */}
-      {/* <AppNavigator /> */}
-      <WalkThroughScreen />
-      {/* <SplashScreen/> */}
-
+    <View style={{flex: 1}}>
+      <AppNavigator />
     </View>
   );
 };
