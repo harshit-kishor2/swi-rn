@@ -12,10 +12,10 @@ const PreloginNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName="CreateAccountScreen">
+      initialRouteName="WalkThroughScreen">
       <Stack.Screen name="WalkThroughScreen" component={WalkThroughScreen} />
       <Stack.Screen
-        name="CreateAccountScreen"
+        name='CreateAccountScreen'
         component={CreateAccountScreen}
       />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
