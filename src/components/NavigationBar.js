@@ -11,6 +11,7 @@ const NavigationBar = ({
   title,
   rightAction,
   rightSource,
+  flexDirection
 }) => {
   const pressedStyle = ({pressed}) => [
     {
@@ -25,6 +26,7 @@ const NavigationBar = ({
         styles.mainView,
         {
           backgroundColor: backgroundColor,
+          flexDirection: flexDirection ?? null,
         },
       ]}>
       <Pressable onPress={leftAction} hitSlop={30} style={pressedStyle}>
@@ -43,8 +45,8 @@ const NavigationBar = ({
 const styles = StyleSheet.create({
   mainView: {
     height: 44,
-    alignItems: 'center',
-    flexDirection: 'row',
+    alignItems :'center',
+    
     justifyContent: 'space-between',
   },
   backButton: {
