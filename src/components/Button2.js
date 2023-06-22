@@ -3,7 +3,7 @@ import {Pressable, View, StyleSheet, Text} from 'react-native';
 
 // import {COLORS, TYPOGRAPHY} from '../resources';
 
-const Custombutton = ({
+const Custombutton2 = ({
   onPress,
   marginTop,
   marginBottom,
@@ -33,7 +33,8 @@ const Custombutton = ({
           {
             height: height ?? 50,
             marginHorizontal: marginHorizontal,
-            backgroundColor: backgroundColor ?? 'black',
+            backgroundColor: backgroundColor ?? 'white',
+            
           },
         ]}>
         <Text style={styles.buttonText}>{title}</Text>
@@ -47,13 +48,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:1,
   },
   buttonText: {
     fontSize: 16,
-    color: 'white',
+    color: 'black',
     fontFamily: 'verdana',
     fontWeight: 'bold',
     textAlign: 'center',
   },
 });
-export default Custombutton;
+export default Custombutton2;
