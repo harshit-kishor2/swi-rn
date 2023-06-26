@@ -15,18 +15,42 @@ import {
 import React, {useState} from 'react';
 import {IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import {margin} from '../../resources/mixins';
-import Custombutton from '../../components/Button1';
+import StoryScreen from '../../components/StoryScreen';
+import NavigationBar from '../../components/NavigationBar';
 const WalkThroughScreen = props => {
   const {width, height} = Dimensions.get('window');
 
   const [page, setPage] = useState(0);
+
   const skipFunction = () => {
-    props.navigation.navigate('CreateAccountScreen');
+    props.navigation.navigate('LoginScreen');
   };
+
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={{flex: 1}}>
+      <StatusBar barStyle="light-content" />
+      <StoryScreen>
+        <View style={{flexDirection: 'row', marginTop: 15}}>
+          {(page === 1 || page === 2) && (
+            <NavigationBar
+              leftSource={IMAGES.BACKARROW}
+              leftAction={() => {
+                setPage(page - 1);
+              }}
+            />
+          )}
+
+          {(page === 0 || page === 1) && (
+            <View style={{marginLeft: SPACING.SCALE_290}}>
+              <Pressable
+                onPress={() => {
+                  skipFunction();
+                }}>
+                <Text style={styles.textStyle1}>Skip</Text>
+              </Pressable>
+            </View>
+          )}
+        </View>
         <ScrollView
           style={{flex: SPACING.SCALE_1}}
           horizontal={true}
@@ -34,22 +58,6 @@ const WalkThroughScreen = props => {
           pagingEnabled={true}>
           {page === 0 && (
             <View style={{width, height}}>
-              <View style={styles.headerStyle}>
-                <Pressable
-                  onPress={() => {
-                    setPage(page - 1);
-                  }}>
-                  <Text>Back</Text>
-                </Pressable>
-                <View style={{marginLeft: SPACING.SCALE_300}}>
-                  <Pressable
-                    onPress={() => {
-                      skipFunction();
-                    }}>
-                    <Text style={styles.textStyle1}>Skip</Text>
-                  </Pressable>
-                </View>
-              </View>
               <View style={styles.wrapper}>
                 <Text style={styles.header}>Luxury Watches</Text>
                 <Text style={styles.paragraph}>
@@ -59,20 +67,21 @@ const WalkThroughScreen = props => {
                 </Text>
               </View>
               <View style={styles.imageSizeStyle}>
-                <Image source={IMAGES.Watch_Image1} style={styles.imageStyle} />
+                <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
               </View>
 
               <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_165,
+                  marginLeft: SPACING.SCALE_160,
+                  marginTop: SPACING.SCALE_20,
                 }}>
                 <View
                   style={{
-                    height: SPACING.SCALE_8,
-                    width: SPACING.SCALE_8,
-                    borderRadius: SPACING.SCALE_4,
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
                     backgroundColor: '#00958C',
                   }}></View>
                 <View
@@ -100,38 +109,12 @@ const WalkThroughScreen = props => {
                   <Text style={styles.bg_button}>Next</Text>
                 </View>
               </Pressable>
-              {/* <Custombutton
-                title="Next"
-                marginTop={13}
-                width={241}
-                height={51}
-                marginHorizontal={20}
-                onPress={() => {
-                  setPage(1);
-                }}
-              /> */}
             </View>
           )}
           {page === 1 && (
             <View style={{width, height}}>
-              <View style={styles.headerStyle}>
-                <Pressable
-                  onPress={() => {
-                    setPage(page - 1);
-                  }}>
-                  <Text>Back</Text>
-                </Pressable>
-                <View style={{marginLeft: SPACING.SCALE_300}}>
-                  <Pressable
-                    onPress={() => {
-                      skipFunction();
-                    }}>
-                    <Text style={styles.textStyle1}>Skip</Text>
-                  </Pressable>
-                </View>
-              </View>
               <View style={styles.imageSizeStyle}>
-                <Image source={IMAGES.Watch_Image2} style={styles.imageStyle} />
+                <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
               </View>
               <View style={styles.wrapper}>
                 <Text style={styles.header}>Buy and Sell</Text>
@@ -145,7 +128,7 @@ const WalkThroughScreen = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_165,
+                  marginLeft: SPACING.SCALE_160,
                   marginTop: SPACING.SCALE_20,
                 }}>
                 <View
@@ -157,9 +140,9 @@ const WalkThroughScreen = props => {
                   }}></View>
                 <View
                   style={{
-                    height: SPACING.SCALE_8,
-                    width: SPACING.SCALE_8,
-                    borderRadius: SPACING.SCALE_4,
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
                     marginLeft: SPACING.SCALE_5,
                     backgroundColor: '#00958C',
                   }}></View>
@@ -184,14 +167,6 @@ const WalkThroughScreen = props => {
           )}
           {page === 2 && (
             <View style={{width, height}}>
-              <View style={styles.headerStyle}>
-                <Pressable
-                  onPress={() => {
-                    setPage(page - 1);
-                  }}>
-                  <Text>Back</Text>
-                </Pressable>
-              </View>
               <View style={styles.wrapper}>
                 <Text style={styles.header}>Features</Text>
                 <Text style={styles.paragraph}>
@@ -202,7 +177,7 @@ const WalkThroughScreen = props => {
                 <View style={styles.outer}>
                   <View style={styles.imageSizeStyle}>
                     <Image
-                      source={IMAGES.Watch_Image2}
+                      source={IMAGES.Rectangle31}
                       style={styles.imageStyle1}
                     />
                   </View>
@@ -214,7 +189,7 @@ const WalkThroughScreen = props => {
                 <View style={styles.outer}>
                   <View style={styles.imageSizeStyle}>
                     <Image
-                      source={IMAGES.Watch_Image1}
+                      source={IMAGES.Rectangle32}
                       style={styles.imageStyle1}
                     />
                   </View>
@@ -226,7 +201,7 @@ const WalkThroughScreen = props => {
                 <View style={styles.outer}>
                   <View style={styles.imageSizeStyle}>
                     <Image
-                      source={IMAGES.Watch_Image3}
+                      source={IMAGES.Rectangle33}
                       style={styles.imageStyle1}
                     />
                   </View>
@@ -241,7 +216,8 @@ const WalkThroughScreen = props => {
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_165,
+                  marginLeft: SPACING.SCALE_160,
+                  marginTop: SPACING.SCALE_20,
                 }}>
                 <View
                   style={{
@@ -260,9 +236,9 @@ const WalkThroughScreen = props => {
                   }}></View>
                 <View
                   style={{
-                    height: SPACING.SCALE_8,
-                    width: SPACING.SCALE_8,
-                    borderRadius: SPACING.SCALE_4,
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
                     marginLeft: SPACING.SCALE_5,
                     backgroundColor: '#00958C',
                   }}></View>
@@ -279,7 +255,8 @@ const WalkThroughScreen = props => {
             </View>
           )}
         </ScrollView>
-      </SafeAreaView>
+        {/* </SafeAreaView> */}
+      </StoryScreen>
     </>
   );
 };
@@ -288,8 +265,8 @@ export default WalkThroughScreen;
 
 const styles = StyleSheet.create({
   imageStyle: {
-    height: PixelRatio.getPixelSizeForLayoutSize(135),
-    width: '100%',
+    height: PixelRatio.getPixelSizeForLayoutSize(120),
+    width: '90%',
     borderRadius: SPACING.SCALE_10,
   },
   imageStyle1: {
@@ -300,15 +277,15 @@ const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: -45,
   },
   header: {
-    fontSize: 49,
-    fontWeight: 'bold',
-    marginTop: 30,
+    fontSize: 35,
+    //fontWeight: '700',
+    marginTop: 15,
     marginBottom: 20,
-    fontFamily: 'Cabin',
+    fontFamily: 'Cabin-Bold',
     color: 'black',
-    marginTop: -5,
   },
   paragraph: {
     fontSize: 16,
@@ -329,7 +306,7 @@ const styles = StyleSheet.create({
     width: 239,
     backgroundColor: '#000000',
     color: 'white',
-    marginLeft: 77,
+    marginLeft: 60,
     marginTop: 30,
     alignItems: 'center',
     justifyContent: 'center',
@@ -346,8 +323,9 @@ const styles = StyleSheet.create({
   },
   textStyle1: {
     fontWeight: 'bold',
-    color: 'blue',
-    fontSize: 20,
+    color: '#00958C',
+    fontSize: 15,
+    fontFamily: 'Open Sans',
   },
   outer: {
     display: 'flex',
@@ -358,7 +336,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Open Sans',
     color: 'black',
     textAlign: 'center',
-    width: 137,
-    marginTop: 40,
+    width: 145,
+    marginTop: 25,
   },
 });

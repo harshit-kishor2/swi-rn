@@ -17,7 +17,6 @@ const LoginScreen = props => {
 
   const registerData = values => {
     dispatch(userLogin(values));
-    
   };
   return (
     <Formik
@@ -37,6 +36,7 @@ const LoginScreen = props => {
             leftAction={() => {
               props.navigation.goBack();
             }}
+            flexDirection="row"
           />
           <View style={styles.container}>
             <View style={styles.topBox}>
