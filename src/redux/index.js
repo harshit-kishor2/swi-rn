@@ -29,3 +29,12 @@
 // };
 
 // export default rootReducer;
+
+import {combineReducers} from '@reduxjs/toolkit';
+import {AuthReducer} from './auth.slice';
+
+const combineReducer = combineReducers({
+  AuthReducer,
+});
+
+export default combineReducer;

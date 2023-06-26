@@ -1,62 +1,92 @@
 import {View, Text, TouchableOpacity, Alert, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {IMAGES, SPACING} from '../../resources';
 
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
+import {useDispatch} from 'react-redux';
+import {userLogin} from '../../redux/auth.slice';
+import {Formik} from 'formik';
 
 const LoginScreen = props => {
+  const dispatch = useDispatch();
+  const [password, Setpassword] = useState();
+  const [email, Setemail] = useState();
+
+  const registerData = values => {
+    dispatch(userLogin(values));
+    
+  };
   return (
-    <StoryScreen>
-      <NavigationBar
-        leftSource={IMAGES.BACKARROW}
-        leftAction={() => {
-          props.navigation.goBack();
-        }}
-      />
-      <View style={styles.container}>
-        <View style={styles.topBox}>
-          <Text style={styles.headline}>Welcome!</Text>
-          <Text style={styles.subheadline}>Sign in to your account</Text>
-        </View>
-        <CustomTextInput
-          icon={IMAGES.Email}
-          placeholder={'Enter email address'}
-          Width={SPACING.SCALE_239}
-        />
-        <CustomTextInput
-          icon={IMAGES.Lock1}
-          placeholder={'Enter password'}
-          Width={SPACING.SCALE_239}
-        />
-        <Custombutton
-          title="Confirm"
-          marginTop={114}
-          height={51}
-          width={241}
-          marginHorizontal={20}
-          onPress={() => {
-            props.navigation.navigate('SignupScreen');
-          }}
-        />
-        <View style={{flexDirection: 'row', margin: 50}}>
-          <Text style={{fontSize: 14, color: '#4E4E4E'}}>
-            Already have an account?
-          </Text>
-          <TouchableOpacity style={{marginLeft: 4}}>
-            <Text
-              style={{fontSize: 14, color: '#00958C'}}
-              onPress={() => {
-                Alert.alert('ttt');
-              }}>
-              Sign In now
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </StoryScreen>
+    <Formik
+      initialValues={{
+        email: email,
+        password: password,
+      }}
+      enableReinitialize
+      // validationSchema={loginValidationSchema}
+      onSubmit={values => {
+        registerData(values);
+      }}>
+      {formik => (
+        <StoryScreen>
+          <NavigationBar
+            leftSource={IMAGES.BACKARROW}
+            leftAction={() => {
+              props.navigation.goBack();
+            }}
+          />
+          <View style={styles.container}>
+            <View style={styles.topBox}>
+              <Text style={styles.headline}>Welcome!</Text>
+              <Text style={styles.subheadline}>Sign in to your account</Text>
+            </View>
+            <CustomTextInput
+              icon={IMAGES.Email}
+              placeholder={'Enter email address'}
+              Width={SPACING.SCALE_239}
+              onChangeText={e => {
+                Setemail(e);
+              }}
+              value={formik.values.email}
+            />
+            <CustomTextInput
+              icon={IMAGES.Lock1}
+              placeholder={'Enter password'}
+              Width={SPACING.SCALE_239}
+              onChangeText={e => {
+                Setpassword(e);
+              }}
+              value={formik.values.password}
+            />
+            <Custombutton
+              title="Confirm"
+              marginTop={114}
+              height={51}
+              width={241}
+              marginHorizontal={20}
+              onPress={formik.handleSubmit}
+            />
+            <View style={{flexDirection: 'row', margin: 50}}>
+              <Text style={{fontSize: 14, color: '#4E4E4E'}}>
+                Already have an account?
+              </Text>
+              <TouchableOpacity style={{marginLeft: 4}}>
+                <Text
+                  style={{fontSize: 14, color: '#00958C'}}
+                  onPress={() => {
+                    Alert.alert('tt');
+                  }}>
+                  Sign In now
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </StoryScreen>
+      )}
+    </Formik>
   );
 };
 const styles = StyleSheet.create({

@@ -15,6 +15,7 @@ import {
 import React, {useState} from 'react';
 import {IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import {margin} from '../../resources/mixins';
+import Custombutton from '../../components/Button1';
 const WalkThroughScreen = props => {
   const {width, height} = Dimensions.get('window');
 
@@ -99,6 +100,16 @@ const WalkThroughScreen = props => {
                   <Text style={styles.bg_button}>Next</Text>
                 </View>
               </Pressable>
+              {/* <Custombutton
+                title="Next"
+                marginTop={13}
+                width={241}
+                height={51}
+                marginHorizontal={20}
+                onPress={() => {
+                  setPage(1);
+                }}
+              /> */}
             </View>
           )}
           {page === 1 && (

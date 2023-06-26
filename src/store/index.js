@@ -1,14 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {configureStore} from '@reduxjs/toolkit';
+import combineReducer from '../redux';
+// import combineReducer from '../redux';
 
-const index = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
-};
-
-export default index;
-
-const styles = StyleSheet.create({});
+const store = configureStore({reducer: combineReducer});
+export default store;
