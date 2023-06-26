@@ -30,6 +30,7 @@ const CustomTextInput = ({
       </View>
       <TextInput
         placeholder={placeholder}
+        type={type}
         placeholderTextColor={'#7C7C7C'}
         keyboardType={keyboardType ? keyboardType : 'default'}
         style={{marginLeft: 10}}

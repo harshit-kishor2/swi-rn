@@ -36,6 +36,7 @@ const SignupScreen = props => {
         />
         <CustomTextInput
           icon={IMAGES.Lock1}
+          type={password}
           placeholder={'Set password'}
           Width={SPACING.SCALE_239}
         />
