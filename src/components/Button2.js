@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     color: 'black',
-    fontFamily: 'verdana',
-    fontWeight: 'bold',
+    fontFamily:'Cabin-Bold',
+    
     textAlign: 'center',
   },
 });
