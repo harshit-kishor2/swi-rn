@@ -11,6 +11,7 @@ const CustomTextInput = ({
   maxLength,
   Width,
   Hight,
+  error
 }) => {
   return (
     <View

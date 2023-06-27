@@ -8,13 +8,45 @@ import Custombutton from '../../components/Button1';
 import {Formik} from 'formik';
 import {userSignup} from '../../redux/auth.slice';
 import {useDispatch} from 'react-redux';
+import * as yup from 'yup';
 
 const SignupScreen = props => {
   const dispatch = useDispatch();
-  const [username, Setusername] = useState();
-  const [password, Setpassword] = useState();
-  const [cnfpassword, Setcnfpassword] = useState();
-  const [email, Setemail] = useState();
+  // const [username, Setusername] = useState();
+  // const [password, Setpassword] = useState();
+  // const [cnfpassword, Setcnfpassword] = useState();
+  // const [email, Setemail] = useState();
+
+  let loginValidationSchema = yup.object().shape({
+    name: yup
+      .string()
+      .required('First Name is required')
+      .matches(
+        // /^[aA-zZ][aA-zZ\d]+$/,
+        /^[a-zA-Z0-9_][aA-zZ)-9\s]*$/,
+        'Only alphanumeric characters are allowed with first character can only be an alphabet',
+      )
+      .test('len', 'First Name should not be more than 20 characters', val =>
+        val ? val.toString().length <= 20 : false,
+      ),
+    email: yup
+      .string()
+      .email('Please enter valid email')
+      .required('Email address is required'),
+    password: yup
+      .string()
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .max(15, ({max}) => `Password must not exceed ${max} characters`)
+      .required('Password is required')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
+      ),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Password  and confirm does not match')
+      .required('Confirm password is required'),
+  });
 
   const registerData = values => {
     dispatch(userSignup(values));
@@ -22,13 +54,13 @@ const SignupScreen = props => {
   return (
     <Formik
       initialValues={{
-        email: email,
-        username: username,
-        password: password,
+        email: '',
+        name: '',
+        password: '',
         // cnfpassword: cnfpassword,
       }}
       enableReinitialize
-      // validationSchema={loginValidationSchema}
+      validationSchema={loginValidationSchema}
       onSubmit={values => {
         registerData(values);
       }}>
@@ -51,38 +83,59 @@ const SignupScreen = props => {
               icon={IMAGES.User}
               placeholder={'Enter name'}
               Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setusername(e);
-              }}
-              value={formik.values.username}
+              onChangeText={formik.handleChange('name')}
+              value={formik.values.name}
+              errors={
+                formik.errors.name && formik.touched.name
+                  ? formik.errors.name
+                  : null
+              }
             />
+            <View>
+              <Text>
+                {formik.errors.name && formik.touched.name
+                  ? formik.errors.name
+                  : null}
+              </Text>
+            </View>
             <CustomTextInput
               icon={IMAGES.Email}
               placeholder={'Enter email address'}
               Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setemail(e);
-              }}
+              onChangeText={formik.handleChange('email')}
               value={formik.values.email}
+              errors={
+                formik.errors.email && formik.touched.email
+                  ? formik.errors.email
+                  : null
+              }
             />
             <CustomTextInput
               icon={IMAGES.Lock1}
               placeholder={'Set password'}
               Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setpassword(e);
-              }}
+              onChangeText={formik.handleChange('password')}
               value={formik.values.password}
+              errors={
+                formik.errors.password && formik.touched.password
+                  ? formik.errors.password
+                  : null
+              }
             />
-            {/* <CustomTextInput
+            <View>
+              <Text>
+                {formik.errors.password && formik.touched.password
+                  ? formik.errors.password
+                  : null}
+              </Text>
+            </View>
+            <CustomTextInput
               icon={IMAGES.Lock2}
               placeholder={'Confirm password'}
               Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setcnfpassword(e);
-              }}
+              onChangeText={formik.handleChange('confirmPassword')}
               value={formik.values.confirmPassword}
-            /> */}
+            />
             <Custombutton
               title="Create Now"
               marginTop={114}

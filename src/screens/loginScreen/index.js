@@ -9,6 +9,7 @@ import Custombutton from '../../components/Button1';
 import {useDispatch} from 'react-redux';
 import {userLogin} from '../../redux/auth.slice';
 import {Formik} from 'formik';
+import G_Recaptcha from '../../components/Recaptcha';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const LoginScreen = props => {
               }}
               value={formik.values.password}
             />
+            <G_Recaptcha />
             <Custombutton
               title="Confirm"
               marginTop={114}
@@ -77,7 +79,7 @@ const LoginScreen = props => {
                 <Text
                   style={{fontSize: 14, color: '#00958C'}}
                   onPress={() => {
-                    Alert.alert('tt');
+                    props.navigation.navigate('SignupScreen');
                   }}>
                   Sign In now
                 </Text>
