@@ -259,7 +259,7 @@ export default WalkThroughScreen;
 const styles = StyleSheet.create({
   imageStyle: {
     height: PixelRatio.getPixelSizeForLayoutSize(120),
-    width: '90%',
+    width: PixelRatio.getPixelSizeForLayoutSize(90),
     borderRadius: SPACING.SCALE_10,
   },
   imageStyle1: {
@@ -274,15 +274,15 @@ const styles = StyleSheet.create({
     // marginLeft: PixelRatio.getPixelSizeForLayoutSize(-10),
   },
   header: {
-    fontSize: SPACING.SCALE_35,
+    fontSize: TYPOGRAPHY.FONT_SIZE_35,
     //fontWeight: '700',
     marginTop: SPACING.SCALE_5,
     marginBottom: SPACING.SCALE_20,
     fontFamily: 'Cabin-Bold',
-    color: 'black',
+    color: COLORS.BLACK,
   },
   paragraph: {
-    fontSize: SPACING.SCALE_16,
+    fontSize: TYPOGRAPHY.FONT_SIZE_16,
     fontFamily: 'Open Sans',
     color: 'black',
     textAlign: 'center',
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
   imageSizeStyle: {
     marginTop: SPACING.SCALE_30,
     marginBottom: SPACING.SCALE_10,
-    marginLeft: SPACING.SCALE_60,
+    marginLeft: SPACING.SCALE_70,
     marginRight: SPACING.SCALE_30,
     borderRadius: SPACING.SCALE_30,
     // backgroundColor:'red'
@@ -311,17 +311,17 @@ const styles = StyleSheet.create({
     color: COLORS.WHITE,
     // font: 'Cabin'
     fontFamily: 'Cabin-Bold',
-    fontSize: SPACING.SCALE_16,
+    fontSize: TYPOGRAPHY.FONT_SIZE_16,
   },
   headerStyle: {
     display: 'flex',
     flexDirection: 'row',
   },
   textStyle1: {
-    fontWeight: 'bold',
+    fontFamily: 'OpenSans-Bold',
+    // fontWeight: 'bold',
     color: COLORS.HYPERLINK,
-    fontSize: SPACING.SCALE_15,
-    fontFamily: 'Open Sans',
+    fontSize: TYPOGRAPHY.FONT_SIZE_15,
   },
   outer: {
     // display: 'flex',
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.SCALE__20,
   },
   paragraph1: {
-    fontSize: SPACING.SCALE_12,
+    fontSize: TYPOGRAPHY.FONT_SIZE_12,
     fontFamily: 'Open Sans',
     color: COLORS.BLACK,
     textAlign: 'left',

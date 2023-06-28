@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WalkThroughScreen from '../screens/walkThroughScreen';
 import PostedSuccessfully from '../screens/AddProduct/PostedSuccessfully';
 import FreshFind from '../screens/freshFindScreen';
+import ProductViewComponent from '../components/ProductViewComponent';
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
   return (
@@ -23,6 +24,7 @@ const PreloginNavigator = () => {
       <Stack.Screen name="postedSuccessfullyScreen" component={PostedSuccessfully} />
       <Stack.Screen name="TermAndConditions" component={TermsandcondtionScreen} />
       <Stack.Screen name="FreshFind" component={FreshFind} />
+      <Stack.Screen name="ProductView" component={ProductViewComponent} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen
         name="ForgetPasswordScreen"
