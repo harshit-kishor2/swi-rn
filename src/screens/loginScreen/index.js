@@ -6,7 +6,7 @@ import {IMAGES, SPACING} from '../../resources';
 
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {userLogin} from '../../redux/auth.slice';
 import {Formik} from 'formik';
 import G_Recaptcha from '../../components/Recaptcha';
@@ -15,6 +15,9 @@ const LoginScreen = props => {
   const dispatch = useDispatch();
   const [password, Setpassword] = useState();
   const [email, Setemail] = useState();
+
+  const loginloader = useSelector(state => state.AuthReducer.loginloader);
+  console.log(loginloader);
 
   const registerData = values => {
     dispatch(userLogin(values));
@@ -63,12 +66,36 @@ const LoginScreen = props => {
               value={formik.values.password}
             />
             <G_Recaptcha />
+            <View style={{flexDirection: 'row', margin: 50}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#4E4E4E',
+                  fontFamily: 'Open Sans',
+                }}>
+                I agree to the
+              </Text>
+              <TouchableOpacity style={{marginLeft: 4}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#00958C',
+                    fontFamily: 'Open Sans',
+                  }}
+                  onPress={() => {
+                    props.navigation.navigate('SignupScreen');
+                  }}>
+                  Terms and conditions
+                </Text>
+              </TouchableOpacity>
+            </View>
+
             <Custombutton
               title="Confirm"
-              marginTop={114}
+              marginTop={80}
               height={51}
               width={241}
-              marginHorizontal={20}
+              marginHorizontal={SPACING.SCALE_50}
               onPress={formik.handleSubmit}
             />
             <View style={{flexDirection: 'row', margin: 50}}>

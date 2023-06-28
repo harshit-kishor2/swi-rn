@@ -30,20 +30,8 @@
       "sha1": "42bb76af8b0f675a6a2de341656ddb5c2f33596f"
     },
     {
-      "path": "src/assets/fonts/Cabin.ttf",
-      "sha1": "5ad49df392974b43cd015386379a8a2ec2962370"
-    },
-    {
-      "path": "src/assets/fonts/font.txt",
-      "sha1": "7004968f8db20f2dd3e0701416d119d134f033a0"
-    },
-    {
       "path": "src/assets/fonts/Kablammo Zoink.ttf",
       "sha1": "a589ed49957299b95071257f0fa2191342812efd"
-    },
-    {
-      "path": "src/assets/fonts/Open Sans.ttf",
-      "sha1": "b436e315c744dc2143fb69e6f03b3278681f73b9"
     },
     {
       "path": "src/assets/fonts/OpenSans-Bold.ttf",
