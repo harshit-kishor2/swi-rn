@@ -11,7 +11,7 @@ const NavigationBar = ({
   title,
   rightAction,
   rightSource,
-  flexDirection
+  flexDirection,
 }) => {
   const pressedStyle = ({pressed}) => [
     {
@@ -45,8 +45,8 @@ const NavigationBar = ({
 const styles = StyleSheet.create({
   mainView: {
     height: 44,
-    alignItems :'center',
-    
+    alignItems: 'center',
+
     justifyContent: 'space-between',
   },
   backButton: {

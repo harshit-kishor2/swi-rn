@@ -18,12 +18,12 @@ import {margin} from '../../resources/mixins';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 const WalkThroughScreen = props => {
-  const {width, height} = Dimensions.get('window');
+  const {width, height} = Dimensions.get('screen');
 
   const [page, setPage] = useState(0);
 
   const skipFunction = () => {
-    props.navigation.navigate('LoginScreen');
+    props.navigation.navigate('CreateAccountScreen');
   };
 
   return (
@@ -51,11 +51,15 @@ const WalkThroughScreen = props => {
             </View>
           )}
         </View>
-        <ScrollView
+        <SafeAreaView style={{flex: 1}}>
+          {/* <ScrollView
           style={{flex: SPACING.SCALE_1}}
           horizontal={true}
-          scrollEventThrottle={SPACING.SCALE_16}
-          pagingEnabled={true}>
+          showsHorizontalScrollIndicator={true}
+          scrollEventThrottle={0}
+          pagingEnabled={true}
+          
+          > */}
           {page === 0 && (
             <View style={{width, height}}>
               <View style={styles.wrapper}>
@@ -254,8 +258,8 @@ const WalkThroughScreen = props => {
               </Pressable>
             </View>
           )}
-        </ScrollView>
-        {/* </SafeAreaView> */}
+          {/* </ScrollView> */}
+        </SafeAreaView>
       </StoryScreen>
     </>
   );
@@ -277,12 +281,12 @@ const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: -45,
+    marginLeft: PixelRatio.getPixelSizeForLayoutSize(-10),
   },
   header: {
     fontSize: 35,
     //fontWeight: '700',
-    marginTop: 15,
+    marginTop: 5,
     marginBottom: 20,
     fontFamily: 'Cabin-Bold',
     color: 'black',
@@ -302,12 +306,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   submitStyle: {
-    height: 50,
-    width: 239,
+    height: 51,
+    width: 241,
     backgroundColor: '#000000',
     color: 'white',
     marginLeft: 60,
-    marginTop: 30,
+    marginTop: 10,
+    marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: SPACING.SCALE_10,
@@ -315,7 +320,8 @@ const styles = StyleSheet.create({
   bg_button: {
     color: 'white',
     // font: 'Cabin'
-    fontSize: 24,
+    fontFamily: 'Cabin-Bold',
+    fontSize: 16,
   },
   headerStyle: {
     display: 'flex',

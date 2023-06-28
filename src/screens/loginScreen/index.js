@@ -72,19 +72,67 @@ const LoginScreen = props => {
               onPress={formik.handleSubmit}
             />
             <View style={{flexDirection: 'row', margin: 50}}>
-              <Text style={{fontSize: 14, color: '#4E4E4E'}}>
-                Already have an account?
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#4E4E4E',
+                  fontFamily: 'Open Sans',
+                }}>
+                Don’t have an account yet?
               </Text>
               <TouchableOpacity style={{marginLeft: 4}}>
                 <Text
-                  style={{fontSize: 14, color: '#00958C'}}
+                  style={{
+                    fontSize: 14,
+                    color: '#00958C',
+                    fontFamily: 'Open Sans',
+                  }}
                   onPress={() => {
                     props.navigation.navigate('SignupScreen');
                   }}>
-                  Sign In now
+                  Sign Up
                 </Text>
               </TouchableOpacity>
             </View>
+            <TouchableOpacity style={{marginLeft: 4}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#00958C',
+                  fontFamily: 'Open Sans',
+                }}
+                onPress={() => {
+                  props.navigation.navigate('postedSuccessfullyScreen');
+                }}>
+                PostedSuccessfully Screen
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 4}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#00958C',
+                  fontFamily: 'Open Sans',
+                }}
+                onPress={() => {
+                  props.navigation.navigate('TermAndConditions');
+                }}>
+                TermAndConditions
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{marginLeft: 4}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#00958C',
+                  fontFamily: 'Open Sans',
+                }}
+                onPress={() => {
+                  props.navigation.navigate('FreshFind');
+                }}>
+                FreshFind
+              </Text>
+            </TouchableOpacity>
           </View>
         </StoryScreen>
       )}
@@ -99,16 +147,17 @@ const styles = StyleSheet.create({
   },
   headline: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    fontFamily: 'Cabin-Italic',
+    fontFamily: 'Open Sans',
+    // fontWeight: 'bold',
+    fontSize: 40,
     marginTop: 10,
-    width: 200,
+    width: 300,
     color: '#000000',
   },
   subheadline: {
     textAlign: 'center',
     fontSize: 18,
+    fontFamily: 'Open Sans',
     width: 300,
     marginTop: 7,
     color: '#00958C',

@@ -71,6 +71,7 @@ const SignupScreen = props => {
             leftAction={() => {
               props.navigation.goBack();
             }}
+            flexDirection="row"
           />
           <View style={styles.container}>
             <View style={styles.topBox}>
@@ -145,12 +146,21 @@ const SignupScreen = props => {
               onPress={formik.handleSubmit}
             />
             <View style={{flexDirection: 'row', margin: 50}}>
-              <Text style={{fontSize: 14, color: '#4E4E4E'}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#4E4E4E',
+                  fontFamily: 'Open Sans',
+                }}>
                 Already have an account?
               </Text>
               <TouchableOpacity style={{marginLeft: 4}}>
                 <Text
-                  style={{fontSize: 14, color: '#00958C'}}
+                  style={{
+                    fontSize: 14,
+                    color: '#00958C',
+                    fontFamily: 'Open Sans',
+                  }}
                   onPress={() => {
                     props.navigation.navigate('LoginScreen');
                   }}>
@@ -173,17 +183,18 @@ const styles = StyleSheet.create({
   },
   headline: {
     textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    fontFamily: 'Cabin-Italic',
+    // fontWeight: 'bold',
+    fontSize: 40,
+    fontFamily: 'Open Sans',
     marginTop: 10,
-    width: 200,
+    width: 240,
     color: '#000000',
   },
   subheadline: {
     textAlign: 'center',
     fontSize: 18,
-    width: 300,
+    fontFamily: 'Open Sans',
+    width: 600,
     marginTop: 7,
     color: '#00958C',
   },

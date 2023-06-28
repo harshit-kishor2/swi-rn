@@ -22,6 +22,7 @@ const CreateAccountScreen = props => {
           console.log('first');
           props.navigation.navigate('WalkThroughScreen');
         }}
+        flexDirection='row'
       />
       <View style={styles.container}>
         <View style={styles.topBox}>
@@ -64,6 +65,7 @@ const CreateAccountScreen = props => {
                 textAlign: 'center',
                 color: '#00958C',
                 fontSize: 16,
+                fontFamily:'Cabin-Bold',
               }}>
               Or
             </Text>
@@ -101,14 +103,14 @@ const CreateAccountScreen = props => {
           }}
         />
         <View style={{flexDirection: 'row', margin: 50}}>
-          <Text style={{fontSize: 14, color: '#4E4E4E'}}>
+          <Text style={{fontSize: 14, color: '#4E4E4E',fontFamily: 'Open Sans',}}>
             Already have an account?
           </Text>
           <TouchableOpacity style={{marginLeft: 4}}>
             <Text
-              style={{fontSize: 14, color: '#00958C'}}
+              style={{fontSize: 14, color: '#00958C',fontFamily: 'Open Sans',}}
               onPress={() => {
-                Alert.alert('ttt');
+                props.navigation.navigate("LoginScreen");
               }}>
               Sign In now
             </Text>
@@ -127,7 +129,8 @@ const styles = StyleSheet.create({
   },
   headline: {
     textAlign: 'center',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',  
+    fontFamily:'Cabin-Bold',
     fontSize: 18,
     marginTop: 10,
     width: 200,
@@ -136,10 +139,11 @@ const styles = StyleSheet.create({
   subheadline: {
     textAlign: 'center',
     fontSize: 18,
-    width: 200,
+    fontFamily: 'Open Sans',
+    width: 300,
     marginTop: 7,
     color: '#00958C',
-  },
+  },  
   topBox: {
     flexDirection: 'column',
     alignItems: 'center',

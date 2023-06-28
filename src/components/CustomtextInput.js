@@ -7,11 +7,12 @@ const CustomTextInput = ({
   onChangeText,
   icon,
   type,
+
   keyboardType,
   maxLength,
   Width,
   Hight,
-  error
+  error,
 }) => {
   return (
     <View
@@ -34,7 +35,7 @@ const CustomTextInput = ({
         type={type}
         placeholderTextColor={'#7C7C7C'}
         keyboardType={keyboardType ? keyboardType : 'default'}
-        style={{marginLeft: 10}}
+        style={{marginLeft: 10, fontFamily: 'Cabin-Bold', fontSize: 16}}
         secureTextEntry={type ? true : false}
         // maxLength={maxLength ? maxLength : 0}
         onChangeText={onChangeText}
