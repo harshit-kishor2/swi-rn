@@ -125,7 +125,7 @@ const LoginScreen = props => {
                   onPress={() => {
                     props.navigation.navigate("FreshFind");
                   }}>
-                  FreshFind
+                  Fresh Find
                 </Text>
               </TouchableOpacity>
           </View>
