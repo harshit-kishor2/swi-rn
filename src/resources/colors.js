@@ -71,3 +71,8 @@ export const TRACK_BACKGROUND_COLOR = '#6A6A6A';
 //Notification Screen
 export const NOTIFICATION_TEXT = '#8D8D8D';
 export const UN_READ_DOT_COLOR = '#F84660';
+//
+
+//  WalkThrough Screen
+
+export const HYPERLINK = '#00958C';
