@@ -10,3 +10,4 @@ export const Lock1 = require('../assets/images/lock.png');
 export const Lock2 = require('../assets/images/lock2.png');
 export const User = require('../assets/images/user.png');
 export const Email = require('../assets/images/mail.png');
+export const check1 = require('../assets/images/check1.jpg');

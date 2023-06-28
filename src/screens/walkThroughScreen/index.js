@@ -18,12 +18,12 @@ import {margin} from '../../resources/mixins';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 const WalkThroughScreen = props => {
-  const {width, height} = Dimensions.get('window');
+  const {width, height} = Dimensions.get('screen');
 
   const [page, setPage] = useState(0);
 
   const skipFunction = () => {
-    props.navigation.navigate('LoginScreen');
+    props.navigation.navigate('CreateAccountScreen');
   };
 
   return (
@@ -51,11 +51,15 @@ const WalkThroughScreen = props => {
             </View>
           )}
         </View>
-        <ScrollView
+        <SafeAreaView style={{flex: 1}}>
+          {/* <ScrollView
           style={{flex: SPACING.SCALE_1}}
           horizontal={true}
-          scrollEventThrottle={SPACING.SCALE_16}
-          pagingEnabled={true}>
+          showsHorizontalScrollIndicator={true}
+          scrollEventThrottle={0}
+          pagingEnabled={true}
+          
+          > */}
           {page === 0 && (
             <View style={{width, height}}>
               <View style={styles.wrapper}>
@@ -166,96 +170,98 @@ const WalkThroughScreen = props => {
             </View>
           )}
           {page === 2 && (
-            <View style={{width, height}}>
-              <View style={styles.wrapper}>
-                <Text style={styles.header}>Features</Text>
-                <Text style={styles.paragraph}>
-                  Lorem ipsum dolor sit amet consectetur amet
-                </Text>
-              </View>
-              <View>
-                <View style={styles.outer}>
-                  <View style={styles.imageSizeStyle}>
-                    <Image
-                      source={IMAGES.Rectangle31}
-                      style={styles.imageStyle1}
-                    />
-                  </View>
-                  <Text style={styles.paragraph1}>
-                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                    pharetra et
+            <ScrollView>
+              <View style={{width, height}}>
+                <View style={styles.wrapper}>
+                  <Text style={styles.header}>Features</Text>
+                  <Text style={styles.paragraph}>
+                    Lorem ipsum dolor sit amet consectetur amet
                   </Text>
                 </View>
-                <View style={styles.outer}>
-                  <View style={styles.imageSizeStyle}>
-                    <Image
-                      source={IMAGES.Rectangle32}
-                      style={styles.imageStyle1}
-                    />
+                <View>
+                  <View style={styles.outer}>
+                    <View style={styles.imageSizeStyle}>
+                      <Image
+                        source={IMAGES.Rectangle31}
+                        style={styles.imageStyle1}
+                      />
+                    </View>
+                    <Text style={styles.paragraph1}>
+                      Lorem ipsum dolor sit amet consectetur. Erat neque
+                      facilisi pharetra et
+                    </Text>
                   </View>
-                  <Text style={styles.paragraph1}>
-                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                    pharetra et
-                  </Text>
-                </View>
-                <View style={styles.outer}>
-                  <View style={styles.imageSizeStyle}>
-                    <Image
-                      source={IMAGES.Rectangle33}
-                      style={styles.imageStyle1}
-                    />
+                  <View style={styles.outer}>
+                    <View style={styles.imageSizeStyle}>
+                      <Image
+                        source={IMAGES.Rectangle32}
+                        style={styles.imageStyle1}
+                      />
+                    </View>
+                    <Text style={styles.paragraph1}>
+                      Lorem ipsum dolor sit amet consectetur. Erat neque
+                      facilisi pharetra et
+                    </Text>
                   </View>
-                  <Text style={styles.paragraph1}>
-                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                    pharetra et
-                  </Text>
+                  <View style={styles.outer}>
+                    <View style={styles.imageSizeStyle}>
+                      <Image
+                        source={IMAGES.Rectangle33}
+                        style={styles.imageStyle1}
+                      />
+                    </View>
+                    <Text style={styles.paragraph1}>
+                      Lorem ipsum dolor sit amet consectetur. Erat neque
+                      facilisi pharetra et
+                    </Text>
+                  </View>
                 </View>
-              </View>
 
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_160,
-                  marginTop: SPACING.SCALE_20,
-                }}>
                 <View
                   style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#00958C',
-                  }}></View>
-              </View>
-
-              <Pressable
-                onPress={() => {
-                  skipFunction();
-                }}>
-                <View style={styles.submitStyle}>
-                  <Text style={styles.bg_button}>Get Started</Text>
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginLeft: SPACING.SCALE_160,
+                    marginTop: SPACING.SCALE_20,
+                  }}>
+                  <View
+                    style={{
+                      height: SPACING.SCALE_6,
+                      width: SPACING.SCALE_6,
+                      borderRadius: SPACING.SCALE_3,
+                      backgroundColor: '#D9D9D9',
+                    }}></View>
+                  <View
+                    style={{
+                      height: SPACING.SCALE_6,
+                      width: SPACING.SCALE_6,
+                      borderRadius: SPACING.SCALE_3,
+                      marginLeft: SPACING.SCALE_5,
+                      backgroundColor: '#D9D9D9',
+                    }}></View>
+                  <View
+                    style={{
+                      height: SPACING.SCALE_6,
+                      width: SPACING.SCALE_6,
+                      borderRadius: SPACING.SCALE_3,
+                      marginLeft: SPACING.SCALE_5,
+                      backgroundColor: '#00958C',
+                    }}></View>
                 </View>
-              </Pressable>
-            </View>
+
+                <Pressable
+                  onPress={() => {
+                    skipFunction();
+                  }}>
+                  <View style={styles.submitStyle}>
+                    <Text style={styles.bg_button}>Get Started</Text>
+                  </View>
+                </Pressable>
+              </View>
+            </ScrollView>
           )}
-        </ScrollView>
-        {/* </SafeAreaView> */}
+          {/* </ScrollView> */}
+        </SafeAreaView>
       </StoryScreen>
     </>
   );
@@ -277,12 +283,12 @@ const styles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: -45,
+    marginLeft: PixelRatio.getPixelSizeForLayoutSize(-10),
   },
   header: {
     fontSize: 35,
     //fontWeight: '700',
-    marginTop: 15,
+    marginTop: 5,
     marginBottom: 20,
     fontFamily: 'Cabin-Bold',
     color: 'black',
@@ -302,12 +308,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   submitStyle: {
-    height: 50,
-    width: 239,
+    height: 51,
+    width: 241,
     backgroundColor: '#000000',
     color: 'white',
     marginLeft: 60,
-    marginTop: 30,
+    marginTop: 10,
+    marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: SPACING.SCALE_10,
@@ -315,7 +322,8 @@ const styles = StyleSheet.create({
   bg_button: {
     color: 'white',
     // font: 'Cabin'
-    fontSize: 24,
+    fontFamily: 'Cabin-Bold',
+    fontSize: 16,
   },
   headerStyle: {
     display: 'flex',
