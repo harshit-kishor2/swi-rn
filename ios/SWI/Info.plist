@@ -53,9 +53,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Cabin.ttf</string>
 		<string>Kablammo Zoink.ttf</string>
-		<string>Open Sans.ttf</string>
 		<string>Cabin-Bold.ttf</string>
 		<string>Cabin-BoldItalic.ttf</string>
 		<string>Cabin-Italic.ttf</string>
