@@ -13,7 +13,7 @@ import {
   Alert,
 } from 'react-native';
 import React, {useState} from 'react';
-import {IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
+import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import {margin} from '../../resources/mixins';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
@@ -29,30 +29,31 @@ const WalkThroughScreen = props => {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <StoryScreen>
-        <View style={{flexDirection: 'row', marginTop: 15}}>
-          {(page === 1 || page === 2) && (
-            <NavigationBar
-              leftSource={IMAGES.BACKARROW}
-              leftAction={() => {
-                setPage(page - 1);
-              }}
-            />
-          )}
+      {/* <StoryScreen> */}
+      <View
+        style={{flexDirection: 'row', marginTop: 15, paddingHorizontal: 20}}>
+        {(page === 1 || page === 2) && (
+          <NavigationBar
+            leftSource={IMAGES.BACKARROW}
+            leftAction={() => {
+              setPage(page - 1);
+            }}
+          />
+        )}
 
-          {(page === 0 || page === 1) && (
-            <View style={{marginLeft: SPACING.SCALE_290}}>
-              <Pressable
-                onPress={() => {
-                  skipFunction();
-                }}>
-                <Text style={styles.textStyle1}>Skip</Text>
-              </Pressable>
-            </View>
-          )}
-        </View>
-        <SafeAreaView style={{flex: 1}}>
-          {/* <ScrollView
+        {(page === 0 || page === 1) && (
+          <View style={{marginLeft: SPACING.SCALE_290}}>
+            <Pressable
+              onPress={() => {
+                skipFunction();
+              }}>
+              <Text style={styles.textStyle1}>Skip</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
+      <SafeAreaView style={{flex: 1}}>
+        {/* <ScrollView
           style={{flex: SPACING.SCALE_1}}
           horizontal={true}
           showsHorizontalScrollIndicator={true}
@@ -60,209 +61,195 @@ const WalkThroughScreen = props => {
           pagingEnabled={true}
           
           > */}
-          {page === 0 && (
-            <View style={{width, height}}>
-              <View style={styles.wrapper}>
-                <Text style={styles.header}>Luxury Watches</Text>
-                <Text style={styles.paragraph}>
-                  Erat neque facilisi pharetra et habitant posuere. Id tortor
-                  nisl eu scelerisque tempor orci sit. Egestas mus sapien duis
-                  vel nec pellentesque sit et convallis{' '}
-                </Text>
-              </View>
-              <View style={styles.imageSizeStyle}>
-                <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
-              </View>
+        {page === 0 && (
+          <View style={{width, height}}>
+            <View style={styles.wrapper}>
+              <Text style={styles.header}>Luxury Watches</Text>
+              <Text style={styles.paragraph}>
+                Erat neque facilisi pharetra et habitant posuere. Id tortor nisl
+                eu scelerisque tempor orci sit. Egestas mus sapien duis vel nec
+                pellentesque sit et convallis{' '}
+              </Text>
+            </View>
+            <View style={styles.imageSizeStyle}>
+              <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
+            </View>
 
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginLeft: SPACING.SCALE_160,
+                marginTop: SPACING.SCALE_20,
+              }}>
               <View
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_160,
-                  marginTop: SPACING.SCALE_20,
-                }}>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    backgroundColor: '#00958C',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-              </View>
-              <Pressable
-                onPress={() => {
-                  setPage(1);
-                }}>
-                <View style={styles.submitStyle}>
-                  <Text style={styles.bg_button}>Next</Text>
-                </View>
-              </Pressable>
-            </View>
-          )}
-          {page === 1 && (
-            <View style={{width, height}}>
-              <View style={styles.imageSizeStyle}>
-                <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
-              </View>
-              <View style={styles.wrapper}>
-                <Text style={styles.header}>Buy and Sell</Text>
-                <Text style={styles.paragraph}>
-                  Erat neque facilisi pharetra et habitant posuere. Id tortor
-                  nisl eu sceler isque tempor orci sit.{' '}
-                </Text>
-              </View>
-
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  backgroundColor: '#00958C',
+                }}></View>
               <View
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginLeft: SPACING.SCALE_160,
-                  marginTop: SPACING.SCALE_20,
-                }}>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#00958C',
-                  }}></View>
-                <View
-                  style={{
-                    height: SPACING.SCALE_6,
-                    width: SPACING.SCALE_6,
-                    borderRadius: SPACING.SCALE_3,
-                    marginLeft: SPACING.SCALE_5,
-                    backgroundColor: '#D9D9D9',
-                  }}></View>
-              </View>
-              <Pressable
-                onPress={() => {
-                  setPage(2);
-                }}>
-                <View style={styles.submitStyle}>
-                  <Text style={styles.bg_button}>Next</Text>
-                </View>
-              </Pressable>
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
             </View>
-          )}
-          {page === 2 && (
-            <ScrollView>
-              <View style={{width, height}}>
-                <View style={styles.wrapper}>
-                  <Text style={styles.header}>Features</Text>
-                  <Text style={styles.paragraph}>
-                    Lorem ipsum dolor sit amet consectetur amet
-                  </Text>
-                </View>
-                <View>
-                  <View style={styles.outer}>
-                    <View style={styles.imageSizeStyle}>
-                      <Image
-                        source={IMAGES.Rectangle31}
-                        style={styles.imageStyle1}
-                      />
-                    </View>
-                    <Text style={styles.paragraph1}>
-                      Lorem ipsum dolor sit amet consectetur. Erat neque
-                      facilisi pharetra et
-                    </Text>
-                  </View>
-                  <View style={styles.outer}>
-                    <View style={styles.imageSizeStyle}>
-                      <Image
-                        source={IMAGES.Rectangle32}
-                        style={styles.imageStyle1}
-                      />
-                    </View>
-                    <Text style={styles.paragraph1}>
-                      Lorem ipsum dolor sit amet consectetur. Erat neque
-                      facilisi pharetra et
-                    </Text>
-                  </View>
-                  <View style={styles.outer}>
-                    <View style={styles.imageSizeStyle}>
-                      <Image
-                        source={IMAGES.Rectangle33}
-                        style={styles.imageStyle1}
-                      />
-                    </View>
-                    <Text style={styles.paragraph1}>
-                      Lorem ipsum dolor sit amet consectetur. Erat neque
-                      facilisi pharetra et
-                    </Text>
-                  </View>
-                </View>
-
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginLeft: SPACING.SCALE_160,
-                    marginTop: SPACING.SCALE_20,
-                  }}>
-                  <View
-                    style={{
-                      height: SPACING.SCALE_6,
-                      width: SPACING.SCALE_6,
-                      borderRadius: SPACING.SCALE_3,
-                      backgroundColor: '#D9D9D9',
-                    }}></View>
-                  <View
-                    style={{
-                      height: SPACING.SCALE_6,
-                      width: SPACING.SCALE_6,
-                      borderRadius: SPACING.SCALE_3,
-                      marginLeft: SPACING.SCALE_5,
-                      backgroundColor: '#D9D9D9',
-                    }}></View>
-                  <View
-                    style={{
-                      height: SPACING.SCALE_6,
-                      width: SPACING.SCALE_6,
-                      borderRadius: SPACING.SCALE_3,
-                      marginLeft: SPACING.SCALE_5,
-                      backgroundColor: '#00958C',
-                    }}></View>
-                </View>
-
-                <Pressable
-                  onPress={() => {
-                    skipFunction();
-                  }}>
-                  <View style={styles.submitStyle}>
-                    <Text style={styles.bg_button}>Get Started</Text>
-                  </View>
-                </Pressable>
+            <Pressable
+              onPress={() => {
+                setPage(1);
+              }}>
+              <View style={styles.submitStyle}>
+                <Text style={styles.bg_button}>Next</Text>
               </View>
-            </ScrollView>
-          )}
-          {/* </ScrollView> */}
-        </SafeAreaView>
-      </StoryScreen>
+            </Pressable>
+          </View>
+        )}
+        {page === 1 && (
+          <View style={{width, height}}>
+            <View style={styles.imageSizeStyle}>
+              <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
+            </View>
+            <View style={styles.wrapper}>
+              <Text style={styles.header}>Buy and Sell</Text>
+              <Text style={styles.paragraph}>
+                Erat neque facilisi pharetra et habitant posuere. Id tortor nisl
+                eu sceler isque tempor orci sit.{' '}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginLeft: SPACING.SCALE_160,
+                marginTop: SPACING.SCALE_20,
+              }}>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#00958C',
+                }}></View>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
+            </View>
+            <Pressable
+              onPress={() => {
+                setPage(2);
+              }}>
+              <View style={styles.submitStyle}>
+                <Text style={styles.bg_button}>Next</Text>
+              </View>
+            </Pressable>
+          </View>
+        )}
+        {page === 2 && (
+          <View style={{width, height}}>
+            <View style={styles.wrapper}>
+              <Text style={styles.header}>Features</Text>
+              <Text style={styles.paragraph}>
+                Lorem ipsum dolor sit amet consectetur amet
+              </Text>
+            </View>
+            <View style={{}}>
+              <View style={styles.outer}>
+                <Image source={IMAGES.Rectangle31} style={styles.imageStyle1} />
+
+                <Text style={styles.paragraph1}>
+                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                  pharetra et
+                </Text>
+              </View>
+              <View style={styles.outer}>
+                <Image source={IMAGES.Rectangle32} style={styles.imageStyle1} />
+
+                <Text style={styles.paragraph1}>
+                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                  pharetra et
+                </Text>
+              </View>
+              <View style={styles.outer}>
+                <Image source={IMAGES.Rectangle33} style={styles.imageStyle1} />
+
+                <Text style={styles.paragraph1}>
+                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                  pharetra et
+                </Text>
+              </View>
+            </View>
+
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignSelf: 'center',
+                marginTop: SPACING.SCALE_20,
+              }}>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#D9D9D9',
+                }}></View>
+              <View
+                style={{
+                  height: SPACING.SCALE_6,
+                  width: SPACING.SCALE_6,
+                  borderRadius: SPACING.SCALE_3,
+                  marginLeft: SPACING.SCALE_5,
+                  backgroundColor: '#00958C',
+                }}></View>
+            </View>
+
+            <Pressable
+              onPress={() => {
+                skipFunction();
+              }}>
+              <View style={styles.submitStyle}>
+                <Text style={styles.bg_button}>Get Started</Text>
+              </View>
+            </Pressable>
+          </View>
+        )}
+        {/* </ScrollView> */}
+      </SafeAreaView>
+      {/* </StoryScreen> */}
     </>
   );
 };
@@ -276,54 +263,55 @@ const styles = StyleSheet.create({
     borderRadius: SPACING.SCALE_10,
   },
   imageStyle1: {
-    height: 110,
-    width: 110,
+    height: SPACING.SCALE_90,
+    width: SPACING.SCALE_90,
     borderRadius: SPACING.SCALE_10,
+    marginTop: SPACING.SCALE__20,
   },
   wrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: PixelRatio.getPixelSizeForLayoutSize(-10),
+    // marginLeft: PixelRatio.getPixelSizeForLayoutSize(-10),
   },
   header: {
-    fontSize: 35,
+    fontSize: SPACING.SCALE_35,
     //fontWeight: '700',
-    marginTop: 5,
-    marginBottom: 20,
+    marginTop: SPACING.SCALE_5,
+    marginBottom: SPACING.SCALE_20,
     fontFamily: 'Cabin-Bold',
     color: 'black',
   },
   paragraph: {
-    fontSize: 16,
+    fontSize: SPACING.SCALE_16,
     fontFamily: 'Open Sans',
     color: 'black',
     textAlign: 'center',
-    width: 288,
+    width: SPACING.SCALE_288,
   },
   imageSizeStyle: {
-    marginTop: 30,
+    marginTop: SPACING.SCALE_30,
     marginBottom: SPACING.SCALE_10,
-    marginLeft: 40,
-    marginRight: 40,
-    borderRadius: 30,
+    marginLeft: SPACING.SCALE_60,
+    marginRight: SPACING.SCALE_30,
+    borderRadius: SPACING.SCALE_30,
+    // backgroundColor:'red'
   },
   submitStyle: {
     height: 51,
     width: 241,
-    backgroundColor: '#000000',
-    color: 'white',
-    marginLeft: 60,
-    marginTop: 10,
-    marginHorizontal: 20,
+    backgroundColor: COLORS.BLACK,
+    color: COLORS.WHITE,
+    alignSelf: 'center',
+    marginTop: SPACING.SCALE_30,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: SPACING.SCALE_10,
   },
   bg_button: {
-    color: 'white',
+    color: COLORS.WHITE,
     // font: 'Cabin'
     fontFamily: 'Cabin-Bold',
-    fontSize: 16,
+    fontSize: SPACING.SCALE_16,
   },
   headerStyle: {
     display: 'flex',
@@ -331,20 +319,26 @@ const styles = StyleSheet.create({
   },
   textStyle1: {
     fontWeight: 'bold',
-    color: '#00958C',
-    fontSize: 15,
+    color: COLORS.HYPERLINK,
+    fontSize: SPACING.SCALE_15,
     fontFamily: 'Open Sans',
   },
   outer: {
-    display: 'flex',
+    // display: 'flex',
     flexDirection: 'row',
+    // backgroundColor:'green',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginTop: SPACING.SCALE_10,
+    marginBottom: SPACING.SCALE__20,
   },
   paragraph1: {
-    fontSize: 14,
+    fontSize: SPACING.SCALE_12,
     fontFamily: 'Open Sans',
-    color: 'black',
-    textAlign: 'center',
-    width: 145,
-    marginTop: 25,
+    color: COLORS.BLACK,
+    textAlign: 'left',
+    width: SPACING.SCALE_200,
+    height: SPACING.SCALE_120,
+    marginTop: SPACING.SCALE_10,
   },
 });

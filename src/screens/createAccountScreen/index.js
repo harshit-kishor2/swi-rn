@@ -12,8 +12,29 @@ import NavigationBar from '../../components/NavigationBar';
 import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 
 const CreateAccountScreen = props => {
+  // Apple log in code
+  async function onAppleButtonPress() {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      // Note: it appears putting FULL_NAME first is important, see issue #293
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+    console.log('authres---->>>', appleAuthRequestResponse);
+
+    // get current authentication state for user
+    // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    // const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+    // // use credentialState response to ensure the user is authenticated
+    // if (credentialState === appleAuth.State.AUTHORIZED) {
+    //   // user is authenticated
+    // }
+  }
+
   return (
     <StoryScreen>
       <NavigationBar
@@ -98,9 +119,7 @@ const CreateAccountScreen = props => {
           width={241}
           height={51}
           marginHorizontal={20}
-          onPress={() => {
-            Alert.alert('rrr');
-          }}
+          onPress={onAppleButtonPress}
         />
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
