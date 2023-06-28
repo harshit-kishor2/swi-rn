@@ -7,6 +7,7 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
+import { SPACING } from '../resources';
 
 const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 const StoryScreen = ({children, loading, loaderColor}) => {
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: SPACING.SCALE_10,
   },
   bottomBarIos: {
     flex: 0,
