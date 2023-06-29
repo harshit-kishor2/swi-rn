@@ -7,7 +7,7 @@ const CustomTextInput = ({
   onChangeText,
   icon,
   type,
-
+  inputMode,
   keyboardType,
   maxLength,
   Width,
@@ -39,6 +39,7 @@ const CustomTextInput = ({
         secureTextEntry={type ? true : false}
         // maxLength={maxLength ? maxLength : 0}
         onChangeText={onChangeText}
+        inputMode={inputMode}
         value={value}
       />
     </View>

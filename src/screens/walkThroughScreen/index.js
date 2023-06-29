@@ -8,6 +8,7 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
   Image,
   PixelRatio,
   Alert,
@@ -17,13 +18,15 @@ import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import {margin} from '../../resources/mixins';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
+import SetPriceScreen from '../AddProduct/SetPriceScreen';
 const WalkThroughScreen = props => {
   const {width, height} = Dimensions.get('screen');
 
   const [page, setPage] = useState(0);
 
-  const skipFunction = () => {
+  const skipFunction = (props) => {
     props.navigation.navigate('CreateAccountScreen');
+    // console.log("=>>",props)
   };
 
   return (
@@ -45,7 +48,7 @@ const WalkThroughScreen = props => {
           <View style={{marginLeft: SPACING.SCALE_290}}>
             <Pressable
               onPress={() => {
-                skipFunction();
+                skipFunction(props);
               }}>
               <Text style={styles.textStyle1}>Skip</Text>
             </Pressable>
@@ -79,8 +82,9 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                marginLeft: SPACING.SCALE_160,
-                marginTop: SPACING.SCALE_20,
+               alignSelf:'center',
+               justifyContent:'center',
+               marginTop:SPACING.SCALE_20
               }}>
               <View
                 style={{
@@ -114,6 +118,7 @@ const WalkThroughScreen = props => {
                 <Text style={styles.bg_button}>Next</Text>
               </View>
             </Pressable>
+           
           </View>
         )}
         {page === 1 && (
@@ -133,8 +138,9 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                marginLeft: SPACING.SCALE_160,
-                marginTop: SPACING.SCALE_20,
+               alignSelf:'center',
+               justifyContent:'center',
+               marginTop:SPACING.SCALE_20
               }}>
               <View
                 style={{
@@ -168,6 +174,7 @@ const WalkThroughScreen = props => {
                 <Text style={styles.bg_button}>Next</Text>
               </View>
             </Pressable>
+            
           </View>
         )}
         {page === 2 && (
@@ -209,7 +216,8 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                alignSelf: 'center',
+               alignSelf:'center',
+               justifyContent:'center',
                 marginTop: SPACING.SCALE_20,
               }}>
               <View
@@ -239,7 +247,7 @@ const WalkThroughScreen = props => {
 
             <Pressable
               onPress={() => {
-                skipFunction();
+                skipFunction(props);
               }}>
               <View style={styles.submitStyle}>
                 <Text style={styles.bg_button}>Get Started</Text>
@@ -283,18 +291,21 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: TYPOGRAPHY.FONT_SIZE_16,
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     color: 'black',
     textAlign: 'center',
     width: SPACING.SCALE_288,
   },
   imageSizeStyle: {
-    marginTop: SPACING.SCALE_30,
-    marginBottom: SPACING.SCALE_10,
-    marginLeft: SPACING.SCALE_70,
-    marginRight: SPACING.SCALE_30,
-    borderRadius: SPACING.SCALE_30,
+    // marginTop: SPACING.SCALE_30,
+    // marginBottom: SPACING.SCALE_10,
+    // marginLeft: SPACING.SCALE_70,
+    // marginRight: SPACING.SCALE_30,
+    // borderRadius: SPACING.SCALE_30,
     // backgroundColor:'red'
+    justifyContent:'center',
+    alignSelf:'center',
+    marginTop:20
   },
   submitStyle: {
     height: 51,
@@ -334,7 +345,7 @@ const styles = StyleSheet.create({
   },
   paragraph1: {
     fontSize: TYPOGRAPHY.FONT_SIZE_12,
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     color: COLORS.BLACK,
     textAlign: 'left',
     width: SPACING.SCALE_200,

@@ -7,8 +7,8 @@ import PostloginNavigator from './postloginNavigator';
 const AppNavigator = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-      {/* <PreloginNavigator /> */}
-      <PostloginNavigator />
+      <PreloginNavigator />
+      {/* <PostloginNavigator /> */}
     </NavigationContainer>
   );
 };

@@ -147,19 +147,7 @@ const LoginScreen = props => {
                 TermAndConditions
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{marginLeft: 4}}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#00958C',
-                  fontFamily: 'Open Sans',
-                }}
-                onPress={() => {
-                  props.navigation.navigate('FreshFind');
-                }}>
-                FreshFind
-              </Text>
-            </TouchableOpacity>
+            
           </View>
         </StoryScreen>
       )}

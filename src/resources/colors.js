@@ -76,3 +76,8 @@ export const UN_READ_DOT_COLOR = '#F84660';
 //  WalkThrough Screen
 
 export const HYPERLINK = '#00958C';
+
+
+// Post Product
+
+export const PageBackground= '#F0F2FA'

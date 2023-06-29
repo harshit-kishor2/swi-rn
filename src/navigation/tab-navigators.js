@@ -63,7 +63,8 @@ const TabNavigations = () => {
                 <Text
                   style={{
                     color: focused ? '#00958C' : '#000000',
-                    fontSize: 12,
+                    fontSize: 11,
+                    fontFamily:'Cabin-Regular'
                   }}>
                   Explore
                 </Text>
@@ -86,6 +87,7 @@ const TabNavigations = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   // top: SPACING.SCALE_10,
+                  
                 }}>
                 <Image
                   source={IMAGES.FFicon}
@@ -99,7 +101,8 @@ const TabNavigations = () => {
                 <Text
                   style={{
                     color: focused ? '#00958C' : '#000000',
-                    fontSize: 12,
+                    fontSize: 11,
+                    fontFamily:'Cabin-Regular'
                   }}>
                   Fresh Finds
                 </Text>
@@ -128,9 +131,10 @@ const TabNavigations = () => {
               <Text
                 style={{
                   color: focused ? '#00958C' : '#000000',
-                  fontSize: TYPOGRAPHY.FONT_SIZE_14,
+                  fontSize: TYPOGRAPHY.FONT_SIZE_13,
                   // marginTop: SPACING.SCALE_10,
                   marginBottom: SPACING.SCALE_12,
+                  fontFamily:'Cabin-Regular',
                   textAlign: 'center',
                 }}>
                 Sell
@@ -166,7 +170,8 @@ const TabNavigations = () => {
                 <Text
                   style={{
                     color: focused ? '#00958C' : '#000000',
-                    fontSize: 12,
+                    fontSize: 11,
+                    fontFamily:'Cabin-Regular'
                   }}>
                   Chat
                 </Text>
@@ -202,7 +207,8 @@ const TabNavigations = () => {
                 <Text
                   style={{
                     color: focused ? '#00958C' : '#000000',
-                    fontSize: 12,
+                    fontSize: 11,
+                    fontFamily:'Cabin-Regular'
                   }}>
                   Profile
                 </Text>

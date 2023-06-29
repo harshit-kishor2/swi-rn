@@ -123,14 +123,14 @@ const CreateAccountScreen = props => {
         />
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
-            style={{fontSize: 14, color: '#4E4E4E', fontFamily: 'Open Sans'}}>
+            style={{fontSize: 14, color: '#4E4E4E', fontFamily: 'OpenSans-Regular'}}>
             Already have an account?
           </Text>
           <TouchableOpacity style={{marginLeft: 4}}>
             <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'Open Sans'}}
+              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
               onPress={() => {
-                props.navigation.navigate('LoginScreen');
+                props.navigation.navigate('LoginOptions');
               }}>
               Sign In now
             </Text>
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   subheadline: {
     textAlign: 'center',
     fontSize: 18,
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     width: 300,
     marginTop: 7,
     color: '#00958C',
