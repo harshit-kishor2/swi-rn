@@ -1,5 +1,6 @@
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
+import { SPACING } from '../resources';
 
 const CustomTextInput = ({
   value,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
 
     alignSelf: 'center',
-    marginTop: 30,
+    marginTop: SPACING.SCALE_1,
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',

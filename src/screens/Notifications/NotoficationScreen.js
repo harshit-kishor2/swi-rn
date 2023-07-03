@@ -65,7 +65,7 @@ const NotoficationScreen = props => {
       day:'30 min ago'
     },
     {
-      id:2,
+      id:3,
       post_Title:"Liked Post",
       userId:'1',
       postImage:IMAGES.Ellipse7, 
@@ -77,7 +77,7 @@ const NotoficationScreen = props => {
       day:'1 hour ago'
     },
     {
-      id:2,
+      id:4,
       post_Title:"Liked Post",
       userId:'1',
       postImage:IMAGES.Ellipse7, 
@@ -89,7 +89,7 @@ const NotoficationScreen = props => {
       day:'Monday'
     },
     {
-      id:2,
+      id:5,
       post_Title:"Liked Post",
       userId:'1',
       postImage:IMAGES.Ellipse7, 
@@ -101,7 +101,7 @@ const NotoficationScreen = props => {
       day:'Sunday'
     },
     {
-      id:2,
+      id:6,
       post_Title:"Liked Post",
       userId:'1',
       postImage:IMAGES.Ellipse7, 
@@ -170,7 +170,7 @@ const NotoficationScreen = props => {
 <View>
   <FlatList data={Data}
    renderItem={renderItem}
-   nestedScrollEnabled/>
+   />
 </View>
    </ScrollView>
    </StoryScreen>
