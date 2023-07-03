@@ -88,7 +88,8 @@ const SignupScreen = props => {
                   Sign up with your email address
                 </Text>
               </View>
-              <CustomTextInput
+          <View style={{alignSelf:'center', marginTop:40}}>
+          <CustomTextInput
                 icon={IMAGES.User}
                 placeholder={'Enter name'}
                 Width={SPACING.SCALE_239}
@@ -168,6 +169,7 @@ const SignupScreen = props => {
                     : null}
                 </Text>
               </View>
+          </View>
               <Custombutton
                 title="Create Now"
                 marginTop={114}
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Open Sans',
     width: 600,
-    marginTop: 7,
+    marginTop: 20,
     color: '#00958C',
   },
   topBox: {

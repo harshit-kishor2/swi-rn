@@ -32,3 +32,4 @@ export const Ellipse7 = require('../assets/images/Ellipse7.png');
 export const Vector1 = require('../assets/images/Vector1.png');
 export const search = require('../assets/images/search.png');
 export const bell = require('../assets/images/bell.png');
+export const Mask1=  require('../assets/images/Mask 1.png');

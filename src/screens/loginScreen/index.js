@@ -67,7 +67,8 @@ const LoginScreen = props => {
               <Text style={styles.headline}>Welcome!</Text>
               <Text style={styles.subheadline}>Sign in to your account</Text>
             </View>
-            <CustomTextInput
+           <View style={{marginTop:40}}>
+           <CustomTextInput
               icon={IMAGES.Email}
               placeholder={'Enter email address'}
               Width={SPACING.SCALE_239}
@@ -86,6 +87,7 @@ const LoginScreen = props => {
               }}
               value={formik.values.password}
             />
+           </View>
             <G_Recaptcha />
             <View style={{flexDirection: 'row', margin: 50}}>
               <Text
@@ -194,7 +196,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Open Sans',
     width: 300,
-    marginTop: 7,
+    marginTop: 20,
     color: '#00958C',
   },
   topBox: {
