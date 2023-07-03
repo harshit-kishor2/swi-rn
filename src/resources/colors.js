@@ -7,6 +7,7 @@ export const YELLOW = '#F6D060';
 export const RED = '#DF0000';
 export const TRANSPARENT = 'transparent';
 export const SEPARATOR_LINE_COLOR = '#ECECEC';
+export const APPGREEN = '#00958C';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';
@@ -77,7 +78,6 @@ export const UN_READ_DOT_COLOR = '#F84660';
 
 export const HYPERLINK = '#00958C';
 
-
 // Post Product
 
-export const PageBackground= '#F0F2FA'
+export const PageBackground = '#F0F2FA';
