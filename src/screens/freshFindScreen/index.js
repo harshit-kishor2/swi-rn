@@ -39,7 +39,7 @@ const Item = ({
             style={{
               position: 'absolute',
               top: 3,
-              right: 12,
+              right: 12,  
               height: SPACING.SCALE_20,
               width: SPACING.SCALE_20,
             }}>
