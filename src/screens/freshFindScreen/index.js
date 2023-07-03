@@ -6,6 +6,7 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
+  Dimensions,
   Alert,
   Pressable,
 } from 'react-native';
@@ -15,7 +16,7 @@ import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {COLORS, IMAGES} from '../../resources';
 import Search from '../../components/Search';
-
+const {width, height} = Dimensions.get('screen');
 const Item = ({
   product_image,
   product_name,
@@ -28,7 +29,8 @@ const Item = ({
   wishListPress,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <View style={{margin:10,marginBottom:-4}}>
+      <TouchableOpacity onPress={onPress}>
       <View style={styles.outer}>
         <View style={styles.inner}>
           <Image source={product_image} style={styles.imageStyle} />
@@ -57,9 +59,9 @@ const Item = ({
             <Text
               style={{
                 fontFamily: 'OpenSans-SemiBold',
-                fontSize: 12,
+                fontSize: SPACING.SCALE_12,
                 color: COLORS.HYPERLINK,
-                marginLeft: 6,
+                marginLeft: SPACING.SCALE_6,
               }}>
               {' '}
               $ {price} .
@@ -79,27 +81,28 @@ const Item = ({
             <View>
               <Image
                 source={seller_image}
-                style={{height: 17, width: 17, marginTop: 5, marginLeft: 8}}
+                style={{height: SPACING.SCALE_17, width: SPACING.SCALE_17, marginTop: SPACING.SCALE_5, marginLeft: SPACING.SCALE_8}}
               />
             </View>
             <View>
-              <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+              <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: SPACING.SCALE_10}}>
                 {seller_name}
               </Text>
             </View>
           </View>
           <Text
             style={{
-              marginLeft: 7,
+              marginLeft: SPACING.SCALE_7,
               fontFamily: 'Open Sans',
-              fontSize: 8,
-              marginTop: 10,
+              fontSize: SPACING.SCALE_8,
+              marginTop: SPACING.SCALE_10,
             }}>
             {posting_day}
           </Text>
         </View>
       </View>
     </TouchableOpacity>
+    </View>
   );
 };
 const DATA = [
@@ -172,13 +175,15 @@ const FreshFind = ({placeholder, onChange}) => {
     />
   );
   return (
-    <StoryScreen>
-      <View
+    
+    
+      <StoryScreen>
+     <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: 30,
+         
         }}>
         <Search
           width={SPACING.SCALE_300}
@@ -191,7 +196,7 @@ const FreshFind = ({placeholder, onChange}) => {
           onPress={() => {
             Alert.alert('pressed');
           }}>
-          <Image source={IMAGES.bell} style={{marginLeft: 10}} />
+          <Image source={IMAGES.bell} style={{marginLeft: SPACING.SCALE_10}} />
         </Pressable>
       </View>
 
@@ -201,8 +206,12 @@ const FreshFind = ({placeholder, onChange}) => {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         numColumns={2}
+        
+        
       />
-    </StoryScreen>
+      </StoryScreen>
+    
+   
   );
 };
 
@@ -211,51 +220,49 @@ export default FreshFind;
 const styles = StyleSheet.create({
   outer: {
     backgroundColor: '#F6F6F6',
-    // backgroundColor:'red',
-    width: 160,
-    height: 279,
-    borderRadius: 10,
-    // alignSelf:'center',
-    // justifyContent:'center',
-    marginTop: 40,
-    marginLeft: 15,
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_279,
+    borderRadius: SPACING.SCALE_10,
+    marginTop: SPACING.SCALE_30,
   },
   inner: {
-    width: 160,
-    height: 160,
-    borderRadius: 10,
-    // position:'absolute'
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_160,
+    borderRadius: SPACING.SCALE__10,
+   
   },
   imageStyle: {
-    width: 160,
-    height: 160,
-    borderRadius: 10,
-    marginTop: -15,
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_160,
+    borderRadius: SPACING.SCALE_10,
+    marginTop: SPACING.SCALE__15,
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 10,
-    borderWidth: 1,
+    borderRadius: SPACING.SCALE_10,
+    borderWidth: SPACING.SCALE_1,
     borderColor: '#ccc',
-    elevation: 3,
-    paddingHorizontal: 10,
-    marginVertical: 10,
+    elevation: SPACING.SCALE_3,
+    paddingHorizontal: SPACING.SCALE_10,
+    marginVertical: SPACING.SCALE_10,
   },
   icon: {
-    fontSize: 20,
-    marginRight: 10,
+    fontSize: SPACING.SCALE_20,
+    marginRight: SPACING.SCALE_10,
   },
   input: {
     flex: 1,
-    height: 40,
-    marginLeft: 15,
+    height: SPACING.SCALE_40,
+    marginLeft: SPACING.SCALE_15,
   },
   HedaerTextStyle: {
     fontFamily: 'Cabin-Bold',
-    fontSize: 20,
+    fontSize: SPACING.SCALE_20,
     color: COLORS.BLACK,
+    marginLeft:SPACING.SCALE_20
+    
   },
 });
 

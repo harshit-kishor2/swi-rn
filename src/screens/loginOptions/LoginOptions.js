@@ -14,7 +14,7 @@ import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 
-const CreateAccountScreen = props => {
+const LoginOptions = props => {
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -48,20 +48,20 @@ const CreateAccountScreen = props => {
       <View style={styles.container}>
         <View style={styles.topBox}>
           <Text style={styles.headline}>Hello there!</Text>
-          <Text style={styles.subheadline}>Create Your Account</Text>
+          <Text style={styles.subheadline}>Log in to your account</Text>
         </View>
         <Custombutton
-          title="Sign up via Email"
+          title="Login via Email"
           marginTop={50}
           height={51}
           width={241}
           marginHorizontal={20}
           onPress={() => {
-            props.navigation.navigate('SignupScreen');
+            props.navigation.navigate('LoginScreen');
           }}
         />
         <Custombutton
-          title="Sign up via Singpass"
+          title="Login via Singpass"
           marginTop={13}
           width={241}
           height={51}
@@ -94,7 +94,7 @@ const CreateAccountScreen = props => {
           <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
         </View>
         <Custombutton2
-          title={'Sign up with Facebook'}
+          title={'Login with Facebook'}
           marginTop={50}
           width={241}
           height={51}
@@ -104,7 +104,7 @@ const CreateAccountScreen = props => {
           }}
         />
         <Custombutton2
-          title={'Sign up with Google'}
+          title={'Login with Google'}
           marginTop={15}
           width={241}
           height={51}
@@ -114,7 +114,7 @@ const CreateAccountScreen = props => {
           }}
         />
         <Custombutton2
-          title={'Sign up with Apple ID'}
+          title={'Login with Apple ID'}
           marginTop={15}
           width={241}
           height={51}
@@ -123,16 +123,24 @@ const CreateAccountScreen = props => {
         />
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
-            style={{fontSize: 14, color: '#4E4E4E', fontFamily: 'OpenSans-Regular'}}>
-            Already have an account?
+            style={{
+              fontSize: 14,
+              color: '#4E4E4E',
+              fontFamily: 'OpenSans-Regular',
+            }}>
+            Don’t have an account yet?
           </Text>
           <TouchableOpacity style={{marginLeft: 4}}>
             <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
+              style={{
+                fontSize: 14,
+                color: '#00958C',
+                fontFamily: 'OpenSans-Regular',
+              }}
               onPress={() => {
-                props.navigation.navigate('LoginOptions');
+                props.navigation.navigate('CreateAccountScreen');
               }}>
-              Sign In now
+              Sign up now
             </Text>
           </TouchableOpacity>
         </View>
@@ -170,4 +178,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAccountScreen;
+export default LoginOptions;

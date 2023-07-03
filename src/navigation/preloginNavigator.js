@@ -9,6 +9,7 @@ import WalkThroughScreen from '../screens/walkThroughScreen';
 import PostedSuccessfully from '../screens/AddProduct/PostedSuccessfully';
 import FreshFind from '../screens/freshFindScreen';
 import ProductViewComponent from '../components/ProductViewComponent';
+import LoginOptions from '../screens/loginOptions/LoginOptions';
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
   return (
@@ -40,6 +41,7 @@ const PreloginNavigator = () => {
         name="TermsandcondtionScreen"
         component={TermsandcondtionScreen}
       />
+      <Stack.Screen name="LoginOptions" component={LoginOptions} />
     </Stack.Navigator>
   );
 };
