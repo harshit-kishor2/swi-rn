@@ -1,14 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {COLORS} from '../../resources';
 
-const styless = () => {
-  return (
-    <View>
-      <Text>styles</Text>
-    </View>
-  );
-};
-
-export default styless;
-
-const styles = StyleSheet.create({});
+export default styles = StyleSheet.create({
+  searchViewStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  safeStyle: {
+    flex: 1,
+    backgroundColor: COLORS.WHITE,
+  },
+});

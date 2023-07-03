@@ -5,6 +5,7 @@ import {
   Alert,
   Button,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import StoryScreen from '../../components/StoryScreen';
@@ -13,6 +14,7 @@ import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import jwt_decode from 'jwt-decode';
 
 const CreateAccountScreen = props => {
   // Apple log in code
@@ -24,6 +26,17 @@ const CreateAccountScreen = props => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
     console.log('authres---->>>', appleAuthRequestResponse);
+    const {email, email_verified, is_private_email, sub} = jwt_decode(
+      appleAuthRequestResponse.identityToken,
+    );
+
+    if (email && appleAuthRequestResponse.user) {
+      console.log(
+        'email && appleAuthRequestResponse.user',
+        email,
+        appleAuthRequestResponse.user,
+      );
+    }
 
     // get current authentication state for user
     // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
@@ -113,22 +126,33 @@ const CreateAccountScreen = props => {
             Alert.alert('rrr');
           }}
         />
-        <Custombutton2
-          title={'Sign up with Apple ID'}
-          marginTop={15}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={onAppleButtonPress}
-        />
+        {Platform.OS === 'ios' && (
+          <Custombutton2
+            title={'Sign up with Apple ID'}
+            marginTop={15}
+            width={241}
+            height={51}
+            marginHorizontal={20}
+            onPress={onAppleButtonPress}
+          />
+        )}
+
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
-            style={{fontSize: 14, color: '#4E4E4E', fontFamily: 'OpenSans-Regular'}}>
+            style={{
+              fontSize: 14,
+              color: '#4E4E4E',
+              fontFamily: 'OpenSans-Regular',
+            }}>
             Already have an account?
           </Text>
           <TouchableOpacity style={{marginLeft: 4}}>
             <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
+              style={{
+                fontSize: 14,
+                color: '#00958C',
+                fontFamily: 'OpenSans-Regular',
+              }}
               onPress={() => {
                 props.navigation.navigate('LoginOptions');
               }}>
@@ -171,3 +195,4 @@ const styles = StyleSheet.create({
 });
 
 export default CreateAccountScreen;
+//export {onAppleButtonPress};

@@ -46,7 +46,7 @@ const LoginScreen = props => {
         device_type: Platform.OS,
         device_token: fcmToken,
         login_type: '',
-        name: 'radhesh',
+        name: '',
       }}
       enableReinitialize
       // validationSchema={loginValidationSchema}
@@ -77,6 +77,7 @@ const LoginScreen = props => {
               value={formik.values.email}
             />
             <CustomTextInput
+              secureTextEntry={true}
               icon={IMAGES.Lock1}
               placeholder={'Enter password'}
               Width={SPACING.SCALE_239}
@@ -167,7 +168,6 @@ const LoginScreen = props => {
                 TermAndConditions
               </Text>
             </TouchableOpacity>
-            
           </View>
         </StoryScreen>
       )}
