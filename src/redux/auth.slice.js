@@ -1,6 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import api from '../services/api';
+// import api from '../services/api';
 import {Config} from '../helper/config';
+import api from '../services/api';
+import {fire} from 'react-native-alertbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import axios from 'axios';
 
 const initialState = {
   tokenlogin: 'false',
@@ -22,11 +26,11 @@ export const userSignup = createAsyncThunk(
   async (params, thunkAPI) => {
     console.log('first', params);
     try {
-      const response = await {
-        url: 'https://php8.singsys.net/swi/backend/public/api/register',
+      const response = await api({
+        url: `${Config.API_URL}register`,
         method: 'POST',
         data: params,
-      };
+      });
       console.log('SignUp response', response);
       return response;
     } catch (error) {
@@ -43,11 +47,28 @@ export const userLogin = createAsyncThunk(
     console.log('Login', params);
     try {
       const response = await api({
-        url: 'https://php8.singsys.net/swi/backend/public/api/login',
+        url: `${Config.API_URL}login`,
         method: 'POST',
         data: params,
+        headers: {
+          Accept: 'application/json',
+        },
       });
       console.log('Login response', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
+// taking Token
+//------------------------------------
+export const getTrustAuthorization = createAsyncThunk(
+  'auth/getTrustAuthorization',
+  async (_, thunkAPI) => {
+    try {
+      const response = await AsyncStorage.getItem('Token');
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -60,6 +81,21 @@ export const userLogin = createAsyncThunk(
 const Authslice = createSlice({
   name: 'Authslice',
   initialState,
+  reducers: {
+    addIntotokenlogin: (state, action) => {
+      return {
+        ...state,
+        tokenlogin: 'false',
+      };
+    },
+    resetStatus: (state, action) => {
+      return {
+        ...state,
+        registrationSuccess: false,
+        loginSuccess: false,
+      };
+    },
+  },
 
   extraReducers: builder => {
     builder
@@ -78,16 +114,60 @@ const Authslice = createSlice({
         state.loginloader = 'loading';
       })
       .addCase(userLogin.fulfilled, (state, action) => {
-        state.loginSuccess = true;
-        state.loginloader = 'loaded';
+        if (action.payload?.status === 200) {
+          state.loginSuccess = true;
+          state.loginloader = 'loaded';
+          AsyncStorage.setItem('Token', action.payload?.token);
+          AsyncStorage.setItem(
+            'User_id',
+            JSON.stringify(action.payload.data?.id),
+          );
 
-        state.profile = action.payload;
-        state.tokenlogin = 'true';
+          state.profile = action.payload;
+          state.tokenlogin = 'true';
+        } else {
+          console.log('error response', action.payload?.message);
+          state.loginloader = 'not loaded';
+          fire({
+            title: 'Error',
+            message: action.payload.message,
+            actions: [
+              {
+                text: 'Ok',
+                style: 'cancel',
+              },
+            ],
+          });
+        }
       })
       .addCase(userLogin.rejected, (state, action) => {
+        state.loginloader = 'not loaded';
+      })
+      .addCase(getTrustAuthorization.pending, (state, action) => {
+        state.loginloader = 'loading';
+      })
+      .addCase(getTrustAuthorization.fulfilled, (state, action) => {
+        state.loginloader = 'loaded';
+        if (action.payload) {
+          state.tokenlogin = 'true';
+        } else {
+          state.tokenlogin = 'false';
+        }
+      })
+      .addCase(getTrustAuthorization.rejected, (state, action) => {
         state.loginloader = 'not loaded';
       });
   },
 });
 export const AuthReducer = Authslice.reducer;
 export const AuthAction = Authslice.actions;
+
+export const getLoginToken = state => {
+  return state.AuthReducer.tokenlogin;
+};
+export const getLoginLoader = state => {
+  return state.AuthReducer.loginloader === 'loading' ? true : false;
+};
+export const getLoginSuccess = state => {
+  return state.AuthReducer.loginSuccess;
+};

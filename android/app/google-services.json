@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "866067850894",
+    "project_id": "swi-mobile-app-24552",
+    "storage_bucket": "swi-mobile-app-24552.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866067850894:android:10934ea29a48e1d1d18bdf",
+        "android_client_info": {
+          "package_name": "com.swi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1iDMDUZyru4waNXeeUBNNwR2lTM2WAOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

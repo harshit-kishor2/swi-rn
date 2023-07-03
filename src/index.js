@@ -5,6 +5,7 @@ import AppNavigator from './navigation';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import store from './store';
+import {AlertBox} from 'react-native-alertbox';
 
 const App = () => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const App = () => {
       <View style={{flex: 1}}>
         <AppNavigator />
       </View>
+      <AlertBox />
     </Provider>
   );
 };
