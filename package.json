@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "tcp": "adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
@@ -21,6 +22,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "formik": "^2.4.1",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-native": "0.71.8",

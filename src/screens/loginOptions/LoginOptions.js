@@ -13,6 +13,7 @@ import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import jwt_decode from 'jwt-decode';
 
 const LoginOptions = props => {
   // Apple log in code
@@ -24,6 +25,17 @@ const LoginOptions = props => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
     console.log('authres---->>>', appleAuthRequestResponse);
+    const {email, email_verified, is_private_email, sub} = jwt_decode(
+      appleAuthRequestResponse.identityToken,
+    );
+
+    if (email && appleAuthRequestResponse.user) {
+      console.log(
+        'email && appleAuthRequestResponse.user',
+        email,
+        appleAuthRequestResponse.user,
+      );
+    }
 
     // get current authentication state for user
     // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
@@ -113,14 +125,16 @@ const LoginOptions = props => {
             Alert.alert('rrr');
           }}
         />
-        <Custombutton2
-          title={'Login with Apple ID'}
-          marginTop={15}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={onAppleButtonPress}
-        />
+        {Platform.OS === 'ios' && (
+          <Custombutton2
+            title={'Sign up with Apple ID'}
+            marginTop={15}
+            width={241}
+            height={51}
+            marginHorizontal={20}
+            onPress={onAppleButtonPress}
+          />
+        )}
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
             style={{

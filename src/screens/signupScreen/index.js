@@ -126,6 +126,7 @@ const SignupScreen = props => {
                 </Text>
               </View>
               <CustomTextInput
+                secureTextEntry={true}
                 icon={IMAGES.Lock1}
                 placeholder={'Set password'}
                 Width={SPACING.SCALE_239}
@@ -149,6 +150,7 @@ const SignupScreen = props => {
                 </Text>
               </View>
               <CustomTextInput
+                secureTextEntry={true}
                 icon={IMAGES.Lock2}
                 placeholder={'Confirm password'}
                 Width={SPACING.SCALE_239}

@@ -7,10 +7,10 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import { SPACING } from '../resources';
+import {SPACING} from '../resources';
 
 const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
-const StoryScreen = ({children, loading, loaderColor}) => {
+const StoryScreen = ({children, loading, loaderColor, NoPadding}) => {
   return (
     <React.Fragment>
       <StatusBar
@@ -21,7 +21,10 @@ const StoryScreen = ({children, loading, loaderColor}) => {
       />
       <SafeAreaView style={styles.mainContainer}>
         <KeyboardAvoidingView
-          style={styles.root}
+          style={{
+            ...styles.root,
+            paddingHorizontal: NoPadding ? 0 : SPACING.SCALE_10,
+          }}
           behavior={behavior}
           keyboardVerticalOffset={50}>
           {children}
@@ -49,7 +52,6 @@ const styles = StyleSheet.create({
   },
   root: {
     flex: 1,
-    paddingHorizontal: SPACING.SCALE_10,
   },
   bottomBarIos: {
     flex: 0,
