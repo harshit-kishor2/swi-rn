@@ -15,13 +15,6 @@ export const WARNING = '#ffae00';
 export const ALERT = '#cc4b37';
 export const DANGER = '#d9534f';
 
-// GRAYSCALE
-export const GRAY_LIGHT = '#e6e6e6';
-export const GRAY_MEDIUM = '#cacaca';
-export const GRAY_DARK = '#8a8a8a';
-export const GRAY_OPACITY_87 = '#909090DE';
-export const GRAY_LOWER = '#848484';
-
 // BACKGROUND
 export const BACKGROUND = '#FFFFFF';
 export const BACKGROUND2 = '#F1F1F1';
@@ -38,32 +31,15 @@ export const SEPERATOR = '#2C2C2E';
 //PREFERENCE Screen COLOR
 export const LOW_BORDER_COLOR = '#595959';
 
-//FAVOURITE_SCREEN
-export const TAB_BACKGROUND_COLOR = '#4B4B4B';
-export const ITEM_BACKGROUND_COLOR = '#1C1C1C';
-export const LOW_WHITE_COLOR = '#AAA9A9';
-export const WHITE_OPACITY_74 = '#FFFFFFBD';
-export const WHITE_OPACITY_60 = '#FFFFFF99';
-export const WHITE_OPACITY_37 = '#FFFFFF5E';
-export const WHITE_OPACITY_83 = '#FFFFFFD4';
-export const WHITE_OPACITY_50 = '#FFFFFF80';
-export const GRAY_OPACITY_73 = '#484848BA';
-
 //EXPLORE TAB COLOR
 export const EXPLORE_TAB_FAVOURITE_COLOR = '#575757';
-
-//NUTRITION TAB COLOR
-export const CIRCULAR_PROGRESS_INACTIVE_COLOR = '#06287E';
-export const FAT_COLOR = '#139CFF';
-export const CARBS_COLOR = '#B396F3';
-export const WEEK_TEXT_COLOR = '#8E8E8E';
-export const TOTAL_CALORIES_COLOR = '#45D5D0';
 
 // TEXT COLORS
 export const TEXT = '#000000';
 export const LIGHT_BACKGROUND = '#4D4D4D';
 export const EMAIL_TEXT = '#FEFEFE';
 export const GENDER_TEXT_COLOR = '#606060';
+export const HEADER_TEXT = '#00958C';
 
 //Setting Screen
 export const TRACK_BACKGROUND_COLOR = '#6A6A6A';
@@ -77,7 +53,6 @@ export const UN_READ_DOT_COLOR = '#F84660';
 
 export const HYPERLINK = '#00958C';
 
-
 // Post Product
 
-export const PageBackground= '#F0F2FA'
+export const PageBackground = '#F0F2FA';

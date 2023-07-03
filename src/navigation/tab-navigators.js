@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ExploreScreen from '../screens/exploreScreen';
 import FreshFind from '../screens/freshFindScreen';
-import SellScreen from '../screens/AddProduct/SellScreen';
+import SellScreen from '../screens/AddProduct';
 import ChatScreen from '../screens/chatScreen';
 import MyProfileScreen from '../screens/profileScreen';
 import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../resources';
