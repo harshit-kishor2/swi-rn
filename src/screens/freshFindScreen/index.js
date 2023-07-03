@@ -188,6 +188,7 @@ const FreshFind = ({placeholder, onChange}) => {
         <Search
           width={SPACING.SCALE_300}
           placeholder={'Search By Product/ Brand/ Model'}
+         
           onChange={e => {
             console.log(e);
           }}

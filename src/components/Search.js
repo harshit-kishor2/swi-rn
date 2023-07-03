@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         marginLeft: 15,
-        fontFamily:'Open Sans',
+        fontFamily:'OpenSans-Regular',
         fontSize:12
     },
     img: {
