@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import store from './store';
 import {AlertBox} from 'react-native-alertbox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
   useEffect(() => {
