@@ -6,7 +6,7 @@ import { IMAGES } from '../resources';
 const Search = ({ placeholder, onChange, width }) => {
     return (
         <View style={{ ...styles.container, width: width }}>
-
+ 
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}
