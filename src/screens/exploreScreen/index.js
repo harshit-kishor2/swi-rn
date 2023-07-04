@@ -13,6 +13,7 @@ import {
   FlatList,
   TouchableOpacity,
   Animated,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Search from '../../components/Search';
@@ -27,6 +28,7 @@ import {exploreActions} from '../../redux/explore.slice';
 import ProductViewComponent from '../../components/ProductViewComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TouchableImage from '../../components/TouchableImage';
+import moment from 'moment';
 
 const ExploreScreen = () => {
   const flatListRef = useRef(null);
@@ -34,7 +36,7 @@ const ExploreScreen = () => {
   const {error, loading, products} = useSelector(
     state => state?.exploreReducer,
   );
-  console.log(error, loading, products.data, 'fgdjhgfdsghfjkdshjkfhskh');
+  console.log(error, loading, products?.data, 'fgdjhgfdsghfjkdshjkfhskh');
   console.log('====>>>', products.data);
   useEffect(() => {
     const r = AsyncStorage.getItem('Token');
@@ -83,7 +85,16 @@ const ExploreScreen = () => {
     const progress = contentOffset / (contentSize - layoutSize);
     setScrollProgress(progress);
   };
+  //-------------
 
+  function formatTimestamp(timestamp) {
+    const currentTime = moment.utc();
+    const postTime = moment.utc(timestamp);
+    const daysAgo = currentTime.diff(postTime, 'days');
+
+    const formattedTime = daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`;
+    return `Posted ${formattedTime}`;
+  }
   ////===============
 
   const Item = ({
@@ -170,7 +181,7 @@ const ExploreScreen = () => {
                 fontSize: 8,
                 marginTop: 10,
               }}>
-              {posting_day}
+              {formatTimestamp(posting_day)}
             </Text>
           </View>
         </View>
@@ -188,7 +199,7 @@ const ExploreScreen = () => {
         condition={item.watch_condition}
         seller_image={item.thumb_image}
         seller_name={item.user.name}
-        posting_day={item.posting_day}
+        posting_day={item.created_at}
         onPress={() => {
           // Handle item press
         }}
@@ -200,82 +211,125 @@ const ExploreScreen = () => {
   );
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding">
-      <StoryScreen NoPadding={true}>
-        {loading ? (
-          <View style={styles.loader}>
-            <ActivityIndicator size={50} color={COLORS.GRAY_DARK} />
-          </View>
-        ) : (
-          <>
-            <View style={styles.searchViewStyle}>
-              <Search
-                width={SPACING.SCALE_300}
-                placeholder={'Search By Product/ Brand/ Model'}
-                onChange={e => {
-                  console.log(e);
-                }}
-              />
-              <Pressable
-                onPress={() => {
-                  Alert.alert('pressed');
-                }}>
-                <Image
-                  source={IMAGES.bell}
-                  style={{marginLeft: SPACING.SCALE_10}}
-                />
-              </Pressable>
-            </View>
-
-            <Banner
-              image={image}
-              width={Dimensions.get('window').width}
-              height={200}
-              onItemClick={handleItemClick}
+    <StoryScreen NoPadding={true}>
+      {loading ? (
+        <View style={styles.loader}>
+          <ActivityIndicator size={50} color={COLORS.BLACK} />
+        </View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.searchViewStyle}>
+            <Search
+              width={SPACING.SCALE_300}
+              placeholder={'Search By Product/ Brand/ Model'}
+              onChange={e => {
+                console.log(e);
+              }}
             />
+            <Pressable
+              onPress={() => {
+                Alert.alert('pressed');
+              }}>
+              <Image
+                source={IMAGES.bell}
+                style={{marginLeft: SPACING.SCALE_10}}
+              />
+            </Pressable>
+          </View>
 
-            <View>
+          <Banner
+            image={image}
+            width={Dimensions.get('window').width}
+            height={200}
+            onItemClick={handleItemClick}
+          />
+
+          <View style={{marginTop: 20}}>
+            <View style={{marginLeft: 18}}>
               <CustomText
                 text={'Check out trendy watches for you'}
                 fontSize={20}
                 fontFamily={'Cabin - Bold'}
                 fontWeight={700}
               />
-
-              <View style={styles.progressContainer}>
-                <View
-                  style={[
-                    styles.progressBar,
-                    {width: `${scrollProgress * 100}%`},
-                  ]}
-                />
-              </View>
-
-              <FlatList
-                data={products.data}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                ref={flatListRef}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-              />
-              <View style={{position: 'absolute', top: 120, right: 10}}>
-                <TouchableImage
-                  source={IMAGES.rightArrow}
-                  height={30}
-                  width={30}
-                  onPress={() => {
-                    Alert.alert('nsvnsfd');
-                  }}
-                />
-              </View>
             </View>
-          </>
-        )}
-      </StoryScreen>
-    </KeyboardAvoidingView>
+
+            <View style={styles.progressContainer}>
+              <View
+                style={[
+                  styles.progressBar,
+                  {width: `${scrollProgress * 100}%`},
+                ]}
+              />
+            </View>
+
+            <FlatList
+              data={products.data}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ref={flatListRef}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+            />
+            <View style={{position: 'absolute', top: 120, right: 10}}>
+              <TouchableImage
+                source={IMAGES.rightArrow}
+                height={30}
+                width={30}
+                onPress={() => {
+                  Alert.alert('Arrow');
+                }}
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              marginLeft: 18,
+              marginTop: 20,
+              flexDirection: 'row',
+              marginRight: 18,
+              justifyContent: 'space-between',
+            }}>
+            <CustomText
+              text={'Top-notch watches'}
+              fontSize={20}
+              fontFamily={'Cabin - Bold'}
+              fontWeight={700}
+            />
+            <TouchableImage
+              source={IMAGES.filter}
+              height={30}
+              width={30}
+              onPress={() => {
+                Alert.alert('', 'Filter');
+              }}
+            />
+          </View>
+          {/* <View style={styles.progressContainer}>
+              <View
+                style={[
+                  styles.progressBar,
+                  {width: `${scrollProgress * 100}%`},
+                ]}
+              />
+            </View> */}
+          <FlatList
+            //style={{backgroundColor: 'red'}}
+            data={products.data}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
+            ref={flatListRef}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
+          />
+        </ScrollView>
+      )}
+    </StoryScreen>
   );
 };
 

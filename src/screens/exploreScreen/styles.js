@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {COLORS} from '../../resources';
+import {COLORS, SPACING} from '../../resources';
 
 export default styles = StyleSheet.create({
   searchViewStyle: {
@@ -20,8 +20,8 @@ export default styles = StyleSheet.create({
   outer: {
     backgroundColor: '#F6F6F6',
     // backgroundColor:'red',
-    width: 160,
-    height: 279,
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_279,
     borderRadius: 10,
     // alignSelf:'center',
     // justifyContent:'center',
@@ -29,14 +29,14 @@ export default styles = StyleSheet.create({
     marginLeft: 15,
   },
   inner: {
-    width: 160,
-    height: 160,
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_160,
     borderRadius: 10,
     // position:'absolute'
   },
   imageStyle: {
-    width: 160,
-    height: 160,
+    width: SPACING.SCALE_160,
+    height: SPACING.SCALE_160,
     borderRadius: 10,
     marginTop: -15,
   },

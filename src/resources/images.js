@@ -33,3 +33,4 @@ export const search = require('../assets/images/search.png');
 export const bell = require('../assets/images/bell.png');
 export const Mask1 = require('../assets/images/Mask 1.png');
 export const rightArrow = require('../assets/images/Group12.png');
+export const filter = require('../assets/images/filter.png');
