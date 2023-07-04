@@ -34,3 +34,7 @@ export const bell = require('../assets/images/bell.png');
 export const Mask1 = require('../assets/images/Mask 1.png');
 export const rightArrow = require('../assets/images/Group12.png');
 export const filter = require('../assets/images/filter.png');
+export const LocationImage = require('../assets/images/LocationImage.png');
+export const priceChartImage = require('../assets/images/priceChartImage.png');
+export const CompareImage = require('../assets/images/CompareImage.png');
+

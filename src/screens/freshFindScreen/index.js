@@ -16,6 +16,8 @@ import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {COLORS, IMAGES} from '../../resources';
 import Search from '../../components/Search';
+import { useNavigation } from '@react-navigation/native';
+import navigation from '../../navigation';
 const {width, height} = Dimensions.get('screen');
 const Item = ({
   product_image,
@@ -27,10 +29,11 @@ const Item = ({
   posting_day,
   onPress,
   wishListPress,
+  navigation
 }) => {
   return (
     <View style={{margin:10,marginBottom:-4}}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={()=>{navigation.navigate('ProductDetails')}}>
       <View style={styles.outer}>
         <View style={styles.inner}>
           <Image source={product_image} style={styles.imageStyle} />
@@ -161,8 +164,9 @@ const DATA = [
     posting_day: 'Posted Two Days Ago',
   },
 ];
-const FreshFind = ({placeholder, onChange}) => {
-  const renderItem = ({item, index, navigation}) => (
+const FreshFind = ({placeholder, onChange,}) => {
+  const navigation = useNavigation()
+  const renderItem = ({item, index}) => (
     <Item
       product_image={item.product_image}
       product_name={item.product_name}
@@ -172,6 +176,7 @@ const FreshFind = ({placeholder, onChange}) => {
       seller_name={item.seller_name}
       posting_day={item.posting_day}
       index={index}
+      navigation={navigation}
     />
   );
   return (
