@@ -23,54 +23,67 @@ import StoryScreen from '../../components/StoryScreen';
 import CustomText from '../../components/CustomText';
 import Banner from '../../components/BannerComponent';
 import {useDispatch, useSelector} from 'react-redux';
-import {exploreProductListing} from '../../redux/explore.slice';
+import {
+  addWishlist,
+  exploreBannerListing,
+  exploreProductListing,
+  exploreReducer,
+  exploreTrendyWatchesListing,
+} from '../../redux/explore.slice';
 import {exploreActions} from '../../redux/explore.slice';
 import ProductViewComponent from '../../components/ProductViewComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TouchableImage from '../../components/TouchableImage';
 import moment from 'moment';
+import fonts from '../../resources/fonts';
+import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 
 const ExploreScreen = () => {
   const flatListRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState(1); // Current page of data
+  const [loadingMore, setLoadingMore] = useState(false);
   const {error, loading, products} = useSelector(
     state => state?.exploreReducer,
   );
-  console.log(error, loading, products?.data, 'fgdjhgfdsghfjkdshjkfhskh');
-  console.log('====>>>', products.data);
+
+  const {bannerLoading, bannerList, bannerListError} = useSelector(
+    state => state?.exploreReducer,
+  );
+  const {
+    trendyWatchesProductsLoading,
+    trendyWatchesProductsError,
+    trendyWatchesProducts,
+  } = useSelector(state => state?.exploreReducer);
+  const {
+    productAddWishListLoading,
+    productAddWishListError,
+    productAddWishListData,
+  } = useSelector(state => state?.exploreReducer);
+  console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
+  console.log(error, loading, products?.data?.data, 'fgdjhgfdsghfjkdshjkfhskh');
+  console.log(
+    trendyWatchesProductsLoading,
+    trendyWatchesProductsError,
+    trendyWatchesProducts,
+    'hkjdshfkjdshfkjdsfhdksjfhjk',
+  );
+  console.log(
+    productAddWishListLoading,
+    productAddWishListError,
+    productAddWishListData,
+    'ggggggggggggggg',
+  );
+
   useEffect(() => {
-    const r = AsyncStorage.getItem('Token');
-    console.log('---->>', r);
-    dispatch(exploreProductListing());
-  }, []);
-  const image = [
-    {
-      id: '1',
-      source:
-        'https://www.pakainfo.com/wp-content/uploads/2021/09/dummy-user-image-url-300x200.jpg',
-      link: 'https://example.com',
-    },
-    {
-      id: '2',
-      source:
-        'https://www.pakainfo.com/wp-content/uploads/2021/09/online-dummy-image-url-300x201.jpg',
-      link: 'https://google.com',
-    },
-    {
-      id: '3',
-      source:
-        'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-      link: null,
-    },
-    {
-      id: '4',
-      source:
-        'https://www.pakainfo.com/wp-content/uploads/2021/09/dummy-user-image-url-300x200.jpg',
-      link: 'https://openai.com',
-    },
-  ];
+    dispatch(exploreProductListing({page: currentPage}));
+    dispatch(exploreTrendyWatchesListing());
+    dispatch(exploreBannerListing());
+  }, [currentPage]);
+
   const handleItemClick = index => {
-    const clickedItem = image[index];
+    const clickedItem = bannerList?.data[index];
     if (clickedItem.link) {
       Linking.openURL(clickedItem.link);
     }
@@ -85,16 +98,27 @@ const ExploreScreen = () => {
     const progress = contentOffset / (contentSize - layoutSize);
     setScrollProgress(progress);
   };
+
+  // code to know End of ScrollView
+
   //-------------
-
-  function formatTimestamp(timestamp) {
-    const currentTime = moment.utc();
-    const postTime = moment.utc(timestamp);
-    const daysAgo = currentTime.diff(postTime, 'days');
-
-    const formattedTime = daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`;
-    return `Posted ${formattedTime}`;
+  function loadMoreData() {
+    console.log('loadmore');
+    console.log(products?.data?.last_page);
+    console.log(currentPage);
+    if (currentPage < products?.data?.last_page) {
+      console.log('#######');
+      if (!loadingMore) {
+        console.log('222222');
+        setCurrentPage(prevPage => prevPage + 1); // Increment the current page
+        setLoadingMore(true); // Set loadingMore flag to true
+      }
+    } else {
+      setCurrentPage(1);
+      setLoadingMore(false);
+    }
   }
+
   ////===============
 
   const Item = ({
@@ -170,7 +194,7 @@ const ExploreScreen = () => {
               </View>
               <View>
                 <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
-                  {seller_name}
+                  {addEllipsis(seller_name, 10)}
                 </Text>
               </View>
             </View>
@@ -190,7 +214,7 @@ const ExploreScreen = () => {
   };
 
   const renderItem = ({item}) => (
-    console.log('===>>>', item),
+    console.log(item, 'kkkkk'),
     (
       <Item
         product_image={item.thumb_image}
@@ -204,7 +228,13 @@ const ExploreScreen = () => {
           // Handle item press
         }}
         wishListPress={() => {
-          // Handle wishlist press
+          dispatch(
+            addWishlist({
+              product_id: item?.id,
+              user_id: item?.user?.id,
+            }),
+          );
+          // Alert.alert(item?.id.toString(), item?.user?.id.toString());
         }}
       />
     )
@@ -212,59 +242,94 @@ const ExploreScreen = () => {
 
   return (
     <StoryScreen NoPadding={true}>
-      {loading ? (
-        <View style={styles.loader}>
-          <ActivityIndicator size={50} color={COLORS.BLACK} />
-        </View>
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.searchViewStyle}>
-            <Search
-              width={SPACING.SCALE_300}
-              placeholder={'Search By Product/ Brand/ Model'}
-              onChange={e => {
-                console.log(e);
-              }}
-            />
-            <Pressable
-              onPress={() => {
-                Alert.alert('pressed');
-              }}>
-              <Image
-                source={IMAGES.bell}
-                style={{marginLeft: SPACING.SCALE_10}}
-              />
-            </Pressable>
-          </View>
-
-          <Banner
-            image={image}
-            width={Dimensions.get('window').width}
-            height={200}
-            onItemClick={handleItemClick}
+      <View style={{}}>
+        <View style={styles.searchViewStyle}>
+          <Search
+            width={SPACING.SCALE_300}
+            placeholder={'Search By Product/ Brand/ Model'}
+            onChange={e => {
+              console.log(e);
+            }}
           />
+          <Pressable
+            onPress={() => {
+              Alert.alert('pressed');
+            }}>
+            <Image
+              source={IMAGES.bell}
+              style={{marginLeft: SPACING.SCALE_10}}
+            />
+          </Pressable>
+        </View>
 
-          <View style={{marginTop: 20}}>
-            <View style={{marginLeft: 18}}>
-              <CustomText
-                text={'Check out trendy watches for you'}
-                fontSize={20}
-                fontFamily={'Cabin - Bold'}
-                fontWeight={700}
-              />
-            </View>
-
-            <View style={styles.progressContainer}>
+        {/* <View style={styles.progressContainer}>
               <View
                 style={[
                   styles.progressBar,
                   {width: `${scrollProgress * 100}%`},
                 ]}
               />
-            </View>
+            </View> */}
+        {loading ? (
+          <View style={styles.loader}>
+            <ActivityIndicator size={30} color={COLORS.BLACK} />
+            <CustomText
+              text={'Poducts are loading'}
+              fontColor={fonts.black}
+              fontSize={18}
+            />
+          </View>
+        ) : (
+          <FlatList
+            ListHeaderComponent={header}
+            data={products?.data?.data}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            ref={flatListRef}
+            //onScroll={handleScroll}
+            // scrollEventThrottle={16}
+            contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
+            onEndReached={loadMoreData}
+          />
+        )}
+      </View>
+    </StoryScreen>
+  );
 
+  function header() {
+    return (
+      <>
+        {false ? (
+          <ActivityIndicator size={20} />
+        ) : (
+          <Banner
+            image={bannerList?.data ?? []}
+            width={Dimensions.get('window').width}
+            height={200}
+            onItemClick={handleItemClick}
+          />
+        )}
+        <View style={{marginTop: 20}}>
+          <View style={{marginLeft: 18}}>
+            <CustomText
+              text={'Check out trendy watches for you'}
+              fontSize={20}
+              fontFamily={'Cabin-Bold'}
+            />
+          </View>
+
+          <View style={styles.progressContainer}>
+            <View
+              style={[styles.progressBar, {width: `${scrollProgress * 100}%`}]}
+            />
+          </View>
+
+          {trendyWatchesProducts?.data?.length != 0 ? (
             <FlatList
-              data={products.data}
+              head
+              data={trendyWatchesProducts?.data}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               horizontal
@@ -273,16 +338,20 @@ const ExploreScreen = () => {
               onScroll={handleScroll}
               scrollEventThrottle={16}
             />
-            <View style={{position: 'absolute', top: 120, right: 10}}>
-              <TouchableImage
-                source={IMAGES.rightArrow}
-                height={30}
-                width={30}
-                onPress={() => {
-                  Alert.alert('Arrow');
-                }}
-              />
-            </View>
+          ) : (
+            <>
+              <CustomText text={'No Record'} />
+            </>
+          )}
+          <View style={{position: 'absolute', top: 120, right: 10}}>
+            <TouchableImage
+              source={IMAGES.rightArrow}
+              height={30}
+              width={30}
+              onPress={() => {
+                Alert.alert('Arrow');
+              }}
+            />
           </View>
           <View
             style={{
@@ -307,30 +376,10 @@ const ExploreScreen = () => {
               }}
             />
           </View>
-          {/* <View style={styles.progressContainer}>
-              <View
-                style={[
-                  styles.progressBar,
-                  {width: `${scrollProgress * 100}%`},
-                ]}
-              />
-            </View> */}
-          <FlatList
-            //style={{backgroundColor: 'red'}}
-            data={products.data}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            numColumns={2}
-            showsHorizontalScrollIndicator={false}
-            ref={flatListRef}
-            onScroll={handleScroll}
-            scrollEventThrottle={16}
-            contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
-          />
-        </ScrollView>
-      )}
-    </StoryScreen>
-  );
+        </View>
+      </>
+    );
+  }
 };
 
 export default ExploreScreen;

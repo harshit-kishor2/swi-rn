@@ -44,7 +44,7 @@ export const userSignup = createAsyncThunk(
 export const userLogin = createAsyncThunk(
   'auth/userLogin',
   async (params, thunkAPI) => {
-    console.log('Login', params);
+    console.log('Login--->', params);
     try {
       const response = await api({
         url: `${Config.API_URL}login`,

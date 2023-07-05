@@ -26,7 +26,7 @@ const Custombutton = ({
           marginBottom: marginBottom,
           width: width ?? '100%',
           opacity: pressed ? activeOpacity ?? 0.5 : 1,
-          alignSelf:'center'
+          alignSelf: 'center',
         },
       ]}>
       <View
@@ -38,7 +38,9 @@ const Custombutton = ({
             backgroundColor: backgroundColor ?? 'black',
           },
         ]}>
-        <Text style={[styles.buttonText,{fontSize: fontSize ?? 16,}]}>{title}</Text>
+        <Text style={[styles.buttonText, {fontSize: fontSize ?? 16}]}>
+          {title}
+        </Text>
       </View>
     </Pressable>
   );
@@ -51,10 +53,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    
     color: 'white',
-    fontFamily:'Cabin-Bold',
-    
+    fontFamily: 'Cabin-Bold',
+
     textAlign: 'center',
   },
 });

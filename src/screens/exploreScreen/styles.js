@@ -14,6 +14,7 @@ export default styles = StyleSheet.create({
   },
   loader: {
     flex: 1,
+    marginTop: 150,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -27,6 +28,7 @@ export default styles = StyleSheet.create({
     // justifyContent:'center',
     marginTop: 40,
     marginLeft: 15,
+    //marginBottom: 100,
   },
   inner: {
     width: SPACING.SCALE_160,

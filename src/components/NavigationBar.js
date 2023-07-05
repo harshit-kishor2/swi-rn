@@ -12,6 +12,7 @@ const NavigationBar = ({
   rightAction,
   rightSource,
   flexDirection,
+  txtcolor,
 }) => {
   const pressedStyle = ({pressed}) => [
     {
@@ -32,7 +33,13 @@ const NavigationBar = ({
       <Pressable onPress={leftAction} hitSlop={30} style={pressedStyle}>
         {leftSource && <Image source={leftSource} style={styles.backButton} />}
       </Pressable>
-      <Text style={styles.headerText}>{title}</Text>
+      <Text
+        style={[
+          styles.headerText,
+          {color: txtcolor ? txtcolor : COLORS.BLACK},
+        ]}>
+        {title}
+      </Text>
       <Pressable onPress={rightAction} hitSlop={30} style={pressedStyle}>
         {rightSource && (
           <Image source={rightSource} style={styles.rightButton} />
@@ -60,7 +67,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: FONTS.bold,
-    fontSize: TYPOGRAPHY.FONT_SIZE_16,
+    fontSize: TYPOGRAPHY.FONT_SIZE_18,
     color: COLORS.BLACK,
   },
 });

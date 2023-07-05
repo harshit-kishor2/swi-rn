@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {IMAGES, SPACING} from '../../resources';
@@ -15,8 +15,25 @@ import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import jwt_decode from 'jwt-decode';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {useDispatch} from 'react-redux';
+import {getFCMToken} from '../../services/firebaseServices';
+import {userLogin} from '../../redux/auth.slice';
 
 const CreateAccountScreen = props => {
+  const [fcmToken, setFcmToken] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getFCMToken().then(token => {
+      setFcmToken(token);
+    });
+  }, []);
+
+  console.log('hhhhh', Platform.OS);
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -31,6 +48,18 @@ const CreateAccountScreen = props => {
     );
 
     if (email && appleAuthRequestResponse.user) {
+      dispatch(
+        userLogin({
+          email: appleAuthRequestResponse?.email,
+          name: appleAuthRequestResponse?.givenName,
+
+          login_type: 'apple',
+          device_token: fcmToken,
+          device_type: Platform.OS,
+          //name:durgesh
+          //social_id:sdasdasd
+        }),
+      );
       console.log(
         'email && appleAuthRequestResponse.user',
         email,
@@ -48,16 +77,57 @@ const CreateAccountScreen = props => {
     // }
   }
 
+  //Google signUp
+  // useEffect(() => {
+  //   getFCMToken().then(token => {
+  //     setFcmToken(token);
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com',
+    });
+  }, []);
+
+  const signUp = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signOut();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('Google Auth Value', userInfo?.user);
+      if (userInfo) {
+        let params = {
+          email: userInfo?.user?.email,
+          device_type: Platform.OS,
+          device_token: fcmToken,
+          login_type: 'google',
+          name: userInfo?.user?.name,
+          google_id: userInfo?.user?.id,
+        };
+        dispatch(userLogin(params));
+      }
+    } catch (error) {
+      //  console.log('error', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else {
+      }
+    }
+  };
+
   return (
     <StoryScreen>
-      <NavigationBar
+      {/* <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
           console.log('first');
           props.navigation.navigate('WalkThroughScreen');
         }}
         flexDirection="row"
-      />
+      /> */}
       <View style={styles.container}>
         <View style={styles.topBox}>
           <Text style={styles.headline}>Hello there!</Text>
@@ -122,9 +192,7 @@ const CreateAccountScreen = props => {
           width={241}
           height={51}
           marginHorizontal={20}
-          onPress={() => {
-            Alert.alert('rrr');
-          }}
+          onPress={signUp}
         />
         {Platform.OS === 'ios' && (
           <Custombutton2
@@ -159,9 +227,20 @@ const CreateAccountScreen = props => {
               Sign In now
             </Text>
           </TouchableOpacity>
-         
         </View>
-        
+        <TouchableOpacity style={{marginLeft: 4}}>
+          <Text
+            style={{
+              fontSize: 14,
+              color: '#00958C',
+              fontFamily: 'OpenSans-Regular',
+            }}
+            onPress={() => {
+              props.navigation.navigate('NotificationScreen');
+            }}>
+            NotificationScreen
+          </Text>
+        </TouchableOpacity>
       </View>
     </StoryScreen>
   );
