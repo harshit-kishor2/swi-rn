@@ -282,7 +282,6 @@ const CreateAccountScreen = props => {
             NotificationScreen
           </Text>
         </TouchableOpacity>
-       
       </View>
     </StoryScreen>
   );
