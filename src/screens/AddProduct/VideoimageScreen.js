@@ -43,22 +43,22 @@ const VideoimageScreen = () => {
     });
   };
   const gallary = () => {
-    ImageCropPicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      console.log('----------->>>>>>>>>>', image);
-      SetImagepath(image);
-    });
+    // ImageCropPicker.openPicker({
+    //   width: 300,
+    //   height: 400,
+    //   cropping: true,
+    // }).then(image => {
+    //   console.log('----------->>>>>>>>>>', image);
+    //   SetImagepath(image);
+    // });
   };
   const videofromgallary = () => {
-    ImageCropPicker.openPicker({
-      mediaType: 'video',
-    }).then(video => {
-      console.log('video', video);
-      SetImagepath(video);
-    });
+    // ImageCropPicker.openPicker({
+    //   mediaType: 'video',
+    // }).then(video => {
+    //   console.log('video', video);
+    //   SetImagepath(video);
+    // });
   };
   const handleImagePress = image => {
     setSelectedImage(image);

@@ -14,7 +14,6 @@ import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
-<<<<<<< HEAD
 import {
   AccessToken,
   GraphRequest,
@@ -22,29 +21,18 @@ import {
   LoginButton,
   LoginManager,
 } from 'react-native-fbsdk-next';
-=======
-import jwt_decode from 'jwt-decode';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {useDispatch} from 'react-redux';
 import {getFCMToken} from '../../services/firebaseServices';
+import {useDispatch} from 'react-redux';
 import {userLogin} from '../../redux/auth.slice';
->>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 
 const CreateAccountScreen = props => {
-  const [fcmToken, setFcmToken] = useState();
   const dispatch = useDispatch();
-
+  const [fcmToken, setFcmToken] = useState();
   useEffect(() => {
     getFCMToken().then(token => {
       setFcmToken(token);
     });
   }, []);
-
-  console.log('hhhhh', Platform.OS);
-  // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
     const appleAuthRequestResponse = await appleAuth.performRequest({
@@ -53,29 +41,6 @@ const CreateAccountScreen = props => {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
     console.log('authres---->>>', appleAuthRequestResponse);
-    const {email, email_verified, is_private_email, sub} = jwt_decode(
-      appleAuthRequestResponse.identityToken,
-    );
-
-    if (email && appleAuthRequestResponse.user) {
-      dispatch(
-        userLogin({
-          email: appleAuthRequestResponse?.email,
-          name: appleAuthRequestResponse?.givenName,
-
-          login_type: 'apple',
-          device_token: fcmToken,
-          device_type: Platform.OS,
-          //name:durgesh
-          //social_id:sdasdasd
-        }),
-      );
-      console.log(
-        'email && appleAuthRequestResponse.user',
-        email,
-        appleAuthRequestResponse.user,
-      );
-    }
 
     // get current authentication state for user
     // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
@@ -100,51 +65,17 @@ const CreateAccountScreen = props => {
           console.log('login info has error: ' + error);
         } else {
           console.log('result:', result);
+          let params = {
+            email: result?.email,
+            login_type: 'facebook',
+            device_token: fcmToken,
+            device_type: Platform.OS,
+          };
+          dispatch(userLogin(params));
         }
       },
     );
     new GraphRequestManager().addRequest(profileRequest).start();
-  };
-
-  //Google signUp
-  // useEffect(() => {
-  //   getFCMToken().then(token => {
-  //     setFcmToken(token);
-  //   });
-  // }, []);
-
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com',
-    });
-  }, []);
-
-  const signUp = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      await GoogleSignin.signOut();
-      const userInfo = await GoogleSignin.signIn();
-      console.log('Google Auth Value', userInfo?.user);
-      if (userInfo) {
-        let params = {
-          email: userInfo?.user?.email,
-          device_type: Platform.OS,
-          device_token: fcmToken,
-          login_type: 'google',
-          name: userInfo?.user?.name,
-          google_id: userInfo?.user?.id,
-        };
-        dispatch(userLogin(params));
-      }
-    } catch (error) {
-      //  console.log('error', error);
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      } else {
-      }
-    }
   };
 
   return (
@@ -236,19 +167,18 @@ const CreateAccountScreen = props => {
           width={241}
           height={51}
           marginHorizontal={20}
-          onPress={signUp}
+          onPress={() => {
+            Alert.alert('rrr');
+          }}
         />
-        {Platform.OS === 'ios' && (
-          <Custombutton2
-            title={'Sign up with Apple ID'}
-            marginTop={15}
-            width={241}
-            height={51}
-            marginHorizontal={20}
-            onPress={onAppleButtonPress}
-          />
-        )}
-
+        <Custombutton2
+          title={'Sign up with Apple ID'}
+          marginTop={15}
+          width={241}
+          height={51}
+          marginHorizontal={20}
+          onPress={onAppleButtonPress}
+        />
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
             style={{
@@ -272,7 +202,6 @@ const CreateAccountScreen = props => {
             </Text>
           </TouchableOpacity>
         </View>
-<<<<<<< HEAD
         <TouchableOpacity style={{marginLeft: 4}}>
           <Text
             style={{
@@ -286,9 +215,6 @@ const CreateAccountScreen = props => {
             NotificationScreen
           </Text>
         </TouchableOpacity>
-=======
-       
->>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
       </View>
     </StoryScreen>
   );
@@ -324,4 +250,3 @@ const styles = StyleSheet.create({
 });
 
 export default CreateAccountScreen;
-//export {onAppleButtonPress};
