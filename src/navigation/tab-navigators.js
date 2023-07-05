@@ -118,6 +118,7 @@ const TabNavigations = () => {
         component={SellScreen}
         options={{
           headerShown: false,
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({focused}) => (
             <View>
               <Image

@@ -6,13 +6,13 @@ import NavigationBar from '../../components/NavigationBar';
 import {styles} from './style';
 import VideoimageScreen from './VideoimageScreen';
 
-const SellScreen = () => {
+const SellScreen = props => {
   return (
     <StoryScreen>
       <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
-          this.props.first.navigation.navigate('WalkThroughScreen');
+          props.navigation.navigate('ExploreScreen');
         }}
         title={'Post Your watch'}
         flexDirection="row"

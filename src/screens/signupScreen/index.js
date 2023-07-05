@@ -88,83 +88,87 @@ const SignupScreen = props => {
                   Sign up with your email address
                 </Text>
               </View>
-              <CustomTextInput
-                icon={IMAGES.User}
-                placeholder={'Enter name'}
-                Width={SPACING.SCALE_239}
-                onChangeText={formik.handleChange('name')}
-                value={formik.values.name}
-              />
-              <View>
-                <Text
-                  style={{
-                    marginLeft: SPACING.SCALE__110,
-                    color: COLORS.DANGER,
-                  }}>
-                  {formik.errors.name && formik.touched.name
-                    ? formik.errors.name
-                    : null}
-                </Text>
-              </View>
-              <CustomTextInput
-                icon={IMAGES.Email}
-                placeholder={'Enter email address'}
-                Width={SPACING.SCALE_239}
-                onChangeText={formik.handleChange('email')}
-                value={formik.values.email}
-              />
-              <View>
-                <Text
-                  style={{
-                    marginLeft: SPACING.SCALE__110,
-                    color: COLORS.DANGER,
-                  }}>
-                  {formik.errors.email && formik.touched.email
-                    ? formik.errors.email
-                    : null}
-                </Text>
-              </View>
-              <CustomTextInput
-                icon={IMAGES.Lock1}
-                placeholder={'Set password'}
-                Width={SPACING.SCALE_239}
-                onChangeText={formik.handleChange('password')}
-                value={formik.values.password}
-                errors={
-                  formik.errors.password && formik.touched.password
-                    ? formik.errors.password
-                    : null
-                }
-              />
-              <View>
-                <Text
-                  style={{
-                    marginLeft: SPACING.SCALE__110,
-                    color: COLORS.DANGER,
-                  }}>
-                  {formik.errors.password && formik.touched.password
-                    ? formik.errors.password
-                    : null}
-                </Text>
-              </View>
-              <CustomTextInput
-                icon={IMAGES.Lock2}
-                placeholder={'Confirm password'}
-                Width={SPACING.SCALE_239}
-                onChangeText={formik.handleChange('confirmPassword')}
-                value={formik.values.confirmPassword}
-              />
-              <View>
-                <Text
-                  style={{
-                    marginLeft: SPACING.SCALE__110,
-                    color: COLORS.DANGER,
-                  }}>
-                  {formik.errors.confirmPassword &&
-                  formik.touched.confirmPassword
-                    ? formik.errors.confirmPassword
-                    : null}
-                </Text>
+              <View style={{alignSelf: 'center', marginTop: 40}}>
+                <CustomTextInput
+                  icon={IMAGES.User}
+                  placeholder={'Enter name'}
+                  Width={SPACING.SCALE_239}
+                  onChangeText={formik.handleChange('name')}
+                  value={formik.values.name}
+                />
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: SPACING.SCALE__110,
+                      color: COLORS.DANGER,
+                    }}>
+                    {formik.errors.name && formik.touched.name
+                      ? formik.errors.name
+                      : null}
+                  </Text>
+                </View>
+                <CustomTextInput
+                  icon={IMAGES.Email}
+                  placeholder={'Enter email address'}
+                  Width={SPACING.SCALE_239}
+                  onChangeText={formik.handleChange('email')}
+                  value={formik.values.email}
+                />
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: SPACING.SCALE__110,
+                      color: COLORS.DANGER,
+                    }}>
+                    {formik.errors.email && formik.touched.email
+                      ? formik.errors.email
+                      : null}
+                  </Text>
+                </View>
+                <CustomTextInput
+                  secureTextEntry={true}
+                  icon={IMAGES.Lock1}
+                  placeholder={'Set password'}
+                  Width={SPACING.SCALE_239}
+                  onChangeText={formik.handleChange('password')}
+                  value={formik.values.password}
+                  errors={
+                    formik.errors.password && formik.touched.password
+                      ? formik.errors.password
+                      : null
+                  }
+                />
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: SPACING.SCALE__110,
+                      color: COLORS.DANGER,
+                    }}>
+                    {formik.errors.password && formik.touched.password
+                      ? formik.errors.password
+                      : null}
+                  </Text>
+                </View>
+                <CustomTextInput
+                  secureTextEntry={true}
+                  icon={IMAGES.Lock2}
+                  placeholder={'Confirm password'}
+                  Width={SPACING.SCALE_239}
+                  onChangeText={formik.handleChange('confirmPassword')}
+                  value={formik.values.confirmPassword}
+                />
+                <View>
+                  <Text
+                    style={{
+                      marginLeft: SPACING.SCALE__110,
+                      color: COLORS.DANGER,
+                    }}>
+                    {formik.errors.confirmPassword &&
+                    formik.touched.confirmPassword
+                      ? formik.errors.confirmPassword
+                      : null}
+                  </Text>
+                </View>
               </View>
               <Custombutton
                 title="Create Now"
@@ -225,7 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Open Sans',
     width: 600,
-    marginTop: 7,
+    marginTop: 20,
     color: '#00958C',
   },
   topBox: {

@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import { SPACING } from '../resources';
+import {SPACING} from '../resources';
 
 const CustomTextInput = ({
   value,
@@ -14,6 +14,7 @@ const CustomTextInput = ({
   Width,
   Hight,
   error,
+  secureTextEntry,
 }) => {
   return (
     <View
@@ -37,7 +38,7 @@ const CustomTextInput = ({
         placeholderTextColor={'#7C7C7C'}
         keyboardType={keyboardType ? keyboardType : 'default'}
         style={{marginLeft: 10, fontFamily: 'Cabin-Bold', fontSize: 16}}
-        secureTextEntry={type ? true : false}
+        secureTextEntry={type ? secureTextEntry : secureTextEntry}
         // maxLength={maxLength ? maxLength : 0}
         onChangeText={onChangeText}
         inputMode={inputMode}
