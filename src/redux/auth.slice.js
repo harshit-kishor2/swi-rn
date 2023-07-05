@@ -118,7 +118,10 @@ const Authslice = createSlice({
           state.loginSuccess = true;
           state.loginloader = 'loaded';
           AsyncStorage.setItem('Token', action.payload?.token);
+          console.log('TOKEN', action.payload?.token);
+
           api.defaults.headers.common.Authorization = `Bearer ${action.payload?.token}`;
+
           AsyncStorage.setItem(
             'User_id',
             JSON.stringify(action.payload.data?.id),

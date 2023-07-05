@@ -10,7 +10,7 @@ import PostedSuccessfully from '../screens/AddProduct/PostedSuccessfully';
 import FreshFind from '../screens/freshFindScreen';
 import ProductViewComponent from '../components/ProductViewComponent';
 import LoginOptions from '../screens/loginOptions/LoginOptions';
-import NotoficationScreen from '../screens/Notifications/NotoficationScreen';
+import NotoficationScreen from '../screens/Notifications/NotificationScreen';
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
   return (
@@ -34,7 +34,6 @@ const PreloginNavigator = () => {
       <Stack.Screen name="FreshFind" component={FreshFind} />
       <Stack.Screen name="ProductView" component={ProductViewComponent} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="NotificationScreen" component={NotoficationScreen} />
       <Stack.Screen
         name="ForgetPasswordScreen"
         component={ForgetPasswordScreen}

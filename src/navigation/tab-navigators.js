@@ -32,6 +32,7 @@ const TabNavigations = () => {
     //tabBarOptions is depricated instead screenOptions is used here.
     <Tab.Navigator
       screenOptions={{
+        tabBarHideOnKeyboard: true,
         tabBarShowLabel: false,
         tabBarStyle: {
           height: SPACING.SCALE_50,
@@ -64,7 +65,7 @@ const TabNavigations = () => {
                   style={{
                     color: focused ? '#00958C' : '#000000',
                     fontSize: 11,
-                    fontFamily:'Cabin-Regular'
+                    fontFamily: 'Cabin-Regular',
                   }}>
                   Explore
                 </Text>
@@ -87,7 +88,6 @@ const TabNavigations = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   // top: SPACING.SCALE_10,
-                  
                 }}>
                 <Image
                   source={IMAGES.FFicon}
@@ -102,7 +102,7 @@ const TabNavigations = () => {
                   style={{
                     color: focused ? '#00958C' : '#000000',
                     fontSize: 11,
-                    fontFamily:'Cabin-Regular'
+                    fontFamily: 'Cabin-Regular',
                   }}>
                   Fresh Finds
                 </Text>
@@ -135,7 +135,7 @@ const TabNavigations = () => {
                   fontSize: TYPOGRAPHY.FONT_SIZE_13,
                   // marginTop: SPACING.SCALE_10,
                   marginBottom: SPACING.SCALE_12,
-                  fontFamily:'Cabin-Regular',
+                  fontFamily: 'Cabin-Regular',
                   textAlign: 'center',
                 }}>
                 Sell
@@ -172,7 +172,7 @@ const TabNavigations = () => {
                   style={{
                     color: focused ? '#00958C' : '#000000',
                     fontSize: 11,
-                    fontFamily:'Cabin-Regular'
+                    fontFamily: 'Cabin-Regular',
                   }}>
                   Chat
                 </Text>
@@ -209,7 +209,7 @@ const TabNavigations = () => {
                   style={{
                     color: focused ? '#00958C' : '#000000',
                     fontSize: 11,
-                    fontFamily:'Cabin-Regular'
+                    fontFamily: 'Cabin-Regular',
                   }}>
                   Profile
                 </Text>

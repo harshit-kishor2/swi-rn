@@ -30,6 +30,18 @@ const LoginOptions = props => {
     );
 
     if (email && appleAuthRequestResponse.user) {
+      dispatch(
+        userLogin({
+          email: appleAuthRequestResponse?.email,
+          name: appleAuthRequestResponse?.givenName,
+
+          login_type: 'apple',
+          device_token: fcmToken,
+          device_type: Platform.OS,
+          //name:durgesh
+          //social_id:sdasdasd
+        }),
+      );
       console.log(
         'email && appleAuthRequestResponse.user',
         email,

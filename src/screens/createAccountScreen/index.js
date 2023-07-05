@@ -24,9 +24,16 @@ import {getFCMToken} from '../../services/firebaseServices';
 import {userLogin} from '../../redux/auth.slice';
 
 const CreateAccountScreen = props => {
+  const [fcmToken, setFcmToken] = useState();
   const dispatch = useDispatch();
 
-  const [fcmToken, setFcmToken] = useState();
+  useEffect(() => {
+    getFCMToken().then(token => {
+      setFcmToken(token);
+    });
+  }, []);
+
+  console.log('hhhhh', Platform.OS);
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -41,6 +48,18 @@ const CreateAccountScreen = props => {
     );
 
     if (email && appleAuthRequestResponse.user) {
+      dispatch(
+        userLogin({
+          email: appleAuthRequestResponse?.email,
+          name: appleAuthRequestResponse?.givenName,
+
+          login_type: 'apple',
+          device_token: fcmToken,
+          device_type: Platform.OS,
+          //name:durgesh
+          //social_id:sdasdasd
+        }),
+      );
       console.log(
         'email && appleAuthRequestResponse.user',
         email,
@@ -59,11 +78,11 @@ const CreateAccountScreen = props => {
   }
 
   //Google signUp
-  useEffect(() => {
-    getFCMToken().then(token => {
-      setFcmToken(token);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getFCMToken().then(token => {
+  //     setFcmToken(token);
+  //   });
+  // }, []);
 
   useEffect(() => {
     GoogleSignin.configure({

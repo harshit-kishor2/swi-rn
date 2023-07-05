@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Image,
@@ -6,26 +6,53 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 
 const Banner = ({image, height, width, onItemClick}) => {
-  console.log(image);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollViewRef = useRef(null);
+  // console.log(image, 'IMage for banner');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const nextIndex = (currentIndex + 1) % image.length;
+      setCurrentIndex(nextIndex);
+      scrollViewRef.current.scrollTo({
+        x: nextIndex * width,
+        animated: true,
+      });
+    }, 3000); // Change the interval duration according to your preference
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentIndex, image.length]);
 
   const handlePagination = index => {
     setCurrentIndex(index);
+    scrollViewRef.current.scrollTo({
+      x: index * width,
+      animated: true,
+    });
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={image}
+      <ScrollView
+        ref={scrollViewRef}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => item.id}
-        renderItem={({item, index}) => (
+        onMomentumScrollEnd={event => {
+          const contentOffset = event.nativeEvent.contentOffset;
+          const viewSize = event.nativeEvent.layoutMeasurement;
+          const index = Math.floor(contentOffset.x / viewSize.width);
+          setCurrentIndex(index);
+        }}>
+        {image.map((item, index) => (
           <TouchableOpacity
+            key={item.id}
             activeOpacity={0.8}
             style={styles.imageContainer}
             onPress={() => onItemClick(index)}>
@@ -36,18 +63,11 @@ const Banner = ({image, height, width, onItemClick}) => {
                 resizeMode: 'cover',
                 borderRadius: 10,
               }}
-              source={{uri: item.source}}
+              source={{uri: item.image}}
             />
           </TouchableOpacity>
-        )}
-        onMomentumScrollEnd={event => {
-          const {contentOffset, layoutMeasurement} = event.nativeEvent;
-          const currentIndex = Math.floor(
-            contentOffset.x / layoutMeasurement.width,
-          );
-          setCurrentIndex(currentIndex);
-        }}
-      />
+        ))}
+      </ScrollView>
 
       <View style={styles.pagination}>
         {image.map((_, index) => (
@@ -65,9 +85,7 @@ const Banner = ({image, height, width, onItemClick}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    //flex: 1,
-  },
+  container: {},
   image: {
     width: Dimensions.get('window').width,
     height: 200,

@@ -7,6 +7,7 @@ export const YELLOW = '#F6D060';
 export const RED = '#DF0000';
 export const TRANSPARENT = 'transparent';
 export const SEPARATOR_LINE_COLOR = '#ECECEC';
+export const APPGREEN = '#00958C';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';
