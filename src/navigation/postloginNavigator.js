@@ -22,6 +22,10 @@ const PostloginNavigator = () => {
         component={ProductDetails}
         options={{headerShown: false}}
       />
+       <Stack.Screen
+      name="FreshFind"
+      component={FreshFind} 
+      options={{headerShown: false}} />
     </Stack.Navigator>
   );
 };

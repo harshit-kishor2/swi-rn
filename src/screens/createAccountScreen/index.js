@@ -120,14 +120,14 @@ const CreateAccountScreen = props => {
 
   return (
     <StoryScreen>
-      {/* <NavigationBar
+      <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
           console.log('first');
           props.navigation.navigate('WalkThroughScreen');
         }}
         flexDirection="row"
-      /> */}
+      />
       <View style={styles.container}>
         <View style={styles.topBox}>
           <Text style={styles.headline}>Hello there!</Text>
@@ -228,19 +228,7 @@ const CreateAccountScreen = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{marginLeft: 4}}>
-          <Text
-            style={{
-              fontSize: 14,
-              color: '#00958C',
-              fontFamily: 'OpenSans-Regular',
-            }}
-            onPress={() => {
-              props.navigation.navigate('NotificationScreen');
-            }}>
-            NotificationScreen
-          </Text>
-        </TouchableOpacity>
+       
       </View>
     </StoryScreen>
   );
