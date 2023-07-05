@@ -37,6 +37,7 @@ import TouchableImage from '../../components/TouchableImage';
 import moment from 'moment';
 import fonts from '../../resources/fonts';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const ExploreScreen = () => {
   const flatListRef = useRef(null);
@@ -44,6 +45,7 @@ const ExploreScreen = () => {
 
   const [currentPage, setCurrentPage] = useState(1); // Current page of data
   const [loadingMore, setLoadingMore] = useState(false);
+
   const {error, loading, products} = useSelector(
     state => state?.exploreReducer,
   );
@@ -61,20 +63,21 @@ const ExploreScreen = () => {
     productAddWishListError,
     productAddWishListData,
   } = useSelector(state => state?.exploreReducer);
-  console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
-  console.log(error, loading, products?.data?.data, 'fgdjhgfdsghfjkdshjkfhskh');
-  console.log(
-    trendyWatchesProductsLoading,
-    trendyWatchesProductsError,
-    trendyWatchesProducts,
-    'hkjdshfkjdshfkjdsfhdksjfhjk',
-  );
-  console.log(
-    productAddWishListLoading,
-    productAddWishListError,
-    productAddWishListData,
-    'ggggggggggggggg',
-  );
+  // console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
+  // console.log(error, loading, products?.data?.data, 'fgdjhgfdsghfjkdshjkfhskh');
+  // console.log(
+  //   trendyWatchesProductsLoading,
+  //   trendyWatchesProductsError,
+  //   trendyWatchesProducts,
+  //   'hkjdshfkjdshfkjdsfhdksjfhjk',
+  // );
+  // console.log(
+  //   productAddWishListLoading,
+  //   productAddWishListError,
+  //   productAddWishListData,
+
+  //   'ggggggggggggggg',
+  // );
 
   useEffect(() => {
     dispatch(exploreProductListing({page: currentPage}));
@@ -131,6 +134,8 @@ const ExploreScreen = () => {
     posting_day,
     onPress,
     wishListPress,
+    isInWishlist,
+    id,
   }) => {
     return (
       <TouchableOpacity onPress={onPress}>
@@ -146,7 +151,15 @@ const ExploreScreen = () => {
                 height: 20,
                 width: 20,
               }}>
-              <Image source={IMAGES.Vector1} />
+              <Image
+                style={{
+                  tintColor:
+                    isInWishlist || productAddWishListData.id === id
+                      ? COLORS.APPGREEN
+                      : null,
+                }}
+                source={IMAGES.Vector1}
+              />
             </TouchableOpacity>
           </View>
           <View>
@@ -213,31 +226,31 @@ const ExploreScreen = () => {
     );
   };
 
-  const renderItem = ({item}) => (
-    console.log(item, 'kkkkk'),
-    (
-      <Item
-        product_image={item.thumb_image}
-        product_name={item.title}
-        price={item.price}
-        condition={item.watch_condition}
-        seller_image={item.thumb_image}
-        seller_name={item.user.name}
-        posting_day={item.created_at}
-        onPress={() => {
-          // Handle item press
-        }}
-        wishListPress={() => {
-          dispatch(
-            addWishlist({
-              product_id: item?.id,
-              user_id: item?.user?.id,
-            }),
-          );
-          // Alert.alert(item?.id.toString(), item?.user?.id.toString());
-        }}
-      />
-    )
+  const renderItem = ({item, index}) => (
+    <Item
+      product_image={item.thumb_image}
+      product_name={item.title}
+      price={item.price}
+      condition={item.watch_condition}
+      seller_image={item.thumb_image}
+      seller_name={item.user.name}
+      posting_day={item.created_at}
+      isInWishlist={item.isInWishlist}
+      id={item.id}
+      onPress={() => {
+        // Handle item press
+      }}
+      wishListPress={() => {
+        dispatch(
+          addWishlist({
+            product_id: item?.id,
+            index: index,
+          }),
+        );
+
+        // Alert.alert(item?.id.toString(), item?.user?.id.toString());
+      }}
+    />
   );
 
   return (
@@ -320,11 +333,11 @@ const ExploreScreen = () => {
             />
           </View>
 
-          <View style={styles.progressContainer}>
+          {/* <View style={styles.progressContainer}>
             <View
               style={[styles.progressBar, {width: `${scrollProgress * 100}%`}]}
             />
-          </View>
+          </View> */}
 
           {trendyWatchesProducts?.data?.length != 0 ? (
             <FlatList
@@ -334,8 +347,8 @@ const ExploreScreen = () => {
               keyExtractor={item => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
-              ref={flatListRef}
-              onScroll={handleScroll}
+              // ref={flatListRef}
+              // onScroll={handleScroll}
               scrollEventThrottle={16}
             />
           ) : (
