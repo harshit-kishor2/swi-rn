@@ -185,19 +185,6 @@ const CreateAccountScreen = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{marginLeft: 4}}>
-          <Text
-            style={{
-              fontSize: 14,
-              color: '#00958C',
-              fontFamily: 'OpenSans-Regular',
-            }}
-            onPress={() => {
-              props.navigation.navigate('NotificationScreen');
-            }}>
-            NotificationScreen
-          </Text>
-        </TouchableOpacity>
       </View>
     </StoryScreen>
   );

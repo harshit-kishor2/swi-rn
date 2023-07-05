@@ -50,7 +50,7 @@ const Item=(
   )
 
 }
-const NotoficationScreen = props => {
+const NotificationScreen = props => {
   const Data=[
     {
       id:2,
@@ -177,7 +177,7 @@ const NotoficationScreen = props => {
   )
 }
 
-export default NotoficationScreen
+export default NotificationScreen
 
 const styles = StyleSheet.create({
 

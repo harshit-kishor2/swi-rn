@@ -18,6 +18,8 @@ import {COLORS, IMAGES} from '../../resources';
 import Search from '../../components/Search';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchFreshFinds} from '../../redux/freshFinds.slice';
+import { useNavigation } from '@react-navigation/native';
+import navigation from '../../navigation';
 const {width, height} = Dimensions.get('screen');
 const Item = ({
   product_image,
@@ -29,26 +31,36 @@ const Item = ({
   posting_day,
   onPress,
   wishListPress,
+  navigation
 }) => {
   return (
-    <View style={{margin: 10, marginBottom: -4}}>
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.outer}>
-          <View style={styles.inner}>
-            <Image source={product_image} style={styles.imageStyle} />
-            <TouchableOpacity
-              onPress={wishListPress}
-              style={{
-                position: 'absolute',
-                top: 3,
-                right: 12,
-                height: SPACING.SCALE_20,
-                width: SPACING.SCALE_20,
-              }}>
-              <Image source={IMAGES.Vector1} />
-            </TouchableOpacity>
-          </View>
-          <View>
+    <View style={{margin:10,marginBottom:-4}}>
+      <TouchableOpacity onPress={()=>{navigation.navigate('ProductDetails')}}>
+      <View style={styles.outer}>
+        <View style={styles.inner}>
+          <Image source={product_image} style={styles.imageStyle} />
+          <TouchableOpacity
+            onPress={wishListPress}
+            style={{
+              position: 'absolute',
+              top: 3,
+              right: 12,  
+              height: SPACING.SCALE_20,
+              width: SPACING.SCALE_20,
+            }}>
+            <Image source={IMAGES.Vector1} />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text
+            style={{
+              fontFamily: 'Cabin-SemiBold',
+              marginLeft: 2,
+              color: COLORS.BLACK,
+            }}>
+            {product_name}
+          </Text>
+          <View style={{flexDirection: 'row', marginTop: 5}}>
             <Text
               style={{
                 fontFamily: 'Cabin-SemiBold',
@@ -195,6 +207,7 @@ const FreshFind = ({placeholder, onChange}) => {
       seller_name={item.seller_name}
       posting_day={item.posting_day}
       index={index}
+      navigation={navigation}
     />
   );
 
@@ -212,6 +225,7 @@ const FreshFind = ({placeholder, onChange}) => {
         <Search
           width={SPACING.SCALE_300}
           placeholder={'Search By Product/ Brand/ Model'}
+         
           onChange={e => {
             console.log(e);
           }}
