@@ -25,7 +25,7 @@ const WalkThroughScreen = props => {
   const [page, setPage] = useState(0);
 
   const skipFunction = (props) => {
-    props.navigation.navigate('LoginOptions');
+    props.navigation.navigate('CreateAccountScreen');
     // console.log("=>>",props)
   };
 

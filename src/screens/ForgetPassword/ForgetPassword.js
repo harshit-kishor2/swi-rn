@@ -100,7 +100,7 @@ import ForgetPasswordScreen from '../forgetPasswordScreen';
                   height={51}
                   width={241}
                   marginHorizontal={20}
-                  onPress={formik.handleSubmit}
+                  onPress={formik.onSubmit}
                 />
                 
               </View>
