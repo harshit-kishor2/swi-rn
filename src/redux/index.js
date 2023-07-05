@@ -32,9 +32,13 @@
 
 import {combineReducers} from '@reduxjs/toolkit';
 import {AuthReducer} from './auth.slice';
+import {exploreReducer} from './explore.slice';
+import frehFindsReducer from './freshFinds.slice';
 
 const combineReducer = combineReducers({
   AuthReducer,
+  exploreReducer,
+  frehFindsReducer,
 });
 
 export default combineReducer;

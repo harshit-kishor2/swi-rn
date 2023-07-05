@@ -1,5 +1,18 @@
 {
   "name": "SWI",
   "displayName": "SWI",
+<<<<<<< HEAD
   "plugins": ["@notifee/react-native"]
 }
+=======
+    "expo": {
+    "android": {
+      "googleServicesFile": "./google-services.json"
+    },
+    "ios": {
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
+  }
+}
+>>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936

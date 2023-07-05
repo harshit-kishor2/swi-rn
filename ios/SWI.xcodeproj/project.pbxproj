@@ -257,7 +257,11 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+<<<<<<< HEAD
 				569731446AD38F072B974894 /* [CP-User] [RNFB] Core Configuration */,
+=======
+				39F8D1FCD7DB8A196BA47932 /* [CP-User] [RNFB] Core Configuration */,
+>>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 			);
 			buildRules = (
 			);
@@ -378,7 +382,11 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWI/Pods-SWI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+<<<<<<< HEAD
 		569731446AD38F072B974894 /* [CP-User] [RNFB] Core Configuration */ = {
+=======
+		39F8D1FCD7DB8A196BA47932 /* [CP-User] [RNFB] Core Configuration */ = {
+>>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

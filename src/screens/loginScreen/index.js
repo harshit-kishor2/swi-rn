@@ -6,18 +6,18 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
-import {IMAGES, SPACING} from '../../resources';
+import { COLORS, IMAGES, SPACING } from '../../resources';
 
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
-import {useDispatch, useSelector} from 'react-redux';
-import {userLogin} from '../../redux/auth.slice';
-import {Formik} from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../redux/auth.slice';
+import { Formik } from 'formik';
 import G_Recaptcha from '../../components/Recaptcha';
-import {getFCMToken} from '../../services/firebaseServices';
+import { getFCMToken } from '../../services/firebaseServices';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -67,42 +67,53 @@ const LoginScreen = props => {
               <Text style={styles.headline}>Welcome!</Text>
               <Text style={styles.subheadline}>Sign in to your account</Text>
             </View>
-           <View style={{marginTop:40}}>
-           <CustomTextInput
-              icon={IMAGES.Email}
-              placeholder={'Enter email address'}
-              Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setemail(e);
-              }}
-              value={formik.values.email}
-            />
-            <CustomTextInput
-              icon={IMAGES.Lock1}
-              placeholder={'Enter password'}
-              Width={SPACING.SCALE_239}
-              onChangeText={e => {
-                Setpassword(e);
-              }}
-              value={formik.values.password}
-            />
-           </View>
+            <View style={{ marginTop: 40 }}>
+              <CustomTextInput
+                icon={IMAGES.Email}
+                placeholder={'Enter email address'}
+                Width={SPACING.SCALE_239}
+                onChangeText={e => {
+                  Setemail(e);
+                }}
+                value={formik.values.email}
+              />
+              <CustomTextInput
+                secureTextEntry={true}
+                icon={IMAGES.Lock1}
+                placeholder={'Enter password'}
+                Width={SPACING.SCALE_239}
+                onChangeText={e => {
+                  Setpassword(e);
+                }}
+                value={formik.values.password}
+              />
+            </View>
+            <View style={{ alignSelf: 'flex-end', marginRight: 50, marginTop: 10 }}>
+              <TouchableOpacity>
+                <Text style={{ fontFamily: 'OpenSans-Regular', color: COLORS.HYPERLINK }}   onPress={() => {
+                    props.navigation.navigate('ForgetPassword');
+                  }}>Forgot password?</Text>
+
+              </TouchableOpacity>
+            </View>
+
+
             <G_Recaptcha />
-            <View style={{flexDirection: 'row', margin: 50}}>
+            <View style={{ flexDirection: 'row', margin: 50, alignSelf: 'center' }}>
               <Text
                 style={{
                   fontSize: 14,
                   color: '#4E4E4E',
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'OpenSans-Regular',
                 }}>
                 I agree to the
               </Text>
-              <TouchableOpacity style={{marginLeft: 4}}>
+              <TouchableOpacity style={{ marginLeft: 4 }}>
                 <Text
                   style={{
                     fontSize: 14,
                     color: '#00958C',
-                    fontFamily: 'Open Sans',
+                    fontFamily: 'OpenSans-SemiBold',
                   }}
                   onPress={() => {
                     props.navigation.navigate('SignupScreen');
@@ -120,21 +131,21 @@ const LoginScreen = props => {
               marginHorizontal={SPACING.SCALE_50}
               onPress={formik.handleSubmit}
             />
-            <View style={{flexDirection: 'row', margin: 50}}>
+            <View style={{ flexDirection: 'row', marginTop: 30, alignSelf: 'center' }}>
               <Text
                 style={{
                   fontSize: 14,
                   color: '#4E4E4E',
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'OpenSans-Regular',
                 }}>
                 Don’t have an account yet?
               </Text>
-              <TouchableOpacity style={{marginLeft: 4}}>
+              <TouchableOpacity style={{ marginLeft: 4 }}>
                 <Text
                   style={{
                     fontSize: 14,
                     color: '#00958C',
-                    fontFamily: 'Open Sans',
+                    fontFamily: 'OpenSans-Regular',
                   }}
                   onPress={() => {
                     props.navigation.navigate('SignupScreen');
@@ -143,34 +154,10 @@ const LoginScreen = props => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <TouchableOpacity style={{marginLeft: 4}}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#00958C',
-                  fontFamily: 'Open Sans',
-                }}
-                onPress={() => {
-                  props.navigation.navigate('postedSuccessfullyScreen');
-                }}>
-                PostedSuccessfully Screen
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={{marginLeft: 4}}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#00958C',
-                  fontFamily: 'Open Sans',
-                }}
-                onPress={() => {
-                  props.navigation.navigate('TermAndConditions');
-                }}>
-                TermAndConditions
-              </Text>
-            </TouchableOpacity>
-            
+
+
           </View>
+
         </StoryScreen>
       )}
     </Formik>
@@ -180,7 +167,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   headline: {
     textAlign: 'center',

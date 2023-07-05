@@ -169,19 +169,12 @@ const ProductViewComponent = props => {
   );
   return (
     <StoryScreen>
-      <NavigationBar
-        leftSource={IMAGES.BACKARROW}
-        leftAction={() => {
-          props.navigation.goBack();
-        }}
-        flexDirection="row"
-      />
-      <Text style={styles.HedaerTextStyle}>FreshFind</Text>
+    
       <FlatList
         data={DATA}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        numColumns={2}
+        horizontal
       />
     </StoryScreen>
   );

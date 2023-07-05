@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com",
+          "client_id": "866067850894-6ra6kvn51p3m8hq4n3gfu9i9ne3g8kcl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swi",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "866067850894-dh3ebggit9pfu0e4l957lejk9uc2qeg4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com",
+              "client_id": "866067850894-dh3ebggit9pfu0e4l957lejk9uc2qeg4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "866067850894-51t0n05rkvqo7n6977n3eb96eh9u0m49.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.develop.SWI"
+              }
             }
           ]
         }

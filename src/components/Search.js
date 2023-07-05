@@ -6,7 +6,7 @@ import { IMAGES } from '../resources';
 const Search = ({ placeholder, onChange, width }) => {
     return (
         <View style={{ ...styles.container, width: width }}>
-
+ 
             <TextInput
                 style={styles.input}
                 placeholder={placeholder}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 40,
         marginLeft: 15,
-        fontFamily:'Open Sans',
+        fontFamily:'OpenSans-Regular',
         fontSize:12
     },
     img: {
