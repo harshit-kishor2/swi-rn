@@ -7,10 +7,9 @@ import TermsandcondtionScreen from '../screens/termsandcondtionScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import WalkThroughScreen from '../screens/walkThroughScreen';
 import PostedSuccessfully from '../screens/AddProduct/PostedSuccessfully';
-import FreshFind from '../screens/freshFindScreen';
 import ProductViewComponent from '../components/ProductViewComponent';
 import LoginOptions from '../screens/loginOptions/LoginOptions';
-import NotoficationScreen from '../screens/Notifications/NotificationScreen';
+import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 const Stack = createNativeStackNavigator();
 const PreloginNavigator = () => {
   return (
@@ -31,7 +30,7 @@ const PreloginNavigator = () => {
         name="TermAndConditions"
         component={TermsandcondtionScreen}
       />
-      <Stack.Screen name="FreshFind" component={FreshFind} />
+     
       <Stack.Screen name="ProductView" component={ProductViewComponent} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen
@@ -43,6 +42,7 @@ const PreloginNavigator = () => {
         component={TermsandcondtionScreen}
       />
       <Stack.Screen name="LoginOptions" component={LoginOptions} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
     </Stack.Navigator>
   );
 };

@@ -65,7 +65,7 @@ const LoginOptions = props => {
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
           console.log('first');
-          props.navigation.navigate('WalkThroughScreen');
+          props.navigation.navigate('CreateAccountScreen');
         }}
         flexDirection="row"
       />

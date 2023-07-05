@@ -21,6 +21,7 @@
 		2D92CC2CB2EB497DBD01C2C7 /* Cabin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F09EB7F2B1AB4EE18FD82906 /* Cabin-Bold.ttf */; };
 		335C88E5AFBB4A13813C0AB9 /* Cabin-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6006CA0CD26B437695566356 /* Cabin-Medium.ttf */; };
 		33CAA884D07B4ED7A0F6DDAE /* Cabin-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78E8950C075544D3AFC6DE56 /* Cabin-Italic.ttf */; };
+		43C63FC02A52C24100414451 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43C63FBF2A52C24100414451 /* GoogleService-Info.plist */; };
 		6143A6B5AF7447B28548AEC0 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1225584DFC04FD0BFBB3576 /* OpenSans-SemiBoldItalic.ttf */; };
 		64ECCA9632E14EC9B09A3A6B /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11BB598EEDC44C8A57D4487 /* OpenSans-Medium.ttf */; };
 		69E20144D47B4BAE9BAC14D3 /* Cabin-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F31DFB24D9F44879B3620A5F /* Cabin-MediumItalic.ttf */; };
@@ -63,6 +64,7 @@
 		2886AE62F9544612A5B8495E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		349E20EC0E3F44C69D28790C /* Cabin-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-Regular.ttf"; path = "../src/assets/fonts/Cabin-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-SWI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI.debug.xcconfig"; path = "Target Support Files/Pods-SWI/Pods-SWI.debug.xcconfig"; sourceTree = "<group>"; };
+		43C63FBF2A52C24100414451 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4FE151AB94EB476EBA95D087 /* Cabin-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-SemiBold.ttf"; path = "../src/assets/fonts/Cabin-SemiBold.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-SWI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI.release.xcconfig"; path = "Target Support Files/Pods-SWI/Pods-SWI.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-SWI-SWITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI-SWITests.debug.xcconfig"; path = "Target Support Files/Pods-SWI-SWITests/Pods-SWI-SWITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				43C63FBF2A52C24100414451 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* SWI */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SWITests */,
@@ -254,7 +257,11 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
+<<<<<<< HEAD
+				569731446AD38F072B974894 /* [CP-User] [RNFB] Core Configuration */,
+=======
 				39F8D1FCD7DB8A196BA47932 /* [CP-User] [RNFB] Core Configuration */,
+>>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 			);
 			buildRules = (
 			);
@@ -332,6 +339,7 @@
 				0A4151B0C37647B7A8E990B0 /* OpenSans-LightItalic.ttf in Resources */,
 				64ECCA9632E14EC9B09A3A6B /* OpenSans-Medium.ttf in Resources */,
 				90FDA706954A43F1A4007A15 /* OpenSans-MediumItalic.ttf in Resources */,
+				43C63FC02A52C24100414451 /* GoogleService-Info.plist in Resources */,
 				FD920B1CF635434BBC2A2A78 /* OpenSans-Regular.ttf in Resources */,
 				F3437ECB8E3043F58AB0DA30 /* OpenSans-SemiBold.ttf in Resources */,
 				6143A6B5AF7447B28548AEC0 /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -374,7 +382,11 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SWI/Pods-SWI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+<<<<<<< HEAD
+		569731446AD38F072B974894 /* [CP-User] [RNFB] Core Configuration */ = {
+=======
 		39F8D1FCD7DB8A196BA47932 /* [CP-User] [RNFB] Core Configuration */ = {
+>>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -606,7 +618,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.SWI;
 				PRODUCT_NAME = SWI;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -637,7 +649,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.develop.SWI;
 				PRODUCT_NAME = SWI;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

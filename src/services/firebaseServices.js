@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import notifee from '@notifee/react-native';
+// import notifee from '@notifee/react-native';
 import {IMAGES} from '../resources';
 // import {IMAGES} from '../Resources';
 
@@ -39,25 +39,25 @@ async function getFCMToken() {
 
 const onDisplayNotification = async (title, body, data) => {
   // Create a channel
-  const channelId = await notifee.createChannel({
-    id: 'default',
-    name: 'Default Channel',
-  });
+  // const channelId = await notifee.createChannel({
+  //   id: 'default',
+  //   name: 'Default Channel',
+  // });
 
-  // Display a notification
-  await notifee.displayNotification({
-    title: title,
-    body: body,
-    data: data,
-    android: {
-      channelId,
-      smallIcon: IMAGES.Chaticon,
-      pressAction: {
-        id: 'default',
-      },
-      // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-    },
-  });
+  // // Display a notification
+  // await notifee.displayNotification({
+  //   title: title,
+  //   body: body,
+  //   data: data,
+  //   android: {
+  //     channelId,
+  //     smallIcon: IMAGES.Chaticon,
+  //     pressAction: {
+  //       id: 'default',
+  //     },
+  //     // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+  //   },
+  // });
 };
 
 export {

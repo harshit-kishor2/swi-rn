@@ -14,6 +14,13 @@ import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginButton,
+  LoginManager,
+} from 'react-native-fbsdk-next';
 import jwt_decode from 'jwt-decode';
 import {
   GoogleSignin,
@@ -76,6 +83,25 @@ const CreateAccountScreen = props => {
     //   // user is authenticated
     // }
   }
+  const getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id, name,  email',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, result) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          console.log('result:', result);
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
 
   //Google signUp
   // useEffect(() => {
@@ -120,14 +146,14 @@ const CreateAccountScreen = props => {
 
   return (
     <StoryScreen>
-      {/* <NavigationBar
+      <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
           console.log('first');
           props.navigation.navigate('WalkThroughScreen');
         }}
         flexDirection="row"
-      /> */}
+      />
       <View style={styles.container}>
         <View style={styles.topBox}>
           <Text style={styles.headline}>Hello there!</Text>
@@ -183,7 +209,22 @@ const CreateAccountScreen = props => {
           height={51}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('rrr');
+            LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+              async function (result) {
+                if (result.isCancelled) {
+                  console.log('SignUp Cancelled');
+                } else {
+                  let token = await AccessToken.getCurrentAccessToken();
+                  if (token) {
+                    getInfoFromToken(token);
+                  }
+                  console.log('You have Registered In Successfully');
+                }
+              },
+              function (error) {
+                alert('Login failed with error: ' + error);
+              },
+            );
           }}
         />
         <Custombutton2
@@ -241,6 +282,7 @@ const CreateAccountScreen = props => {
             NotificationScreen
           </Text>
         </TouchableOpacity>
+       
       </View>
     </StoryScreen>
   );
