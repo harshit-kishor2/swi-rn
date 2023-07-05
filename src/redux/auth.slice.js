@@ -76,6 +76,26 @@ export const getTrustAuthorization = createAsyncThunk(
   },
 );
 
+// Forget password
+
+export const forgetPassword = createAsyncThunk(
+  'auth/forgetPassword',
+  async (params, thunkAPI) => {
+    console.log('forgetPasswordData', params);
+    try {
+      const response = await api({
+        url: `${Config.API_URL}register`,
+        method: 'POST',
+        data: params,
+      });
+      console.log('forgetpassresponse', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 //Slices
 //--------------------------------
 const Authslice = createSlice({
