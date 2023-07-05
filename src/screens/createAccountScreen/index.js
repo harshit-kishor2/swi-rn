@@ -13,6 +13,13 @@ import {IMAGES, SPACING} from '../../resources';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginButton,
+  LoginManager,
+} from 'react-native-fbsdk-next';
 
 const CreateAccountScreen = props => {
   // Apple log in code
@@ -34,6 +41,25 @@ const CreateAccountScreen = props => {
     //   // user is authenticated
     // }
   }
+  const getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id, name,  email',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, result) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          console.log('result:', result);
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
 
   return (
     <StoryScreen>
@@ -100,7 +126,22 @@ const CreateAccountScreen = props => {
           height={51}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('rrr');
+            LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+              async function (result) {
+                if (result.isCancelled) {
+                  console.log('SignUp Cancelled');
+                } else {
+                  let token = await AccessToken.getCurrentAccessToken();
+                  if (token) {
+                    getInfoFromToken(token);
+                  }
+                  console.log('You have Registered In Successfully');
+                }
+              },
+              function (error) {
+                alert('Login failed with error: ' + error);
+              },
+            );
           }}
         />
         <Custombutton2
@@ -123,29 +164,40 @@ const CreateAccountScreen = props => {
         />
         <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
           <Text
-            style={{fontSize: 14, color: '#4E4E4E', fontFamily: 'OpenSans-Regular'}}>
+            style={{
+              fontSize: 14,
+              color: '#4E4E4E',
+              fontFamily: 'OpenSans-Regular',
+            }}>
             Already have an account?
           </Text>
           <TouchableOpacity style={{marginLeft: 4}}>
             <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
+              style={{
+                fontSize: 14,
+                color: '#00958C',
+                fontFamily: 'OpenSans-Regular',
+              }}
               onPress={() => {
                 props.navigation.navigate('LoginOptions');
               }}>
               Sign In now
             </Text>
           </TouchableOpacity>
-         
         </View>
         <TouchableOpacity style={{marginLeft: 4}}>
-            <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
-              onPress={() => {
-                props.navigation.navigate('NotificationScreen');
-              }}>
-              NotificationScreen
-            </Text>
-          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 14,
+              color: '#00958C',
+              fontFamily: 'OpenSans-Regular',
+            }}
+            onPress={() => {
+              props.navigation.navigate('NotificationScreen');
+            }}>
+            NotificationScreen
+          </Text>
+        </TouchableOpacity>
       </View>
     </StoryScreen>
   );

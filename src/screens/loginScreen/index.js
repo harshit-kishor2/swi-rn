@@ -46,7 +46,7 @@ const LoginScreen = props => {
         device_type: Platform.OS,
         device_token: fcmToken,
         login_type: '',
-        name: 'radhesh',
+        name: '',
       }}
       enableReinitialize
       // validationSchema={loginValidationSchema}
