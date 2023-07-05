@@ -10,12 +10,14 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SPACING} from '../../resources';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {COLORS, IMAGES} from '../../resources';
 import Search from '../../components/Search';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchFreshFinds} from '../../redux/freshFinds.slice';
 const {width, height} = Dimensions.get('screen');
 const Item = ({
   product_image,
@@ -29,79 +31,88 @@ const Item = ({
   wishListPress,
 }) => {
   return (
-    <View style={{margin:10,marginBottom:-4}}>
+    <View style={{margin: 10, marginBottom: -4}}>
       <TouchableOpacity onPress={onPress}>
-      <View style={styles.outer}>
-        <View style={styles.inner}>
-          <Image source={product_image} style={styles.imageStyle} />
-          <TouchableOpacity
-            onPress={wishListPress}
-            style={{
-              position: 'absolute',
-              top: 3,
-              right: 12,  
-              height: SPACING.SCALE_20,
-              width: SPACING.SCALE_20,
-            }}>
-            <Image source={IMAGES.Vector1} />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text
-            style={{
-              fontFamily: 'Cabin-SemiBold',
-              marginLeft: 2,
-              color: COLORS.BLACK,
-            }}>
-            {product_name}
-          </Text>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <Text
+        <View style={styles.outer}>
+          <View style={styles.inner}>
+            <Image source={product_image} style={styles.imageStyle} />
+            <TouchableOpacity
+              onPress={wishListPress}
               style={{
-                fontFamily: 'OpenSans-SemiBold',
-                fontSize: SPACING.SCALE_12,
-                color: COLORS.HYPERLINK,
-                marginLeft: SPACING.SCALE_6,
+                position: 'absolute',
+                top: 3,
+                right: 12,
+                height: SPACING.SCALE_20,
+                width: SPACING.SCALE_20,
               }}>
-              {' '}
-              $ {price} .
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Open Sans',
-                fontSize: 10,
-                marginTop: 2,
-                color: COLORS.HYPERLINK,
-              }}>
-              {' '}
-              {condition}
-            </Text>
+              <Image source={IMAGES.Vector1} />
+            </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <View>
-              <Image
-                source={seller_image}
-                style={{height: SPACING.SCALE_17, width: SPACING.SCALE_17, marginTop: SPACING.SCALE_5, marginLeft: SPACING.SCALE_8}}
-              />
-            </View>
-            <View>
-              <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: SPACING.SCALE_10}}>
-                {seller_name}
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Cabin-SemiBold',
+                marginLeft: 2,
+                color: COLORS.BLACK,
+              }}>
+              {product_name}
+            </Text>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Text
+                style={{
+                  fontFamily: 'OpenSans-SemiBold',
+                  fontSize: SPACING.SCALE_12,
+                  color: COLORS.HYPERLINK,
+                  marginLeft: SPACING.SCALE_6,
+                }}>
+                {' '}
+                $ {price} .
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Open Sans',
+                  fontSize: 10,
+                  marginTop: 2,
+                  color: COLORS.HYPERLINK,
+                }}>
+                {' '}
+                {condition}
               </Text>
             </View>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <View>
+                <Image
+                  source={seller_image}
+                  style={{
+                    height: SPACING.SCALE_17,
+                    width: SPACING.SCALE_17,
+                    marginTop: SPACING.SCALE_5,
+                    marginLeft: SPACING.SCALE_8,
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-SemiBold',
+                    marginLeft: SPACING.SCALE_10,
+                  }}>
+                  {seller_name}
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                marginLeft: SPACING.SCALE_7,
+                fontFamily: 'Open Sans',
+                fontSize: SPACING.SCALE_8,
+                marginTop: SPACING.SCALE_10,
+              }}>
+              {posting_day}
+            </Text>
           </View>
-          <Text
-            style={{
-              marginLeft: SPACING.SCALE_7,
-              fontFamily: 'Open Sans',
-              fontSize: SPACING.SCALE_8,
-              marginTop: SPACING.SCALE_10,
-            }}>
-            {posting_day}
-          </Text>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -162,6 +173,18 @@ const DATA = [
   },
 ];
 const FreshFind = ({placeholder, onChange}) => {
+  const dispatch = useDispatch();
+  const {
+    freshFindsProductserror,
+    freshFindsProductsLoading,
+    freshFindsProducts,
+  } = useSelector(state => state?.frehFindsReducer);
+  console.log(
+    freshFindsProductserror,
+    freshFindsProductserror,
+    freshFindsProducts,
+    '0000000000',
+  );
   const renderItem = ({item, index, navigation}) => (
     <Item
       product_image={item.product_image}
@@ -174,16 +197,17 @@ const FreshFind = ({placeholder, onChange}) => {
       index={index}
     />
   );
+
+  useEffect(() => {
+    dispatch(fetchFreshFinds());
+  }, []);
   return (
-    
-    
-      <StoryScreen>
-     <View
+    <StoryScreen>
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-         
         }}>
         <Search
           width={SPACING.SCALE_300}
@@ -206,63 +230,9 @@ const FreshFind = ({placeholder, onChange}) => {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        
-        
       />
-      </StoryScreen>
-    
-   
+    </StoryScreen>
   );
 };
 
 export default FreshFind;
-
-const styles = StyleSheet.create({
-  outer: {
-    backgroundColor: '#F6F6F6',
-    width: SPACING.SCALE_160,
-    height: SPACING.SCALE_279,
-    borderRadius: SPACING.SCALE_10,
-    marginTop: SPACING.SCALE_30,
-  },
-  inner: {
-    width: SPACING.SCALE_160,
-    height: SPACING.SCALE_160,
-    borderRadius: SPACING.SCALE__10,
-   
-  },
-  imageStyle: {
-    width: SPACING.SCALE_160,
-    height: SPACING.SCALE_160,
-    borderRadius: SPACING.SCALE_10,
-    marginTop: SPACING.SCALE__15,
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: SPACING.SCALE_10,
-    borderWidth: SPACING.SCALE_1,
-    borderColor: '#ccc',
-    elevation: SPACING.SCALE_3,
-    paddingHorizontal: SPACING.SCALE_10,
-    marginVertical: SPACING.SCALE_10,
-  },
-  icon: {
-    fontSize: SPACING.SCALE_20,
-    marginRight: SPACING.SCALE_10,
-  },
-  input: {
-    flex: 1,
-    height: SPACING.SCALE_40,
-    marginLeft: SPACING.SCALE_15,
-  },
-  HedaerTextStyle: {
-    fontFamily: 'Cabin-Bold',
-    fontSize: SPACING.SCALE_20,
-    color: COLORS.BLACK,
-    marginLeft:SPACING.SCALE_20
-    
-  },
-});
-

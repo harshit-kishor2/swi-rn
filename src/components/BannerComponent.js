@@ -12,6 +12,7 @@ import {
 const Banner = ({image, height, width, onItemClick}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollViewRef = useRef(null);
+  // console.log(image, 'IMage for banner');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,7 +63,7 @@ const Banner = ({image, height, width, onItemClick}) => {
                 resizeMode: 'cover',
                 borderRadius: 10,
               }}
-              source={{uri: item.source}}
+              source={{uri: item.image}}
             />
           </TouchableOpacity>
         ))}

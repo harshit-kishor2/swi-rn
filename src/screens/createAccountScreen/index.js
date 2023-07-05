@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {IMAGES, SPACING} from '../../resources';
@@ -15,8 +15,21 @@ import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import jwt_decode from 'jwt-decode';
+import {useDispatch} from 'react-redux';
+import {getFCMToken} from '../../services/firebaseServices';
+import {userLogin} from '../../redux/auth.slice';
 
 const CreateAccountScreen = props => {
+  const [fcmToken, setFcmToken] = useState();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getFCMToken().then(token => {
+      setFcmToken(token);
+    });
+  }, []);
+
+  console.log('hhhhh', Platform.OS);
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -31,6 +44,18 @@ const CreateAccountScreen = props => {
     );
 
     if (email && appleAuthRequestResponse.user) {
+      dispatch(
+        userLogin({
+          email: appleAuthRequestResponse?.email,
+          name: appleAuthRequestResponse?.givenName,
+
+          login_type: 'apple',
+          device_token: fcmToken,
+          device_type: Platform.OS,
+          //name:durgesh
+          //social_id:sdasdasd
+        }),
+      );
       console.log(
         'email && appleAuthRequestResponse.user',
         email,
@@ -159,17 +184,20 @@ const CreateAccountScreen = props => {
               Sign In now
             </Text>
           </TouchableOpacity>
-         
         </View>
         <TouchableOpacity style={{marginLeft: 4}}>
-            <Text
-              style={{fontSize: 14, color: '#00958C', fontFamily: 'OpenSans-Regular'}}
-              onPress={() => {
-                props.navigation.navigate('NotificationScreen');
-              }}>
-              NotificationScreen
-            </Text>
-          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 14,
+              color: '#00958C',
+              fontFamily: 'OpenSans-Regular',
+            }}
+            onPress={() => {
+              props.navigation.navigate('NotificationScreen');
+            }}>
+            NotificationScreen
+          </Text>
+        </TouchableOpacity>
       </View>
     </StoryScreen>
   );
