@@ -11,7 +11,9 @@ const initialState = {
   signuploader: 'not loaded',
   loginloader: 'not loaded',
   profileloader: 'not loaded',
-  forgetloader: false,
+  forgetPasswordLoader: false,
+  forgetData: {},
+  forgetPasswordError: null,
   registrationSuccess: false,
   loginSuccess: false,
   userData: null,
@@ -84,7 +86,7 @@ export const forgetPassword = createAsyncThunk(
     console.log('forgetPasswordData', params);
     try {
       const response = await api({
-        url: `${Config.API_URL}register`,
+        url: `${Config.API_URL}forgot-password`,
         method: 'POST',
         data: params,
       });
@@ -180,6 +182,17 @@ const Authslice = createSlice({
       })
       .addCase(getTrustAuthorization.rejected, (state, action) => {
         state.loginloader = 'not loaded';
+      })
+      .addCase(forgetPassword.pending, (state, action) => {
+        state.forgetPasswordLoader = true;
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.forgetPasswordLoader = false;
+        state.forgetData = action?.payload;
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.forgetPasswordLoader = false;
+        state.forgetPasswordError = action?.payload;
       });
   },
 });

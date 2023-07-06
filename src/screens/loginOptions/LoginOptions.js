@@ -24,6 +24,9 @@ import {
 import {userLogin} from '../../redux/auth.slice';
 import {useDispatch} from 'react-redux';
 import {getFCMToken} from '../../services/firebaseServices';
+import {signUp} from '../createAccountScreen';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import LocationInput from '../../LocationInput';
 
 const LoginOptions = props => {
   const dispatch = useDispatch();
@@ -33,6 +36,41 @@ const LoginOptions = props => {
       setFcmToken(token);
     });
   }, []);
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com',
+    });
+  }, []);
+
+  const signUp = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signOut();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('Google Auth Value', userInfo?.user);
+      if (userInfo) {
+        let params = {
+          email: userInfo?.user?.email,
+          device_type: Platform.OS,
+          device_token: fcmToken,
+          login_type: 'google',
+          name: userInfo?.user?.name,
+          google_id: userInfo?.user?.id,
+        };
+        dispatch(userLogin(params));
+      }
+    } catch (error) {
+      //  console.log('error', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      } else {
+      }
+    }
+  };
+
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -193,9 +231,7 @@ const LoginOptions = props => {
           width={241}
           height={51}
           marginHorizontal={20}
-          onPress={() => {
-            Alert.alert('rrr');
-          }}
+          onPress={signUp}
         />
         {Platform.OS === 'ios' && (
           <Custombutton2
@@ -238,12 +274,11 @@ const LoginOptions = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   headline: {
     textAlign: 'center',
-    // fontWeight: 'bold',
     fontFamily: 'Cabin-Bold',
     fontSize: 18,
     marginTop: 10,
