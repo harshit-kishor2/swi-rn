@@ -15,6 +15,7 @@ import Custombutton from '../../components/Button1';
 import {styles} from './style';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
+import {fire} from 'react-native-alertbox';
 
 const VideoimageScreen = () => {
   const [selectedImage, setSelectedImage] = useState();
@@ -23,13 +24,78 @@ const VideoimageScreen = () => {
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
     if (permissionStatus) {
-      Alert.alert('profile picture', 'choose option', [
-        {text: 'Camera', onPress: camera},
-        {text: 'gallery', onPress: gallary},
-        // {text: 'cancel', onPress: () => {}},
-        {text: 'videofromgallary', onPress: videofromgallary},
-      ]);
+      // Alert.alert('profile picture', 'choose option', [
+      //   {text: 'Camera', onPress: camera},
+      //   {text: 'gallery', onPress: gallary},
+      //   // {text: 'cancel', onPress: () => {}},
+      //   {text: 'videofromgallary', onPress: videofromgallary},
+      // ]);
+      fire({
+        title: 'Choose Mode',
+        // message: 'seclect mode',
+        actions: [
+          {
+            text: 'camera',
+            onPress: cameramode,
+          },
+          // {
+          //   text: 'video',
+          //   onPress: videofromgallary,
+          // },
+          {
+            text: 'gallary',
+            onPress: gallarymode,
+          },
+          {
+            text: 'ok',
+            style: 'cancel',
+          },
+        ],
+      });
     }
+  };
+
+  const cameramode = () => {
+    fire({
+      title: 'Message',
+      message: 'seclect mode',
+      actions: [
+        {
+          text: 'photo',
+          onPress: camera,
+        },
+        {
+          text: 'video',
+          onPress: videoFromcamera,
+        },
+
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+    });
+  };
+  const gallarymode = () => {
+    fire({
+      title: 'Message',
+      message: 'seclect mode',
+      actions: [
+        {
+          text: 'photo',
+          onPress: gallary,
+        },
+        {
+          text: 'video',
+          onPress: videofromgallary,
+        },
+
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+    });
   };
 
   const camera = () => {
@@ -39,6 +105,14 @@ const VideoimageScreen = () => {
       cropping: true,
     }).then(image => {
       console.log('------4-----', image);
+      setImagePath(img => [...img, image]);
+    });
+  };
+  const videoFromcamera = () => {
+    ImageCropPicker.openCamera({
+      mediaType: 'video',
+    }).then(image => {
+      console.log(image);
       setImagePath(img => [...img, image]);
     });
   };
@@ -58,7 +132,7 @@ const VideoimageScreen = () => {
       mediaType: 'video',
     }).then(video => {
       console.log('video', video);
-      setImagePath(video);
+      setImagePath(img => [...img, video]);
     });
   };
   const handleImagePress = image => {
@@ -136,18 +210,18 @@ const VideoimageScreen = () => {
   );
 };
 
-const DATA = [
-  IMAGES.Rectangle91,
+// const DATA = [
+//   IMAGES.Rectangle91,
 
-  IMAGES.Rectangle2,
+//   IMAGES.Rectangle2,
 
-  IMAGES.Rectangle31,
+//   IMAGES.Rectangle31,
 
-  IMAGES.Rectangle32,
+//   IMAGES.Rectangle32,
 
-  IMAGES.Rectangle33,
+//   IMAGES.Rectangle33,
 
-  IMAGES.Rectangle91,
-];
+//   IMAGES.Rectangle91,
+// ];
 
 export default VideoimageScreen;

@@ -26,6 +26,7 @@ import {useDispatch} from 'react-redux';
 import {getFCMToken} from '../../services/firebaseServices';
 import {signUp} from '../createAccountScreen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import LocationInput from '../../LocationInput';
 
 const LoginOptions = props => {
   const dispatch = useDispatch();
