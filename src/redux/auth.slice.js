@@ -34,6 +34,7 @@ export const userSignup = createAsyncThunk(
       console.log('SignUp response', response);
       return response;
     } catch (error) {
+      console.log('error from user sign up', error);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -124,8 +125,17 @@ const Authslice = createSlice({
       })
       .addCase(userSignup.fulfilled, (state, action) => {
         state.userData = action.payload;
-
-        console.log('registration', action.payload);
+        console.log('registration', action);
+        fire({
+          title: action.payload?.status == 200 ? 'Success' : 'Error',
+          message: action.payload.message,
+          actions: [
+            {
+              text: 'Ok',
+              style: 'cancel',
+            },
+          ],
+        });
       })
       .addCase(userSignup.rejected, (state, action) => {
         state.signuploader = 'not loaded';
@@ -138,15 +148,11 @@ const Authslice = createSlice({
           state.loginSuccess = true;
           state.loginloader = 'loaded';
           AsyncStorage.setItem('Token', action.payload?.token);
-          console.log('TOKEN', action.payload?.token);
-
           api.defaults.headers.common.Authorization = `Bearer ${action.payload?.token}`;
-
           AsyncStorage.setItem(
             'User_id',
             JSON.stringify(action.payload.data?.id),
           );
-
           state.profile = action.payload;
           state.tokenlogin = 'true';
         } else {
@@ -166,6 +172,16 @@ const Authslice = createSlice({
       })
       .addCase(userLogin.rejected, (state, action) => {
         state.loginloader = 'not loaded';
+        fire({
+          title: 'Error',
+          message: action.payload?.response?.data?.message,
+          actions: [
+            {
+              text: 'Ok',
+              style: 'cancel',
+            },
+          ],
+        });
       })
       .addCase(getTrustAuthorization.pending, (state, action) => {
         state.loginloader = 'loading';

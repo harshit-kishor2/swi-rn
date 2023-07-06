@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, Pressable, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {GLOBAL_STYLES} from 'res';
-import {COLORS, FONTS, TYPOGRAPHY} from '../resources';
+import {COLORS, FONTS, SPACING, TYPOGRAPHY} from '../resources';
 
 const NavigationBar = ({
   backgroundColor,
@@ -13,6 +13,7 @@ const NavigationBar = ({
   rightSource,
   flexDirection,
   txtcolor,
+  mainStyle,
 }) => {
   const pressedStyle = ({pressed}) => [
     {
@@ -29,6 +30,7 @@ const NavigationBar = ({
           backgroundColor: backgroundColor,
           flexDirection: flexDirection ?? null,
         },
+        mainStyle,
       ]}>
       <Pressable onPress={leftAction} hitSlop={30} style={pressedStyle}>
         {leftSource && <Image source={leftSource} style={styles.backButton} />}
@@ -51,7 +53,7 @@ const NavigationBar = ({
 
 const styles = StyleSheet.create({
   mainView: {
-    height: 44,
+    height: SPACING.SCALE_44,
     alignItems: 'center',
 
     justifyContent: 'space-between',

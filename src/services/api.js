@@ -29,6 +29,9 @@ api.interceptors.response.use(
       case 500:
         console.log('500');
         break;
+      case 422:
+        console.log('422');
+        break;
       case 401:
         console.log('401');
         break;
@@ -41,6 +44,7 @@ api.interceptors.response.use(
       default:
         break;
     }
+    return Promise.reject(error);
   },
 );
 
