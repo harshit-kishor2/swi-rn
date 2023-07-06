@@ -134,26 +134,26 @@ const Authslice = createSlice({
         state.loginloader = 'loading';
       })
       .addCase(userLogin.fulfilled, (state, action) => {
-        if (action.payload?.status === 200) {
+        if (action.payload?.success) {
           state.loginSuccess = true;
           state.loginloader = 'loaded';
-          AsyncStorage.setItem('Token', action.payload?.token);
+          AsyncStorage.setItem('Token', action.payload?.data?.token);
           console.log('TOKEN', action.payload?.token);
 
-          api.defaults.headers.common.Authorization = `Bearer ${action.payload?.token}`;
+          api.defaults.headers.common.Authorization = `Bearer ${action.payload?.data?.token}`;
 
           AsyncStorage.setItem(
             'User_id',
             JSON.stringify(action.payload.data?.id),
           );
 
-          state.profile = action.payload;
+          state.profile = action.payload?.data;
           state.tokenlogin = 'true';
         } else {
           console.log('error response', action.payload?.message);
           state.loginloader = 'not loaded';
           fire({
-            title: 'Error',
+            title: 'Message',
             message: action.payload.message,
             actions: [
               {
