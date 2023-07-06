@@ -11,7 +11,9 @@ const initialState = {
   signuploader: 'not loaded',
   loginloader: 'not loaded',
   profileloader: 'not loaded',
-  forgetloader: false,
+  forgetPasswordLoader: false,
+  forgetData: {},
+  forgetPasswordError: null,
   registrationSuccess: false,
   loginSuccess: false,
   userData: null,
@@ -24,14 +26,14 @@ const initialState = {
 export const userSignup = createAsyncThunk(
   'auth/userSignup',
   async (params, thunkAPI) => {
-    console.log('first', params);
+    // console.log('first', params);
     try {
       const response = await api({
         url: `${Config.API_URL}register`,
         method: 'POST',
         data: params,
       });
-      console.log('SignUp response', response);
+      // console.log('SignUp response', response);
       return response;
     } catch (error) {
       console.log('error from user sign up', error);
@@ -85,7 +87,7 @@ export const forgetPassword = createAsyncThunk(
     console.log('forgetPasswordData', params);
     try {
       const response = await api({
-        url: `${Config.API_URL}register`,
+        url: `${Config.API_URL}forgot-password`,
         method: 'POST',
         data: params,
       });
@@ -144,22 +146,26 @@ const Authslice = createSlice({
         state.loginloader = 'loading';
       })
       .addCase(userLogin.fulfilled, (state, action) => {
-        if (action.payload?.status === 200) {
+        if (action.payload?.success) {
           state.loginSuccess = true;
           state.loginloader = 'loaded';
-          AsyncStorage.setItem('Token', action.payload?.token);
-          api.defaults.headers.common.Authorization = `Bearer ${action.payload?.token}`;
+          AsyncStorage.setItem('Token', action.payload?.data?.token);
+          console.log('TOKEN', action.payload?.token);
+
+          api.defaults.headers.common.Authorization = `Bearer ${action.payload?.data?.token}`;
+
           AsyncStorage.setItem(
             'User_id',
             JSON.stringify(action.payload.data?.id),
           );
-          state.profile = action.payload;
+
+          state.profile = action.payload?.data;
           state.tokenlogin = 'true';
         } else {
           console.log('error response', action.payload?.message);
           state.loginloader = 'not loaded';
           fire({
-            title: 'Error',
+            title: 'Message',
             message: action.payload.message,
             actions: [
               {
@@ -196,6 +202,17 @@ const Authslice = createSlice({
       })
       .addCase(getTrustAuthorization.rejected, (state, action) => {
         state.loginloader = 'not loaded';
+      })
+      .addCase(forgetPassword.pending, (state, action) => {
+        state.forgetPasswordLoader = true;
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.forgetPasswordLoader = false;
+        state.forgetData = action?.payload;
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.forgetPasswordLoader = false;
+        state.forgetPasswordError = action?.payload;
       });
   },
 });

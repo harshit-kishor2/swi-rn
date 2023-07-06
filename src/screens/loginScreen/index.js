@@ -18,6 +18,7 @@ import {userLogin} from '../../redux/auth.slice';
 import {Formik} from 'formik';
 import G_Recaptcha from '../../components/Recaptcha';
 import {getFCMToken} from '../../services/firebaseServices';
+import LocationInput from '../../LocationInput';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const LoginScreen = props => {
               <Text style={styles.headline}>Welcome!</Text>
               <Text style={styles.subheadline}>Sign in to your account</Text>
             </View>
-            <View style={{marginTop: 40}}>
+            <View style={{marginTop: '10%'}}>
               <CustomTextInput
                 icon={IMAGES.Email}
                 placeholder={'Enter email address'}
@@ -78,7 +79,9 @@ const LoginScreen = props => {
                   Setemail(e);
                 }}
                 value={formik.values.email}
+                autoCapitalize={false}
               />
+              <View style={{height: 20}} />
               <CustomTextInput
                 secureTextEntry={true}
                 icon={IMAGES.Lock1}
@@ -90,6 +93,7 @@ const LoginScreen = props => {
                 value={formik.values.password}
               />
             </View>
+            <LocationInput />
             <View
               style={{alignSelf: 'flex-end', marginRight: 50, marginTop: 10}}>
               <TouchableOpacity>
@@ -106,7 +110,7 @@ const LoginScreen = props => {
               </TouchableOpacity>
             </View>
 
-            <G_Recaptcha />
+            {/* <G_Recaptcha /> */}
             <View
               style={{flexDirection: 'row', margin: 50, alignSelf: 'center'}}>
               <Text
@@ -133,7 +137,7 @@ const LoginScreen = props => {
             </View>
 
             <Custombutton
-              title="Confirm"
+              title="Sign in"
               marginTop={80}
               height={51}
               width={241}
@@ -177,8 +181,8 @@ const LoginScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    // alignItems: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headline: {
     textAlign: 'center',

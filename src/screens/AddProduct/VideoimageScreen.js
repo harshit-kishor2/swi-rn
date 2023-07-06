@@ -15,21 +15,87 @@ import Custombutton from '../../components/Button1';
 import {styles} from './style';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
+import {fire} from 'react-native-alertbox';
 
 const VideoimageScreen = ({NextPress}) => {
-  const [selectedImage, setSelectedImage] = useState(DATA[0]);
-  const [Imagepath, SetImagepath] = useState([]);
+  const [selectedImage, setSelectedImage] = useState();
+  const [imagePath, setImagePath] = useState([]);
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
     if (permissionStatus) {
-      Alert.alert('profile picture', 'choose option', [
-        {text: 'Camera', onPress: camera},
-        {text: 'gallery', onPress: gallary},
-        // {text: 'cancel', onPress: () => {}},
-        {text: 'videofromgallary', onPress: videofromgallary},
-      ]);
+      // Alert.alert('profile picture', 'choose option', [
+      //   {text: 'Camera', onPress: camera},
+      //   {text: 'gallery', onPress: gallary},
+      //   // {text: 'cancel', onPress: () => {}},
+      //   {text: 'videofromgallary', onPress: videofromgallary},
+      // ]);
+      fire({
+        title: 'Choose Mode',
+        // message: 'seclect mode',
+        actions: [
+          {
+            text: 'camera',
+            onPress: cameramode,
+          },
+          // {
+          //   text: 'video',
+          //   onPress: videofromgallary,
+          // },
+          {
+            text: 'gallary',
+            onPress: gallarymode,
+          },
+          {
+            text: 'ok',
+            style: 'cancel',
+          },
+        ],
+      });
     }
+  };
+
+  const cameramode = () => {
+    fire({
+      title: 'Message',
+      message: 'seclect mode',
+      actions: [
+        {
+          text: 'photo',
+          onPress: camera,
+        },
+        {
+          text: 'video',
+          onPress: videoFromcamera,
+        },
+
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+    });
+  };
+  const gallarymode = () => {
+    fire({
+      title: 'Message',
+      message: 'seclect mode',
+      actions: [
+        {
+          text: 'photo',
+          onPress: gallary,
+        },
+        {
+          text: 'video',
+          onPress: videofromgallary,
+        },
+
+        {
+          text: 'ok',
+          style: 'cancel',
+        },
+      ],
+    });
   };
 
   const camera = () => {
@@ -38,10 +104,19 @@ const VideoimageScreen = ({NextPress}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log('------4-----', image.path);
-      SetImagepath(image);
+      console.log('------4-----', image);
+      setImagePath(img => [...img, image]);
     });
   };
+  const videoFromcamera = () => {
+    ImageCropPicker.openCamera({
+      mediaType: 'video',
+    }).then(image => {
+      console.log(image);
+      setImagePath(img => [...img, image]);
+    });
+  };
+  console.log(imagePath);
   const gallary = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -49,7 +124,7 @@ const VideoimageScreen = ({NextPress}) => {
       cropping: true,
     }).then(image => {
       console.log('----------->>>>>>>>>>', image);
-      SetImagepath(image);
+      setImagePath(img => [...img, image]);
     });
   };
   const videofromgallary = () => {
@@ -57,7 +132,7 @@ const VideoimageScreen = ({NextPress}) => {
       mediaType: 'video',
     }).then(video => {
       console.log('video', video);
-      SetImagepath(video);
+      setImagePath(img => [...img, video]);
     });
   };
   const handleImagePress = image => {
@@ -74,7 +149,7 @@ const VideoimageScreen = ({NextPress}) => {
           <Text>Please upload Image of max 10mb</Text>
         </View>
         <View style={styles.bigImageContainer}>
-          <Image source={selectedImage} style={styles.bigImage} />
+          <Image source={{uri: selectedImage?.path}} style={styles.bigImage} />
         </View>
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
@@ -85,19 +160,24 @@ const VideoimageScreen = ({NextPress}) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.smallImagesContainer}>
-          {DATA.map((image, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleImagePress(image)}>
-              <View
-                style={[
-                  // styles.smallImageWrapper,
-                  selectedImage === image && styles.selectedImageWrapper,
-                ]}>
-                <Image source={image} style={styles.smallImage} />
-              </View>
-            </TouchableOpacity>
-          ))}
+          {imagePath
+            ? imagePath?.map((image, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleImagePress(image)}>
+                  <View
+                    style={[
+                      // styles.smallImageWrapper,
+                      selectedImage === image && styles.selectedImageWrapper,
+                    ]}>
+                    <Image
+                      source={{uri: image.path}}
+                      style={styles.smallImage}
+                    />
+                  </View>
+                </TouchableOpacity>
+              ))
+            : null}
           <TouchableOpacity onPress={uploadImage}>
             <View style={styles.addbtn}>
               <Image source={IMAGES.imageAdd} />
@@ -119,18 +199,18 @@ const VideoimageScreen = ({NextPress}) => {
   );
 };
 
-const DATA = [
-  IMAGES.Rectangle91,
+// const DATA = [
+//   IMAGES.Rectangle91,
 
-  IMAGES.Rectangle2,
+//   IMAGES.Rectangle2,
 
-  IMAGES.Rectangle31,
+//   IMAGES.Rectangle31,
 
-  IMAGES.Rectangle32,
+//   IMAGES.Rectangle32,
 
-  IMAGES.Rectangle33,
+//   IMAGES.Rectangle33,
 
-  IMAGES.Rectangle91,
-];
+//   IMAGES.Rectangle91,
+// ];
 
 export default VideoimageScreen;

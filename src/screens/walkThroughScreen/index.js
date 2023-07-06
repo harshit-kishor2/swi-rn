@@ -24,15 +24,13 @@ const WalkThroughScreen = props => {
 
   const [page, setPage] = useState(0);
 
-  const skipFunction = (props) => {
+  const skipFunction = props => {
     props.navigation.navigate('CreateAccountScreen');
     // console.log("=>>",props)
   };
 
   return (
-    <>
-      <StatusBar barStyle="light-content" />
-      {/* <StoryScreen> */}
+    <StoryScreen>
       <View
         style={{flexDirection: 'row', marginTop: 15, paddingHorizontal: 20}}>
         {(page === 1 || page === 2) && (
@@ -45,7 +43,14 @@ const WalkThroughScreen = props => {
         )}
 
         {(page === 0 || page === 1) && (
-          <View style={{marginLeft: SPACING.SCALE_290}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '97%',
+            }}>
+            <View></View>
             <Pressable
               onPress={() => {
                 skipFunction(props);
@@ -56,209 +61,226 @@ const WalkThroughScreen = props => {
         )}
       </View>
       <SafeAreaView style={{flex: 1}}>
-        {/* <ScrollView
-          style={{flex: SPACING.SCALE_1}}
-          horizontal={true}
-          showsHorizontalScrollIndicator={true}
-          scrollEventThrottle={0}
-          pagingEnabled={true}
-          
-          > */}
-        {page === 0 && (
-          <View style={{width, height}}>
-            <View style={styles.wrapper}>
-              <Text style={styles.header}>Luxury Watches</Text>
-              <Text style={styles.paragraph}>
-                Erat neque facilisi pharetra et habitant posuere. Id tortor nisl
-                eu scelerisque tempor orci sit. Egestas mus sapien duis vel nec
-                pellentesque sit et convallis{' '}
-              </Text>
-            </View>
-            <View style={styles.imageSizeStyle}>
-              <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
-            </View>
-
+        <ScrollView>
+          {page === 0 && (
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
-               marginTop:SPACING.SCALE_20
-              }}>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  backgroundColor: '#00958C',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-            </View>
-            <Pressable
-              onPress={() => {
-                setPage(1);
-              }}>
-              <View style={styles.submitStyle}>
-                <Text style={styles.bg_button}>Next</Text>
-              </View>
-            </Pressable>
-           
-          </View>
-        )}
-        {page === 1 && (
-          <View style={{width, height}}>
-            <View style={styles.imageSizeStyle}>
-              <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
-            </View>
-            <View style={styles.wrapper}>
-              <Text style={styles.header}>Buy and Sell</Text>
-              <Text style={styles.paragraph}>
-                Erat neque facilisi pharetra et habitant posuere. Id tortor nisl
-                eu sceler isque tempor orci sit.{' '}
-              </Text>
-            </View>
+                alignItems: 'center',
+                justifyContent: 'center',
 
+                flex: 1,
+              }}>
+              <View style={styles.wrapper}>
+                <Text style={styles.header}>Luxury Watches</Text>
+                <Text style={styles.paragraph}>
+                  Erat neque facilisi pharetra et habitant posuere. Id tortor
+                  nisl eu scelerisque tempor orci sit. Egestas mus sapien duis
+                  vel nec pellentesque sit et convallis{' '}
+                </Text>
+              </View>
+              <View style={styles.imageSizeStyle}>
+                <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
+              </View>
+
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  marginTop: SPACING.SCALE_20,
+                }}>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    backgroundColor: '#00958C',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
+              </View>
+              <Pressable
+                onPress={() => {
+                  setPage(1);
+                }}>
+                <View style={styles.submitStyle}>
+                  <Text style={styles.bg_button}>Next</Text>
+                </View>
+              </Pressable>
+            </View>
+          )}
+          {page === 1 && (
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
-               marginTop:SPACING.SCALE_20
+                alignItems: 'center',
+                justifyContent: 'center',
+
+                flex: 1,
               }}>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#00958C',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-            </View>
-            <Pressable
-              onPress={() => {
-                setPage(2);
-              }}>
-              <View style={styles.submitStyle}>
-                <Text style={styles.bg_button}>Next</Text>
+              <View style={styles.imageSizeStyle}>
+                <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
               </View>
-            </Pressable>
-            
-          </View>
-        )}
-        {page === 2 && (
-          <View style={{width, height}}>
-            <View style={styles.wrapper}>
-              <Text style={styles.header}>Features</Text>
-              <Text style={styles.paragraph}>
-                Lorem ipsum dolor sit amet consectetur amet
-              </Text>
-            </View>
-            <View style={{}}>
-              <View style={styles.outer}>
-                <Image source={IMAGES.Rectangle31} style={styles.imageStyle1} />
-
-                <Text style={styles.paragraph1}>
-                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                  pharetra et
+              <View style={styles.wrapper}>
+                <Text style={styles.header}>Buy and Sell</Text>
+                <Text style={styles.paragraph}>
+                  Erat neque facilisi pharetra et habitant posuere. Id tortor
+                  nisl eu sceler isque tempor orci sit.{' '}
                 </Text>
               </View>
-              <View style={styles.outer}>
-                <Image source={IMAGES.Rectangle32} style={styles.imageStyle1} />
 
-                <Text style={styles.paragraph1}>
-                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                  pharetra et
-                </Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  marginTop: SPACING.SCALE_20,
+                }}>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#00958C',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
               </View>
-              <View style={styles.outer}>
-                <Image source={IMAGES.Rectangle33} style={styles.imageStyle1} />
-
-                <Text style={styles.paragraph1}>
-                  Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
-                  pharetra et
-                </Text>
-              </View>
+              <Pressable
+                onPress={() => {
+                  setPage(2);
+                }}>
+                <View style={styles.submitStyle}>
+                  <Text style={styles.bg_button}>Next</Text>
+                </View>
+              </Pressable>
             </View>
-
+          )}
+          {page === 2 && (
             <View
               style={{
-                display: 'flex',
-                flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
-                marginTop: SPACING.SCALE_20,
-              }}>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#D9D9D9',
-                }}></View>
-              <View
-                style={{
-                  height: SPACING.SCALE_6,
-                  width: SPACING.SCALE_6,
-                  borderRadius: SPACING.SCALE_3,
-                  marginLeft: SPACING.SCALE_5,
-                  backgroundColor: '#00958C',
-                }}></View>
-            </View>
+                alignItems: 'center',
+                justifyContent: 'center',
 
-            <Pressable
-              onPress={() => {
-                skipFunction(props);
+                flex: 1,
               }}>
-              <View style={styles.submitStyle}>
-                <Text style={styles.bg_button}>Get Started</Text>
+              <View style={styles.wrapper}>
+                <Text style={styles.header}>Features</Text>
+                <Text style={styles.paragraph}>
+                  Lorem ipsum dolor sit amet consectetur amet
+                </Text>
               </View>
-            </Pressable>
-          </View>
-        )}
-        {/* </ScrollView> */}
+              <View style={{}}>
+                <View style={styles.outer}>
+                  <Image
+                    source={IMAGES.Rectangle31}
+                    style={styles.imageStyle1}
+                  />
+
+                  <Text style={styles.paragraph1}>
+                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                    pharetra et
+                  </Text>
+                </View>
+                <View style={styles.outer}>
+                  <Image
+                    source={IMAGES.Rectangle32}
+                    style={styles.imageStyle1}
+                  />
+
+                  <Text style={styles.paragraph1}>
+                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                    pharetra et
+                  </Text>
+                </View>
+                <View style={styles.outer}>
+                  <Image
+                    source={IMAGES.Rectangle33}
+                    style={styles.imageStyle1}
+                  />
+
+                  <Text style={styles.paragraph1}>
+                    Lorem ipsum dolor sit amet consectetur. Erat neque facilisi
+                    pharetra et
+                  </Text>
+                </View>
+              </View>
+
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignSelf: 'center',
+                  justifyContent: 'center',
+                  marginTop: SPACING.SCALE_20,
+                }}>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#D9D9D9',
+                  }}></View>
+                <View
+                  style={{
+                    height: SPACING.SCALE_6,
+                    width: SPACING.SCALE_6,
+                    borderRadius: SPACING.SCALE_3,
+                    marginLeft: SPACING.SCALE_5,
+                    backgroundColor: '#00958C',
+                  }}></View>
+              </View>
+
+              <Pressable
+                onPress={() => {
+                  skipFunction(props);
+                }}>
+                <View style={styles.submitStyle}>
+                  <Text style={styles.bg_button}>Get Started</Text>
+                </View>
+              </Pressable>
+            </View>
+          )}
+        </ScrollView>
       </SafeAreaView>
-      {/* </StoryScreen> */}
-    </>
+    </StoryScreen>
   );
 };
 
@@ -284,7 +306,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: TYPOGRAPHY.FONT_SIZE_35,
     //fontWeight: '700',
-    marginTop: SPACING.SCALE_5,
+    //marginTop: SPACING.SCALE_5,
     marginBottom: SPACING.SCALE_20,
     fontFamily: 'Cabin-Bold',
     color: COLORS.BLACK,
@@ -303,9 +325,9 @@ const styles = StyleSheet.create({
     // marginRight: SPACING.SCALE_30,
     // borderRadius: SPACING.SCALE_30,
     // backgroundColor:'red'
-    justifyContent:'center',
-    alignSelf:'center',
-    marginTop:20
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
   },
   submitStyle: {
     height: 51,
@@ -330,9 +352,10 @@ const styles = StyleSheet.create({
   },
   textStyle1: {
     fontFamily: 'OpenSans-Bold',
-    // fontWeight: 'bold',
+
     color: COLORS.HYPERLINK,
     fontSize: TYPOGRAPHY.FONT_SIZE_15,
+    alignSelf: 'flex-end',
   },
   outer: {
     // display: 'flex',

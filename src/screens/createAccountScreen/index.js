@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
@@ -155,130 +156,137 @@ const CreateAccountScreen = props => {
 
   return (
     <StoryScreen>
-      <NavigationBar
-        leftSource={IMAGES.BACKARROW}
-        leftAction={() => {
-          console.log('first');
-          props.navigation.navigate('WalkThroughScreen');
-        }}
-        flexDirection="row"
-      />
-      <View style={styles.container}>
-        <View style={styles.topBox}>
-          <Text style={styles.headline}>Hello there!</Text>
-          <Text style={styles.subheadline}>Create Your Account</Text>
-        </View>
-        <Custombutton
-          title="Sign up via Email"
-          marginTop={50}
-          height={51}
-          width={241}
-          marginHorizontal={20}
-          onPress={() => {
-            props.navigation.navigate('SignupScreen');
+      <ScrollView>
+        <NavigationBar
+          leftSource={IMAGES.BACKARROW}
+          leftAction={() => {
+            console.log('first');
+            props.navigation.navigate('WalkThroughScreen');
           }}
+          flexDirection="row"
         />
-        <Custombutton
-          title="Sign up via Singpass"
-          marginTop={13}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={() => {
-            Alert.alert('rrr');
-          }}
-        />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 50,
-            marginLeft: 80,
-            marginRight: 80,
-          }}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-          <View>
-            <Text
-              style={{
-                width: 25,
-                textAlign: 'center',
-                color: '#00958C',
-                fontSize: 16,
-                fontFamily: 'Cabin-Bold',
-              }}>
-              Or
-            </Text>
+        <View style={styles.container}>
+          <View style={styles.topBox}>
+            <Text style={styles.headline}>Hello there!</Text>
+            <Text style={styles.subheadline}>Create Your Account</Text>
           </View>
-          <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-        </View>
-        <Custombutton2
-          title={'Sign up with Facebook'}
-          marginTop={50}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={() => {
-            LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-              async function (result) {
-                if (result.isCancelled) {
-                  console.log('SignUp Cancelled');
-                } else {
-                  let token = await AccessToken.getCurrentAccessToken();
-                  if (token) {
-                    getInfoFromToken(token);
-                  }
-                  console.log('You have Registered In Successfully');
-                }
-              },
-              function (error) {
-                alert('Login failed with error: ' + error);
-              },
-            );
-          }}
-        />
-        <Custombutton2
-          title={'Sign up with Google'}
-          marginTop={15}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={signUp}
-        />
-        {Platform.OS === 'ios' && (
+          <Custombutton
+            title="Sign up via Email"
+            marginTop={50}
+            height={51}
+            width={241}
+            marginHorizontal={20}
+            onPress={() => {
+              props.navigation.navigate('SignupScreen');
+            }}
+          />
+          <Custombutton
+            title="Sign up via Singpass"
+            marginTop={13}
+            width={241}
+            height={51}
+            marginHorizontal={20}
+            onPress={() => {
+              Alert.alert('rrr');
+            }}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 50,
+              marginLeft: 80,
+              marginRight: 80,
+            }}>
+            <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+            <View>
+              <Text
+                style={{
+                  width: 25,
+                  textAlign: 'center',
+                  color: '#00958C',
+                  fontSize: 16,
+                  fontFamily: 'Cabin-Bold',
+                }}>
+                Or
+              </Text>
+            </View>
+            <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
+          </View>
           <Custombutton2
-            title={'Sign up with Apple ID'}
+            title={'Sign up with Facebook'}
+            marginTop={50}
+            width={241}
+            height={51}
+            marginHorizontal={20}
+            onPress={() => {
+              LoginManager.logInWithPermissions([
+                'public_profile',
+                'email',
+              ]).then(
+                async function (result) {
+                  if (result.isCancelled) {
+                    console.log('SignUp Cancelled');
+                  } else {
+                    let token = await AccessToken.getCurrentAccessToken();
+                    if (token) {
+                      getInfoFromToken(token);
+                    }
+                    console.log('You have Registered In Successfully');
+                  }
+                },
+                function (error) {
+                  alert('Login failed with error: ' + error);
+                },
+              );
+            }}
+          />
+          <Custombutton2
+            title={'Sign up with Google'}
             marginTop={15}
             width={241}
             height={51}
             marginHorizontal={20}
-            onPress={onAppleButtonPress}
+            onPress={signUp}
           />
-        )}
+          {Platform.OS === 'ios' && (
+            <Custombutton2
+              title={'Sign up with Apple ID'}
+              marginTop={15}
+              width={241}
+              height={51}
+              marginHorizontal={20}
+              onPress={onAppleButtonPress}
+            />
+          )}
 
-        <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
-          <Text
-            style={{
-              fontSize: 14,
-              color: '#4E4E4E',
-              fontFamily: 'OpenSans-Regular',
-            }}>
-            Already have an account?
-          </Text>
-          <TouchableOpacity style={{marginLeft: 4}}>
+          <View style={{flexDirection: 'row', marginTop: SPACING.SCALE_25}}>
             <Text
               style={{
                 fontSize: 14,
-                color: '#00958C',
+                color: '#4E4E4E',
                 fontFamily: 'OpenSans-Regular',
-              }}
-              onPress={() => {
-                props.navigation.navigate('LoginOptions');
               }}>
-              Sign In now
+              Already have an account?
             </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={{marginLeft: 4}}>
+            <TouchableOpacity style={{marginLeft: 4}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: '#00958C',
+                  fontFamily: 'OpenSans-Regular',
+                }}
+                onPress={() => {
+                  props.navigation.navigate('LoginOptions');
+                }}>
+                Sign In now
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {
+            // code for notification screen navigation
+          }
+          {/* <TouchableOpacity style={{marginLeft: 4}}>
           <Text
             style={{
               fontSize: 14,
@@ -290,8 +298,9 @@ const CreateAccountScreen = props => {
             }}>
             NotificationScreen
           </Text>
-        </TouchableOpacity>
-      </View>
+        </TouchableOpacity> */}
+        </View>
+      </ScrollView>
     </StoryScreen>
   );
 };
@@ -299,8 +308,9 @@ const CreateAccountScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+
     alignItems: 'center',
+    justifyContent: 'center',
   },
   headline: {
     textAlign: 'center',
