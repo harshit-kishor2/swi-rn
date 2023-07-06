@@ -5,8 +5,9 @@ import {
   Alert,
   Button,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {IMAGES, SPACING} from '../../resources';
@@ -14,8 +15,24 @@ import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {appleAuth} from '@invertase/react-native-apple-authentication';
 import jwt_decode from 'jwt-decode';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager,
+} from 'react-native-fbsdk-next';
+import {userLogin} from '../../redux/auth.slice';
+import {useDispatch} from 'react-redux';
+import {getFCMToken} from '../../services/firebaseServices';
 
 const LoginOptions = props => {
+  const dispatch = useDispatch();
+  const [fcmToken, setFcmToken] = useState();
+  useEffect(() => {
+    getFCMToken().then(token => {
+      setFcmToken(token);
+    });
+  }, []);
   // Apple log in code
   async function onAppleButtonPress() {
     // performs login request
@@ -58,6 +75,34 @@ const LoginOptions = props => {
     //   // user is authenticated
     // }
   }
+  const getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id, name,  email',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, result) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          console.log('result:', result);
+          let params = {
+            email: result?.email,
+            device_type: Platform.OS,
+            device_token: fcmToken,
+            login_type: 'google',
+            name: result?.name,
+            facebook_id: result?.id,
+          };
+          dispatch(userLogin(params));
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
 
   return (
     <StoryScreen>
@@ -124,7 +169,22 @@ const LoginOptions = props => {
           height={51}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('rrr');
+            LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+              async function (result) {
+                if (result.isCancelled) {
+                  console.log('SignUp Cancelled');
+                } else {
+                  let token = await AccessToken.getCurrentAccessToken();
+                  if (token) {
+                    getInfoFromToken(token);
+                  }
+                  console.log('You have Registered In Successfully');
+                }
+              },
+              function (error) {
+                alert('Login failed with error: ' + error);
+              },
+            );
           }}
         />
         <Custombutton2

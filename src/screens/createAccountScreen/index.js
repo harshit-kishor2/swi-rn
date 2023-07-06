@@ -97,6 +97,15 @@ const CreateAccountScreen = props => {
           console.log('login info has error: ' + error);
         } else {
           console.log('result:', result);
+          let params = {
+            email: result?.email,
+            device_type: Platform.OS,
+            device_token: fcmToken,
+            login_type: 'google',
+            name: result?.name,
+            facebook_id: result?.id,
+          };
+          dispatch(userLogin(params));
         }
       },
     );
