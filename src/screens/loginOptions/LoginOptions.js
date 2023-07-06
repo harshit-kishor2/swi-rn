@@ -178,12 +178,11 @@ const LoginOptions = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   headline: {
     textAlign: 'center',
-    // fontWeight: 'bold',
     fontFamily: 'Cabin-Bold',
     fontSize: 18,
     marginTop: 10,

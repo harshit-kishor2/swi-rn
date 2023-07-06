@@ -255,7 +255,7 @@ const ExploreScreen = () => {
 
   return (
     <StoryScreen NoPadding={true}>
-      <View style={{}}>
+      <View>
         <View style={styles.searchViewStyle}>
           <Search
             width={SPACING.SCALE_300}

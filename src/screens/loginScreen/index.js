@@ -175,8 +175,8 @@ const LoginScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    // alignItems: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headline: {
     textAlign: 'center',

@@ -24,7 +24,7 @@ const WalkThroughScreen = props => {
 
   const [page, setPage] = useState(0);
 
-  const skipFunction = (props) => {
+  const skipFunction = props => {
     props.navigation.navigate('CreateAccountScreen');
     // console.log("=>>",props)
   };
@@ -65,7 +65,13 @@ const WalkThroughScreen = props => {
           
           > */}
         {page === 0 && (
-          <View style={{width, height}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+
+              flex: 1,
+            }}>
             <View style={styles.wrapper}>
               <Text style={styles.header}>Luxury Watches</Text>
               <Text style={styles.paragraph}>
@@ -82,9 +88,9 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
-               marginTop:SPACING.SCALE_20
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginTop: SPACING.SCALE_20,
               }}>
               <View
                 style={{
@@ -118,11 +124,16 @@ const WalkThroughScreen = props => {
                 <Text style={styles.bg_button}>Next</Text>
               </View>
             </Pressable>
-           
           </View>
         )}
         {page === 1 && (
-          <View style={{width, height}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+
+              flex: 1,
+            }}>
             <View style={styles.imageSizeStyle}>
               <Image source={IMAGES.Rectangle2} style={styles.imageStyle} />
             </View>
@@ -138,9 +149,9 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
-               marginTop:SPACING.SCALE_20
+                alignSelf: 'center',
+                justifyContent: 'center',
+                marginTop: SPACING.SCALE_20,
               }}>
               <View
                 style={{
@@ -174,11 +185,16 @@ const WalkThroughScreen = props => {
                 <Text style={styles.bg_button}>Next</Text>
               </View>
             </Pressable>
-            
           </View>
         )}
         {page === 2 && (
-          <View style={{width, height}}>
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+
+              flex: 1,
+            }}>
             <View style={styles.wrapper}>
               <Text style={styles.header}>Features</Text>
               <Text style={styles.paragraph}>
@@ -216,8 +232,8 @@ const WalkThroughScreen = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-               alignSelf:'center',
-               justifyContent:'center',
+                alignSelf: 'center',
+                justifyContent: 'center',
                 marginTop: SPACING.SCALE_20,
               }}>
               <View
@@ -284,7 +300,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: TYPOGRAPHY.FONT_SIZE_35,
     //fontWeight: '700',
-    marginTop: SPACING.SCALE_5,
+    //marginTop: SPACING.SCALE_5,
     marginBottom: SPACING.SCALE_20,
     fontFamily: 'Cabin-Bold',
     color: COLORS.BLACK,
@@ -303,9 +319,9 @@ const styles = StyleSheet.create({
     // marginRight: SPACING.SCALE_30,
     // borderRadius: SPACING.SCALE_30,
     // backgroundColor:'red'
-    justifyContent:'center',
-    alignSelf:'center',
-    marginTop:20
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
   },
   submitStyle: {
     height: 51,
