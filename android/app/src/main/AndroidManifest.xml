@@ -2,13 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-<<<<<<< HEAD
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove"/>
-=======
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 <uses-feature android:name="android.hardware.camera.front" android:required="false" />
->>>>>>> fb60088a5a08ebb6a20afd63ce4e8a2103cef936
 
     <application
       android:name=".MainApplication"

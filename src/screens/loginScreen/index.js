@@ -6,18 +6,18 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
-import { COLORS, IMAGES, SPACING } from '../../resources';
+import {COLORS, IMAGES, SPACING} from '../../resources';
 
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
-import { useDispatch, useSelector } from 'react-redux';
-import { userLogin } from '../../redux/auth.slice';
-import { Formik } from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {userLogin} from '../../redux/auth.slice';
+import {Formik} from 'formik';
 import G_Recaptcha from '../../components/Recaptcha';
-import { getFCMToken } from '../../services/firebaseServices';
+import {getFCMToken} from '../../services/firebaseServices';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const LoginScreen = props => {
               <Text style={styles.headline}>Welcome!</Text>
               <Text style={styles.subheadline}>Sign in to your account</Text>
             </View>
-            <View style={{ marginTop: 40 }}>
+            <View style={{marginTop: 40}}>
               <CustomTextInput
                 icon={IMAGES.Email}
                 placeholder={'Enter email address'}
@@ -88,18 +88,25 @@ const LoginScreen = props => {
                 value={formik.values.password}
               />
             </View>
-            <View style={{ alignSelf: 'flex-end', marginRight: 50, marginTop: 10 }}>
+            <View
+              style={{alignSelf: 'flex-end', marginRight: 50, marginTop: 10}}>
               <TouchableOpacity>
-                <Text style={{ fontFamily: 'OpenSans-Regular', color: COLORS.HYPERLINK }}   onPress={() => {
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-Regular',
+                    color: COLORS.HYPERLINK,
+                  }}
+                  onPress={() => {
                     props.navigation.navigate('ForgetPassword');
-                  }}>Forgot password?</Text>
-
+                  }}>
+                  Forgot password?
+                </Text>
               </TouchableOpacity>
             </View>
 
-
             <G_Recaptcha />
-            <View style={{ flexDirection: 'row', margin: 50, alignSelf: 'center' }}>
+            <View
+              style={{flexDirection: 'row', margin: 50, alignSelf: 'center'}}>
               <Text
                 style={{
                   fontSize: 14,
@@ -108,7 +115,7 @@ const LoginScreen = props => {
                 }}>
                 I agree to the
               </Text>
-              <TouchableOpacity style={{ marginLeft: 4 }}>
+              <TouchableOpacity style={{marginLeft: 4}}>
                 <Text
                   style={{
                     fontSize: 14,
@@ -131,7 +138,12 @@ const LoginScreen = props => {
               marginHorizontal={SPACING.SCALE_50}
               onPress={formik.handleSubmit}
             />
-            <View style={{ flexDirection: 'row', marginTop: 30, alignSelf: 'center' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 30,
+                alignSelf: 'center',
+              }}>
               <Text
                 style={{
                   fontSize: 14,
@@ -140,7 +152,7 @@ const LoginScreen = props => {
                 }}>
                 Don’t have an account yet?
               </Text>
-              <TouchableOpacity style={{ marginLeft: 4 }}>
+              <TouchableOpacity style={{marginLeft: 4}}>
                 <Text
                   style={{
                     fontSize: 14,
@@ -154,10 +166,7 @@ const LoginScreen = props => {
                 </Text>
               </TouchableOpacity>
             </View>
-
-
           </View>
-
         </StoryScreen>
       )}
     </Formik>

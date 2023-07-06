@@ -89,22 +89,17 @@ export const exploreTrendyWatchesListing = createAsyncThunk(
 // product addition in wishlist
 export const addWishlist = createAsyncThunk(
   'explore/addWishlist',
-  async ({product_id, user_id}, thunkAPI) => {
-    console.log('WishListadding---- ', product_id, user_id);
+  async ({product_id, index}, thunkAPI) => {
     try {
       const response = await api({
-        url: `${Config.API_URL}add-wishlist`,
+        url: `${Config.API_URL}add-wishlist/${product_id}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
         },
-        params: {
-          product_id: product_id,
-          user_id: user_id,
-        },
       });
       console.log('product added in wishlist', response);
-      return response;
+      return {response, index};
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -159,11 +154,17 @@ const exploreSlice = createSlice({
       })
       .addCase(addWishlist.fulfilled, (state, action) => {
         state.productAddWishListLoading = false;
-        console.log(action.payload, 'WISHLIST RESPONSE');
-        state.productAddWishListData = action?.payload;
+        state.productAddWishListData = action?.payload?.response;
+        if (
+          state.products.data.data[action.payload.index].isInWishlist == true
+        ) {
+          state.products.data.data[action.payload.index].isInWishlist = false;
+        } else {
+          state.products.data.data[action.payload.index].isInWishlist = true;
+        }
+
         fire({
-          title: 'Product added in wishlist.',
-          message: action.payload.message,
+          message: action.payload.response.message,
           actions: [
             {
               text: 'Ok',

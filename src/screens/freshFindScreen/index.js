@@ -66,56 +66,66 @@ const Item = ({
             <View style={{flexDirection: 'row', marginTop: 5}}>
               <Text
                 style={{
-                  fontFamily: 'OpenSans-SemiBold',
-                  fontSize: SPACING.SCALE_12,
-                  color: COLORS.HYPERLINK,
-                  marginLeft: SPACING.SCALE_6,
+                  fontFamily: 'Cabin-SemiBold',
+                  marginLeft: 2,
+                  color: COLORS.BLACK,
                 }}>
-                {' '}
-                $ {price} .
+                {product_name}
               </Text>
-              <Text
-                style={{
-                  fontFamily: 'Open Sans',
-                  fontSize: 10,
-                  marginTop: 2,
-                  color: COLORS.HYPERLINK,
-                }}>
-                {' '}
-                {condition}
-              </Text>
-            </View>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
-              <View>
-                <Image
-                  source={seller_image}
-                  style={{
-                    height: SPACING.SCALE_17,
-                    width: SPACING.SCALE_17,
-                    marginTop: SPACING.SCALE_5,
-                    marginLeft: SPACING.SCALE_8,
-                  }}
-                />
-              </View>
-              <View>
+              <View style={{flexDirection: 'row', marginTop: 5}}>
                 <Text
                   style={{
                     fontFamily: 'OpenSans-SemiBold',
-                    marginLeft: SPACING.SCALE_10,
+                    fontSize: SPACING.SCALE_12,
+                    color: COLORS.HYPERLINK,
+                    marginLeft: SPACING.SCALE_6,
                   }}>
-                  {seller_name}
+                  {' '}
+                  $ {price} .
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Open Sans',
+                    fontSize: 10,
+                    marginTop: 2,
+                    color: COLORS.HYPERLINK,
+                  }}>
+                  {' '}
+                  {condition}
                 </Text>
               </View>
+              <View style={{flexDirection: 'row', marginTop: 5}}>
+                <View>
+                  <Image
+                    source={seller_image}
+                    style={{
+                      height: SPACING.SCALE_17,
+                      width: SPACING.SCALE_17,
+                      marginTop: SPACING.SCALE_5,
+                      marginLeft: SPACING.SCALE_8,
+                    }}
+                  />
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: 'OpenSans-SemiBold',
+                      marginLeft: SPACING.SCALE_10,
+                    }}>
+                    {seller_name}
+                  </Text>
+                </View>
+              </View>
+              <Text
+                style={{
+                  marginLeft: SPACING.SCALE_7,
+                  fontFamily: 'Open Sans',
+                  fontSize: SPACING.SCALE_8,
+                  marginTop: SPACING.SCALE_10,
+                }}>
+                {posting_day}
+              </Text>
             </View>
-            <Text
-              style={{
-                marginLeft: SPACING.SCALE_7,
-                fontFamily: 'Open Sans',
-                fontSize: SPACING.SCALE_8,
-                marginTop: SPACING.SCALE_10,
-              }}>
-              {posting_day}
-            </Text>
           </View>
         </View>
       </TouchableOpacity>
