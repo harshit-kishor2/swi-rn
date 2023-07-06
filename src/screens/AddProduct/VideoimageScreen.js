@@ -17,8 +17,8 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
 
 const VideoimageScreen = () => {
-  const [selectedImage, setSelectedImage] = useState(DATA[0]);
-  const [Imagepath, SetImagepath] = useState([]);
+  const [selectedImage, setSelectedImage] = useState();
+  const [imagePath, setImagePath] = useState([]);
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
@@ -38,10 +38,11 @@ const VideoimageScreen = () => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log('------4-----', image.path);
-      SetImagepath(image);
+      console.log('------4-----', image);
+      setImagePath(img => [...img, image]);
     });
   };
+  console.log(imagePath);
   const gallary = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -49,7 +50,7 @@ const VideoimageScreen = () => {
       cropping: true,
     }).then(image => {
       console.log('----------->>>>>>>>>>', image);
-      SetImagepath(image);
+      setImagePath(img => [...img, image]);
     });
   };
   const videofromgallary = () => {
@@ -57,7 +58,7 @@ const VideoimageScreen = () => {
       mediaType: 'video',
     }).then(video => {
       console.log('video', video);
-      SetImagepath(video);
+      setImagePath(video);
     });
   };
   const handleImagePress = image => {
@@ -85,7 +86,7 @@ const VideoimageScreen = () => {
           <Text>Please upload Image of max 10mb</Text>
         </View>
         <View style={styles.bigImageContainer}>
-          <Image source={selectedImage} style={styles.bigImage} />
+          <Image source={{uri: selectedImage?.path}} style={styles.bigImage} />
         </View>
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
@@ -96,19 +97,24 @@ const VideoimageScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.smallImagesContainer}>
-          {DATA.map((image, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleImagePress(image)}>
-              <View
-                style={[
-                  // styles.smallImageWrapper,
-                  selectedImage === image && styles.selectedImageWrapper,
-                ]}>
-                <Image source={image} style={styles.smallImage} />
-              </View>
-            </TouchableOpacity>
-          ))}
+          {imagePath
+            ? imagePath?.map((image, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleImagePress(image)}>
+                  <View
+                    style={[
+                      // styles.smallImageWrapper,
+                      selectedImage === image && styles.selectedImageWrapper,
+                    ]}>
+                    <Image
+                      source={{uri: image.path}}
+                      style={styles.smallImage}
+                    />
+                  </View>
+                </TouchableOpacity>
+              ))
+            : null}
           <TouchableOpacity onPress={uploadImage}>
             <View style={styles.addbtn}>
               <Image source={IMAGES.imageAdd} />

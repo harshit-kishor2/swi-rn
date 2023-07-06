@@ -24,14 +24,14 @@ const initialState = {
 export const userSignup = createAsyncThunk(
   'auth/userSignup',
   async (params, thunkAPI) => {
-    console.log('first', params);
+    // console.log('first', params);
     try {
       const response = await api({
         url: `${Config.API_URL}register`,
         method: 'POST',
         data: params,
       });
-      console.log('SignUp response', response);
+      // console.log('SignUp response', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
