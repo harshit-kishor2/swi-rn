@@ -99,7 +99,6 @@ const SignupScreen = props => {
                 <View>
                   <Text
                     style={{
-                      marginLeft: SPACING.SCALE__110,
                       color: COLORS.DANGER,
                     }}>
                     {formik.errors.name && formik.touched.name
@@ -117,7 +116,6 @@ const SignupScreen = props => {
                 <View>
                   <Text
                     style={{
-                      marginLeft: SPACING.SCALE__110,
                       color: COLORS.DANGER,
                     }}>
                     {formik.errors.email && formik.touched.email
@@ -141,7 +139,6 @@ const SignupScreen = props => {
                 <View>
                   <Text
                     style={{
-                      marginLeft: SPACING.SCALE__110,
                       color: COLORS.DANGER,
                     }}>
                     {formik.errors.password && formik.touched.password
@@ -160,7 +157,6 @@ const SignupScreen = props => {
                 <View>
                   <Text
                     style={{
-                      marginLeft: SPACING.SCALE__110,
                       color: COLORS.DANGER,
                     }}>
                     {formik.errors.confirmPassword &&

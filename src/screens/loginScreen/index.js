@@ -131,7 +131,7 @@ const LoginScreen = props => {
             </View>
 
             <Custombutton
-              title="Confirm"
+              title="Sign in"
               marginTop={80}
               height={51}
               width={241}

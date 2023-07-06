@@ -97,6 +97,15 @@ const CreateAccountScreen = props => {
           console.log('login info has error: ' + error);
         } else {
           console.log('result:', result);
+          let params = {
+            email: result?.email,
+            device_type: Platform.OS,
+            device_token: fcmToken,
+            login_type: 'google',
+            name: result?.name,
+            facebook_id: result?.id,
+          };
+          dispatch(userLogin(params));
         }
       },
     );
@@ -269,7 +278,10 @@ const CreateAccountScreen = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity style={{marginLeft: 4}}>
+        {
+          // code for notification screen navigation
+        }
+        {/* <TouchableOpacity style={{marginLeft: 4}}>
           <Text
             style={{
               fontSize: 14,
@@ -281,7 +293,7 @@ const CreateAccountScreen = props => {
             }}>
             NotificationScreen
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </StoryScreen>
   );
