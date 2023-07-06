@@ -70,6 +70,7 @@ const CreateAccountScreen = props => {
             login_type: 'facebook',
             device_token: fcmToken,
             device_type: Platform.OS,
+            facebook_id: result?.id,
           };
           dispatch(userLogin(params));
         }
