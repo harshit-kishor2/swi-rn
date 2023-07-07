@@ -42,3 +42,26 @@ export const LocationImage = require('../assets/images/LocationImage.png');
 export const priceChartImage = require('../assets/images/priceChartImage.png');
 export const CompareImage = require('../assets/images/CompareImage.png');
 
+export const dropDownIcon = require('../assets/images/dropDownIcon.jpg');
+export const calendarIcon = require('../assets/images/calendar.png');
+export const dropIcon = require('../assets/images/dropIcon.png');
+export const maleIcon = require('../assets/images/maleIcon.png');
+export const femaleIcon = require('../assets/images/femaleIcon.png');
+export const unisexIcon = require('../assets/images/unisexIcon.png');
+export const tickIcon = require('../assets/images/tickIcon.png');
+export const locationIcon = require('../assets/images/locationIcon.png');
+
+/// User Profile Screen Images
+
+export const ProfileBadge = require('../assets/images/ProfileBadge.png');
+export const check = require('../assets/images/check.png');
+export const cross = require('../assets/images/cross.png');
+export const coin = require('../assets/images/coin.png');
+export const about = require('../assets/images/about.png');
+export const settings = require('../assets/images/settings.png');
+export const Dollar = require('../assets/images/Dollar.png');
+export const userPic = require('../assets/images/userPic.png');
+export const Favorite = require('../assets/images/Favorite.png');
+export const Arrow = require('../assets/images/Arrow.png');
+export const logout = require('../assets/images/logout.png');
+export const UserProfile1 = require('../assets/images/UserProfile1.png');

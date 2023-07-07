@@ -20,19 +20,18 @@ export const styles = StyleSheet.create({
     width: SPACING.SCALE_300,
     color: COLORS.HEADER_TEXT,
   },
-  //videoimageScreen
-  prograssive: {
+  progressive: {
     height: 6,
-    width: SPACING.SCALE_115,
+    width: '30%',
     borderRadius: 3,
     backgroundColor: COLORS.HYPERLINK,
   },
-  prograssiveMain: {
+  progressiveMain: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginTop: 10,
   },
-  prograssiveNo: {
+  progressiveNo: {
     color: COLORS.HYPERLINK,
     marginRight: 10,
     fontFamily: 'OpenSans-Regular',
@@ -106,7 +105,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderStyle: 'dashed',
-    borderRadius: 10,
     borderWidth: 1,
     borderColor: 'grey',
   },
@@ -119,5 +117,13 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: SPACING.SCALE_290,
     borderRadius: SPACING.SCALE_10,
+  },
+  formDetailsStyle: {
+    backgroundColor: '#F0F2FA',
+    marginTop: SPACING.SCALE_30,
+    flexGrow: 1,
+    paddingHorizontal: SPACING.SCALE_25,
+    paddingTop: SPACING.SCALE_25,
+    marginBottom: 30,
   },
 });

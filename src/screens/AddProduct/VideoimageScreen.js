@@ -18,7 +18,7 @@ import {AndroidCameraPermission} from '../../../androidcamerapermission';
 import {fire} from 'react-native-alertbox';
 import Video from 'react-native-video';
 
-const VideoimageScreen = () => {
+const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
   console.log('selectedImage', selectedImage);
@@ -98,7 +98,11 @@ const VideoimageScreen = () => {
       cropping: true,
     }).then(image => {
       console.log('------4-----', image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('Image size exceed 5MB');
+      }
     });
   };
   const videoFromcamera = () => {
@@ -106,7 +110,11 @@ const VideoimageScreen = () => {
       mediaType: 'video',
     }).then(image => {
       console.log(image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('video length exceed 5MB');
+      }
     });
   };
   console.log(imagePath);
@@ -117,7 +125,11 @@ const VideoimageScreen = () => {
       cropping: true,
     }).then(image => {
       console.log('----------->>>>>>>>>>', image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('Image size exceed 5MB');
+      }
     });
   };
   const videofromgallary = () => {
@@ -138,17 +150,6 @@ const VideoimageScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={styles.subheading}>
-          You are few step away to post your watch
-        </Text>
-        <Text style={styles.prograssiveNo}>1/3</Text>
-      </View>
-      <View style={styles.prograssiveMain}>
-        <View style={[styles.prograssive]}></View>
-        <View style={[styles.prograssive, {opacity: 0.25}]}></View>
-        <View style={[styles.prograssive, {opacity: 0.25}]}></View>
-      </View>
       <ScrollView style={{}}>
         <View style={{marginTop: 30}}>
           <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 16}}>
@@ -218,7 +219,7 @@ const VideoimageScreen = () => {
           width={335}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('hello');
+            NextPress();
           }}
         />
       </ScrollView>

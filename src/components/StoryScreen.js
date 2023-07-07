@@ -10,7 +10,7 @@ import {
 import {SPACING} from '../resources';
 
 const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
-const StoryScreen = ({children, loading, loaderColor, NoPadding}) => {
+const StoryScreen = ({style, children, loading, loaderColor, NoPadding}) => {
   return (
     <React.Fragment>
       <StatusBar
@@ -19,7 +19,7 @@ const StoryScreen = ({children, loading, loaderColor, NoPadding}) => {
         backgroundColor={'#ffffff'}
         translucent={false}
       />
-      <SafeAreaView style={styles.mainContainer}>
+      <SafeAreaView style={[styles.mainContainer, style]}>
         <KeyboardAvoidingView
           style={{
             ...styles.root,

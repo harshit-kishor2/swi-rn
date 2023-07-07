@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {Config} from '../helper/config';
 
-const api = axios.create();
+const api = axios.create({baseURL: Config.API_URL});
 
 // Add a request interceptor
 api.interceptors.request.use(
@@ -29,6 +30,9 @@ api.interceptors.response.use(
       case 500:
         console.log('500');
         break;
+      case 422:
+        console.log('422');
+        break;
       case 401:
         console.log('401');
         break;
@@ -41,6 +45,7 @@ api.interceptors.response.use(
       default:
         break;
     }
+    return Promise.reject(error);
   },
 );
 
