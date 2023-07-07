@@ -45,8 +45,9 @@ const LoginScreen = props => {
         email: email,
         password: password,
         device_type: Platform.OS,
-        // change it when not required
-        device_token: 'gfgghkdfkgkkjdfhghdk',
+        device_token:
+          fcmToken ??
+          'fLGQET6mQf6CrLeM92-nJk:APA91bF40_bI50dwtl8OugWTzdC1-qOin4v86uQMG9TVMqbwlbOemdzEAwyTTR0-Ui_enREiNz6FaGvP_NLCVnbTsxyJQzVQY28F0K8D66hyd3tDVUZgXkbUU-sVHGFYGMYK1k-saFrX',
         login_type: '',
         name: '',
       }}

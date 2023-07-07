@@ -39,7 +39,7 @@ import fonts from '../../resources/fonts';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const ExploreScreen = () => {
+const ExploreScreen = props => {
   const flatListRef = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(1); // Current page of data
@@ -192,7 +192,7 @@ const ExploreScreen = () => {
               <Text
                 style={{
                   fontWeight: '400',
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'OpenSans-Regular',
                   fontSize: 12,
                   marginTop: 2,
                   color: COLORS.APPGREEN,
@@ -229,7 +229,7 @@ const ExploreScreen = () => {
             <Text
               style={{
                 marginLeft: 10,
-                fontFamily: 'Open Sans',
+                fontFamily: 'OpenSans-Regular',
                 fontSize: 8,
                 marginTop: 13,
               }}>
@@ -254,6 +254,7 @@ const ExploreScreen = () => {
       id={item.id}
       onPress={() => {
         // Handle item press
+        props.navigation.navigate('ProductDetails');
       }}
       wishListPress={() => {
         dispatch(
