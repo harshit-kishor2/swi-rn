@@ -10,6 +10,7 @@ import React, {useState} from 'react';
 import {styles} from './style';
 import {COLORS, IMAGES} from '../../resources';
 import Custombutton from '../../components/Button1';
+import LocationInput from '../../LocationInput';
 
 const genderType = [
   {name: 'Male', icon: IMAGES.maleIcon, id: 1},
@@ -962,15 +963,14 @@ const FormDetails = ({NextPress}) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
+                  // backgroundColor: 'red',
                 }}>
-                <TextInput
+                {/* <TextInput
                   style={{marginBottom: 16, marginTop: 8, flex: 1}}
                   value={indicateGem}
                   onChangeText={e => setIndicateGem(e)}
-                />
+                /> */}
+                <LocationInput />
                 <Image source={IMAGES.locationIcon} resizeMode={'contain'} />
               </View>
             </View>

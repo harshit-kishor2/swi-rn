@@ -21,6 +21,10 @@ const initialState = {
   productAddWishListLoading: loadingStatus.NOT_LOADED,
   productAddWishListError: null,
   productAddWishListData: {},
+  //state for product detail
+  productDetailLoading: loadingStatus.NOT_LOADED,
+  productDetailData: {},
+  productDetailError: null,
 };
 
 //  exploreProducts API
@@ -28,7 +32,7 @@ const initialState = {
 export const exploreProductListing = createAsyncThunk(
   'explore/Products',
   async ({page, keyWord}, thunkAPI) => {
-    console.log('page---- ', page, keyWord);
+    // console.log('page---- ', page, keyWord);
     try {
       const response = await api({
         url: `${Config.API_URL}products-list`,
@@ -41,7 +45,7 @@ export const exploreProductListing = createAsyncThunk(
           keyWord: keyWord,
         },
       });
-      console.log('Explore Product Listing', response);
+      // console.log('Explore Product Listing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -60,7 +64,7 @@ export const exploreBannerListing = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('Explore Banner Listing', response);
+      // console.log('Explore Banner Listing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -79,7 +83,7 @@ export const exploreTrendyWatchesListing = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('TrendyWatchesListing', response);
+      // console.log('TrendyWatchesListing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -99,13 +103,35 @@ export const addWishlist = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('product added in wishlist', response);
+      // console.log('product added in wishlist', response);
       return {response, index};
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   },
 );
+
+// Product detail api call
+export const exploreProductDetail = createAsyncThunk(
+  'explore/ProductDetail',
+  async ({product_id}, thunkAPI) => {
+    console.log('page---- ', product_id);
+    try {
+      const response = await api({
+        url: `${Config.API_URL}product-details/${product_id}`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      console.log('Explore Product detail', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 const exploreSlice = createSlice({
   name: 'exploreSlice',
   initialState,
@@ -118,9 +144,9 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreProductListing.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
+        // console.log(action.payload);
         state.products = action?.payload;
-        console.log('state.products', state.products);
+        // console.log('state.products', state.products);
       })
       .addCase(exploreProductListing.rejected, (state, action) => {
         state.loading = false;
@@ -131,7 +157,7 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreBannerListing.fulfilled, (state, action) => {
         state.bannerLoading = false;
-        console.log(action.payload, 'sdnns');
+        // console.log(action.payload, 'sdnns');
         state.bannerList = action?.payload;
       })
       .addCase(exploreBannerListing.rejected, (state, action) => {
@@ -143,7 +169,7 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreTrendyWatchesListing.fulfilled, (state, action) => {
         state.trendyWatchesProductsLoading = false;
-        console.log(action.payload, 'Trendy watches');
+        // console.log(action.payload, 'Trendy watches');
         state.trendyWatchesProducts = action?.payload;
       })
       .addCase(exploreTrendyWatchesListing.rejected, (state, action) => {
@@ -177,6 +203,19 @@ const exploreSlice = createSlice({
       .addCase(addWishlist.rejected, (state, action) => {
         state.productAddWishListLoading = false;
         state.productAddWishListError = action?.payload;
+      })
+      .addCase(exploreProductDetail.pending, state => {
+        state.productDetailLoading = true;
+      })
+      .addCase(exploreProductDetail.fulfilled, (state, action) => {
+        state.productDetailLoading = false;
+        console.log(action.payload, 'mmmmmmmm');
+        state.productDetailData = action?.payload;
+        console.log(state.productDetailData, 'gggg');
+      })
+      .addCase(exploreProductDetail.rejected, (state, action) => {
+        state.productDetailLoading = false;
+        state.productDetailError = action?.payload;
       });
   },
 });

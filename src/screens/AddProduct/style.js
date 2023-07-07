@@ -114,6 +114,5 @@ export const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: SPACING.SCALE_25,
     paddingTop: SPACING.SCALE_25,
-    marginBottom: 30,
   },
 });
