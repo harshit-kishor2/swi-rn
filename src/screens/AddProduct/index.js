@@ -7,11 +7,23 @@ import {styles} from './style';
 import VideoimageScreen from './VideoimageScreen';
 import FormDetails from './FormDetails';
 import SetPriceScreen from './SetPriceScreen';
+import {useDispatch, connect} from 'react-redux';
+import {
+  productBrandData,
+  productBrandLoading,
+  productDropdownLoading,
+  productModelData,
+  productModelLoading,
+} from '../../redux/addProduct.slice';
 
 const SellScreen = props => {
   const [formNumber, setFormNumber] = useState('1');
   return (
-    <StoryScreen NoPadding={true}>
+    <StoryScreen
+      NoPadding={true}
+      loading={
+        props.dropdownLoading || props.brandLoading || props.modelLoading
+      }>
       <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
@@ -52,7 +64,11 @@ const SellScreen = props => {
         {formNumber == 1 ? (
           <VideoimageScreen NextPress={() => setFormNumber('2')} />
         ) : formNumber == 2 ? (
-          <FormDetails NextPress={() => setFormNumber('3')} />
+          <FormDetails
+            NextPress={() => setFormNumber('3')}
+            brandData={props.brandData}
+            modelData={props.modelData}
+          />
         ) : (
           <SetPriceScreen />
         )}
@@ -60,5 +76,12 @@ const SellScreen = props => {
     </StoryScreen>
   );
 };
+const mapStateToProps = state => ({
+  dropdownLoading: productDropdownLoading(state),
+  brandLoading: productBrandLoading(state),
+  brandData: productBrandData(state),
+  modelData: productModelData(state),
+  modelLoading: productModelLoading(state),
+});
 
-export default SellScreen;
+export default connect(mapStateToProps)(SellScreen);
