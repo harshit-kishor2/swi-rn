@@ -16,32 +16,25 @@ import {styles} from './style';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
 import {fire} from 'react-native-alertbox';
+import Video from 'react-native-video';
 
 const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
+  console.log('selectedImage', selectedImage);
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
     if (permissionStatus) {
-      // Alert.alert('profile picture', 'choose option', [
-      //   {text: 'Camera', onPress: camera},
-      //   {text: 'gallery', onPress: gallary},
-      //   // {text: 'cancel', onPress: () => {}},
-      //   {text: 'videofromgallary', onPress: videofromgallary},
-      // ]);
       fire({
         title: 'Choose Mode',
-        // message: 'seclect mode',
+
         actions: [
           {
             text: 'camera',
             onPress: cameramode,
           },
-          // {
-          //   text: 'video',
-          //   onPress: videofromgallary,
-          // },
+
           {
             text: 'gallary',
             onPress: gallarymode,
@@ -105,7 +98,11 @@ const VideoimageScreen = ({NextPress}) => {
       cropping: true,
     }).then(image => {
       console.log('------4-----', image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('Image size exceed 5MB');
+      }
     });
   };
   const videoFromcamera = () => {
@@ -113,7 +110,11 @@ const VideoimageScreen = ({NextPress}) => {
       mediaType: 'video',
     }).then(image => {
       console.log(image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('video length exceed 5MB');
+      }
     });
   };
   console.log(imagePath);
@@ -124,7 +125,11 @@ const VideoimageScreen = ({NextPress}) => {
       cropping: true,
     }).then(image => {
       console.log('----------->>>>>>>>>>', image);
-      setImagePath(img => [...img, image]);
+      if (image?.size <= 5242880) {
+        setImagePath(img => [...img, image]);
+      } else {
+        Alert.alert('Image size exceed 5MB');
+      }
     });
   };
   const videofromgallary = () => {
@@ -132,7 +137,11 @@ const VideoimageScreen = ({NextPress}) => {
       mediaType: 'video',
     }).then(video => {
       console.log('video', video);
-      setImagePath(img => [...img, video]);
+      if (video?.size <= 5242880) {
+        setImagePath(img => [...img, video]);
+      } else {
+        Alert.alert('video length exceed 5MB');
+      }
     });
   };
   const handleImagePress = image => {
@@ -149,7 +158,26 @@ const VideoimageScreen = ({NextPress}) => {
           <Text>Please upload Image of max 10mb</Text>
         </View>
         <View style={styles.bigImageContainer}>
-          <Image source={{uri: selectedImage?.path}} style={styles.bigImage} />
+          {selectedImage?.mime === 'video/mp4' ? (
+            <Video
+              controls={true}
+              source={{uri: selectedImage?.path}}
+              style={styles.backgroundVideo}
+              resizeMode="contain"
+            />
+          ) : (
+            <Image
+              source={{uri: selectedImage?.path}}
+              style={styles.bigImage}
+            />
+          )}
+          {/* <Video
+            controls={true}
+            source={{uri: selectedImage?.path}}
+            style={styles.backgroundVideo}
+            resizeMode="contain"
+          />
+          <Image source={{uri: selectedImage?.path}} style={styles.bigImage} /> */}
         </View>
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>

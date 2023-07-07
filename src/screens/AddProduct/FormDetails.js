@@ -13,6 +13,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {styles} from './style';
 import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import Custombutton from '../../components/Button1';
+import LocationInput from '../../LocationInput';
 import {connect, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {
@@ -923,15 +924,14 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
+                  // backgroundColor: 'red',
                 }}>
-                <TextInput
+                {/* <TextInput
                   style={{marginBottom: 16, marginTop: 8, flex: 1}}
                   value={indicateGem}
                   onChangeText={e => setIndicateGem(e)}
-                />
+                /> */}
+                <LocationInput />
                 <Image source={IMAGES.locationIcon} resizeMode={'contain'} />
               </View>
             </View>

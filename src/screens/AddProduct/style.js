@@ -108,12 +108,21 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
   },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'white',
+    height: SPACING.SCALE_290,
+    borderRadius: SPACING.SCALE_10,
+  },
   formDetailsStyle: {
     backgroundColor: '#F0F2FA',
     marginTop: SPACING.SCALE_30,
     flexGrow: 1,
     paddingHorizontal: SPACING.SCALE_25,
     paddingTop: SPACING.SCALE_25,
-    marginBottom: 30,
   },
 });

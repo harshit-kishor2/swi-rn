@@ -35,12 +35,12 @@ const ForgetPassword = props => {
   const {forgetPasswordLoader, forgetData, forgetPasswordError} = useSelector(
     state => state.AuthReducer,
   );
-  console.log(
-    forgetPasswordLoader,
-    forgetData,
-    forgetPasswordError,
-    'PPPPPPPPPPPP',
-  );
+  // console.log(
+  //   forgetPasswordLoader,
+  //   forgetData,
+  //   forgetPasswordError,
+  //   'PPPPPPPPPPPP',
+  // );
 
   let ForgotValidationSchema = yup.object().shape({
     email: yup
