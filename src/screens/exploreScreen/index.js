@@ -39,7 +39,7 @@ import fonts from '../../resources/fonts';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const ExploreScreen = (props) => {
+const ExploreScreen = () => {
   const flatListRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -214,7 +214,7 @@ const ExploreScreen = (props) => {
             <Text
               style={{
                 marginLeft: 7,
-                fontFamily: 'OpenSans-Regular',
+                fontFamily: 'Open Sans',
                 fontSize: 8,
                 marginTop: 10,
               }}>
@@ -239,7 +239,6 @@ const ExploreScreen = (props) => {
       id={item.id}
       onPress={() => {
         // Handle item press
-        props.navigation.navigate("ProductDetails")
       }}
       wishListPress={() => {
         dispatch(
