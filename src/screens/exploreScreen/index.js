@@ -39,12 +39,12 @@ import fonts from '../../resources/fonts';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const ExploreScreen = () => {
+const ExploreScreen = props => {
   const flatListRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1); // Current page of data
   const [loadingMore, setLoadingMore] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
   const {error, loading, products} = useSelector(
     state => state?.exploreReducer,
@@ -94,17 +94,17 @@ const ExploreScreen = () => {
 
   const dispatch = useDispatch();
 
-  const handleScroll = event => {
-    const contentOffset = event.nativeEvent.contentOffset.x;
-    const contentSize = event.nativeEvent.contentSize.width;
-    const layoutSize = event.nativeEvent.layoutMeasurement.width;
-    const progress = contentOffset / (contentSize - layoutSize);
-    setScrollProgress(progress);
-  };
+  // const handleScroll = event => {
+  //   const contentOffset = event.nativeEvent.contentOffset.x;
+  //   const contentSize = event.nativeEvent.contentSize.width;
+  //   const layoutSize = event.nativeEvent.layoutMeasurement.width;
+  //   const progress = contentOffset / (contentSize - layoutSize);
+  //   setScrollProgress(progress);
+  // };
 
   // code to know End of ScrollView
 
-  //-------------
+  //
   function loadMoreData() {
     console.log('loadmore');
     console.log(products?.data?.last_page);
@@ -166,33 +166,48 @@ const ExploreScreen = () => {
             <Text
               style={{
                 fontFamily: 'OpenSans-SemiBold',
-                marginLeft: 2,
+                marginLeft: 10,
+                marginTop: 8,
                 color: 'black',
               }}>
               {product_name}
             </Text>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}>
               <Text
                 style={{
                   fontFamily: 'OpenSans-SemiBold',
-                  fontSize: 12,
-                  color: 'blue',
+                  fontSize: 13,
+                  color: COLORS.APPGREEN,
                   marginLeft: 6,
+                  fontWeight: '600',
                 }}>
                 {'$'} {price} .
               </Text>
               <Text
                 style={{
+                  fontWeight: '400',
                   fontFamily: 'OpenSans-Regular',
-                  fontSize: 10,
+                  fontSize: 12,
                   marginTop: 2,
-                  color: 'blue',
+                  color: COLORS.APPGREEN,
                 }}>
                 {' '}
                 {condition}
               </Text>
             </View>
-            <View style={{flexDirection: 'row', marginTop: 5}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignItems: 'center',
+                //justifyContent: 'center',
+              }}>
               <View>
                 <Image
                   source={{uri: seller_image}}
@@ -213,10 +228,10 @@ const ExploreScreen = () => {
             </View>
             <Text
               style={{
-                marginLeft: 7,
-                fontFamily: 'Open Sans',
+                marginLeft: 10,
+                fontFamily: 'OpenSans-Regular',
                 fontSize: 8,
-                marginTop: 10,
+                marginTop: 13,
               }}>
               {formatTimestamp(posting_day)}
             </Text>
@@ -239,6 +254,7 @@ const ExploreScreen = () => {
       id={item.id}
       onPress={() => {
         // Handle item press
+        props.navigation.navigate('ProductDetails');
       }}
       wishListPress={() => {
         dispatch(
@@ -252,17 +268,24 @@ const ExploreScreen = () => {
       }}
     />
   );
+  const onSubmitEditing = () => {
+    dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
+    setKeyword('');
+  };
 
   return (
     <StoryScreen NoPadding={true}>
-      <View>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <View style={styles.searchViewStyle}>
           <Search
             width={SPACING.SCALE_300}
             placeholder={'Search By Product/ Brand/ Model'}
             onChange={e => {
-              console.log(e);
+              setKeyword(e);
             }}
+            onSubmitEditing={onSubmitEditing}
+            autoCapitalize={false}
+            value={keyword}
           />
           <Pressable
             onPress={() => {
@@ -283,37 +306,40 @@ const ExploreScreen = () => {
                 ]}
               />
             </View> */}
-        {loading ? (
-          <View style={styles.loader}>
-            <ActivityIndicator size={30} color={COLORS.BLACK} />
-            <CustomText
-              text={'Poducts are loading'}
-              fontColor={fonts.black}
-              fontSize={18}
-            />
-          </View>
-        ) : (
-          <FlatList
-            ListHeaderComponent={header}
-            data={products?.data?.data}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            ref={flatListRef}
-            //onScroll={handleScroll}
-            // scrollEventThrottle={16}
-            contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
-            onEndReached={loadMoreData}
-          />
-        )}
+
+        <FlatList
+          ListHeaderComponent={header}
+          data={products?.data?.data}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          ref={flatListRef}
+          //onScroll={handleScroll}
+          // scrollEventThrottle={16}
+          //contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
+          onEndReached={loadMoreData}
+          ListFooterComponent={() => {
+            {
+              return (
+                loading && (
+                  <ActivityIndicator
+                    style={{marginTop: 20, marginBottom: 150}}
+                    color={'black'}
+                    size={30}
+                  />
+                )
+              );
+            }
+          }}
+        />
       </View>
     </StoryScreen>
   );
 
   function header() {
     return (
-      <>
+      <View>
         {false ? (
           <ActivityIndicator size={20} />
         ) : (
@@ -324,12 +350,13 @@ const ExploreScreen = () => {
             onItemClick={handleItemClick}
           />
         )}
-        <View style={{marginTop: 20}}>
-          <View style={{marginLeft: 18}}>
+        <View style={{}}>
+          <View style={{marginLeft: 18, marginTop: 15}}>
             <CustomText
               text={'Check out trendy watches for you'}
               fontSize={20}
-              fontFamily={'Cabin-Bold'}
+              fontFamily={'Cabin-Medium'}
+              fontColor={COLORS.BLACK}
             />
           </View>
 
@@ -347,8 +374,7 @@ const ExploreScreen = () => {
               keyExtractor={item => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
-              // ref={flatListRef}
-              // onScroll={handleScroll}
+              //onScroll={handleScroll}
               scrollEventThrottle={16}
             />
           ) : (
@@ -369,7 +395,7 @@ const ExploreScreen = () => {
           <View
             style={{
               marginLeft: 18,
-              marginTop: 20,
+              marginTop: 18,
               flexDirection: 'row',
               marginRight: 18,
               justifyContent: 'space-between',
@@ -377,7 +403,7 @@ const ExploreScreen = () => {
             <CustomText
               text={'Top-notch watches'}
               fontSize={20}
-              fontFamily={'Cabin - Bold'}
+              fontFamily={'Cabin-Bold'}
               fontWeight={700}
             />
             <TouchableImage
@@ -390,7 +416,7 @@ const ExploreScreen = () => {
             />
           </View>
         </View>
-      </>
+      </View>
     );
   }
 };

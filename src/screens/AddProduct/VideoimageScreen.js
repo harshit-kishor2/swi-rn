@@ -17,7 +17,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
 import {fire} from 'react-native-alertbox';
 
-const VideoimageScreen = () => {
+const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
 
@@ -141,17 +141,6 @@ const VideoimageScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={styles.subheading}>
-          You are few step away to post your watch
-        </Text>
-        <Text style={styles.prograssiveNo}>1/3</Text>
-      </View>
-      <View style={styles.prograssiveMain}>
-        <View style={[styles.prograssive]}></View>
-        <View style={[styles.prograssive, {opacity: 0.25}]}></View>
-        <View style={[styles.prograssive, {opacity: 0.25}]}></View>
-      </View>
       <ScrollView style={{}}>
         <View style={{marginTop: 30}}>
           <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 16}}>
@@ -202,7 +191,7 @@ const VideoimageScreen = () => {
           width={335}
           marginHorizontal={20}
           onPress={() => {
-            Alert.alert('hello');
+            NextPress();
           }}
         />
       </ScrollView>
