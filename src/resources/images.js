@@ -41,3 +41,4 @@ export const filter = require('../assets/images/filter.png');
 export const LocationImage = require('../assets/images/LocationImage.png');
 export const priceChartImage = require('../assets/images/priceChartImage.png');
 export const CompareImage = require('../assets/images/CompareImage.png');
+

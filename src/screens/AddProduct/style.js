@@ -110,4 +110,14 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
   },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: 'white',
+    height: SPACING.SCALE_290,
+    borderRadius: SPACING.SCALE_10,
+  },
 });

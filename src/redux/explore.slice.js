@@ -28,7 +28,7 @@ const initialState = {
 export const exploreProductListing = createAsyncThunk(
   'explore/Products',
   async ({page}, thunkAPI) => {
-    console.log('page---- ', page);
+ //   console.log('page---- ', page);
     try {
       const response = await api({
         url: `${Config.API_URL}products-list`,
@@ -40,7 +40,7 @@ export const exploreProductListing = createAsyncThunk(
           page: page,
         },
       });
-      console.log('Explore Product Listing', response);
+     // console.log('Explore Product Listing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -59,7 +59,7 @@ export const exploreBannerListing = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('Explore Banner Listing', response);
+     // console.log('Explore Banner Listing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -78,7 +78,7 @@ export const exploreTrendyWatchesListing = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('TrendyWatchesListing', response);
+      //console.log('TrendyWatchesListing', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -98,7 +98,7 @@ export const addWishlist = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('product added in wishlist', response);
+     // console.log('product added in wishlist', response);
       return {response, index};
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -117,9 +117,9 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreProductListing.fulfilled, (state, action) => {
         state.loading = false;
-        console.log(action.payload);
+      //  console.log(action.payload);
         state.products = action?.payload;
-        console.log('state.products', state.products);
+    //    console.log('state.products', state.products);
       })
       .addCase(exploreProductListing.rejected, (state, action) => {
         state.loading = false;
@@ -130,7 +130,7 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreBannerListing.fulfilled, (state, action) => {
         state.bannerLoading = false;
-        console.log(action.payload, 'sdnns');
+     //   console.log(action.payload, 'sdnns');
         state.bannerList = action?.payload;
       })
       .addCase(exploreBannerListing.rejected, (state, action) => {
@@ -142,7 +142,7 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreTrendyWatchesListing.fulfilled, (state, action) => {
         state.trendyWatchesProductsLoading = false;
-        console.log(action.payload, 'Trendy watches');
+     //   console.log(action.payload, 'Trendy watches');
         state.trendyWatchesProducts = action?.payload;
       })
       .addCase(exploreTrendyWatchesListing.rejected, (state, action) => {
