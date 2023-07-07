@@ -5,10 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  FlatList,
+  SafeAreaView,
 } from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
 import {styles} from './style';
-import {COLORS, IMAGES} from '../../resources';
+import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import Custombutton from '../../components/Button1';
 import {connect, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
@@ -22,6 +25,8 @@ import {
   productModelData,
 } from '../../redux/addProduct.slice';
 import Dropdown from './Dropdown';
+import DatePicker from '../../components/DatePicker';
+import moment from 'moment';
 
 const genderType = [
   {name: 'Male', icon: IMAGES.maleIcon, id: 1},
@@ -47,46 +52,33 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   const [factoryGem, setFactoryGem] = useState('');
   const [customType, setCustomType] = useState('');
   const [indicateGem, setIndicateGem] = useState('');
-  const [dial, setDial] = useState('');
+  const [dial, setDial] = useState();
   const [openAdditionalInfo, setOpenAdditionalInfo] = useState(false);
   const [selectedModel, setSelectedModel] = useState({});
   const [selectedBrand, setSelectedBrand] = useState({});
+  const [dropData, setDropData] = useState([]);
+  const [headerTitle, setHeaderTitle] = useState('');
+  const [watchCondition, setWatchCondition] = useState('brand_new');
+  const [date, setDate] = useState();
+  const [certain, setCertain] = useState(false);
+  const [accessories, setAccessories] = useState();
+  const [dialMarker, setDialMarker] = useState({});
+  const [caseSize, setCaseSize] = useState({});
+  const [movement, setMovement] = useState({});
 
   useFocusEffect(
     useCallback(() => {
       dispatch(getProductBrand());
       dispatch(productDropdownAction());
-    }, [dispatch]),
+    }, []),
   );
-
+  // console.log('dropdownData', dropdownData?.data);
   useEffect(() => {
     let params = {
       id: selectedBrand?.id,
     };
     dispatch(getProductModel(params));
-  }, [selectedBrand.id, dispatch]);
-
-  const renderItem = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => {
-          setSelectedBrand(item);
-          setIsModalVisible(false);
-        }}
-        style={{alignItems: 'center'}}>
-        <Text
-          style={{
-            fontFamily: 'Open Sans',
-            fontSize: 16,
-            fontWeight: '400',
-            marginVertical: 8,
-          }}>
-          {item?.name}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
+  }, [selectedBrand]);
 
   return (
     <ScrollView style={styles.formDetailsStyle}>
@@ -98,67 +90,28 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
         }}>
         <View style={{width: '50%'}}>
           <Dropdown
-            animationType="slide"
-            data={brandData?.data}
-            headerTitle={'Select Brand'}
-            transparent={true}
-            isVisible={isModalVisible}
-            dropDownPress={() => setIsModalVisible(!isModalVisible)}
-            onRequestClose={() => setIsModalVisible(false)}
+            dropDownPress={() => {
+              setDropData(brandData?.data);
+              setHeaderTitle('Select Brand');
+              setIsModalVisible(!isModalVisible);
+            }}
             title={'Choose Brand'}
-            keyExtractor={(item, index) => `brand${item.id}`}
             isRequired={true}
             value={selectedBrand?.name}
-            renderItem={renderItem}
           />
         </View>
-        {console.log('brandData?.data', brandData?.data)}
-        {console.log('modelData?.data', modelData?.data)}
         <View style={{width: '50%'}}>
           <Dropdown
-            animationType="slide"
-            extraData={modelData?.data}
-            data={modelData?.data}
-            headerTitle={'Select Model'}
             transparent={true}
-            isVisible={isModalVisible}
-            dropDownPress={() => setIsModalVisible(!isModalVisible)}
-            onRequestClose={() => setIsModalVisible(false)}
+            dropDownPress={() => {
+              setHeaderTitle('Select Model');
+              setDropData(modelData?.data);
+              setIsModalVisible(!isModalVisible);
+            }}
             title={'Choose Model'}
             isRequired={true}
             value={selectedModel?.name}
-            keyExtractor={(item, index) => `model${item.id}`}
-            renderItem={renderItem}
           />
-          {/* <Text
-            style={{
-              color: '#7C7C7C',
-              fontFamily: 'Open Sans',
-              fontSize: 14,
-            }}>
-            <Text style={{color: COLORS.RED}}>*</Text>
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginRight: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: '#00000040',
-              marginTop: 5,
-            }}>
-            <Text
-              style={{
-                marginBottom: 10,
-                color: COLORS.BLACK,
-                fontFamily: 'Open Sans',
-                fontSize: 16,
-              }}>
-              116503
-            </Text>
-            <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-          </View> */}
         </View>
       </View>
       <View
@@ -178,6 +131,7 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
         <TextInput
           style={{marginBottom: 16, marginTop: 8}}
           value={title}
+          maxLength={50}
           onChangeText={e => setTitle(e)}
         />
       </View>
@@ -197,14 +151,19 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
             marginTop: 20,
           }}>
           <TouchableOpacity
+            onPress={() => setWatchCondition('brand_new')}
+            activeOpacity={0.7}
             style={{
-              backgroundColor: '#00958C',
+              backgroundColor:
+                watchCondition === 'brand_new' ? '#00958C' : 'white',
               marginRight: 15,
               borderRadius: 20,
+              borderWidth: 1,
+              borderColor: watchCondition === 'brand_new' ? 'white' : '#00958C',
             }}>
             <Text
               style={{
-                color: '#FFF',
+                color: watchCondition === 'brand_new' ? 'white' : '#00958C',
                 fontFamily: 'Open Sans',
                 fontSize: 14,
                 marginVertical: 7,
@@ -214,15 +173,19 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={() => setWatchCondition('pre_owned')}
+            activeOpacity={0.7}
             style={{
+              backgroundColor:
+                watchCondition === 'pre_owned' ? '#00958C' : 'white',
               marginRight: 15,
               borderRadius: 20,
               borderWidth: 1,
-              borderColor: '#00958C',
+              borderColor: watchCondition === 'pre_owned' ? 'white' : '#00958C',
             }}>
             <Text
               style={{
-                color: '#00958C',
+                color: watchCondition === 'pre_owned' ? 'white' : '#00958C',
                 fontFamily: 'Open Sans',
                 fontSize: 14,
                 marginVertical: 7,
@@ -245,72 +208,76 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
         <View
           style={{
             flexDirection: 'row',
-            width: '100%',
+            width: '50%',
             justifyContent: 'space-between',
             alignItems: 'center',
             marginTop: 8,
           }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottomWidth: 1,
-              paddingBottom: 16,
-              borderBottomColor: '#00000040',
-            }}>
-            <Text
-              style={{color: 'black', fontFamily: 'Open Sans', fontSize: 16}}>
-              Jan, 2023
-            </Text>
-            <Image source={IMAGES.calendarIcon} resizeMode={'contain'} />
-          </View>
+          <DatePicker
+            children={
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flex: 1,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  borderBottomWidth: 1,
+                  paddingBottom: 16,
+                  borderBottomColor: '#00000040',
+                }}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Open Sans',
+                    fontSize: 16,
+                  }}>
+                  {date ? moment(date).format('MMM, YYYY') : 'MMM, YYYY'}
+                </Text>
+                <Image source={IMAGES.calendarIcon} resizeMode={'contain'} />
+              </View>
+            }
+            onChangeDate={e => {
+              setDate(e);
+            }}
+          />
           <View style={{flexDirection: 'row'}}>
-            <View
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => setCertain(!certain)}
               style={{
-                height: 15,
-                width: 15,
+                height: 20,
+                width: 20,
                 borderWidth: 1,
                 borderColor: '#00958C',
+                justifyContent: 'center',
+                alignItems: 'center',
                 marginRight: 10,
                 marginLeft: 36,
-              }}
-            />
+                backgroundColor: certain ? '#00958C' : 'white',
+              }}>
+              {certain ? (
+                <Image
+                  source={IMAGES.tickIcon}
+                  resizeMode={'contain'}
+                  style={{height: 16, width: 16}}
+                />
+              ) : null}
+            </TouchableOpacity>
             <Text>No Certain</Text>
           </View>
         </View>
       </View>
       <View style={{marginTop: 30}}>
-        <Text
-          style={{
-            color: '#7C7C7C',
-            fontFamily: 'Open Sans',
-            fontSize: 14,
-          }}>
-          Accessories <Text style={{color: COLORS.RED}}>*</Text>
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginRight: 10,
-            borderBottomWidth: 1,
-            borderBottomColor: '#00000040',
-            marginTop: 5,
-          }}>
-          <Text
-            style={{
-              marginBottom: 10,
-              color: COLORS.BLACK,
-              fontFamily: 'Open Sans',
-              fontSize: 16,
-            }}>
-            Watch with Original Box
-          </Text>
-          <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-        </View>
+        <Dropdown
+          dropDownPress={() => {
+            setDropData(dropdownData?.data?.ACCESSORIES);
+            setHeaderTitle('Select Accessories');
+            setIsModalVisible(!isModalVisible);
+          }}
+          title={'Accessories'}
+          isRequired={true}
+          value={accessories?.name}
+        />
       </View>
       <View
         style={{
@@ -437,121 +404,60 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
                 justifyContent: 'space-between',
                 marginTop: 35,
               }}>
-              <View
-                style={{
-                  width: '45%',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#00000040',
-                }}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Dial
-                </Text>
-                <TextInput value={dial} onChangeText={e => setDial(e)} />
+              <View style={{width: '45%'}}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.DIAL);
+                    setHeaderTitle('Select Dial');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Dial'}
+                  isRequired={false}
+                  value={dial?.name}
+                />
               </View>
               <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Dial Markers
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    116503
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.DIALMARKERS);
+                    setHeaderTitle('Select Dial Markers');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Dial Markers'}
+                  isRequired={false}
+                  value={dialMarker?.name}
+                />
               </View>
             </View>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: 35,
+                marginTop: 30,
               }}>
               <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Case Size
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    26 mm
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.CASESIZE);
+                    setHeaderTitle('Select Case Size');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Case Size'}
+                  isRequired={false}
+                  value={caseSize?.name}
+                />
               </View>
               <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Movement
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    Automatic
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.MOVEMENT);
+                    setHeaderTitle('Select Movement');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Movement'}
+                  isRequired={false}
+                  value={movement?.name}
+                />
               </View>
             </View>
             <View
@@ -1044,12 +950,85 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
           }}
         />
       </View>
+      <Modal
+        transparent={true}
+        visible={isModalVisible}
+        style={{flex: 1}}
+        onRequestClose={() => setIsModalVisible(false)}>
+        <SafeAreaView style={{flex: 1}}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setIsModalVisible(false)}
+            style={{
+              flex: 1,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              minHeight: SPACING.SCALE_250,
+            }}>
+            <View style={{flex: 1}} />
+          </TouchableOpacity>
+          <FlatList
+            data={dropData}
+            ListHeaderComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginVertical: 15,
+                }}>
+                <Text style={[TYPOGRAPHY.HEADER_TITLE, {color: 'black'}]}>
+                  {headerTitle}
+                </Text>
+              </View>
+            }
+            style={{backgroundColor: 'white', paddingBottom: 20}}
+            keyExtractor={(item, index) => `${item?.id}${index}`}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    if (headerTitle === 'Select Brand') {
+                      setSelectedBrand(item);
+                    } else if (headerTitle === 'Select Accessories') {
+                      setAccessories(item);
+                    } else if (headerTitle === 'Select Dial') {
+                      setDial(item);
+                    } else if (headerTitle === 'Select Dial Markers') {
+                      setDialMarker(item);
+                    } else if (headerTitle === 'Select Case Size') {
+                      setCaseSize(item);
+                    } else if (headerTitle === 'Select Movement') {
+                      setMovement(item);
+                    } else {
+                      setSelectedModel(item);
+                    }
+                    setIsModalVisible(false);
+                  }}
+                  style={{alignItems: 'center'}}>
+                  <Text
+                    style={{
+                      fontFamily: 'Open Sans',
+                      fontSize: 16,
+                      fontWeight: '400',
+                      marginVertical: 8,
+                      textAlign: 'center',
+                    }}>
+                    {item?.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </SafeAreaView>
+      </Modal>
     </ScrollView>
   );
 };
 
 const mapStateToProps = state => ({
   dropdownData: productDropdownData(state),
+  brandData: productBrandData(state),
+  modelData: productModelData(state),
   dropdownLoading: productDropdownLoading(state),
 });
 

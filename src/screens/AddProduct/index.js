@@ -12,7 +12,6 @@ import {
   productBrandData,
   productBrandLoading,
   productDropdownLoading,
-  productModelData,
   productModelLoading,
 } from '../../redux/addProduct.slice';
 
@@ -64,11 +63,7 @@ const SellScreen = props => {
         {formNumber == 1 ? (
           <VideoimageScreen NextPress={() => setFormNumber('2')} />
         ) : formNumber == 2 ? (
-          <FormDetails
-            NextPress={() => setFormNumber('3')}
-            brandData={props.brandData}
-            modelData={props.modelData}
-          />
+          <FormDetails NextPress={() => setFormNumber('3')} />
         ) : (
           <SetPriceScreen />
         )}
@@ -80,7 +75,6 @@ const mapStateToProps = state => ({
   dropdownLoading: productDropdownLoading(state),
   brandLoading: productBrandLoading(state),
   brandData: productBrandData(state),
-  modelData: productModelData(state),
   modelLoading: productModelLoading(state),
 });
 

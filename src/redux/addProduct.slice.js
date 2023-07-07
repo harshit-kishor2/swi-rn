@@ -24,7 +24,6 @@ export const productDropdownAction = createAsyncThunk(
       });
       return response;
     } catch (error) {
-      console.log('error from product drop down list', error);
       return thunkAPI.rejectWithValue(error);
     }
   },
