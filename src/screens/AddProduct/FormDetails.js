@@ -6,11 +6,23 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {styles} from './style';
 import {COLORS, IMAGES} from '../../resources';
 import Custombutton from '../../components/Button1';
 import LocationInput from '../../LocationInput';
+import {connect, useDispatch} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/native';
+import {
+  getProductBrand,
+  getProductModel,
+  productBrandData,
+  productDropdownAction,
+  productDropdownData,
+  productDropdownLoading,
+  productModelData,
+} from '../../redux/addProduct.slice';
+import Dropdown from './Dropdown';
 
 const genderType = [
   {name: 'Male', icon: IMAGES.maleIcon, id: 1},
@@ -25,7 +37,9 @@ const gemSetType = [
   {name: 'Lugs', id: 5},
   {name: 'Clasp', id: 6},
 ];
-const FormDetails = ({NextPress}) => {
+const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
+  const dispatch = useDispatch();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState();
   const [watchDes, setWatchDes] = useState();
   const [gender, setGender] = useState('Male');
@@ -36,6 +50,45 @@ const FormDetails = ({NextPress}) => {
   const [indicateGem, setIndicateGem] = useState('');
   const [dial, setDial] = useState('');
   const [openAdditionalInfo, setOpenAdditionalInfo] = useState(false);
+  const [selectedModel, setSelectedModel] = useState({});
+  const [selectedBrand, setSelectedBrand] = useState({});
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getProductBrand());
+      dispatch(productDropdownAction());
+    }, [dispatch]),
+  );
+
+  useEffect(() => {
+    let params = {
+      id: selectedBrand?.id,
+    };
+    dispatch(getProductModel(params));
+  }, [selectedBrand.id, dispatch]);
+
+  const renderItem = ({item, index}) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          setSelectedBrand(item);
+          setIsModalVisible(false);
+        }}
+        style={{alignItems: 'center'}}>
+        <Text
+          style={{
+            fontFamily: 'Open Sans',
+            fontSize: 16,
+            fontWeight: '400',
+            marginVertical: 8,
+          }}>
+          {item?.name}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <ScrollView style={styles.formDetailsStyle}>
       <View
@@ -45,44 +98,46 @@ const FormDetails = ({NextPress}) => {
           justifyContent: 'space-between',
         }}>
         <View style={{width: '50%'}}>
-          <Text
-            style={{
-              color: '#7C7C7C',
-              fontFamily: 'Open Sans',
-              fontSize: 14,
-            }}>
-            Choose Brands <Text style={{color: COLORS.RED}}>*</Text>
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginRight: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: '#00000040',
-              marginTop: 5,
-            }}>
-            <Text
-              style={{
-                marginBottom: 10,
-                color: COLORS.BLACK,
-                fontFamily: 'Open Sans',
-                fontSize: 16,
-              }}>
-              Ferrata
-            </Text>
-            <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-          </View>
+          <Dropdown
+            animationType="slide"
+            data={brandData?.data}
+            headerTitle={'Select Brand'}
+            transparent={true}
+            isVisible={isModalVisible}
+            dropDownPress={() => setIsModalVisible(!isModalVisible)}
+            onRequestClose={() => setIsModalVisible(false)}
+            title={'Choose Brand'}
+            keyExtractor={(item, index) => `brand${item.id}`}
+            isRequired={true}
+            value={selectedBrand?.name}
+            renderItem={renderItem}
+          />
         </View>
+        {console.log('brandData?.data', brandData?.data)}
+        {console.log('modelData?.data', modelData?.data)}
         <View style={{width: '50%'}}>
-          <Text
+          <Dropdown
+            animationType="slide"
+            extraData={modelData?.data}
+            data={modelData?.data}
+            headerTitle={'Select Model'}
+            transparent={true}
+            isVisible={isModalVisible}
+            dropDownPress={() => setIsModalVisible(!isModalVisible)}
+            onRequestClose={() => setIsModalVisible(false)}
+            title={'Choose Model'}
+            isRequired={true}
+            value={selectedModel?.name}
+            keyExtractor={(item, index) => `model${item.id}`}
+            renderItem={renderItem}
+          />
+          {/* <Text
             style={{
               color: '#7C7C7C',
               fontFamily: 'Open Sans',
               fontSize: 14,
             }}>
-            Model <Text style={{color: COLORS.RED}}>*</Text>
+            <Text style={{color: COLORS.RED}}>*</Text>
           </Text>
           <View
             style={{
@@ -104,7 +159,7 @@ const FormDetails = ({NextPress}) => {
               116503
             </Text>
             <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-          </View>
+          </View> */}
         </View>
       </View>
       <View
@@ -993,4 +1048,9 @@ const FormDetails = ({NextPress}) => {
   );
 };
 
-export default FormDetails;
+const mapStateToProps = state => ({
+  dropdownData: productDropdownData(state),
+  dropdownLoading: productDropdownLoading(state),
+});
+
+export default connect(mapStateToProps)(FormDetails);
