@@ -27,8 +27,8 @@ const initialState = {
 
 export const exploreProductListing = createAsyncThunk(
   'explore/Products',
-  async ({page}, thunkAPI) => {
-    console.log('page---- ', page);
+  async ({page, keyWord}, thunkAPI) => {
+    console.log('page---- ', page, keyWord);
     try {
       const response = await api({
         url: `${Config.API_URL}products-list`,
@@ -38,6 +38,7 @@ export const exploreProductListing = createAsyncThunk(
         },
         params: {
           page: page,
+          keyWord: keyWord,
         },
       });
       console.log('Explore Product Listing', response);

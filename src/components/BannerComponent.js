@@ -61,7 +61,7 @@ const Banner = ({image, height, width, onItemClick}) => {
                 height: height,
                 width: width,
                 resizeMode: 'cover',
-                borderRadius: 10,
+                borderRadius: 8,
               }}
               source={{uri: item.image}}
             />
@@ -85,11 +85,11 @@ const Banner = ({image, height, width, onItemClick}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  image: {
-    width: Dimensions.get('window').width,
-    height: 200,
-  },
+  // container: {},
+  // image: {
+  //   width: Dimensions.get('window').width,
+  //   height: 200,
+  // },
   pagination: {
     position: 'absolute',
     bottom: 10,

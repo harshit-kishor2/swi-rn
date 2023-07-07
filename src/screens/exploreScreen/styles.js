@@ -40,7 +40,8 @@ export default styles = StyleSheet.create({
     width: SPACING.SCALE_160,
     height: SPACING.SCALE_160,
     borderRadius: 10,
-    marginTop: -15,
+    // marginTop: -8,
+    //marginTop: -15,
   },
   progressContainer: {
     marginLeft: 18,
