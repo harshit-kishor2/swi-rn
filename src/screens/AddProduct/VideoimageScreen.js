@@ -2,6 +2,7 @@ import {
   Alert,
   FlatList,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -17,11 +18,14 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {AndroidCameraPermission} from '../../../androidcamerapermission';
 import {fire} from 'react-native-alertbox';
 import Video from 'react-native-video';
+import {useDispatch} from 'react-redux';
+import {addProductDetail} from '../../redux/addProduct.slice';
 
 const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
-  console.log('selectedImage', selectedImage);
+  const [thumb_Image, setthumb_Image] = useState();
+  const dispatch = useDispatch();
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
@@ -97,7 +101,6 @@ const VideoimageScreen = ({NextPress}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log('------4-----', image);
       if (image?.size <= 5242880) {
         setImagePath(img => [...img, image]);
       } else {
@@ -109,7 +112,6 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      console.log(image);
       if (image?.size <= 5242880) {
         setImagePath(img => [...img, image]);
       } else {
@@ -124,7 +126,6 @@ const VideoimageScreen = ({NextPress}) => {
       height: 400,
       cropping: true,
     }).then(image => {
-      console.log('----------->>>>>>>>>>', image);
       if (image?.size <= 5242880) {
         setImagePath(img => [...img, image]);
       } else {
@@ -136,7 +137,6 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(video => {
-      console.log('video', video);
       if (video?.size <= 5242880) {
         setImagePath(img => [...img, video]);
       } else {
@@ -147,6 +147,53 @@ const VideoimageScreen = ({NextPress}) => {
   const handleImagePress = image => {
     setSelectedImage(image);
   };
+
+  // for (const object of imagePath) {
+  //   if (object?.mime === 'image/jpeg') {
+  //     setthumb_Image(object);
+  //     break;
+  //   }
+  // }
+  // console.log('first Image --->>>>>', firstImageMode);
+  const Submit = () => {
+    let thumbImage;
+    for (const object of imagePath) {
+      if (object?.mime === 'image/jpeg') {
+        thumbImage = object?.path;
+        break;
+      }
+    }
+    const formData = new FormData();
+    imagePath.forEach((image, index) => {
+      formData.append(`product_file[${index}]`, {
+        name: 'profile_pic',
+        filename: 'profile1.jpg',
+        filepath: Platform.select({
+          android: image?.path.replace('file://', ''),
+          ios: image?.path,
+        }),
+        filetype: 'image/jpeg',
+      });
+    });
+    formData.append('title', 'draft project');
+    formData.append('thumb_image', {
+      name: 'profile_pic',
+      filename: 'profile1.jpg',
+      filepath: Platform.select({
+        android: thumbImage.replace('file://', ''),
+        ios: thumbImage,
+      }),
+      filetype: 'image/jpeg',
+    });
+    formData.append('user_id', '3');
+
+    console.log('formData---22---', formData);
+    dispatch(addProductDetail(formData));
+
+    // NextPress();
+  };
+  //-------------------------------------------------------------
+  //  imagePath.forEach()
 
   return (
     <View style={styles.container}>
@@ -171,13 +218,6 @@ const VideoimageScreen = ({NextPress}) => {
               style={styles.bigImage}
             />
           )}
-          {/* <Video
-            controls={true}
-            source={{uri: selectedImage?.path}}
-            style={styles.backgroundVideo}
-            resizeMode="contain"
-          />
-          <Image source={{uri: selectedImage?.path}} style={styles.bigImage} /> */}
         </View>
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
@@ -219,26 +259,12 @@ const VideoimageScreen = ({NextPress}) => {
           width={335}
           marginHorizontal={20}
           onPress={() => {
-            NextPress();
+            Submit();
           }}
         />
       </ScrollView>
     </View>
   );
 };
-
-// const DATA = [
-//   IMAGES.Rectangle91,
-
-//   IMAGES.Rectangle2,
-
-//   IMAGES.Rectangle31,
-
-//   IMAGES.Rectangle32,
-
-//   IMAGES.Rectangle33,
-
-//   IMAGES.Rectangle91,
-// ];
 
 export default VideoimageScreen;

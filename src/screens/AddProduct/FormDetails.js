@@ -112,8 +112,8 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
             renderItem={renderItem}
           />
         </View>
-        {console.log('brandData?.data', brandData?.data)}
-        {console.log('modelData?.data', modelData?.data)}
+        {/* {console.log('brandData?.data', brandData?.data)}
+        {console.log('modelData?.data', modelData?.data)} */}
         <View style={{width: '50%'}}>
           <Dropdown
             animationType="slide"
