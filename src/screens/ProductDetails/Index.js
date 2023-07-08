@@ -21,7 +21,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {exploreProductDetail} from '../../redux/explore.slice';
 
-const ProductDetails = () => {
+const ProductDetails = (props) => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
   const toggleNumberOfLines = () => {
@@ -47,12 +47,14 @@ const ProductDetails = () => {
   );
 
   useEffect(() => {
-    dispatch(
-      exploreProductDetail({
-        product_id: 3,
-      }),
-    );
-  }, []);
+    if (props.route?.params?.product_id) {
+      dispatch(
+        exploreProductDetail({
+          product_id: props.route.params.product_id,
+        }),
+      );
+    }
+  }, [props.route?.params?.product_id]);
 
   // Image view logic =======================
 
