@@ -113,6 +113,11 @@ export const LINE_HEIGHT_20 = scaleFont(20);
 export const LINE_HEIGHT_16 = scaleFont(16);
 export const LINE_HEIGHT_15 = scaleFont(15);
 
+//DYNAMIC WIDTH IN PERCENT
+export const DYNAMIC_WIDTH = width => {
+  return width;
+};
+
 // FONT STYLE
 export const FONT_REGULAR = {
   fontFamily: FONT_FAMILY_REGULAR,
