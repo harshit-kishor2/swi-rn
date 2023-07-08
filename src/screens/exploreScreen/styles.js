@@ -55,4 +55,68 @@ export default styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.APPGREEN,
   },
+  filterStyle: {
+    flex: 1,
+
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'white',
+    marginTop: SPACING.SCALE_140,
+    // paddingHorizontal: SPACING.SCALE_16,
+  },
+  filterSortSwitch: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  filterContainer: {
+    //borderWidth: 1,
+    marginVertical: SPACING.SCALE_24,
+    marginHorizontal: SPACING.SCALE_20,
+    // backgroundColor: 'red',
+  },
+  switchButton: {
+    height: SPACING.SCALE_44,
+    width: SPACING.SCALE_167,
+    // backgroundColor: 'green',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // styles for Sort view
+  dotIndicatorStyle: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#00958C',
+    marginRight: SPACING.SCALE_8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dotInsideIndicatorStyle: {
+    height: 10,
+    width: 10,
+    borderRadius: 5,
+    //borderWidth: 1,
+    backgroundColor: '#00958C',
+    //marginRight: SPACING.SCALE_8,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+  },
+  sortObjectStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // marginRight: SPACING.SCALE_16,
+    //marginLeft: SPACING.SCALE_10,
+    //justifyContent: 'center',
+  },
+  sortView: {
+    paddingTop: SPACING.SCALE_18,
+    paddingLeft: SPACING.SCALE_18,
+  },
+  filterViewCategoryStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: SPACING.SCALE_40,
+  },
 });

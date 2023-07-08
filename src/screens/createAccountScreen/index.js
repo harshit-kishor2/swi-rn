@@ -50,7 +50,7 @@ const CreateAccountScreen = props => {
       // Note: it appears putting FULL_NAME first is important, see issue #293
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
-    console.log('authres---->>>', appleAuthRequestResponse);
+    // console.log('authres---->>>', appleAuthRequestResponse);
     const {email, email_verified, is_private_email, sub} = jwt_decode(
       appleAuthRequestResponse.identityToken,
     );
@@ -68,11 +68,11 @@ const CreateAccountScreen = props => {
           //social_id:sdasdasd
         }),
       );
-      console.log(
-        'email && appleAuthRequestResponse.user',
-        email,
-        appleAuthRequestResponse.user,
-      );
+      // console.log(
+      //   'email && appleAuthRequestResponse.user',
+      //   email,
+      //   appleAuthRequestResponse.user,
+      // );
     }
 
     // get current authentication state for user

@@ -113,7 +113,7 @@ const SetPriceScreen = ({title}) => {
             autoFocus={true}
             onChangeText={e => {
               setPrice(e);
-              console.log(price);
+              // console.log(price);
             }}></TextInput>
         </View>
         <View
