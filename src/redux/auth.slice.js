@@ -36,7 +36,7 @@ export const userSignup = createAsyncThunk(
       // console.log('SignUp response', response);
       return response;
     } catch (error) {
-      console.log('error from user sign up', error);
+      // console.log('error from user sign up', error);
       return thunkAPI.rejectWithValue(error);
     }
   },

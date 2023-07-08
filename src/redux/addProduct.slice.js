@@ -24,7 +24,6 @@ export const productDropdownAction = createAsyncThunk(
       });
       return response;
     } catch (error) {
-      console.log('error from product drop down list', error);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -39,10 +38,8 @@ export const getProductBrand = createAsyncThunk(
         method: 'GET',
         params: params,
       });
-      // console.log('response from get product brand', response);
       return response;
     } catch (error) {
-      console.log('error from get product brand', error);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -56,10 +53,8 @@ export const getProductModel = createAsyncThunk(
         url: `model-list/${params.id}`,
         method: 'GET',
       });
-      console.log('response from get product Model', response);
       return response;
     } catch (error) {
-      console.log('error from get product Model', error);
       return thunkAPI.rejectWithValue(error);
     }
   },

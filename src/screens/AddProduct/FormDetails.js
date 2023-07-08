@@ -5,11 +5,15 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  FlatList,
+  SafeAreaView,
 } from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
 import {styles} from './style';
-import {COLORS, IMAGES} from '../../resources';
+import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import Custombutton from '../../components/Button1';
+import LocationInput from '../../LocationInput';
 import {connect, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {
@@ -22,20 +26,17 @@ import {
   productModelData,
 } from '../../redux/addProduct.slice';
 import Dropdown from './Dropdown';
+import SelectWithInput from './SelectWithInput';
+import DatePicker from '../../components/DatePicker';
+import moment from 'moment';
+import HeaderFactoryGemSet from './HeaderFactoryGemSet';
 
 const genderType = [
   {name: 'Male', icon: IMAGES.maleIcon, id: 1},
   {name: 'Female', icon: IMAGES.femaleIcon, id: 2},
   {name: 'Unisex', icon: IMAGES.unisexIcon, id: 3},
 ];
-const gemSetType = [
-  {name: 'Case', id: 1},
-  {name: 'Dial', id: 2},
-  {name: 'Bracelet', id: 3},
-  {name: 'Bezel', id: 4},
-  {name: 'Lugs', id: 5},
-  {name: 'Clasp', id: 6},
-];
+
 const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -44,19 +45,30 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   const [gender, setGender] = useState('Male');
   const [isFactoryGem, setIsFactoryGem] = useState('Yes');
   const [custom, setCustom] = useState('Yes');
-  const [factoryGem, setFactoryGem] = useState('');
-  const [customType, setCustomType] = useState('');
-  const [indicateGem, setIndicateGem] = useState('');
-  const [dial, setDial] = useState('');
+  const [factoryGem, setFactoryGem] = useState([]);
+  const [customType, setCustomType] = useState([]);
+  const [dial, setDial] = useState();
   const [openAdditionalInfo, setOpenAdditionalInfo] = useState(false);
   const [selectedModel, setSelectedModel] = useState({});
   const [selectedBrand, setSelectedBrand] = useState({});
+  const [dropData, setDropData] = useState([]);
+  const [headerTitle, setHeaderTitle] = useState('');
+  const [watchCondition, setWatchCondition] = useState('brand_new');
+  const [date, setDate] = useState();
+  const [certain, setCertain] = useState(false);
+  const [accessories, setAccessories] = useState({});
+  const [dialMarker, setDialMarker] = useState({});
+  const [caseSize, setCaseSize] = useState({});
+  const [movement, setMovement] = useState({});
+  const [caseMaterial, setCaseMaterial] = useState({});
+  const [strap, setStrap] = useState({});
+  const [clasp, setClasp] = useState({});
 
   useFocusEffect(
     useCallback(() => {
       dispatch(getProductBrand());
       dispatch(productDropdownAction());
-    }, [dispatch]),
+    }, []),
   );
 
   useEffect(() => {
@@ -64,302 +76,236 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
       id: selectedBrand?.id,
     };
     dispatch(getProductModel(params));
-  }, [selectedBrand.id, dispatch]);
+  }, [selectedBrand]);
 
-  const renderItem = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => {
-          setSelectedBrand(item);
-          setIsModalVisible(false);
-        }}
-        style={{alignItems: 'center'}}>
-        <Text
-          style={{
-            fontFamily: 'Open Sans',
-            fontSize: 16,
-            fontWeight: '400',
-            marginVertical: 8,
-          }}>
-          {item?.name}
-        </Text>
-      </TouchableOpacity>
-    );
+  const factoryAddFun = (arr, item) => {
+    if (arr?.find(obj => obj?.id === item.id)) {
+      let data = arr;
+      const newArr = data.filter(obj => obj.id != item.id);
+      if (item.type === 'FACTTORYGEM') {
+        setFactoryGem(newArr);
+      } else {
+        setCustomType(newArr);
+      }
+    } else {
+      let paramObj = {
+        id: item.id,
+        name: item.name,
+        type: item.type,
+        text: '',
+      };
+      if (item.type === 'FACTTORYGEM') {
+        setFactoryGem(e => [...e, paramObj]);
+      } else {
+        setCustomType(e => [...e, paramObj]);
+      }
+    }
+  };
+
+  const isSelectedFactory = (array, id) => {
+    return array?.some(obj => obj.id === id);
+  };
+
+  const onChangeTextValue = (arr, item, textValue) => {
+    let paramObj = {
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      text: textValue,
+    };
+    let newArr = replaceObject(arr, item.id, paramObj);
+    setFactoryGem(newArr);
+  };
+
+  const replaceObject = (array, id, newObject) => {
+    const updatedArray = array.map(obj => {
+      if (obj.id === id) {
+        return newObject;
+      }
+      return obj;
+    });
+    return updatedArray;
   };
 
   return (
     <ScrollView style={styles.formDetailsStyle}>
-      <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{width: '50%'}}>
+      <View style={styles.mainFormComponent}>
+        <View style={styles.halfWidth}>
           <Dropdown
-            animationType="slide"
-            data={brandData?.data}
-            headerTitle={'Select Brand'}
-            transparent={true}
-            isVisible={isModalVisible}
-            dropDownPress={() => setIsModalVisible(!isModalVisible)}
-            onRequestClose={() => setIsModalVisible(false)}
+            dropDownPress={() => {
+              setDropData(brandData?.data);
+              setHeaderTitle('Select Brand');
+              setIsModalVisible(!isModalVisible);
+            }}
             title={'Choose Brand'}
-            keyExtractor={(item, index) => `brand${item.id}`}
             isRequired={true}
             value={selectedBrand?.name}
-            renderItem={renderItem}
           />
         </View>
-        {/* {console.log('brandData?.data', brandData?.data)}
-        {console.log('modelData?.data', modelData?.data)} */}
-        <View style={{width: '50%'}}>
+        <View style={styles.halfWidth}>
           <Dropdown
-            animationType="slide"
-            extraData={modelData?.data}
-            data={modelData?.data}
-            headerTitle={'Select Model'}
             transparent={true}
-            isVisible={isModalVisible}
-            dropDownPress={() => setIsModalVisible(!isModalVisible)}
-            onRequestClose={() => setIsModalVisible(false)}
+            dropDownPress={() => {
+              setHeaderTitle('Select Model');
+              setDropData(modelData?.data);
+              setIsModalVisible(!isModalVisible);
+            }}
             title={'Choose Model'}
             isRequired={true}
             value={selectedModel?.name}
-            keyExtractor={(item, index) => `model${item.id}`}
-            renderItem={renderItem}
           />
-          {/* <Text
-            style={{
-              color: '#7C7C7C',
-              fontFamily: 'Open Sans',
-              fontSize: 14,
-            }}>
-            <Text style={{color: COLORS.RED}}>*</Text>
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginRight: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: '#00000040',
-              marginTop: 5,
-            }}>
-            <Text
-              style={{
-                marginBottom: 10,
-                color: COLORS.BLACK,
-                fontFamily: 'Open Sans',
-                fontSize: 16,
-              }}>
-              116503
-            </Text>
-            <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-          </View> */}
         </View>
       </View>
-      <View
-        style={{
-          marginTop: 30,
-          borderBottomWidth: 1,
-          borderBottomColor: '#00000040',
-        }}>
-        <Text
-          style={{
-            color: '#7C7C7C',
-            fontFamily: 'Open Sans',
-            fontSize: 14,
-          }}>
+      <View style={styles.formHeaderMainView}>
+        <Text style={styles.formHeaderText}>
           Title <Text style={{color: COLORS.RED}}>*</Text>
         </Text>
         <TextInput
-          style={{marginBottom: 16, marginTop: 8}}
+          style={{marginBottom: SPACING.SCALE_16, marginTop: SPACING.SCALE_8}}
           value={title}
+          maxLength={50}
           onChangeText={e => setTitle(e)}
         />
       </View>
-      <View style={{marginTop: 30}}>
-        <Text
-          style={{
-            color: '#7C7C7C',
-            fontFamily: 'Open Sans',
-            fontSize: 14,
-          }}>
+      <View style={{marginTop: SPACING.SCALE_30}}>
+        <Text style={styles.formHeaderText}>
           Watch Condition <Text style={{color: COLORS.RED}}>*</Text>
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            marginTop: 20,
-          }}>
+        <View style={styles.formMainWatchConditionView}>
           <TouchableOpacity
-            style={{
-              backgroundColor: '#00958C',
-              marginRight: 15,
-              borderRadius: 20,
-            }}>
+            onPress={() => setWatchCondition('brand_new')}
+            activeOpacity={0.7}
+            style={[
+              styles.formWatchConditionView,
+              {
+                backgroundColor:
+                  watchCondition === 'brand_new'
+                    ? COLORS.themeColor
+                    : COLORS.WHITE,
+                borderColor:
+                  watchCondition === 'brand_new'
+                    ? COLORS.WHITE
+                    : COLORS.themeColor,
+              },
+            ]}>
             <Text
-              style={{
-                color: '#FFF',
-                fontFamily: 'Open Sans',
-                fontSize: 14,
-                marginVertical: 7,
-                marginHorizontal: 16,
-              }}>
+              style={[
+                styles.formWatchConditionText,
+                {
+                  color:
+                    watchCondition === 'brand_new'
+                      ? COLORS.WHITE
+                      : COLORS.themeColor,
+                },
+              ]}>
               Brand new
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{
-              marginRight: 15,
-              borderRadius: 20,
-              borderWidth: 1,
-              borderColor: '#00958C',
-            }}>
+            onPress={() => setWatchCondition('pre_owned')}
+            activeOpacity={0.7}
+            style={[
+              styles.formWatchConditionView,
+              {
+                backgroundColor:
+                  watchCondition === 'pre_owned'
+                    ? COLORS.themeColor
+                    : COLORS.WHITE,
+                borderColor:
+                  watchCondition === 'pre_owned'
+                    ? COLORS.WHITE
+                    : COLORS.themeColor,
+              },
+            ]}>
             <Text
-              style={{
-                color: '#00958C',
-                fontFamily: 'Open Sans',
-                fontSize: 14,
-                marginVertical: 7,
-                marginHorizontal: 16,
-              }}>
+              style={[
+                styles.formWatchConditionText,
+                {
+                  color:
+                    watchCondition === 'pre_owned'
+                      ? COLORS.WHITE
+                      : COLORS.themeColor,
+                },
+              ]}>
               Pre-Owned
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{marginTop: 30}}>
-        <Text
-          style={{
-            color: '#7C7C7C',
-            fontFamily: 'Open Sans',
-            fontSize: 14,
-          }}>
+      <View style={{marginTop: SPACING.SCALE_30}}>
+        <Text style={styles.formHeaderText}>
           Dated <Text style={{color: COLORS.RED}}>*</Text>
         </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: 8,
-          }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 1,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottomWidth: 1,
-              paddingBottom: 16,
-              borderBottomColor: '#00000040',
-            }}>
-            <Text
-              style={{color: 'black', fontFamily: 'Open Sans', fontSize: 16}}>
-              Jan, 2023
-            </Text>
-            <Image source={IMAGES.calendarIcon} resizeMode={'contain'} />
-          </View>
+        <View style={styles.formDateMainView}>
+          <DatePicker
+            children={
+              <View style={styles.formDateChildrenMainView}>
+                <Text style={styles.formDateTextStyle}>
+                  {date ? moment(date).format('MMM, YYYY') : 'MMM, YYYY'}
+                </Text>
+                <Image source={IMAGES.calendarIcon} resizeMode={'contain'} />
+              </View>
+            }
+            onChangeDate={e => {
+              setDate(e);
+            }}
+          />
           <View style={{flexDirection: 'row'}}>
-            <View
-              style={{
-                height: 15,
-                width: 15,
-                borderWidth: 1,
-                borderColor: '#00958C',
-                marginRight: 10,
-                marginLeft: 36,
-              }}
-            />
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => setCertain(!certain)}
+              style={[
+                styles.formTickMainView,
+                {
+                  backgroundColor: certain ? COLORS.themeColor : COLORS.WHITE,
+                },
+              ]}>
+              {certain ? (
+                <Image
+                  source={IMAGES.tickIcon}
+                  resizeMode={'contain'}
+                  style={{height: SPACING.SCALE_16, width: SPACING.SCALE_16}}
+                />
+              ) : null}
+            </TouchableOpacity>
             <Text>No Certain</Text>
           </View>
         </View>
       </View>
-      <View style={{marginTop: 30}}>
-        <Text
-          style={{
-            color: '#7C7C7C',
-            fontFamily: 'Open Sans',
-            fontSize: 14,
-          }}>
-          Accessories <Text style={{color: COLORS.RED}}>*</Text>
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginRight: 10,
-            borderBottomWidth: 1,
-            borderBottomColor: '#00000040',
-            marginTop: 5,
-          }}>
-          <Text
-            style={{
-              marginBottom: 10,
-              color: COLORS.BLACK,
-              fontFamily: 'Open Sans',
-              fontSize: 16,
-            }}>
-            Watch with Original Box
-          </Text>
-          <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-        </View>
+      <View style={{marginTop: SPACING.SCALE_30}}>
+        <Dropdown
+          dropDownPress={() => {
+            setDropData(dropdownData?.data?.ACCESSORIES);
+            setHeaderTitle('Select Accessories');
+            setIsModalVisible(!isModalVisible);
+          }}
+          title={'Accessories'}
+          isRequired={true}
+          value={accessories?.name}
+        />
       </View>
-      <View
-        style={{
-          backgroundColor: 'white',
-          borderRadius: 10,
-          width: '100%',
-          marginTop: 36,
-          marginBottom: 10,
-        }}>
+      <View style={styles.formAdditionalInfo}>
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => setOpenAdditionalInfo(!openAdditionalInfo)}
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginVertical: 19,
-            marginHorizontal: 20,
-          }}>
-          <Text
-            style={{
-              fontFamily: 'Open Sans',
-              fontSize: 16,
-              fontWeight: '600',
-              color: 'black',
-            }}>
+          style={styles.formAdditionalView}>
+          <Text style={[styles.formDateTextStyle, {fontWeight: '600'}]}>
             Fill in additional information
           </Text>
           <Image source={IMAGES.dropIcon} resizeMode={'contain'} />
         </TouchableOpacity>
         {openAdditionalInfo ? (
-          <View style={{marginHorizontal: 15}}>
+          <View style={{marginHorizontal: SPACING.SCALE_15}}>
             <View
-              style={{borderBottomWidth: 0.5, borderBottomColor: '#7C7C7C'}}
-            />
-            <Text
               style={{
-                marginVertical: 20,
-                fontFamily: 'Open Sans',
-                fontSize: 14,
-                fontWeight: '400',
-              }}>
+                borderBottomWidth: SPACING.SCALE_0_5,
+                borderBottomColor: COLORS.borderBottomColor,
+              }}
+            />
+            <Text style={styles.formWatchDescription}>
               Tell the customers about this watch
             </Text>
-            <View
-              style={{
-                borderBottomWidth: 1,
-                borderBottomColor: '#00000040',
-              }}>
+            <View style={styles.borderBottom}>
               <TextInput
                 numberOfLines={5}
                 multiline={true}
@@ -367,63 +313,52 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
                 onChangeText={e => setWatchDes(e)}
                 value={watchDes}
               />
-              <Text
-                style={{
-                  alignSelf: 'flex-end',
-                  marginBottom: 4,
-                  color: '#00958C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 12,
-                  fontWeight: '600',
-                }}>
+              <Text style={styles.watchDescriptionText}>
                 {watchDes?.length ?? 0}/250
               </Text>
             </View>
-            <View style={{marginTop: 30}}>
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                }}>
-                Gender
-              </Text>
-              <View style={{flexDirection: 'row', marginTop: 17}}>
+            <View style={{marginTop: SPACING.SCALE_30}}>
+              <Text style={styles.formHeaderText}>Gender</Text>
+              <View style={styles.genderTypeView}>
                 {genderType?.map((item, index) => {
                   return (
                     <TouchableOpacity
                       activeOpacity={0.7}
                       onPress={() => setGender(item.name)}
                       key={`gender${index}`}
-                      style={{
-                        flexDirection: 'row',
-                        borderWidth: 1,
-                        borderRadius: 15,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginRight: 8,
-                        borderColor:
-                          gender == item.name ? '#00958C' : '#F0F2FA',
-                        backgroundColor:
-                          gender == item.name ? '#00958C' : '#F0F2FA',
-                      }}>
+                      style={[
+                        styles.genderSelectView,
+                        {
+                          borderColor:
+                            gender === item.name
+                              ? COLORS.themeColor
+                              : COLORS.PageBackground,
+                          backgroundColor:
+                            gender === item.name
+                              ? COLORS.themeColor
+                              : COLORS.PageBackground,
+                        },
+                      ]}>
                       <Image
                         source={item.icon}
                         style={{
-                          marginLeft: 15,
-                          tintColor: gender == item.name ? 'white' : '#00958C',
+                          marginLeft: SPACING.SCALE_15,
+                          tintColor:
+                            gender === item.name
+                              ? COLORS.WHITE
+                              : COLORS.themeColor,
                         }}
                       />
                       <Text
-                        style={{
-                          marginLeft: 5,
-                          marginRight: 15,
-                          marginVertical: 7,
-                          color: gender == item.name ? 'white' : '#00958C',
-                          fontSize: 14,
-                          fontFamily: 'Open Sans',
-                          fontWeight: '400',
-                        }}>
+                        style={[
+                          styles.genderTextStyle,
+                          {
+                            color:
+                              gender === item.name
+                                ? COLORS.WHITE
+                                : COLORS.themeColor,
+                          },
+                        ]}>
                         {item?.name}
                       </Text>
                     </TouchableOpacity>
@@ -431,601 +366,170 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
                 })}
               </View>
             </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 35,
-              }}>
-              <View
-                style={{
-                  width: '45%',
-                  borderBottomWidth: 1,
-                  borderBottomColor: '#00000040',
-                }}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Dial
-                </Text>
-                <TextInput value={dial} onChangeText={e => setDial(e)} />
-              </View>
-              <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Dial Markers
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    116503
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 35,
-              }}>
-              <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Case Size
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    26 mm
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-              <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Movement
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    Automatic
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 35,
-              }}>
-              <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Case material
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    Bronze
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-              <View style={{width: '45%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Strap/Bracelet
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    Leather
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 35,
-              }}>
-              <View style={{width: '100%'}}>
-                <Text
-                  style={{
-                    color: '#7C7C7C',
-                    fontFamily: 'Open Sans',
-                    fontSize: 14,
-                  }}>
-                  Clasp
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginRight: 10,
-                    borderBottomWidth: 1,
-                    borderBottomColor: '#00000040',
-                    marginTop: 5,
-                  }}>
-                  <Text
-                    style={{
-                      marginBottom: 10,
-                      color: COLORS.BLACK,
-                      fontFamily: 'Open Sans',
-                      fontSize: 16,
-                    }}>
-                    Tang Buckle
-                  </Text>
-                  <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
-                </View>
-              </View>
-            </View>
-            <View
-              style={{
-                marginTop: 30,
-                borderBottomWidth: 1,
-                borderBottomColor: '#00000040',
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontFamily: 'Open Sans',
-                    fontSize: 16,
-                    fontWeight: '400',
-                  }}>
-                  Factory Gem set ?
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => setIsFactoryGem('Yes')}>
-                    <View
-                      style={{
-                        height: 16,
-                        width: 16,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderColor: '#00958C',
-                        marginHorizontal: 5,
-                      }}>
-                      <View
-                        style={{
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                          backgroundColor:
-                            isFactoryGem === 'Yes' ? '#00958C' : 'white',
-                        }}
-                      />
-                    </View>
-                    <Text
-                      style={{
-                        marginLeft: 5,
-                        marginRight: 15,
-                        color: 'black',
-                        fontFamily: 'Open Sans',
-                        fontSize: 16,
-                        fontWeight: '400',
-                      }}>
-                      Yes
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => setIsFactoryGem('No')}>
-                    <View
-                      style={{
-                        height: 16,
-                        width: 16,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderColor: '#00958C',
-                      }}>
-                      <View
-                        style={{
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                          backgroundColor:
-                            isFactoryGem === 'No' ? '#00958C' : 'white',
-                        }}
-                      />
-                    </View>
-                    <Text
-                      style={{
-                        marginLeft: 5,
-                        marginRight: 15,
-                        color: 'black',
-                        fontFamily: 'Open Sans',
-                        fontSize: 16,
-                        fontWeight: '400',
-                      }}>
-                      No
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  marginVertical: 10,
-                }}>
-                If yes, tick what’s gem-setted
-              </Text>
-              {isFactoryGem === 'Yes' &&
-                gemSetType?.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      onPress={() => setFactoryGem(item.name)}
-                      style={{flexDirection: 'row', marginVertical: 12}}>
-                      <View
-                        style={{
-                          height: 20,
-                          width: 20,
-                          borderWidth: 1,
-                          borderColor: '#00958C',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor:
-                            factoryGem == item.name ? '#00958C' : 'white',
-                        }}>
-                        {factoryGem == item.name ? (
-                          <Image
-                            source={IMAGES.tickIcon}
-                            resizeMode={'contain'}
-                            style={{height: 16, width: 16}}
-                          />
-                        ) : null}
-                      </View>
-                      <Text
-                        style={{
-                          marginLeft: 15,
-                          color: '#4E4E4E',
-                          fontFamily: 'Open Sans',
-                          fontSize: 14,
-                          fontWeight: '400',
-                        }}>
-                        {item.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  marginVertical: 10,
-                }}>
-                {`Indicate what’s Gem-setted`}
-              </Text>
-              <TextInput
-                style={{marginBottom: 16, marginTop: 8}}
-                value={indicateGem}
-                onChangeText={e => setIndicateGem(e)}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: 30,
-                borderBottomWidth: 1,
-                borderBottomColor: '#00000040',
-              }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontFamily: 'Open Sans',
-                    fontSize: 16,
-                    fontWeight: '400',
-                  }}>
-                  Custom ?
-                </Text>
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => setCustom('Yes')}>
-                    <View
-                      style={{
-                        height: 16,
-                        width: 16,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderColor: '#00958C',
-                        marginHorizontal: 5,
-                      }}>
-                      <View
-                        style={{
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                          backgroundColor:
-                            custom === 'Yes' ? '#00958C' : 'white',
-                        }}
-                      />
-                    </View>
-                    <Text
-                      style={{
-                        marginLeft: 5,
-                        marginRight: 15,
-                        color: 'black',
-                        fontFamily: 'Open Sans',
-                        fontSize: 16,
-                        fontWeight: '400',
-                      }}>
-                      Yes
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => setCustom('No')}>
-                    <View
-                      style={{
-                        height: 16,
-                        width: 16,
-                        borderRadius: 8,
-                        borderWidth: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderColor: '#00958C',
-                      }}>
-                      <View
-                        style={{
-                          height: 12,
-                          width: 12,
-                          borderRadius: 6,
-                          backgroundColor:
-                            custom === 'No' ? '#00958C' : 'white',
-                        }}
-                      />
-                    </View>
-                    <Text
-                      style={{
-                        marginLeft: 5,
-                        marginRight: 15,
-                        color: 'black',
-                        fontFamily: 'Open Sans',
-                        fontSize: 16,
-                        fontWeight: '400',
-                      }}>
-                      No
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  marginVertical: 10,
-                }}>
-                If yes, tick what’s custom
-              </Text>
-              {custom === 'Yes' &&
-                gemSetType?.map((item, index) => {
-                  return (
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      onPress={() => setCustomType(item.name)}
-                      style={{flexDirection: 'row', marginVertical: 12}}>
-                      <View
-                        style={{
-                          height: 20,
-                          width: 20,
-                          borderWidth: 1,
-                          borderColor: '#00958C',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor:
-                            customType == item.name ? '#00958C' : 'white',
-                        }}>
-                        {customType == item.name ? (
-                          <Image
-                            source={IMAGES.tickIcon}
-                            resizeMode={'contain'}
-                            style={{height: 16, width: 16}}
-                          />
-                        ) : null}
-                      </View>
-                      <Text
-                        style={{
-                          marginLeft: 15,
-                          color: '#4E4E4E',
-                          fontFamily: 'Open Sans',
-                          fontSize: 14,
-                          fontWeight: '400',
-                        }}>
-                        {item.name}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  marginVertical: 10,
-                }}>
-                {`Indicate what’s customised`}
-              </Text>
-              <TextInput
-                style={{marginBottom: 16, marginTop: 8}}
-                value={indicateGem}
-                onChangeText={e => setIndicateGem(e)}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: 30,
-                borderBottomWidth: 1,
-                borderBottomColor: '#00000040',
-                marginBottom: 32,
-              }}>
-              <Text
-                style={{
-                  color: '#7C7C7C',
-                  fontFamily: 'Open Sans',
-                  fontSize: 14,
-                  fontWeight: '400',
-                  marginVertical: 10,
-                }}>
-                {`Indicate what’s customised`}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                }}>
-                <TextInput
-                  style={{marginBottom: 16, marginTop: 8, flex: 1}}
-                  value={indicateGem}
-                  onChangeText={e => setIndicateGem(e)}
+            <View style={styles.formDropDownMainView}>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.DIAL);
+                    setHeaderTitle('Select Dial');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Dial'}
+                  isRequired={false}
+                  value={dial?.name}
                 />
+              </View>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.DIALMARKERS);
+                    setHeaderTitle('Select Dial Markers');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Dial Markers'}
+                  isRequired={false}
+                  value={dialMarker?.name}
+                />
+              </View>
+            </View>
+            <View style={styles.formDropDownMainView}>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.CASESIZE);
+                    setHeaderTitle('Select Case Size');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Case Size'}
+                  isRequired={false}
+                  value={caseSize?.name}
+                />
+              </View>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.MOVEMENT);
+                    setHeaderTitle('Select Movement');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Movement'}
+                  isRequired={false}
+                  value={movement?.name}
+                />
+              </View>
+            </View>
+            <View style={styles.formDropDownMainView}>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.CASEMATERIAL);
+                    setHeaderTitle('Select Case Material');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Case Material'}
+                  isRequired={true}
+                  value={caseMaterial?.name}
+                />
+              </View>
+              <View style={styles.fortyFivePercent}>
+                <Dropdown
+                  dropDownPress={() => {
+                    setDropData(dropdownData?.data?.STRAPBRACELET);
+                    setHeaderTitle('Select Strap/Bracelet');
+                    setIsModalVisible(!isModalVisible);
+                  }}
+                  title={'Strap/Bracelet'}
+                  isRequired={true}
+                  value={strap?.name}
+                />
+              </View>
+            </View>
+            <View style={styles.formDropDownMainView}>
+              <Dropdown
+                dropDownPress={() => {
+                  setDropData(dropdownData?.data?.CLASP);
+                  setHeaderTitle('Select Clasp');
+                  setIsModalVisible(!isModalVisible);
+                }}
+                title={'Clasp'}
+                isRequired={true}
+                value={clasp?.name}
+              />
+            </View>
+            <View
+              style={{
+                marginTop: SPACING.SCALE_30,
+                marginBottom: SPACING.SCALE_20,
+              }}>
+              <HeaderFactoryGemSet
+                header={'Factory Gem set ?'}
+                onPressYes={() => setIsFactoryGem('Yes')}
+                value={isFactoryGem}
+                onPressNo={() => setIsFactoryGem('No')}
+                subTitle={'If yes, tick what’s gem-setted'}
+              />
+              {isFactoryGem === 'Yes' &&
+                dropdownData?.data?.FACTTORYGEM?.map((item, index) => {
+                  return (
+                    <SelectWithInput
+                      item={item}
+                      onSelect={() => factoryAddFun(factoryGem, item)}
+                      backgroundColor={
+                        isSelectedFactory(factoryGem, item.id)
+                          ? COLORS.themeColor
+                          : COLORS.WHITE
+                      }
+                      isCheck={isSelectedFactory(factoryGem, item.id)}
+                      textValue={item.text}
+                      onChangeTextValue={e =>
+                        onChangeTextValue(factoryGem, item, e)
+                      }
+                    />
+                  );
+                })}
+            </View>
+            <View style={{marginTop: SPACING.SCALE_30}}>
+              <HeaderFactoryGemSet
+                header={'Custom ?'}
+                onPressYes={() => setCustom('Yes')}
+                value={custom}
+                onPressNo={() => setCustom('No')}
+                subTitle={'If yes, tick what’s custom'}
+              />
+              {custom === 'Yes' &&
+                dropdownData?.data?.CUSTOMFACTTORYGEM?.map((item, index) => {
+                  return (
+                    <SelectWithInput
+                      item={item}
+                      onSelect={() => factoryAddFun(customType, item)}
+                      backgroundColor={
+                        isSelectedFactory(customType, item.id)
+                          ? COLORS.themeColor
+                          : COLORS.WHITE
+                      }
+                      isCheck={isSelectedFactory(customType, item.id)}
+                      textValue={item.text}
+                      onChangeTextValue={e =>
+                        onChangeTextValue(customType, item, e)
+                      }
+                    />
+                  );
+                })}
+            </View>
+            <View
+              style={[
+                styles.borderBottom,
+                {
+                  marginBottom: SPACING.SCALE_20,
+                },
+              ]}>
+              <Text style={styles.formLocationTextView}>
+                What is the location of this product?
+              </Text>
+              <View style={styles.formLocationMainView}>
+                <View style={{width: TYPOGRAPHY.DYNAMIC_WIDTH('80%')}}>
+                  <LocationInput />
+                </View>
                 <Image source={IMAGES.locationIcon} resizeMode={'contain'} />
               </View>
             </View>
@@ -1037,19 +541,87 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
           title="NEXT"
           marginTop={40}
           height={50}
-          width={335}
+          width={'100%'}
           marginHorizontal={20}
-          onPress={() => {
-            NextPress();
-          }}
+          onPress={() => NextPress()}
         />
       </View>
+      <Modal
+        transparent={true}
+        visible={isModalVisible}
+        style={{flex: 1}}
+        onRequestClose={() => setIsModalVisible(false)}>
+        <SafeAreaView style={{flex: 1}}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setIsModalVisible(false)}
+            style={{
+              flex: 1,
+              backgroundColor: 'rgba(0,0,0,0.1)',
+              minHeight: SPACING.SCALE_250,
+            }}>
+            <View style={{flex: 1}} />
+          </TouchableOpacity>
+          <FlatList
+            data={dropData}
+            ListHeaderComponent={
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginVertical: 15,
+                }}>
+                <Text style={[TYPOGRAPHY.HEADER_TITLE, {color: 'black'}]}>
+                  {headerTitle}
+                </Text>
+              </View>
+            }
+            style={{backgroundColor: 'white', paddingBottom: 20}}
+            keyExtractor={(item, index) => `${item?.id}${index}`}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    if (headerTitle === 'Select Brand') {
+                      setSelectedBrand(item);
+                    } else if (headerTitle === 'Select Accessories') {
+                      setAccessories(item);
+                    } else if (headerTitle === 'Select Dial') {
+                      setDial(item);
+                    } else if (headerTitle === 'Select Dial Markers') {
+                      setDialMarker(item);
+                    } else if (headerTitle === 'Select Case Size') {
+                      setCaseSize(item);
+                    } else if (headerTitle === 'Select Movement') {
+                      setMovement(item);
+                    } else if (headerTitle === 'Select Case Material') {
+                      setCaseMaterial(item);
+                    } else if (headerTitle === 'Select Strap/Bracelet') {
+                      setStrap(item);
+                    } else if (headerTitle === 'Select Clasp') {
+                      setClasp(item);
+                    } else {
+                      setSelectedModel(item);
+                    }
+                    setIsModalVisible(false);
+                  }}
+                  style={{alignItems: 'center'}}>
+                  <Text style={styles.formModelTextStyle}>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </SafeAreaView>
+      </Modal>
     </ScrollView>
   );
 };
 
 const mapStateToProps = state => ({
   dropdownData: productDropdownData(state),
+  brandData: productBrandData(state),
+  modelData: productModelData(state),
   dropdownLoading: productDropdownLoading(state),
 });
 

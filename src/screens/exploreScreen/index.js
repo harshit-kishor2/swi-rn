@@ -110,9 +110,9 @@ const ExploreScreen = props => {
     console.log(products?.data?.last_page);
     console.log(currentPage);
     if (currentPage < products?.data?.last_page) {
-      console.log('#######');
+      // console.log('#######');
       if (!loadingMore) {
-        console.log('222222');
+        // console.log('222222');
         setCurrentPage(prevPage => prevPage + 1); // Increment the current page
         setLoadingMore(true); // Set loadingMore flag to true
       }

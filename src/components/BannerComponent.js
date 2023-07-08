@@ -52,7 +52,7 @@ const Banner = ({image, height, width, onItemClick}) => {
         }}>
         {image.map((item, index) => (
           <TouchableOpacity
-            key={item.id}
+            key={item.image}
             activeOpacity={0.8}
             style={styles.imageContainer}
             onPress={() => onItemClick(index)}>

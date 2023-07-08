@@ -19,7 +19,7 @@ export const fetchFreshFinds = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('Fresh finds', response);
+      // console.log('Fresh finds', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
