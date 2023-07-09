@@ -43,4 +43,12 @@ export default styles = StyleSheet.create({
     flex: 1,
     fontSize: 12,
   },
+  headerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    // backgroundColor: 'green',
+    alignItems: 'center',
+    height: SPACING.SCALE_41,
+  },
 });

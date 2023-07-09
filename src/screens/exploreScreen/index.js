@@ -61,6 +61,11 @@ const ExploreScreen = props => {
   const [distance, setDistance] = useState(0);
   const [onMinFocus, setMinFocus] = useState(false);
   const [onMaxFocus, setMaxFocus] = useState(false);
+  // states for filter
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [selectCategory, setSelectCategory] = useState();
+  const [selectSort, setSelectSort] = useState();
 
   const handleDistanceChange = value => {
     setDistance(value);
@@ -266,6 +271,7 @@ const ExploreScreen = props => {
   };
 
   const renderItem = ({item, index}) => (
+    // console.log(item, 'ghghghghghghgh'),
     <Item
       product_image={item.thumb_image}
       product_name={item.title}
@@ -278,7 +284,7 @@ const ExploreScreen = props => {
       id={item.id}
       onPress={() => {
         // Handle item press
-        props.navigation.navigate('ProductDetails');
+        props.navigation.navigate('ProductDetails', {product_id: item.id});
       }}
       wishListPress={() => {
         dispatch(
@@ -412,6 +418,10 @@ const ExploreScreen = props => {
                 <View style={{width: SPACING.SCALE_140}}>
                   <Text>Min Price</Text>
                   <TextInput
+                    inputMode="numeric"
+                    onChange={val => {
+                      setMinPrice(val);
+                    }}
                     onFocus={() => {
                       setMinFocus(true);
                     }}
@@ -425,6 +435,10 @@ const ExploreScreen = props => {
                 <View style={{width: SPACING.SCALE_140}}>
                   <Text>Max Price</Text>
                   <TextInput
+                    inputMode="numeric"
+                    onChange={val => {
+                      setMaxPrice(val);
+                    }}
                     style={{
                       backgroundColor: 'transparent',
                       borderBottomColor: COLORS.BLACK,
@@ -454,6 +468,9 @@ const ExploreScreen = props => {
                         }}
                         onPress={() => {
                           setCategorySelectedItem(index);
+                          setSelectCategory(item);
+
+                          console.log(item, selectCategory, 'hhhhppp');
                         }}>
                         <View style={styles.sortObjectStyle}>
                           <View
@@ -563,6 +580,11 @@ const ExploreScreen = props => {
                         }}
                         onPress={() => {
                           setLocationType(index);
+                          if (locationtype == 0) {
+                            setDistance(20);
+                            console.log(distance, 'mknjnm');
+                          }
+                          console.log(item, 'klklklkl');
                         }}>
                         <View style={styles.sortObjectStyle}>
                           <View
@@ -660,10 +682,18 @@ const ExploreScreen = props => {
               title={'Apply'}
               onPress={() => {
                 setFilterVisible(!filterVisible);
+                dispatch(exploreProductListing({distance: distance}));
               }}
             />
             <Custombutton2
               //backgroundColor={'white'}
+              onPress={() => {
+                setMinPrice(null);
+                setMaxPrice(null);
+                setSelectCategory(null);
+                setSelectSort(null);
+                setFilterVisible(!filterVisible);
+              }}
               height={50}
               width={160}
               title={'Reset'}

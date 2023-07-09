@@ -22,7 +22,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {exploreProductDetail} from '../../redux/explore.slice';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 
-const ProductDetails = () => {
+const ProductDetails = ({route, navigation}) => {
+  const {product_id} = route.params;
+  console.log(product_id, 'ggggklk');
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
   const toggleNumberOfLines = () => {
@@ -50,7 +52,7 @@ const ProductDetails = () => {
   useEffect(() => {
     dispatch(
       exploreProductDetail({
-        product_id: 3,
+        product_id: product_id,
       }),
     );
   }, []);
@@ -168,6 +170,41 @@ const ProductDetails = () => {
     <SafeAreaView style={{flex: 1}}>
       {productDetailLoading === false ? (
         <ScrollView showsVerticalScrollIndicator={false}>
+          {
+            //header
+          }
+          <View style={styles.headerStyle}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                style={{height: SPACING.SCALE_13, width: SPACING.SCALE_40}}
+                source={IMAGES.BACKARROW}
+              />
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert('Product id', product_id.toString());
+                }}>
+                <Image
+                  style={{
+                    marginRight: 16,
+                    height: SPACING.SCALE_24,
+                    width: SPACING.SCALE_24,
+                  }}
+                  source={IMAGES.share}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  style={{height: SPACING.SCALE_24, width: SPACING.SCALE_19}}
+                  source={IMAGES.Favorite}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
           <ImageView images={productDetailData.data.files} />
           {/* Main Image  */}
           {/* <View style={styles.ImageSizeStyle}>

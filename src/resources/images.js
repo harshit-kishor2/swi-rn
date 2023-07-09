@@ -2,7 +2,7 @@
 export const Splash_logo = require('../assets/images/swi_logo.png');
 
 //Navigation Bars
-export const BACKARROW = require('../assets/images/backarrow.png');
+export const BACKARROW = require('../assets/images/backarrow1.png');
 
 //
 export const Rectangle1 = require('../assets/images/Rectangle1.jpg');
@@ -66,3 +66,4 @@ export const Arrow = require('../assets/images/Vector8.png');
 export const logout = require('../assets/images/logout.png');
 export const UserProfile1 = require('../assets/images/UserProfile1.png');
 export const tick = require('../assets/images/tick.png');
+export const share = require('../assets/images/share-2.png');

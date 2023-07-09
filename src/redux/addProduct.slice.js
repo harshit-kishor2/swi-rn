@@ -38,10 +38,8 @@ export const getProductBrand = createAsyncThunk(
         method: 'GET',
         params: params,
       });
-      console.log('response from get product brand', response);
       return response;
     } catch (error) {
-      console.log('error from get product brand', error);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -55,7 +53,27 @@ export const getProductModel = createAsyncThunk(
         url: `model-list/${params.id}`,
         method: 'GET',
       });
-      console.log('response from get product Model', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+//-----------------------------------------------
+// Add product
+export const addProductDetail = createAsyncThunk(
+  'addProductDetail',
+  async (params, thunkAPI) => {
+    try {
+      const response = await api({
+        url: 'add-product-mobile',
+        method: 'POST',
+        params: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('--->>response from get product details', response);
       return response;
     } catch (error) {
       console.log('error from get product Model', error);
@@ -63,7 +81,6 @@ export const getProductModel = createAsyncThunk(
     }
   },
 );
-
 export const initialState = addProductsAdapter.getInitialState({
   dropdownLoading: false,
   dropdownData: null,

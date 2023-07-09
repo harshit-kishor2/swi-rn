@@ -160,6 +160,7 @@ export const SCALE_4 = scaleSize(4);
 export const SCALE_3 = scaleSize(3);
 export const SCALE_2 = scaleSize(2);
 export const SCALE_1 = scaleSize(1);
+export const SCALE_0_5 = scaleSize(0.5);
 export const SCALE__5 = scaleSize(-5);
 export const SCALE__8 = scaleSize(-8);
 export const SCALE__10 = scaleSize(-10);
