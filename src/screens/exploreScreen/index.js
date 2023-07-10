@@ -14,7 +14,9 @@ import {
   TouchableOpacity,
   Animated,
   ScrollView,
+  Modal,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 import React, {useEffect, useRef, useState} from 'react';
 import Search from '../../components/Search';
 import {COLORS, IMAGES, SPACING} from '../../resources';
@@ -38,6 +40,10 @@ import moment from 'moment';
 import fonts from '../../resources/fonts';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Custombutton from '../../components/Button1';
+import Custombutton2 from '../../components/Button2';
+import {TextInput} from 'react-native-paper';
 
 const ExploreScreen = props => {
   const flatListRef = useRef(null);
@@ -45,6 +51,29 @@ const ExploreScreen = props => {
   const [currentPage, setCurrentPage] = useState(1); // Current page of data
   const [loadingMore, setLoadingMore] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [filterSortToggle, setFilterSortToggle] = useState(0);
+  const [sortselectedItem, setSortSelectedItem] = useState(null);
+  const [categorySelectedItem, setCategorySelectedItem] = useState(null);
+  const [locationtype, setLocationType] = useState(null);
+  const [selectedBrands, setSelectedBrands] = useState([]);
+  const [selectedFilterView, setSelectedFilterView] = useState(null);
+  const [distance, setDistance] = useState(0);
+  const [onMinFocus, setMinFocus] = useState(false);
+  const [onMaxFocus, setMaxFocus] = useState(false);
+  // states for filter
+  const [minPrice, setMinPrice] = useState();
+  const [maxPrice, setMaxPrice] = useState();
+  const [selectCategory, setSelectCategory] = useState();
+  const [selectSort, setSelectSort] = useState();
+
+  const handleDistanceChange = value => {
+    setDistance(value);
+  };
+
+  const handleViewSelection = view => {
+    setSelectedFilterView(prevView => (prevView === view ? null : view));
+  };
 
   const {error, loading, products} = useSelector(
     state => state?.exploreReducer,
@@ -242,6 +271,7 @@ const ExploreScreen = props => {
   };
 
   const renderItem = ({item, index}) => (
+    // console.log(item, 'ghghghghghghgh'),
     <Item
       product_image={item.thumb_image}
       product_name={item.title}
@@ -254,7 +284,7 @@ const ExploreScreen = props => {
       id={item.id}
       onPress={() => {
         // Handle item press
-        props.navigation.navigate('ProductDetails');
+        props.navigation.navigate('ProductDetails', {product_id: item.id});
       }}
       wishListPress={() => {
         dispatch(
@@ -272,8 +302,407 @@ const ExploreScreen = props => {
     dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
     setKeyword('');
   };
+  // Filter Data
+  const sortingItems = [
+    'Recently added',
+    'Price: Low to High',
+    'Price: High to Low',
+    'Ascending: A to Z',
+    'Descending: Z to A',
+  ];
+  const categoryItems = ['Brand new', 'Pre- owned'];
+  const Location = ['Nearby ', 'Distance range'];
 
-  return (
+  const watchBrands = [
+    'Rolex',
+    'Omega',
+    'Tag Heuer',
+    'Patek Philippe',
+    'Breitling',
+    'Cartier',
+    'Audemars Piguet',
+    'Tissot',
+    'Seiko',
+    'Citizen',
+    'Fossil',
+  ];
+  // Funnction to handle multiselect
+  const handleBrandToggle = brand => {
+    const isSelected = selectedBrands.includes(brand);
+    let updatedSelection = [];
+
+    if (isSelected) {
+      updatedSelection = selectedBrands.filter(item => item !== brand);
+    } else {
+      updatedSelection = [...selectedBrands, brand];
+    }
+
+    setSelectedBrands(updatedSelection);
+  };
+
+  return filterVisible ? (
+    <StoryScreen NoPadding={true} style={{backgroundColor: 'transparent'}}>
+      <View style={styles.filterStyle}>
+        <View style={styles.filterContainer}>
+          <View style={styles.filterSortSwitch}>
+            <TouchableOpacity
+              onPress={() => {
+                if (filterSortToggle === 1) {
+                  console.log('filter');
+                  setFilterSortToggle(0);
+                }
+              }}
+              style={styles.switchButton}>
+              <Text
+                style={{
+                  color: filterSortToggle === 0 ? COLORS.APPGREEN : null,
+                  fontWeight: filterSortToggle === 0 ? '600' : null,
+                }}>
+                Filter
+              </Text>
+              <View
+                style={{
+                  position: 'absolute',
+                  height: filterSortToggle === 0 ? 2 : 1,
+                  width: SPACING.SCALE_166,
+                  backgroundColor:
+                    filterSortToggle === 0 ? COLORS.APPGREEN : '#000000',
+                  opacity: filterSortToggle === 0 ? 1 : 0.25,
+                  bottom: 0,
+                }}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                if (filterSortToggle === 0) {
+                  console.log('sort');
+                  setFilterSortToggle(1);
+                }
+              }}
+              style={styles.switchButton}>
+              <Text
+                style={{
+                  color: filterSortToggle === 1 ? COLORS.APPGREEN : null,
+                  fontWeight: filterSortToggle === 1 ? '600' : null,
+                }}>
+                Sort
+              </Text>
+              <View
+                style={{
+                  position: 'absolute',
+                  height: filterSortToggle === 1 ? 2 : 1,
+                  width: SPACING.SCALE_166,
+                  backgroundColor:
+                    filterSortToggle === 1 ? COLORS.APPGREEN : '#000000',
+                  opacity: filterSortToggle === 1 ? 1 : 0.25,
+                  bottom: 0,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+
+          {filterSortToggle === 0 && (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{
+                paddingHorizontal: 20,
+
+                //backgroundColor: 'yellow',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  marginTop: 20,
+                }}>
+                <View style={{width: SPACING.SCALE_140}}>
+                  <Text>Min Price</Text>
+                  <TextInput
+                    inputMode="numeric"
+                    onChange={val => {
+                      setMinPrice(val);
+                    }}
+                    onFocus={() => {
+                      setMinFocus(true);
+                    }}
+                    style={{
+                      backgroundColor: 'transparent',
+                      borderBottomColor: onMinFocus
+                        ? COLORS.APPGREEN
+                        : COLORS.BLACK,
+                    }}></TextInput>
+                </View>
+                <View style={{width: SPACING.SCALE_140}}>
+                  <Text>Max Price</Text>
+                  <TextInput
+                    inputMode="numeric"
+                    onChange={val => {
+                      setMaxPrice(val);
+                    }}
+                    style={{
+                      backgroundColor: 'transparent',
+                      borderBottomColor: COLORS.BLACK,
+                      borderBottomWidth: 1,
+                    }}></TextInput>
+                </View>
+              </View>
+              <TouchableOpacity onPress={() => handleViewSelection('Category')}>
+                <View style={styles.filterViewCategoryStyle}>
+                  <CustomText
+                    fontSize={14}
+                    fontFamily={'OpenSans-Regular'}
+                    text={'Category'}
+                    fontColor={COLORS.greyTextColor}
+                  />
+                  <Image source={IMAGES.Arrow} />
+                </View>
+              </TouchableOpacity>
+              {selectedFilterView === 'Category' && (
+                <View style={{flexDirection: 'row'}}>
+                  {categoryItems.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          marginVertical: 7,
+                          marginLeft: 15,
+                        }}
+                        onPress={() => {
+                          setCategorySelectedItem(index);
+                          setSelectCategory(item);
+
+                          console.log(item, selectCategory, 'hhhhppp');
+                        }}>
+                        <View style={styles.sortObjectStyle}>
+                          <View
+                            style={{
+                              ...styles.dotIndicatorStyle,
+                              //backgroundColor: '#00958C',
+                            }}>
+                            {index == categorySelectedItem && (
+                              <View
+                                style={styles.dotInsideIndicatorStyle}></View>
+                            )}
+                          </View>
+                          <View style={{marginLeft: SPACING.SCALE_7}}>
+                            <CustomText
+                              fontFamily={'OpenSans-Regular'}
+                              fontWeight="bold"
+                              text={item}
+                              fontSize={index == sortselectedItem ? 18 : 17}
+                              fontColor={
+                                index == categorySelectedItem
+                                  ? COLORS.BLACK
+                                  : '#1D1D1D'
+                              }
+                            />
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+              <TouchableOpacity
+                onPress={() => {
+                  handleViewSelection('Brands');
+                }}>
+                <View style={styles.filterViewCategoryStyle}>
+                  <CustomText
+                    fontSize={14}
+                    fontFamily={'OpenSans-Regular'}
+                    text={'Brands'}
+                    fontColor={COLORS.greyTextColor}
+                  />
+
+                  <Image source={IMAGES.Arrow} />
+                </View>
+              </TouchableOpacity>
+              {selectedFilterView === 'Brands' && (
+                <View>
+                  {watchBrands.map(brand => (
+                    <TouchableOpacity
+                      key={brand}
+                      onPress={() => handleBrandToggle(brand)}
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginBottom: 10,
+                      }}>
+                      <View
+                        style={{
+                          width: 24,
+                          height: 24,
+                          //borderRadius: 12,
+                          marginRight: 10,
+                          borderWidth: 2,
+                          borderColor: COLORS.APPGREEN,
+                          backgroundColor: selectedBrands.includes(brand)
+                            ? COLORS.APPGREEN
+                            : null,
+
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        {selectedBrands.includes(brand) && (
+                          <Image
+                            style={{height: 12, width: 12}}
+                            source={IMAGES.tick}
+                          />
+                        )}
+                      </View>
+                      <Text style={{marginLeft: 10}}>{brand}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+              <TouchableOpacity
+                onPress={() => {
+                  handleViewSelection('Location');
+                }}>
+                <View style={styles.filterViewCategoryStyle}>
+                  <CustomText
+                    fontSize={14}
+                    fontFamily={'OpenSans-Regular'}
+                    text={'Location'}
+                    fontColor={COLORS.greyTextColor}
+                  />
+                  <Image source={IMAGES.Arrow} />
+                </View>
+              </TouchableOpacity>
+              {selectedFilterView === 'Location' && (
+                <View>
+                  {Location.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          marginVertical: 7,
+                          marginLeft: 15,
+                        }}
+                        onPress={() => {
+                          setLocationType(index);
+                          if (locationtype == 0) {
+                            setDistance(20);
+                            console.log(distance, 'mknjnm');
+                          }
+                          console.log(item, 'klklklkl');
+                        }}>
+                        <View style={styles.sortObjectStyle}>
+                          <View
+                            style={{
+                              ...styles.dotIndicatorStyle,
+                              //backgroundColor: '#00958C',
+                            }}>
+                            {index == locationtype && (
+                              <View
+                                style={styles.dotInsideIndicatorStyle}></View>
+                            )}
+                          </View>
+                          <View style={{marginLeft: SPACING.SCALE_7}}>
+                            <CustomText
+                              fontFamily={'OpenSans-Regular'}
+                              fontWeight="bold"
+                              text={item}
+                              fontSize={index == locationtype ? 18 : 17}
+                              fontColor={
+                                index == locationtype ? COLORS.BLACK : '#1D1D1D'
+                              }
+                            />
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+
+                  {locationtype == 1 && (
+                    <>
+                      <Text>Distance: {distance} km</Text>
+                      <Slider
+                        style={{width: 330, height: 40}}
+                        minimumValue={0}
+                        maximumValue={100}
+                        minimumTrackTintColor={COLORS.BLACK}
+                        maximumTrackTintColor="#000000"
+                        step={1}
+                        value={distance}
+                        onValueChange={handleDistanceChange}
+                      />
+                    </>
+                  )}
+                </View>
+              )}
+            </ScrollView>
+          )}
+          {filterSortToggle === 1 && (
+            <View style={styles.sortView}>
+              {sortingItems.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      marginVertical: 7,
+                    }}
+                    onPress={() => {
+                      setSortSelectedItem(index);
+                    }}>
+                    <View style={styles.sortObjectStyle}>
+                      <View
+                        style={{
+                          ...styles.dotIndicatorStyle,
+                          //backgroundColor: '#00958C',
+                        }}>
+                        {index == sortselectedItem && (
+                          <View style={styles.dotInsideIndicatorStyle}></View>
+                        )}
+                      </View>
+                      <View style={{marginLeft: SPACING.SCALE_7}}>
+                        <CustomText
+                          fontFamily={'OpenSans-Regular'}
+                          fontWeight="bold"
+                          text={item}
+                          fontSize={index == sortselectedItem ? 18 : 17}
+                          fontColor={
+                            index == sortselectedItem ? COLORS.BLACK : '#1D1D1D'
+                          }
+                        />
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              marginTop: 30,
+            }}>
+            <Custombutton
+              height={50}
+              width={160}
+              title={'Apply'}
+              onPress={() => {
+                setFilterVisible(!filterVisible);
+                dispatch(exploreProductListing({distance: distance}));
+              }}
+            />
+            <Custombutton2
+              //backgroundColor={'white'}
+              onPress={() => {
+                setMinPrice(null);
+                setMaxPrice(null);
+                setSelectCategory(null);
+                setSelectSort(null);
+                setFilterVisible(!filterVisible);
+              }}
+              height={50}
+              width={160}
+              title={'Reset'}
+            />
+          </View>
+        </View>
+      </View>
+    </StoryScreen>
+  ) : (
     <StoryScreen NoPadding={true}>
       <View style={{alignItems: 'center', justifyContent: 'center'}}>
         <View style={styles.searchViewStyle}>
@@ -336,7 +765,6 @@ const ExploreScreen = props => {
       </View>
     </StoryScreen>
   );
-
   function header() {
     return (
       <View>
@@ -410,9 +838,7 @@ const ExploreScreen = props => {
               source={IMAGES.filter}
               height={30}
               width={30}
-              onPress={() => {
-                Alert.alert('', 'Filter');
-              }}
+              onPress={() => setFilterVisible(true)}
             />
           </View>
         </View>

@@ -20,6 +20,7 @@ import {AlarmType} from '@notifee/react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {exploreProductDetail} from '../../redux/explore.slice';
+import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 
 const ProductDetails = props => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -67,33 +68,36 @@ const ProductDetails = props => {
     };
 
     return (
-      <View style={styles.container}>
-        <View style={styles.mainView}>
+      <View style={styless.container}>
+        <View style={styless.mainView}>
           <Image
-            style={styles.mainImage}
+            style={styless.mainImage}
             source={{uri: images[selectedImage].file}}
           />
         </View>
-        <View style={styles.thumbnailContainer}>
+        <View style={styless.thumbnailContainer}>
           {images.map((image, index) => (
             <TouchableOpacity
               key={index}
               style={[
-                styles.thumbnail,
-                selectedImage === index && styles.selectedThumbnail,
+                styless.thumbnail,
+                selectedImage === index && styless.selectedThumbnail,
               ]}
               onPress={() => handleImagePress(index)}>
-              <Image style={styles.thumbnailImage} source={{uri: image.file}} />
+              <Image
+                style={styless.thumbnailImage}
+                source={{uri: image.file}}
+              />
             </TouchableOpacity>
           ))}
         </View>
-        <View style={styles.dotContainer}>
+        <View style={styless.dotContainer}>
           {images.map((_, index) => (
             <View
               key={index}
               style={[
-                styles.dot,
-                selectedImage === index && styles.selectedDot,
+                styless.dot,
+                selectedImage === index && styless.selectedDot,
               ]}
             />
           ))}
@@ -102,7 +106,7 @@ const ProductDetails = props => {
     );
   };
 
-  const styles = StyleSheet.create({
+  const styless = StyleSheet.create({
     container: {
       flex: 1,
     },
@@ -163,9 +167,44 @@ const ProductDetails = props => {
   });
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       {productDetailLoading === false ? (
         <ScrollView showsVerticalScrollIndicator={false}>
+          {
+            //header
+          }
+          <View style={styles.headerStyle}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.goBack();
+              }}>
+              <Image
+                style={{height: SPACING.SCALE_13, width: SPACING.SCALE_40}}
+                source={IMAGES.BACKARROW}
+              />
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert('Product id', product_id.toString());
+                }}>
+                <Image
+                  style={{
+                    marginRight: 16,
+                    height: SPACING.SCALE_24,
+                    width: SPACING.SCALE_24,
+                  }}
+                  source={IMAGES.share}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Image
+                  style={{height: SPACING.SCALE_24, width: SPACING.SCALE_19}}
+                  source={IMAGES.Favorite}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
           <ImageView images={productDetailData.data.files} />
           {/* Main Image  */}
           {/* <View style={styles.ImageSizeStyle}>
@@ -223,11 +262,12 @@ const ProductDetails = props => {
               marginVertical: 5,
             }}>
             <Text style={{fontFamily: 'Cabin-Bold', fontSize: 18}}>
-              {productDetailData?.data?.gender_type}'s{' '}
-              {productDetailData?.data?.bracelet} Watch with Leather Strap
+              {productDetailData?.data?.gender_type}'s Watch with{' '}
+              {productDetailData?.data?.bracelet} Strap
             </Text>
             <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 18}}>
-              Rolex - Model 10245
+              {productDetailData?.data?.brand?.name} - Model{' '}
+              {productDetailData?.data?.model?.name}
             </Text>
             <View style={{flexDirection: 'row'}}>
               <Text style={{fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK}}>
@@ -235,7 +275,7 @@ const ProductDetails = props => {
               </Text>
               <Text
                 style={{fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK}}>
-                . BrandNew
+                .{productDetailData?.data?.watch_condition}
               </Text>
             </View>
           </View>
@@ -267,7 +307,7 @@ const ProductDetails = props => {
               marginVertical: 5,
             }}>
             <Image
-              source={IMAGES.Ellipse7}
+              source={{uri: productDetailData?.data?.user?.image}}
               style={{height: 45, width: 45, borderRadius: 45 / 2}}
             />
             <View>
@@ -278,10 +318,12 @@ const ProductDetails = props => {
                   justifyContent: 'space-between',
                 }}>
                 <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
-                  Immy van
+                  {productDetailData?.data?.user?.name?.length > 8
+                    ? addEllipsis(productDetailData?.data?.user?.name, 8)
+                    : productDetailData?.data?.user?.name?.length}
                 </Text>
                 <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12}}>
-                  Posted 2 Days ago
+                  {formatTimestamp(productDetailData?.data?.user?.created_at)}
                 </Text>
               </View>
               <View
@@ -289,8 +331,12 @@ const ProductDetails = props => {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  marginTop: 6,
                 }}>
-                <Image source={IMAGES.LocationImage} />
+                <Image
+                  style={{height: 14.6, width: 12, marginRight: 6}}
+                  source={IMAGES.LocationImage}
+                />
                 <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
                   3018, Singapore Marina Bay
                 </Text>
@@ -320,24 +366,32 @@ const ProductDetails = props => {
             <View style={styles.SpecifiactionView}>
               <Text style={styles.SpecifiactionText1}>Accessories</Text>
               <Text style={styles.SpecifiactionText2}>
-                Watch with Original Box
+                {productDetailData?.data?.accessories}
               </Text>
             </View>
             <View style={styles.SpecifiactionView}>
               <Text style={styles.SpecifiactionText1}>Dial</Text>
-              <Text style={styles.SpecifiactionText2}>White</Text>
+              <Text style={styles.SpecifiactionText2}>
+                {productDetailData?.data?.dial}
+              </Text>
             </View>
             <View style={styles.SpecifiactionView}>
               <Text style={styles.SpecifiactionText1}>Dial Markers</Text>
-              <Text style={styles.SpecifiactionText2}>Index</Text>
+              <Text style={styles.SpecifiactionText2}>
+                {productDetailData?.data?.dial_markers}
+              </Text>
             </View>
             <View style={styles.SpecifiactionView}>
               <Text style={styles.SpecifiactionText1}>Case Size </Text>
-              <Text style={styles.SpecifiactionText2}>26mm ~ 63mm</Text>
+              <Text style={styles.SpecifiactionText2}>
+                {productDetailData?.data?.case_size}
+              </Text>
             </View>
             <View style={styles.SpecifiactionView}>
               <Text style={styles.SpecifiactionText1}>Movement </Text>
-              <Text style={styles.SpecifiactionText2}>Automatic</Text>
+              <Text style={styles.SpecifiactionText2}>
+                {productDetailData?.data?.movement}
+              </Text>
             </View>
           </View>
 
@@ -348,9 +402,7 @@ const ProductDetails = props => {
               onTextLayout={onTextLayout}
               numberOfLines={textShown ? undefined : 1}
               style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
-              Futuristic and sterile, fully luminous white to sunburst black and
-              gilt Future... Futuristic and sterile, fully luminous white to
-              sunburst black and gilt Future...{' '}
+              {productDetailData?.data?.description}{' '}
             </Text>
 
             {true ? (
@@ -481,7 +533,9 @@ const ProductDetails = props => {
           </View>
         </ScrollView>
       ) : (
-        <ActivityIndicator />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size={30} color={COLORS.APPGREEN} />
+        </View>
       )}
     </SafeAreaView>
   );

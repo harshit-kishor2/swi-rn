@@ -47,7 +47,7 @@ export const userSignup = createAsyncThunk(
 export const userLogin = createAsyncThunk(
   'auth/userLogin',
   async (params, thunkAPI) => {
-    console.log('Login--->', params);
+    // console.log('Login--->', params);
     try {
       const response = await api({
         url: `${Config.API_URL}login`,
@@ -57,7 +57,7 @@ export const userLogin = createAsyncThunk(
           Accept: 'application/json',
         },
       });
-      console.log('Login response', response);
+      // console.log('Login response', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -84,14 +84,14 @@ export const getTrustAuthorization = createAsyncThunk(
 export const forgetPassword = createAsyncThunk(
   'auth/forgetPassword',
   async (params, thunkAPI) => {
-    console.log('forgetPasswordData', params);
+    // console.log('forgetPasswordData', params);
     try {
       const response = await api({
         url: `${Config.API_URL}forgot-password`,
         method: 'POST',
         data: params,
       });
-      console.log('forgetpassresponse', response);
+      // console.log('forgetpassresponse', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -127,7 +127,7 @@ const Authslice = createSlice({
       })
       .addCase(userSignup.fulfilled, (state, action) => {
         state.userData = action.payload;
-        console.log('registration', action);
+        // console.log('registration', action);
         fire({
           title: action.payload?.status == 200 ? 'Success' : 'Error',
           message: action.payload.message,
@@ -150,7 +150,7 @@ const Authslice = createSlice({
           state.loginSuccess = true;
           state.loginloader = 'loaded';
           AsyncStorage.setItem('Token', action.payload?.data?.token);
-          console.log('TOKEN', action.payload?.token);
+          // console.log('TOKEN', action.payload?.token);
 
           api.defaults.headers.common.Authorization = `Bearer ${action.payload?.data?.token}`;
 
@@ -162,7 +162,7 @@ const Authslice = createSlice({
           state.profile = action.payload?.data;
           state.tokenlogin = 'true';
         } else {
-          console.log('error response', action.payload?.message);
+          // console.log('error response', action.payload?.message);
           state.loginloader = 'not loaded';
           fire({
             title: 'Message',
