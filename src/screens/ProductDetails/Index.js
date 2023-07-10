@@ -22,9 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {exploreProductDetail} from '../../redux/explore.slice';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 
-const ProductDetails = ({route, navigation}) => {
-  const {product_id} = route.params;
-  console.log(product_id, 'ggggklk');
+const ProductDetails = props => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
   const toggleNumberOfLines = () => {
@@ -50,12 +48,14 @@ const ProductDetails = ({route, navigation}) => {
   );
 
   useEffect(() => {
-    dispatch(
-      exploreProductDetail({
-        product_id: product_id,
-      }),
-    );
-  }, []);
+    if (props.route?.params?.product_id) {
+      dispatch(
+        exploreProductDetail({
+          product_id: props.route.params.product_id,
+        }),
+      );
+    }
+  }, [props.route?.params?.product_id]);
 
   // Image view logic =======================
 

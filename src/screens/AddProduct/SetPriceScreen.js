@@ -1,64 +1,13 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
-import {COLORS} from '../../resources';
+import {COLORS, SPACING} from '../../resources';
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
 
 const SetPriceScreen = ({title}) => {
   const [price, setPrice] = useState();
   return (
-    <View>
-      <View style={{color: 'white', height: 90}}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              color: COLORS.BLACK,
-              marginLeft: 5,
-              fontFamily: 'OpenSans-Regular',
-              fontSize: 12,
-            }}>
-            {' '}
-            You Are Almost there{' '}
-          </Text>
-          <Text
-            style={{
-              color: COLORS.HYPERLINK,
-              marginRight: 10,
-              fontFamily: 'OpenSans-Regular',
-              fontSize: 10,
-            }}>
-            3/3
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: 10,
-          }}>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-        </View>
-      </View>
+    <View style={{marginTop: SPACING.SCALE_30}}>
       <View style={{color: COLORS.PageBackground, backgroundColor: '#F0F2FA'}}>
         <View style={{}}>
           <Text
@@ -113,8 +62,9 @@ const SetPriceScreen = ({title}) => {
             autoFocus={true}
             onChangeText={e => {
               setPrice(e);
-              // console.log(price);
-            }}></TextInput>
+              console.log(price);
+            }}
+          />
         </View>
         <View
           style={{

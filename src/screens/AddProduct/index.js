@@ -26,7 +26,13 @@ const SellScreen = props => {
       <NavigationBar
         leftSource={IMAGES.BACKARROW}
         leftAction={() => {
-          props.navigation.navigate('ExploreScreen');
+          if (formNumber === '3') {
+            setFormNumber('2');
+          } else if (formNumber === '2') {
+            setFormNumber('1');
+          } else {
+            props.navigation.navigate('ExploreScreen');
+          }
         }}
         title={'Post Your watch'}
         flexDirection="row"
@@ -36,14 +42,14 @@ const SellScreen = props => {
       <View style={{marginHorizontal: SPACING.SCALE_25}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text style={styles.subheading}>
-            {formNumber == 1
+            {formNumber === '1'
               ? 'You are few step away to post your watch'
-              : formNumber == 2
+              : formNumber === '2'
               ? 'You are just a step away'
               : 'You are almost there'}
           </Text>
           <Text style={styles.progressiveNo}>
-            {formNumber == 1 ? 1 : formNumber == 2 ? 2 : 3}/3
+            {formNumber === '1' ? 1 : formNumber === '2' ? 2 : 3}/3
           </Text>
         </View>
         <View style={styles.progressiveMain}>
@@ -51,18 +57,21 @@ const SellScreen = props => {
           <View
             style={[
               styles.progressive,
-              {opacity: formNumber == 2 || formNumber == 3 ? 1 : 0.25},
+              {opacity: formNumber === '2' || formNumber === '3' ? 1 : 0.25},
             ]}
           />
           <View
-            style={[styles.progressive, {opacity: formNumber == 3 ? 1 : 0.25}]}
+            style={[
+              styles.progressive,
+              {opacity: formNumber === '3' ? 1 : 0.25},
+            ]}
           />
         </View>
       </View>
       <View style={{flex: 1}}>
-        {formNumber == 1 ? (
+        {formNumber === '1' ? (
           <VideoimageScreen NextPress={() => setFormNumber('2')} />
-        ) : formNumber == 2 ? (
+        ) : formNumber === '2' ? (
           <FormDetails NextPress={() => setFormNumber('3')} />
         ) : (
           <SetPriceScreen />

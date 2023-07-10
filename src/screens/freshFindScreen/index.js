@@ -10,14 +10,21 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {SPACING} from '../../resources';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
 import {COLORS, IMAGES} from '../../resources';
 import Search from '../../components/Search';
-import { useNavigation } from '@react-navigation/native';
-import navigation from '../../navigation';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {connect, useDispatch} from 'react-redux';
+import {
+  fetchFreshFinds,
+  getFreshFindLoading,
+  getFreshFindsData,
+} from '../../redux/freshFinds.slice';
+import {formatTimestamp} from '../../helper/commonFunction';
+// import navigation from '../../navigation';
 const {width, height} = Dimensions.get('screen');
 const Item = ({
   product_image,
@@ -29,171 +36,137 @@ const Item = ({
   posting_day,
   onPress,
   wishListPress,
-  navigation
+  navigation,
+  id,
 }) => {
+  console.log('product image', product_image);
   return (
-    <View style={{margin:10,marginBottom:-4}}>
-      <TouchableOpacity onPress={()=>{navigation.navigate('ProductDetails')}}>
-      <View style={styles.outer}>
-        <View style={styles.inner}>
-          <Image source={product_image} style={styles.imageStyle} />
-          <TouchableOpacity
-            onPress={wishListPress}
-            style={{
-              position: 'absolute',
-              top: 3,
-              right: 12,  
-              height: SPACING.SCALE_20,
-              width: SPACING.SCALE_20,
-            }}>
-            <Image source={IMAGES.Vector1} />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text
-            style={{
-              fontFamily: 'Cabin-SemiBold',
-              marginLeft: 2,
-              color: COLORS.BLACK,
-            }}>
-            {product_name}
-          </Text>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <Text
+    <View style={{margin: 10, marginBottom: -4}}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          navigation.navigate('ProductDetails', {product_id: id});
+        }}>
+        <View style={styles.outer}>
+          <View style={styles.inner}>
+            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            <TouchableOpacity
+              onPress={wishListPress}
               style={{
-                fontFamily: 'OpenSans-SemiBold',
-                fontSize: SPACING.SCALE_12,
-                color: COLORS.HYPERLINK,
-                marginLeft: SPACING.SCALE_6,
+                position: 'absolute',
+                top: 3,
+                right: 12,
+                height: SPACING.SCALE_20,
+                width: SPACING.SCALE_20,
               }}>
-              {' '}
-              $ {price} .
-            </Text>
-            <Text
-              style={{
-                fontFamily: 'Open Sans',
-                fontSize: 10,
-                marginTop: 2,
-                color: COLORS.HYPERLINK,
-              }}>
-              {' '}
-              {condition}
-            </Text>
+              <Image source={IMAGES.Vector1} />
+            </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row', marginTop: 5}}>
-            <View>
-              <Image
-                source={seller_image}
-                style={{height: SPACING.SCALE_17, width: SPACING.SCALE_17, marginTop: SPACING.SCALE_5, marginLeft: SPACING.SCALE_8}}
-              />
-            </View>
-            <View>
-              <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: SPACING.SCALE_10}}>
-                {seller_name}
+          <View>
+            <Text
+              style={{
+                fontFamily: 'Cabin-SemiBold',
+                marginLeft: 2,
+                color: COLORS.BLACK,
+              }}>
+              {product_name}
+            </Text>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <Text
+                style={{
+                  fontFamily: 'OpenSans-SemiBold',
+                  fontSize: SPACING.SCALE_12,
+                  color: COLORS.HYPERLINK,
+                  marginLeft: SPACING.SCALE_6,
+                }}>
+                {' '}
+                $ {price}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: 'Open Sans',
+                  fontSize: 10,
+                  marginTop: 2,
+                  color: COLORS.HYPERLINK,
+                }}>
+                {' '}
+                {condition}
               </Text>
             </View>
+            <View style={{flexDirection: 'row', marginTop: 5}}>
+              <View>
+                <Image
+                  source={seller_image}
+                  style={{
+                    height: SPACING.SCALE_17,
+                    width: SPACING.SCALE_17,
+                    marginTop: SPACING.SCALE_5,
+                    marginLeft: SPACING.SCALE_8,
+                  }}
+                />
+              </View>
+              <View>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-SemiBold',
+                    marginLeft: SPACING.SCALE_10,
+                  }}>
+                  {seller_name}
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                marginLeft: SPACING.SCALE_7,
+                fontFamily: 'Open Sans',
+                fontSize: SPACING.SCALE_8,
+                marginTop: SPACING.SCALE_10,
+              }}>
+              {posting_day}
+            </Text>
           </View>
-          <Text
-            style={{
-              marginLeft: SPACING.SCALE_7,
-              fontFamily: 'Open Sans',
-              fontSize: SPACING.SCALE_8,
-              marginTop: SPACING.SCALE_10,
-            }}>
-            {posting_day}
-          </Text>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
-const DATA = [
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat...',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted 2 Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Fossil Analog Wat...',
-    price: '5500',
-    condition: 'Like New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'george li',
-    posting_day: 'Posted 3 Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Quartz Hombre...',
-    price: '92500',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'leo wartz',
-    posting_day: 'Posted 1 Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-];
-const FreshFind = ({placeholder, onChange,}) => {
-  const navigation = useNavigation()
+const FreshFind = props => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(fetchFreshFinds());
+    }, []),
+  );
+
   const renderItem = ({item, index}) => (
     <Item
-      product_image={item.product_image}
-      product_name={item.product_name}
+      product_image={item.thumb_image}
+      product_name={item.title}
       price={item.price}
-      condition={item.condition}
-      seller_image={item.seller_image}
-      seller_name={item.seller_name}
-      posting_day={item.posting_day}
+      condition={
+        item.watch_condition == 'brand_new' ? 'Brand New' : 'Pre-Owned'
+      }
+      seller_image={item.user?.image}
+      seller_name={item.user?.name}
+      posting_day={formatTimestamp(item.created_at)}
       index={index}
       navigation={navigation}
+      id={item.id}
     />
   );
   return (
-    
-    
-      <StoryScreen>
-     <View
+    <StoryScreen loading={props.loading}>
+      <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-         
         }}>
         <Search
           width={SPACING.SCALE_300}
           placeholder={'Search By Product/ Brand/ Model'}
-         
           onChange={e => {
             console.log(e);
           }}
@@ -205,23 +178,22 @@ const FreshFind = ({placeholder, onChange,}) => {
           <Image source={IMAGES.bell} style={{marginLeft: SPACING.SCALE_10}} />
         </Pressable>
       </View>
-
       <Text style={styles.HedaerTextStyle}>Fresh Finds</Text>
       <FlatList
-        data={DATA}
+        data={props.freshData}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        
-        
       />
-      </StoryScreen>
-    
-   
+    </StoryScreen>
   );
 };
+const mapStateToProps = state => ({
+  loading: getFreshFindLoading(state),
+  freshData: getFreshFindsData(state),
+});
 
-export default FreshFind;
+export default connect(mapStateToProps)(FreshFind);
 
 const styles = StyleSheet.create({
   outer: {
@@ -235,7 +207,6 @@ const styles = StyleSheet.create({
     width: SPACING.SCALE_160,
     height: SPACING.SCALE_160,
     borderRadius: SPACING.SCALE__10,
-   
   },
   imageStyle: {
     width: SPACING.SCALE_160,
@@ -267,8 +238,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Cabin-Bold',
     fontSize: SPACING.SCALE_20,
     color: COLORS.BLACK,
-    marginLeft:SPACING.SCALE_20
-    
+    marginLeft: SPACING.SCALE_20,
   },
 });
-
