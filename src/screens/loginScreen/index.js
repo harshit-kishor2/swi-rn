@@ -22,6 +22,7 @@ import {getFCMToken} from '../../services/firebaseServices';
 import LocationInput from '../../LocationInput';
 import {ALERT} from '../../resources/colors';
 import {fire} from 'react-native-alertbox';
+import TouchableImage from '../../components/TouchableImage';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const LoginScreen = props => {
   const [email, Setemail] = useState();
   const [fcmToken, setFcmToken] = useState();
   const [selectTermsNCond, setSelectTermsNCond] = useState(false);
+  const [passwordFieldVisibleToggle, setPasswordFieldVisibleToggle] =
+    useState(true);
 
   useEffect(() => {
     getFCMToken().then(token => {
@@ -85,19 +88,44 @@ const LoginScreen = props => {
                 value={formik.values.email}
                 autoCapitalize={false}
               />
-              <View style={{height: 20}} />
-              <CustomTextInput
-                secureTextEntry={true}
-                icon={IMAGES.Lock1}
-                placeholder={'Enter password'}
-                Width={SPACING.SCALE_239}
-                onChangeText={e => {
-                  Setpassword(e);
+              <View
+                style={{
+                  height: 20,
                 }}
-                value={formik.values.password}
               />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  // backgroundColor: 'red',
+                }}>
+                <CustomTextInput
+                  secureTextEntry={passwordFieldVisibleToggle}
+                  icon={IMAGES.Lock1}
+                  placeholder={'Enter password'}
+                  Width={SPACING.SCALE_239}
+                  onChangeText={e => {
+                    Setpassword(e);
+                  }}
+                  value={formik.values.password}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    setPasswordFieldVisibleToggle(!passwordFieldVisibleToggle);
+                  }}
+                  style={{position: 'absolute', right: 10, top: 5}}>
+                  <Image
+                    style={{height: 25, width: 25}}
+                    source={
+                      passwordFieldVisibleToggle
+                        ? IMAGES.visibility_off
+                        : IMAGES.visibility_on
+                    }
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            <LocationInput />
+
             <View
               style={{alignSelf: 'flex-end', marginRight: 50, marginTop: 10}}>
               <TouchableOpacity>

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Image,
 } from 'react-native';
 import React, {useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
@@ -23,6 +24,12 @@ const SignupScreen = props => {
   // const [password, Setpassword] = useState();
   // const [cnfpassword, Setcnfpassword] = useState();
   // const [email, Setemail] = useState();
+  const [passwordFieldVisibleToggle, setPasswordFieldVisibleToggle] =
+    useState(true);
+  const [
+    confirmPasswordFieldVisibleToggle,
+    setConfirmPasswordFieldVisibleToggle,
+  ] = useState(true);
 
   let loginValidationSchema = yup.object().shape({
     name: yup
@@ -123,19 +130,42 @@ const SignupScreen = props => {
                       : null}
                   </Text>
                 </View>
-                <CustomTextInput
-                  secureTextEntry={true}
-                  icon={IMAGES.Lock1}
-                  placeholder={'Set password'}
-                  Width={SPACING.SCALE_239}
-                  onChangeText={formik.handleChange('password')}
-                  value={formik.values.password}
-                  errors={
-                    formik.errors.password && formik.touched.password
-                      ? formik.errors.password
-                      : null
-                  }
-                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // backgroundColor: 'red',
+                  }}>
+                  <CustomTextInput
+                    secureTextEntry={passwordFieldVisibleToggle}
+                    icon={IMAGES.Lock1}
+                    placeholder={'Set password'}
+                    Width={SPACING.SCALE_239}
+                    onChangeText={formik.handleChange('password')}
+                    value={formik.values.password}
+                    errors={
+                      formik.errors.password && formik.touched.password
+                        ? formik.errors.password
+                        : null
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setPasswordFieldVisibleToggle(
+                        !passwordFieldVisibleToggle,
+                      );
+                    }}
+                    style={{position: 'absolute', right: 10, top: 5}}>
+                    <Image
+                      style={{height: 25, width: 25}}
+                      source={
+                        passwordFieldVisibleToggle
+                          ? IMAGES.visibility_off
+                          : IMAGES.visibility_on
+                      }
+                    />
+                  </TouchableOpacity>
+                </View>
                 <View>
                   <Text
                     style={{
@@ -146,14 +176,37 @@ const SignupScreen = props => {
                       : null}
                   </Text>
                 </View>
-                <CustomTextInput
-                  secureTextEntry={true}
-                  icon={IMAGES.Lock2}
-                  placeholder={'Confirm password'}
-                  Width={SPACING.SCALE_239}
-                  onChangeText={formik.handleChange('confirmPassword')}
-                  value={formik.values.confirmPassword}
-                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    // backgroundColor: 'red',
+                  }}>
+                  <CustomTextInput
+                    secureTextEntry={confirmPasswordFieldVisibleToggle}
+                    icon={IMAGES.Lock2}
+                    placeholder={'Confirm password'}
+                    Width={SPACING.SCALE_239}
+                    onChangeText={formik.handleChange('confirmPassword')}
+                    value={formik.values.confirmPassword}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setConfirmPasswordFieldVisibleToggle(
+                        !confirmPasswordFieldVisibleToggle,
+                      );
+                    }}
+                    style={{position: 'absolute', right: 10, top: 5}}>
+                    <Image
+                      style={{height: 25, width: 25}}
+                      source={
+                        confirmPasswordFieldVisibleToggle
+                          ? IMAGES.visibility_off
+                          : IMAGES.visibility_on
+                      }
+                    />
+                  </TouchableOpacity>
+                </View>
                 <View>
                   <Text
                     style={{

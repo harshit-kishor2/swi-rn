@@ -165,6 +165,7 @@ const CreateAccountScreen = props => {
           }}
           flexDirection="row"
         />
+
         <View style={styles.container}>
           <View style={styles.topBox}>
             <Text style={styles.headline}>Hello there!</Text>

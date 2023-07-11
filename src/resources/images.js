@@ -68,3 +68,5 @@ export const logout = require('../assets/images/logout.png');
 export const UserProfile1 = require('../assets/images/UserProfile1.png');
 export const tick = require('../assets/images/tick.png');
 export const share = require('../assets/images/share-2.png');
+export const visibility_on = require('../assets/images/visibility_on.png');
+export const visibility_off = require('../assets/images/visibility_off.png');
