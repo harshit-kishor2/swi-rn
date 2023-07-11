@@ -72,11 +72,11 @@ const ProductDetails = props => {
   }, [props.route?.params?.product_id]);
 
   useEffect(() => {
-    if (selectFilteredValue && props.route.params.product_id) {
+    if (props.route.params.product_id) {
       dispatch(
         productChart({
           product_id: props.route.params.product_id,
-          duration: selectFilteredValue.key,
+          duration: selectFilteredValue.key ?? 'sevendays',
         }),
       );
     }
