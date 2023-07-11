@@ -180,17 +180,14 @@ const VideoimageScreen = ({NextPress}) => {
       name: 'profile_pic',
       filename: 'profile1.jpg',
       filepath: Platform.select({
-        android: thumbImage.replace('file://', ''),
+        android: thumbImage?.replace('file://', ''),
         ios: thumbImage,
       }),
       filetype: 'image/jpeg',
     });
     formData.append('user_id', '3');
-
-    console.log('formData---22---', formData);
     dispatch(addProductDetail(formData));
-
-    // NextPress();
+    NextPress();
   };
   //-------------------------------------------------------------
   //  imagePath.forEach()
