@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Image,
   StyleSheet,
@@ -5,11 +6,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
-import React from 'react';
-import StoryScreen from './StoryScreen';
-import NavigationBar from './NavigationBar';
 import {COLORS, IMAGES, SPACING} from '../resources';
 
 const Item = ({
@@ -98,63 +95,8 @@ const Item = ({
     </TouchableOpacity>
   );
 };
-const DATA = [
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-  {
-    product_image: IMAGES.Rectangle91,
-    product_name: 'Mens Rolex Wat..',
-    price: '1200',
-    condition: 'Brand New',
-    seller_image: IMAGES.Ellipse7,
-    seller_name: 'immy van',
-    posting_day: 'Posted Two Days Ago',
-  },
-];
-const ProductViewComponent = props => {
+
+const ProductViewComponent = ({data}) => {
   const renderItem = ({item, index}) => (
     <Item
       product_image={item.product_image}
@@ -167,16 +109,16 @@ const ProductViewComponent = props => {
       index={index}
     />
   );
+
   return (
-    <StoryScreen>
-    
+    <View>
       <FlatList
-        data={DATA}
+        data={data}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         horizontal
       />
-    </StoryScreen>
+    </View>
   );
 };
 
@@ -185,12 +127,9 @@ export default ProductViewComponent;
 const styles = StyleSheet.create({
   outer: {
     backgroundColor: '#F6F6F6',
-    // backgroundColor:'red',
     width: 160,
     height: 279,
     borderRadius: 10,
-    // alignSelf:'center',
-    // justifyContent:'center',
     marginTop: 40,
     marginLeft: 15,
   },
@@ -198,7 +137,6 @@ const styles = StyleSheet.create({
     width: 160,
     height: 160,
     borderRadius: 10,
-    // position:'absolute'
   },
   imageStyle: {
     width: 160,

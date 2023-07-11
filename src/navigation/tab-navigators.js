@@ -6,8 +6,11 @@ import ChatScreen from '../screens/chatScreen';
 import MyProfileScreen from '../screens/profileScreen';
 import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../resources';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
 const TabNavigations = () => {
+  const {isToggledTabBar} = useSelector(state => state?.exploreReducer);
+  console.log('jjkk', isToggledTabBar);
   const Tab = createBottomTabNavigator();
   const CustomsellButton = ({children, onPress}) => (
     <TouchableOpacity
@@ -43,6 +46,7 @@ const TabNavigations = () => {
         name="ExploreScreen"
         component={ExploreScreen}
         options={{
+          tabBarStyle: {display: isToggledTabBar ? 'none' : null},
           headerShown: false,
           tabBarIcon: ({focused, size}) => {
             return (
@@ -118,7 +122,7 @@ const TabNavigations = () => {
         component={SellScreen}
         options={{
           headerShown: false,
-          tabBarStyle: { display: "none" },
+          tabBarStyle: {display: 'none'},
           tabBarIcon: ({focused}) => (
             <View>
               <Image
