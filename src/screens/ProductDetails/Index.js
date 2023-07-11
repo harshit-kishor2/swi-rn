@@ -68,9 +68,19 @@ const ProductDetails = props => {
           product_id: props.route.params.product_id,
         }),
       );
-      dispatch(productChart({}));
     }
   }, [props.route?.params?.product_id]);
+
+  useEffect(() => {
+    if (selectFilteredValue && props.route.params.product_id) {
+      dispatch(
+        productChart({
+          product_id: props.route.params.product_id,
+          duration: selectFilteredValue.key,
+        }),
+      );
+    }
+  }, [selectFilteredValue, props.route.params.product_id]);
 
   // Image view logic =======================
 
