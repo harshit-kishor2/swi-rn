@@ -43,6 +43,7 @@ export const priceChartImage = require('../assets/images/priceChartImage.png');
 export const CompareImage = require('../assets/images/CompareImage.png');
 
 export const dropDownIcon = require('../assets/images/dropDownIcon.jpg');
+export const blackDropIcon = require('../assets/images/blackDropIcon.png');
 export const calendarIcon = require('../assets/images/calendar.png');
 export const dropIcon = require('../assets/images/dropIcon.png');
 export const maleIcon = require('../assets/images/maleIcon.png');
