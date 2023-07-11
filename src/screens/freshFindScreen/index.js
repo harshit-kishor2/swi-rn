@@ -10,7 +10,7 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {SPACING} from '../../resources';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
@@ -131,6 +131,7 @@ const Item = ({
   );
 };
 const FreshFind = props => {
+  const [freshKeyword, setFreshKeyword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -169,6 +170,11 @@ const FreshFind = props => {
           placeholder={'Search By Product/ Brand/ Model'}
           onChange={e => {
             console.log(e);
+            setFreshKeyword(e);
+            console.log('--->>', freshKeyword);
+          }}
+          onSubmitEditing={() => {
+            //dispatch(fetchFreshFinds({keyWord:freshKeyword}));
           }}
         />
         <Pressable

@@ -33,6 +33,8 @@ const Chartdemo = () => {
           }}>
           <ActivityIndicator size={20} />
         </View>
+      ) : productChartError ? (
+        <Text>No record found</Text>
       ) : (
         <LineChart
           data={{

@@ -156,8 +156,8 @@ const ExploreScreen = props => {
 
   function loadMoreData() {
     console.log('loadmore');
-    console.log(products?.data?.last_page);
-    console.log(currentPage);
+    console.log('last page of product', products?.data?.last_page);
+    console.log('current page of API', currentPage);
     if (currentPage < products?.data?.last_page) {
       // console.log('#######');
       if (!loadingMore) {
@@ -190,7 +190,10 @@ const ExploreScreen = props => {
       <TouchableOpacity onPress={onPress}>
         <View style={styles.outer}>
           <View style={styles.inner}>
-            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            <Image
+              source={{uri: product_image ? product_image : null}}
+              style={styles.imageStyle}
+            />
             <TouchableOpacity
               onPress={wishListPress}
               style={{
@@ -259,7 +262,7 @@ const ExploreScreen = props => {
               }}>
               <View>
                 <Image
-                  source={{uri: seller_image}}
+                  source={{uri: seller_image ? seller_image : null}}
                   style={{
                     height: 17,
                     width: 17,
@@ -319,7 +322,7 @@ const ExploreScreen = props => {
     />
   );
   const onSubmitEditing = () => {
-    dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
+    dispatch(exploreProductListing({page: '1', keyWord: keyword}));
     setKeyword('');
   };
   // Filter Data

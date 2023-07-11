@@ -18,7 +18,7 @@ const Search = ({
         onChangeText={onChange}
         onSubmitEditing={onSubmitEditing}
         value={value}
-        autoCapitalize={autoCapitalize}
+        autoCapitalize={autoCapitalize ? 'none' : null}
       />
       <Image source={IMAGES.search} style={styles.img} />
     </View>

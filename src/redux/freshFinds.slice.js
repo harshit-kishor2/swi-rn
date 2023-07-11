@@ -10,7 +10,7 @@ const initialState = {
 
 export const fetchFreshFinds = createAsyncThunk(
   'explore/fetchFreshFinds',
-  async (_, thunkAPI) => {
+  async ({keyWord}, thunkAPI) => {
     try {
       const response = await api({
         url: `${Config.API_URL}products-list-fresh`,
@@ -18,8 +18,11 @@ export const fetchFreshFinds = createAsyncThunk(
         headers: {
           Accept: 'application/json',
         },
+        params: {
+          keyWord: keyWord,
+        },
       });
-      // console.log('Fresh finds', response);
+      console.log('Fresh finds', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
