@@ -42,18 +42,18 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="www.google.com" />
+                <data android:scheme="https" android:host="ckj47.app.link" />
                 <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
-                <data android:scheme="https" android:host="www.google.com" />
+                <data android:scheme="https" android:host="ckj47-alternate.app.link" />
             </intent-filter>
            <!-- Branch App Links - Test App -->
            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="www.google.com" />
+                <data android:scheme="https" android:host="ckj47.test-app.link" />
                 <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
-                <data android:scheme="https" android:host="www.google.com" />
+                <data android:scheme="https" android:host="ckj47-alternate.test-app.link" />
             </intent-filter>
 
 
