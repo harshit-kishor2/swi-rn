@@ -19,6 +19,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {
   getProductBrand,
   getProductModel,
+  pID,
   productBrandData,
   productDropdownAction,
   productDropdownData,
@@ -30,6 +31,8 @@ import SelectWithInput from './SelectWithInput';
 import DatePicker from '../../components/DatePicker';
 import moment from 'moment';
 import HeaderFactoryGemSet from './HeaderFactoryGemSet';
+import * as yup from 'yup';
+import {Formik} from 'formik';
 
 const genderType = [
   {name: 'Male', icon: IMAGES.maleIcon, id: 1},
@@ -37,7 +40,13 @@ const genderType = [
   {name: 'Unisex', icon: IMAGES.unisexIcon, id: 3},
 ];
 
-const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
+const FormDetails = ({
+  NextPress,
+  dropdownData,
+  brandData,
+  modelData,
+  product_ID,
+}) => {
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [title, setTitle] = useState();
@@ -63,6 +72,37 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   const [caseMaterial, setCaseMaterial] = useState({});
   const [strap, setStrap] = useState({});
   const [clasp, setClasp] = useState({});
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+
+  // console.log('product_ID->', product_ID);
+
+  let validationSchema = yup.object().shape({
+    title: yup
+      .string()
+      .required('Required *')
+      .matches(
+        // /^[aA-zZ][aA-zZ\d]+$/,
+        /^[a-zA-Z0-9_][aA-zZ)-9\s]*$/,
+        'Only alphanumeric characters are allowed with first character can only be an alphabet',
+      )
+      .test('len', 'Title should not be more than 20 characters', val =>
+        val ? val.toString().length <= 20 : false,
+      ),
+    selectedBrand: yup.string().required('Please select an option'),
+    selectedModel: yup.string().required('Please select an option'),
+
+    // certain: yup.boolean(),
+    // date: yup
+    //   .date()
+    //   .when('certain', {
+    //     is: true,
+    //     then: yup.date().required('Field is required'),
+    //     otherwise: yup.date().nullable(),
+    //   })
+    //   .typeError('Field must be a valid date'),
+    accessories: yup.string().required('Please select an option'),
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -70,6 +110,12 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
       dispatch(productDropdownAction());
     }, []),
   );
+  // const handleChildValue = value => {
+  //   // setValueFromChild(value);
+  //   console.log('value lat long===>>>>>', value);
+  //   setLatitude(value?.lat);
+  //   setLongitude(value?.lng);
+  // };
 
   useEffect(() => {
     let params = {
@@ -128,493 +174,583 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   };
 
   return (
-    <ScrollView style={styles.formDetailsStyle}>
-      <View style={styles.mainFormComponent}>
-        <View style={styles.halfWidth}>
-          <Dropdown
-            dropDownPress={() => {
-              setDropData(brandData?.data);
-              setHeaderTitle('Select Brand');
-              setIsModalVisible(!isModalVisible);
-            }}
-            title={'Choose Brand'}
-            isRequired={true}
-            value={selectedBrand?.name}
-          />
-        </View>
-        <View style={styles.halfWidth}>
-          <Dropdown
-            transparent={true}
-            dropDownPress={() => {
-              setHeaderTitle('Select Model');
-              setDropData(modelData?.data);
-              setIsModalVisible(!isModalVisible);
-            }}
-            title={'Choose Model'}
-            isRequired={true}
-            value={selectedModel?.name}
-          />
-        </View>
-      </View>
-      <View style={styles.formHeaderMainView}>
-        <Text style={styles.formHeaderText}>
-          Title <Text style={{color: COLORS.RED}}>*</Text>
-        </Text>
-        <TextInput
-          style={{marginBottom: SPACING.SCALE_16, marginTop: SPACING.SCALE_8}}
-          value={title}
-          maxLength={50}
-          onChangeText={e => setTitle(e)}
-        />
-      </View>
-      <View style={{marginTop: SPACING.SCALE_30}}>
-        <Text style={styles.formHeaderText}>
-          Watch Condition <Text style={{color: COLORS.RED}}>*</Text>
-        </Text>
-        <View style={styles.formMainWatchConditionView}>
-          <TouchableOpacity
-            onPress={() => setWatchCondition('brand_new')}
-            activeOpacity={0.7}
-            style={[
-              styles.formWatchConditionView,
-              {
-                backgroundColor:
-                  watchCondition === 'brand_new'
-                    ? COLORS.themeColor
-                    : COLORS.WHITE,
-                borderColor:
-                  watchCondition === 'brand_new'
-                    ? COLORS.WHITE
-                    : COLORS.themeColor,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.formWatchConditionText,
-                {
-                  color:
-                    watchCondition === 'brand_new'
-                      ? COLORS.WHITE
-                      : COLORS.themeColor,
-                },
-              ]}>
-              Brand new
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setWatchCondition('pre_owned')}
-            activeOpacity={0.7}
-            style={[
-              styles.formWatchConditionView,
-              {
-                backgroundColor:
-                  watchCondition === 'pre_owned'
-                    ? COLORS.themeColor
-                    : COLORS.WHITE,
-                borderColor:
-                  watchCondition === 'pre_owned'
-                    ? COLORS.WHITE
-                    : COLORS.themeColor,
-              },
-            ]}>
-            <Text
-              style={[
-                styles.formWatchConditionText,
-                {
-                  color:
-                    watchCondition === 'pre_owned'
-                      ? COLORS.WHITE
-                      : COLORS.themeColor,
-                },
-              ]}>
-              Pre-Owned
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{marginTop: SPACING.SCALE_30}}>
-        <Text style={styles.formHeaderText}>
-          Dated <Text style={{color: COLORS.RED}}>*</Text>
-        </Text>
-        <View style={styles.formDateMainView}>
-          <DatePicker
-            children={
-              <View style={styles.formDateChildrenMainView}>
-                <Text style={styles.formDateTextStyle}>
-                  {date ? moment(date).format('MMM, YYYY') : 'MMM, YYYY'}
-                </Text>
-                <Image source={IMAGES.calendarIcon} resizeMode={'contain'} />
-              </View>
-            }
-            onChangeDate={e => {
-              setDate(e);
-            }}
-          />
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => setCertain(!certain)}
-              style={[
-                styles.formTickMainView,
-                {
-                  backgroundColor: certain ? COLORS.themeColor : COLORS.WHITE,
-                },
-              ]}>
-              {certain ? (
-                <Image
-                  source={IMAGES.tickIcon}
-                  resizeMode={'contain'}
-                  style={{height: SPACING.SCALE_16, width: SPACING.SCALE_16}}
-                />
-              ) : null}
-            </TouchableOpacity>
-            <Text>No Certain</Text>
-          </View>
-        </View>
-      </View>
-      <View style={{marginTop: SPACING.SCALE_30}}>
-        <Dropdown
-          dropDownPress={() => {
-            setDropData(dropdownData?.data?.ACCESSORIES);
-            setHeaderTitle('Select Accessories');
-            setIsModalVisible(!isModalVisible);
-          }}
-          title={'Accessories'}
-          isRequired={true}
-          value={accessories?.name}
-        />
-      </View>
-      <View style={styles.formAdditionalInfo}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setOpenAdditionalInfo(!openAdditionalInfo)}
-          style={styles.formAdditionalView}>
-          <Text style={[styles.formDateTextStyle, {fontWeight: '600'}]}>
-            Fill in additional information
-          </Text>
-          <Image source={IMAGES.dropIcon} resizeMode={'contain'} />
-        </TouchableOpacity>
-        {openAdditionalInfo ? (
-          <View style={{marginHorizontal: SPACING.SCALE_15}}>
-            <View
-              style={{
-                borderBottomWidth: SPACING.SCALE_0_5,
-                borderBottomColor: COLORS.borderBottomColor,
-              }}
-            />
-            <Text style={styles.formWatchDescription}>
-              Tell the customers about this watch
-            </Text>
-            <View style={styles.borderBottom}>
-              <TextInput
-                numberOfLines={5}
-                multiline={true}
-                maxLength={250}
-                onChangeText={e => setWatchDes(e)}
-                value={watchDes}
+    <Formik
+      initialValues={{
+        selectedBrand: selectedBrand?.name,
+        selectedModel: selectedModel?.name,
+        title: title,
+        certain: certain,
+        date: date,
+        accessories: accessories?.name,
+        watchDes: watchDes,
+        gender: gender,
+        dial: dial?.name,
+        dialMarker: dialMarker?.name,
+        caseSize: caseSize?.name,
+        movement: movement?.name,
+        caseMaterial: caseMaterial?.name,
+        strap: strap?.name,
+        clasp: clasp?.name,
+        isFactoryGem: isFactoryGem,
+        factoryGem: factoryGem,
+        custom: custom,
+        customType: customType,
+      }}
+      enableReinitialize
+      validationSchema={validationSchema}
+      onSubmit={values => {
+        // registerData(values);
+      }}>
+      {formik => (
+        <ScrollView style={styles.formDetailsStyle}>
+          <View style={styles.mainFormComponent}>
+            <View style={styles.halfWidth}>
+              <Dropdown
+                dropDownPress={() => {
+                  setDropData(brandData?.data);
+                  setHeaderTitle('Select Brand');
+                  setIsModalVisible(!isModalVisible);
+                }}
+                title={'Choose Brand'}
+                isRequired={true}
+                value={selectedBrand?.name}
               />
-              <Text style={styles.watchDescriptionText}>
-                {watchDes?.length ?? 0}/250
+              <View>
+                <Text
+                  style={{
+                    color: 'red',
+                  }}>
+                  {formik.errors.selectedBrand && formik.touched.selectedBrand
+                    ? formik.errors.selectedBrand
+                    : null}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.halfWidth}>
+              <Dropdown
+                transparent={true}
+                dropDownPress={() => {
+                  setHeaderTitle('Select Model');
+                  setDropData(modelData?.data);
+                  setIsModalVisible(!isModalVisible);
+                }}
+                title={'Choose Model'}
+                isRequired={true}
+                value={selectedModel?.name}
+              />
+              <View>
+                <Text
+                  style={{
+                    color: 'red',
+                  }}>
+                  {formik.errors.selectedModel && formik.touched.selectedModel
+                    ? formik.errors.selectedModel
+                    : null}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.formHeaderMainView}>
+            <Text style={styles.formHeaderText}>
+              Title <Text style={{color: COLORS.RED}}>*</Text>
+            </Text>
+            <TextInput
+              style={{
+                marginBottom: SPACING.SCALE_16,
+                marginTop: SPACING.SCALE_8,
+              }}
+              value={title}
+              maxLength={50}
+              onChangeText={e => setTitle(e)}
+            />
+
+            <Text
+              style={{
+                color: 'red',
+              }}>
+              {formik.errors.title && formik.touched.title
+                ? formik.errors.title
+                : null}
+            </Text>
+          </View>
+          <View style={{marginTop: SPACING.SCALE_30}}>
+            <Text style={styles.formHeaderText}>
+              Watch Condition <Text style={{color: COLORS.RED}}>*</Text>
+            </Text>
+            <View style={styles.formMainWatchConditionView}>
+              <TouchableOpacity
+                onPress={() => setWatchCondition('brand_new')}
+                activeOpacity={0.7}
+                style={[
+                  styles.formWatchConditionView,
+                  {
+                    backgroundColor:
+                      watchCondition === 'brand_new'
+                        ? COLORS.themeColor
+                        : COLORS.WHITE,
+                    borderColor:
+                      watchCondition === 'brand_new'
+                        ? COLORS.WHITE
+                        : COLORS.themeColor,
+                  },
+                ]}>
+                <Text
+                  style={[
+                    styles.formWatchConditionText,
+                    {
+                      color:
+                        watchCondition === 'brand_new'
+                          ? COLORS.WHITE
+                          : COLORS.themeColor,
+                    },
+                  ]}>
+                  Brand new
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setWatchCondition('pre_owned')}
+                activeOpacity={0.7}
+                style={[
+                  styles.formWatchConditionView,
+                  {
+                    backgroundColor:
+                      watchCondition === 'pre_owned'
+                        ? COLORS.themeColor
+                        : COLORS.WHITE,
+                    borderColor:
+                      watchCondition === 'pre_owned'
+                        ? COLORS.WHITE
+                        : COLORS.themeColor,
+                  },
+                ]}>
+                <Text
+                  style={[
+                    styles.formWatchConditionText,
+                    {
+                      color:
+                        watchCondition === 'pre_owned'
+                          ? COLORS.WHITE
+                          : COLORS.themeColor,
+                    },
+                  ]}>
+                  Pre-Owned
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{marginTop: SPACING.SCALE_30}}>
+            <Text style={styles.formHeaderText}>
+              Dated <Text style={{color: COLORS.RED}}>*</Text>
+            </Text>
+            <View style={styles.formDateMainView}>
+              <DatePicker
+                children={
+                  <View style={styles.formDateChildrenMainView}>
+                    <Text style={styles.formDateTextStyle}>
+                      {date ? moment(date).format('MMM, YYYY') : 'MMM, YYYY'}
+                    </Text>
+                    <Image
+                      source={IMAGES.calendarIcon}
+                      resizeMode={'contain'}
+                    />
+                  </View>
+                }
+                onChangeDate={e => {
+                  setDate(e);
+                }}
+              />
+              {formik.touched.date && formik.errors.date && (
+                <Text style={{color: 'red'}}>{formik.errors.date}</Text>
+              )}
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => setCertain(!certain)}
+                  style={[
+                    styles.formTickMainView,
+                    {
+                      backgroundColor: certain
+                        ? COLORS.themeColor
+                        : COLORS.WHITE,
+                    },
+                  ]}>
+                  {certain ? (
+                    <Image
+                      source={IMAGES.tickIcon}
+                      resizeMode={'contain'}
+                      style={{
+                        height: SPACING.SCALE_16,
+                        width: SPACING.SCALE_16,
+                      }}
+                    />
+                  ) : null}
+                </TouchableOpacity>
+                <Text>No Certain</Text>
+              </View>
+            </View>
+          </View>
+          <View style={{marginTop: SPACING.SCALE_30}}>
+            <Dropdown
+              dropDownPress={() => {
+                setDropData(dropdownData?.data?.ACCESSORIES);
+                setHeaderTitle('Select Accessories');
+                setIsModalVisible(!isModalVisible);
+              }}
+              title={'Accessories'}
+              isRequired={true}
+              value={accessories?.name}
+            />
+            <View>
+              <Text
+                style={{
+                  color: COLORS.RED,
+                }}>
+                {formik.errors.accessories && formik.touched.accessories
+                  ? formik.errors.accessories
+                  : null}
               </Text>
             </View>
-            <View style={{marginTop: SPACING.SCALE_30}}>
-              <Text style={styles.formHeaderText}>Gender</Text>
-              <View style={styles.genderTypeView}>
-                {genderType?.map((item, index) => {
+          </View>
+          <View style={styles.formAdditionalInfo}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => setOpenAdditionalInfo(!openAdditionalInfo)}
+              style={styles.formAdditionalView}>
+              <Text style={[styles.formDateTextStyle, {fontWeight: '600'}]}>
+                Fill in additional information
+              </Text>
+              <Image source={IMAGES.dropIcon} resizeMode={'contain'} />
+            </TouchableOpacity>
+            {openAdditionalInfo ? (
+              <View style={{marginHorizontal: SPACING.SCALE_15}}>
+                <View
+                  style={{
+                    borderBottomWidth: SPACING.SCALE_0_5,
+                    borderBottomColor: COLORS.borderBottomColor,
+                  }}
+                />
+                <Text style={styles.formWatchDescription}>
+                  Tell the customers about this watch
+                </Text>
+                <View style={styles.borderBottom}>
+                  <TextInput
+                    numberOfLines={5}
+                    multiline={true}
+                    maxLength={250}
+                    onChangeText={e => setWatchDes(e)}
+                    value={watchDes}
+                  />
+                  <Text style={styles.watchDescriptionText}>
+                    {watchDes?.length ?? 0}/250
+                  </Text>
+                </View>
+                <View style={{marginTop: SPACING.SCALE_30}}>
+                  <Text style={styles.formHeaderText}>Gender</Text>
+                  <View style={styles.genderTypeView}>
+                    {genderType?.map((item, index) => {
+                      return (
+                        <TouchableOpacity
+                          activeOpacity={0.7}
+                          onPress={() => setGender(item.name)}
+                          key={`gender${index}`}
+                          style={[
+                            styles.genderSelectView,
+                            {
+                              borderColor:
+                                gender === item.name
+                                  ? COLORS.themeColor
+                                  : COLORS.PageBackground,
+                              backgroundColor:
+                                gender === item.name
+                                  ? COLORS.themeColor
+                                  : COLORS.PageBackground,
+                            },
+                          ]}>
+                          <Image
+                            source={item.icon}
+                            style={{
+                              marginLeft: SPACING.SCALE_15,
+                              tintColor:
+                                gender === item.name
+                                  ? COLORS.WHITE
+                                  : COLORS.themeColor,
+                            }}
+                          />
+                          <Text
+                            style={[
+                              styles.genderTextStyle,
+                              {
+                                color:
+                                  gender === item.name
+                                    ? COLORS.WHITE
+                                    : COLORS.themeColor,
+                              },
+                            ]}>
+                            {item?.name}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                </View>
+                <View style={styles.formDropDownMainView}>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.DIAL);
+                        setHeaderTitle('Select Dial');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Dial'}
+                      isRequired={false}
+                      value={dial?.name}
+                    />
+                  </View>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.DIALMARKERS);
+                        setHeaderTitle('Select Dial Markers');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Dial Markers'}
+                      isRequired={false}
+                      value={dialMarker?.name}
+                    />
+                  </View>
+                </View>
+                <View style={styles.formDropDownMainView}>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.CASESIZE);
+                        setHeaderTitle('Select Case Size');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Case Size'}
+                      isRequired={false}
+                      value={caseSize?.name}
+                    />
+                  </View>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.MOVEMENT);
+                        setHeaderTitle('Select Movement');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Movement'}
+                      isRequired={false}
+                      value={movement?.name}
+                    />
+                  </View>
+                </View>
+                <View style={styles.formDropDownMainView}>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.CASEMATERIAL);
+                        setHeaderTitle('Select Case Material');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Case Material'}
+                      isRequired={true}
+                      value={caseMaterial?.name}
+                    />
+                  </View>
+                  <View style={styles.fortyFivePercent}>
+                    <Dropdown
+                      dropDownPress={() => {
+                        setDropData(dropdownData?.data?.STRAPBRACELET);
+                        setHeaderTitle('Select Strap/Bracelet');
+                        setIsModalVisible(!isModalVisible);
+                      }}
+                      title={'Strap/Bracelet'}
+                      isRequired={true}
+                      value={strap?.name}
+                    />
+                  </View>
+                </View>
+                <View style={styles.formDropDownMainView}>
+                  <Dropdown
+                    dropDownPress={() => {
+                      setDropData(dropdownData?.data?.CLASP);
+                      setHeaderTitle('Select Clasp');
+                      setIsModalVisible(!isModalVisible);
+                    }}
+                    title={'Clasp'}
+                    isRequired={true}
+                    value={clasp?.name}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: SPACING.SCALE_30,
+                    marginBottom: SPACING.SCALE_20,
+                  }}>
+                  <HeaderFactoryGemSet
+                    header={'Factory Gem set ?'}
+                    onPressYes={() => setIsFactoryGem('Yes')}
+                    value={isFactoryGem}
+                    onPressNo={() => setIsFactoryGem('No')}
+                    subTitle={'If yes, tick what’s gem-setted'}
+                  />
+                  {isFactoryGem === 'Yes' &&
+                    dropdownData?.data?.FACTTORYGEM?.map((item, index) => {
+                      return (
+                        <SelectWithInput
+                          item={item}
+                          onSelect={() => factoryAddFun(factoryGem, item)}
+                          backgroundColor={
+                            isSelectedFactory(factoryGem, item.id)
+                              ? COLORS.themeColor
+                              : COLORS.WHITE
+                          }
+                          isCheck={isSelectedFactory(factoryGem, item.id)}
+                          textValue={item.text}
+                          onChangeTextValue={e =>
+                            onChangeTextValue(factoryGem, item, e)
+                          }
+                        />
+                      );
+                    })}
+                </View>
+                <View style={{marginTop: SPACING.SCALE_30}}>
+                  <HeaderFactoryGemSet
+                    header={'Custom ?'}
+                    onPressYes={() => setCustom('Yes')}
+                    value={custom}
+                    onPressNo={() => setCustom('No')}
+                    subTitle={'If yes, tick what’s custom'}
+                  />
+                  {custom === 'Yes' &&
+                    dropdownData?.data?.CUSTOMFACTTORYGEM?.map(
+                      (item, index) => {
+                        return (
+                          <SelectWithInput
+                            item={item}
+                            onSelect={() => factoryAddFun(customType, item)}
+                            backgroundColor={
+                              isSelectedFactory(customType, item.id)
+                                ? COLORS.themeColor
+                                : COLORS.WHITE
+                            }
+                            isCheck={isSelectedFactory(customType, item.id)}
+                            textValue={item.text}
+                            onChangeTextValue={e =>
+                              onChangeTextValue(customType, item, e)
+                            }
+                          />
+                        );
+                      },
+                    )}
+                </View>
+                <View
+                  style={[
+                    styles.borderBottom,
+                    {
+                      marginBottom: SPACING.SCALE_20,
+                    },
+                  ]}>
+                  <Text style={styles.formLocationTextView}>
+                    What is the location of this product?
+                  </Text>
+                  <View style={styles.formLocationMainView}>
+                    <View style={{width: TYPOGRAPHY.DYNAMIC_WIDTH('80%')}}>
+                      <LocationInput />
+                    </View>
+                    <Image
+                      source={IMAGES.locationIcon}
+                      resizeMode={'contain'}
+                    />
+                  </View>
+                </View>
+              </View>
+            ) : null}
+          </View>
+          <View style={{marginBottom: 50}}>
+            <Custombutton
+              title="NEXT"
+              marginTop={40}
+              height={50}
+              width={'100%'}
+              marginHorizontal={20}
+              onPress={formik.handleSubmit}
+            />
+          </View>
+          <Modal
+            transparent={true}
+            visible={isModalVisible}
+            style={{flex: 1}}
+            onRequestClose={() => setIsModalVisible(false)}>
+            <SafeAreaView style={{flex: 1}}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setIsModalVisible(false)}
+                style={{
+                  flex: 1,
+                  backgroundColor: 'rgba(0,0,0,0.1)',
+                  minHeight: SPACING.SCALE_250,
+                }}>
+                <View style={{flex: 1}} />
+              </TouchableOpacity>
+              <FlatList
+                data={dropData}
+                ListHeaderComponent={
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginVertical: 15,
+                    }}>
+                    <Text style={[TYPOGRAPHY.HEADER_TITLE, {color: 'black'}]}>
+                      {headerTitle}
+                    </Text>
+                  </View>
+                }
+                style={{backgroundColor: 'white', paddingBottom: 20}}
+                keyExtractor={(item, index) => `${item?.id}${index}`}
+                renderItem={({item, index}) => {
                   return (
                     <TouchableOpacity
                       activeOpacity={0.7}
-                      onPress={() => setGender(item.name)}
-                      key={`gender${index}`}
-                      style={[
-                        styles.genderSelectView,
-                        {
-                          borderColor:
-                            gender === item.name
-                              ? COLORS.themeColor
-                              : COLORS.PageBackground,
-                          backgroundColor:
-                            gender === item.name
-                              ? COLORS.themeColor
-                              : COLORS.PageBackground,
-                        },
-                      ]}>
-                      <Image
-                        source={item.icon}
-                        style={{
-                          marginLeft: SPACING.SCALE_15,
-                          tintColor:
-                            gender === item.name
-                              ? COLORS.WHITE
-                              : COLORS.themeColor,
-                        }}
-                      />
-                      <Text
-                        style={[
-                          styles.genderTextStyle,
-                          {
-                            color:
-                              gender === item.name
-                                ? COLORS.WHITE
-                                : COLORS.themeColor,
-                          },
-                        ]}>
+                      onPress={() => {
+                        if (headerTitle === 'Select Brand') {
+                          setSelectedBrand(item);
+                        } else if (headerTitle === 'Select Accessories') {
+                          setAccessories(item);
+                        } else if (headerTitle === 'Select Dial') {
+                          setDial(item);
+                        } else if (headerTitle === 'Select Dial Markers') {
+                          setDialMarker(item);
+                        } else if (headerTitle === 'Select Case Size') {
+                          setCaseSize(item);
+                        } else if (headerTitle === 'Select Movement') {
+                          setMovement(item);
+                        } else if (headerTitle === 'Select Case Material') {
+                          setCaseMaterial(item);
+                        } else if (headerTitle === 'Select Strap/Bracelet') {
+                          setStrap(item);
+                        } else if (headerTitle === 'Select Clasp') {
+                          setClasp(item);
+                        } else {
+                          setSelectedModel(item);
+                        }
+                        setIsModalVisible(false);
+                      }}
+                      style={{alignItems: 'center'}}>
+                      <Text style={styles.formModelTextStyle}>
                         {item?.name}
                       </Text>
                     </TouchableOpacity>
                   );
-                })}
-              </View>
-            </View>
-            <View style={styles.formDropDownMainView}>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.DIAL);
-                    setHeaderTitle('Select Dial');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Dial'}
-                  isRequired={false}
-                  value={dial?.name}
-                />
-              </View>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.DIALMARKERS);
-                    setHeaderTitle('Select Dial Markers');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Dial Markers'}
-                  isRequired={false}
-                  value={dialMarker?.name}
-                />
-              </View>
-            </View>
-            <View style={styles.formDropDownMainView}>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.CASESIZE);
-                    setHeaderTitle('Select Case Size');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Case Size'}
-                  isRequired={false}
-                  value={caseSize?.name}
-                />
-              </View>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.MOVEMENT);
-                    setHeaderTitle('Select Movement');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Movement'}
-                  isRequired={false}
-                  value={movement?.name}
-                />
-              </View>
-            </View>
-            <View style={styles.formDropDownMainView}>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.CASEMATERIAL);
-                    setHeaderTitle('Select Case Material');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Case Material'}
-                  isRequired={true}
-                  value={caseMaterial?.name}
-                />
-              </View>
-              <View style={styles.fortyFivePercent}>
-                <Dropdown
-                  dropDownPress={() => {
-                    setDropData(dropdownData?.data?.STRAPBRACELET);
-                    setHeaderTitle('Select Strap/Bracelet');
-                    setIsModalVisible(!isModalVisible);
-                  }}
-                  title={'Strap/Bracelet'}
-                  isRequired={true}
-                  value={strap?.name}
-                />
-              </View>
-            </View>
-            <View style={styles.formDropDownMainView}>
-              <Dropdown
-                dropDownPress={() => {
-                  setDropData(dropdownData?.data?.CLASP);
-                  setHeaderTitle('Select Clasp');
-                  setIsModalVisible(!isModalVisible);
                 }}
-                title={'Clasp'}
-                isRequired={true}
-                value={clasp?.name}
               />
-            </View>
-            <View
-              style={{
-                marginTop: SPACING.SCALE_30,
-                marginBottom: SPACING.SCALE_20,
-              }}>
-              <HeaderFactoryGemSet
-                header={'Factory Gem set ?'}
-                onPressYes={() => setIsFactoryGem('Yes')}
-                value={isFactoryGem}
-                onPressNo={() => setIsFactoryGem('No')}
-                subTitle={'If yes, tick what’s gem-setted'}
-              />
-              {isFactoryGem === 'Yes' &&
-                dropdownData?.data?.FACTTORYGEM?.map((item, index) => {
-                  return (
-                    <SelectWithInput
-                      item={item}
-                      onSelect={() => factoryAddFun(factoryGem, item)}
-                      backgroundColor={
-                        isSelectedFactory(factoryGem, item.id)
-                          ? COLORS.themeColor
-                          : COLORS.WHITE
-                      }
-                      isCheck={isSelectedFactory(factoryGem, item.id)}
-                      textValue={item.text}
-                      onChangeTextValue={e =>
-                        onChangeTextValue(factoryGem, item, e)
-                      }
-                    />
-                  );
-                })}
-            </View>
-            <View style={{marginTop: SPACING.SCALE_30}}>
-              <HeaderFactoryGemSet
-                header={'Custom ?'}
-                onPressYes={() => setCustom('Yes')}
-                value={custom}
-                onPressNo={() => setCustom('No')}
-                subTitle={'If yes, tick what’s custom'}
-              />
-              {custom === 'Yes' &&
-                dropdownData?.data?.CUSTOMFACTTORYGEM?.map((item, index) => {
-                  return (
-                    <SelectWithInput
-                      item={item}
-                      onSelect={() => factoryAddFun(customType, item)}
-                      backgroundColor={
-                        isSelectedFactory(customType, item.id)
-                          ? COLORS.themeColor
-                          : COLORS.WHITE
-                      }
-                      isCheck={isSelectedFactory(customType, item.id)}
-                      textValue={item.text}
-                      onChangeTextValue={e =>
-                        onChangeTextValue(customType, item, e)
-                      }
-                    />
-                  );
-                })}
-            </View>
-            <View
-              style={[
-                styles.borderBottom,
-                {
-                  marginBottom: SPACING.SCALE_20,
-                },
-              ]}>
-              <Text style={styles.formLocationTextView}>
-                What is the location of this product?
-              </Text>
-              <View style={styles.formLocationMainView}>
-                <View style={{width: TYPOGRAPHY.DYNAMIC_WIDTH('80%')}}>
-                  <LocationInput />
-                </View>
-                <Image source={IMAGES.locationIcon} resizeMode={'contain'} />
-              </View>
-            </View>
-          </View>
-        ) : null}
-      </View>
-      <View style={{marginBottom: 50}}>
-        <Custombutton
-          title="NEXT"
-          marginTop={40}
-          height={50}
-          width={'100%'}
-          marginHorizontal={20}
-          onPress={() => NextPress()}
-        />
-      </View>
-      <Modal
-        transparent={true}
-        visible={isModalVisible}
-        style={{flex: 1}}
-        onRequestClose={() => setIsModalVisible(false)}>
-        <SafeAreaView style={{flex: 1}}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => setIsModalVisible(false)}
-            style={{
-              flex: 1,
-              backgroundColor: 'rgba(0,0,0,0.1)',
-              minHeight: SPACING.SCALE_250,
-            }}>
-            <View style={{flex: 1}} />
-          </TouchableOpacity>
-          <FlatList
-            data={dropData}
-            ListHeaderComponent={
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginVertical: 15,
-                }}>
-                <Text style={[TYPOGRAPHY.HEADER_TITLE, {color: 'black'}]}>
-                  {headerTitle}
-                </Text>
-              </View>
-            }
-            style={{backgroundColor: 'white', paddingBottom: 20}}
-            keyExtractor={(item, index) => `${item?.id}${index}`}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    if (headerTitle === 'Select Brand') {
-                      setSelectedBrand(item);
-                    } else if (headerTitle === 'Select Accessories') {
-                      setAccessories(item);
-                    } else if (headerTitle === 'Select Dial') {
-                      setDial(item);
-                    } else if (headerTitle === 'Select Dial Markers') {
-                      setDialMarker(item);
-                    } else if (headerTitle === 'Select Case Size') {
-                      setCaseSize(item);
-                    } else if (headerTitle === 'Select Movement') {
-                      setMovement(item);
-                    } else if (headerTitle === 'Select Case Material') {
-                      setCaseMaterial(item);
-                    } else if (headerTitle === 'Select Strap/Bracelet') {
-                      setStrap(item);
-                    } else if (headerTitle === 'Select Clasp') {
-                      setClasp(item);
-                    } else {
-                      setSelectedModel(item);
-                    }
-                    setIsModalVisible(false);
-                  }}
-                  style={{alignItems: 'center'}}>
-                  <Text style={styles.formModelTextStyle}>{item?.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </SafeAreaView>
-      </Modal>
-    </ScrollView>
+            </SafeAreaView>
+          </Modal>
+        </ScrollView>
+      )}
+    </Formik>
   );
 };
 
@@ -623,6 +759,7 @@ const mapStateToProps = state => ({
   brandData: productBrandData(state),
   modelData: productModelData(state),
   dropdownLoading: productDropdownLoading(state),
+  product_ID: pID(state),
 });
 
 export default connect(mapStateToProps)(FormDetails);

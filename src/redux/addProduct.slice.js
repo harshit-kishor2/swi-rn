@@ -63,15 +63,21 @@ export const getProductModel = createAsyncThunk(
 // Add product
 export const addProductDetail = createAsyncThunk(
   'addProductDetail',
+
   async (params, thunkAPI) => {
+    console.log('add product params', params);
     try {
       const response = await api({
         url: 'add-product-mobile',
         method: 'POST',
-        params: params,
+        data: params,
         headers: {
           'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
         },
+        // params: {
+        //   step: 'second',
+        // },
       });
       console.log('--->>response from get product details', response);
       return response;
@@ -88,6 +94,8 @@ export const initialState = addProductsAdapter.getInitialState({
   brandData: null,
   modelLoading: false,
   modelData: null,
+  product_id: '',
+  firstformloading: null,
 });
 
 export const productSlice = createSlice({
@@ -125,6 +133,16 @@ export const productSlice = createSlice({
       })
       .addCase(getProductModel.rejected, (state, action) => {
         state.modelLoading = 'error';
+      })
+      .addCase(addProductDetail.pending, (state, action) => {
+        state.firstformloading = 'loading';
+      })
+      .addCase(addProductDetail.fulfilled, (state, action) => {
+        state.firstformloading = 'loaded';
+        state.product_id = action.payload?.data?.id;
+      })
+      .addCase(addProductDetail.rejected, (state, action) => {
+        state.firstformloading = 'error';
       });
   },
 });
@@ -154,4 +172,10 @@ export const productModelLoading = state => {
 
 export const productModelData = state => {
   return state.addProductReducer.modelData;
+};
+export const productFirstLoading = state => {
+  return state.addProductReducer.firstformloading === 'loading' ? true : false;
+};
+export const pID = state => {
+  return state.addProductReducer.product_id;
 };

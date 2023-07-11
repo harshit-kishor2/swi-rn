@@ -50,21 +50,23 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bigImageContainer: {
-    width: '95%',
+    width: '98%',
     height: SPACING.SCALE_310,
     alignSelf: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    padding: SPACING.SCALE_10,
+    borderRadius: SPACING.SCALE_8
   },
   bigImage: {
     flex: 1,
     // resizeMode: 'contain',
 
     //
-    height: SPACING.SCALE_290,
-    width: '90%',
+    height: SPACING.SCALE_310,
+    width: '100%',
     borderRadius: SPACING.SCALE_10,
     alignSelf: 'center',
-    marginTop: 20,
     //
   },
   smallImagesContainer: {
@@ -115,8 +117,9 @@ export const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     backgroundColor: 'white',
-    height: SPACING.SCALE_290,
+    height: SPACING.SCALE_308,
     borderRadius: SPACING.SCALE_10,
+    alignSelf:'center'
   },
   //FormDetails
   formDetailsStyle: {
