@@ -7,6 +7,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import android.os.Bundle;
 import org.devio.rn.splashscreen.SplashScreen;
+import io.branch.rnbranch.*;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
 
@@ -41,4 +43,17 @@ public class MainActivity extends ReactActivity {
         DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
         );
   }
+        // Override onStart:
+      @Override
+      protected void onStart() {
+          super.onStart();
+          RNBranchModule.initSession(getIntent().getData(), this);
+      }
+            
+      // Override onNewIntent:
+      @Override
+      public void onNewIntent(Intent intent) {
+          super.onNewIntent(intent);
+         RNBranchModule.onNewIntent(intent);
+      }
 }

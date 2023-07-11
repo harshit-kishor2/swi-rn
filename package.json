@@ -33,6 +33,7 @@
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-alertbox": "^0.2.11",
+    "react-native-branch": "^5.9.0",
     "react-native-fbsdk-next": "^11.2.1",
     "react-native-google-places-autocomplete": "^2.5.1",
     "react-native-image-crop-picker": "^0.40.0",
