@@ -19,8 +19,10 @@ import Custombutton2 from '../../components/Button2';
 import {AlarmType} from '@notifee/react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-import {exploreProductDetail} from '../../redux/explore.slice';
+import {exploreProductDetail, productChart} from '../../redux/explore.slice';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
+import {useNavigation} from '@react-navigation/native';
+import Chartdemo from './chartdemo';
 
 const ProductDetails = props => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -31,6 +33,7 @@ const ProductDetails = props => {
   };
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const onTextLayout = useCallback(e => {
     setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
@@ -54,6 +57,7 @@ const ProductDetails = props => {
           product_id: props.route.params.product_id,
         }),
       );
+      dispatch(productChart({}));
     }
   }, [props.route?.params?.product_id]);
 
@@ -166,6 +170,36 @@ const ProductDetails = props => {
     },
   });
 
+  const DATA = [
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+  ];
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {productDetailLoading === false ? (
@@ -186,7 +220,10 @@ const ProductDetails = props => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() => {
-                  Alert.alert('Product id', product_id.toString());
+                  Alert.alert(
+                    'Product id',
+                    props.route?.params?.product_id.toString(),
+                  );
                 }}>
                 <Image
                   style={{
@@ -446,6 +483,7 @@ const ProductDetails = props => {
               </View>
             </View>
             <View>
+              <Chartdemo />
               {/* <Image
             style={{height: SPACING.SCALE_196, width: SPACING.SCALE_344}}
             source={IMAGES.priceChartImage}
@@ -456,7 +494,7 @@ const ProductDetails = props => {
           {/* horizontal watcehs  */}
           <View style={{marginTop: 40}}>
             <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
-            <ProductViewComponent />
+            <ProductViewComponent data={DATA} />
           </View>
 
           {/* make an offer and chat button  */}
