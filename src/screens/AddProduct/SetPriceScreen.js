@@ -1,64 +1,24 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
-import {COLORS} from '../../resources';
+import {COLORS, SPACING} from '../../resources';
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
+import {pID, updateThirdProductDetail} from '../../redux/addProduct.slice';
+import {connect, useDispatch} from 'react-redux';
 
-const SetPriceScreen = ({title}) => {
+const SetPriceScreen = ({title, navigation, product_ID}) => {
   const [price, setPrice] = useState();
+  const dispatch = useDispatch();
+  const value = {
+    price: price,
+    productID: product_ID,
+  };
+  const postForm = () => {
+    console.log('final form data', value);
+    dispatch(updateThirdProductDetail(value));
+  };
   return (
-    <View>
-      <View style={{color: 'white', height: 90}}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              color: COLORS.BLACK,
-              marginLeft: 5,
-              fontFamily: 'OpenSans-Regular',
-              fontSize: 12,
-            }}>
-            {' '}
-            You Are Almost there{' '}
-          </Text>
-          <Text
-            style={{
-              color: COLORS.HYPERLINK,
-              marginRight: 10,
-              fontFamily: 'OpenSans-Regular',
-              fontSize: 10,
-            }}>
-            3/3
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            marginTop: 10,
-          }}>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-          <View
-            style={{
-              height: 6,
-              width: 120,
-              borderRadius: 3,
-              backgroundColor: COLORS.HYPERLINK,
-            }}></View>
-        </View>
-      </View>
+    <View style={{marginTop: SPACING.SCALE_30}}>
       <View style={{color: COLORS.PageBackground, backgroundColor: '#F0F2FA'}}>
         <View style={{}}>
           <Text
@@ -114,7 +74,8 @@ const SetPriceScreen = ({title}) => {
             onChangeText={e => {
               setPrice(e);
               console.log(price);
-            }}></TextInput>
+            }}
+          />
         </View>
         <View
           style={{
@@ -142,13 +103,20 @@ const SetPriceScreen = ({title}) => {
             Boost Now
           </Text>
         </View>
-        <Custombutton title={'Post now'} width={'80%'} fontSize={20} />
+        <Custombutton
+          title={'Post now'}
+          width={'80%'}
+          fontSize={20}
+          onPress={postForm}
+        />
       </View>
     </View>
   );
 };
-
-export default SetPriceScreen;
+const mapStateToProps = state => ({
+  product_ID: pID(state),
+});
+export default connect(mapStateToProps)(SetPriceScreen);
 
 const styles = StyleSheet.create({
   container: {

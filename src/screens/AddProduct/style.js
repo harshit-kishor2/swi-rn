@@ -265,7 +265,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: SPACING.SCALE__30,
+    marginVertical: SPACING.SCALE_30,
   },
   formModelTextStyle: {
     fontFamily: 'Open Sans',

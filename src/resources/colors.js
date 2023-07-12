@@ -57,5 +57,6 @@ export const HYPERLINK = '#00958C';
 // Post Product
 
 export const PageBackground = '#F0F2FA';
+export const greyTextColor = '#636363';
 export const themeColor = '#00958C';
 export const borderBottomColor = '#7C7C7C';

@@ -207,12 +207,8 @@ const VideoimageScreen = ({NextPress}) => {
     }
 
     formData.append('title', 'draft project');
-
     formData.append('user_id', '3');
-
-    console.log('formData---22---', formData);
     dispatch(addProductDetail(formData));
-
     NextPress();
   };
   //-------------------------------------------------------------

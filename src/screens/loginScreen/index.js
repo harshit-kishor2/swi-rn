@@ -5,6 +5,7 @@ import {
   Alert,
   StyleSheet,
   Platform,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import StoryScreen from '../../components/StoryScreen';
@@ -19,12 +20,15 @@ import {Formik} from 'formik';
 import G_Recaptcha from '../../components/Recaptcha';
 import {getFCMToken} from '../../services/firebaseServices';
 import LocationInput from '../../LocationInput';
+import {ALERT} from '../../resources/colors';
+import {fire} from 'react-native-alertbox';
 
 const LoginScreen = props => {
   const dispatch = useDispatch();
   const [password, Setpassword] = useState();
   const [email, Setemail] = useState();
   const [fcmToken, setFcmToken] = useState();
+  const [selectTermsNCond, setSelectTermsNCond] = useState(false);
 
   useEffect(() => {
     getFCMToken().then(token => {
@@ -113,6 +117,30 @@ const LoginScreen = props => {
             {/* <G_Recaptcha /> */}
             <View
               style={{flexDirection: 'row', margin: 50, alignSelf: 'center'}}>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectTermsNCond(!selectTermsNCond);
+                }}>
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    //borderRadius: 12,
+                    marginRight: 10,
+                    borderWidth: 2,
+                    borderColor: COLORS.APPGREEN,
+                    backgroundColor: selectTermsNCond ? COLORS.APPGREEN : null,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  {selectTermsNCond && (
+                    <Image
+                      style={{height: 12, width: 12}}
+                      source={IMAGES.tick}
+                    />
+                  )}
+                </View>
+              </TouchableOpacity>
               <Text
                 style={{
                   fontSize: 14,
@@ -142,7 +170,21 @@ const LoginScreen = props => {
               height={51}
               width={241}
               marginHorizontal={SPACING.SCALE_50}
-              onPress={formik.handleSubmit}
+              onPress={() => {
+                if (selectTermsNCond) {
+                  formik.handleSubmit();
+                } else {
+                  fire({
+                    message: 'Please select terms and condition',
+                    actions: [
+                      {
+                        text: 'Ok',
+                        style: 'cancel',
+                      },
+                    ],
+                  });
+                }
+              }}
             />
             <View
               style={{

@@ -31,8 +31,20 @@ const initialState = {
 
 export const exploreProductListing = createAsyncThunk(
   'explore/Products',
-  async ({page, keyWord}, thunkAPI) => {
-    // console.log('page---- ', page, keyWord);
+  async (
+    {page, keyWord, latitude = 0, longitude = 0, distance, sortby, dir},
+    thunkAPI,
+  ) => {
+    console.log(
+      'Keys for explore poduct  ',
+      page,
+      keyWord,
+      latitude,
+      longitude,
+      distance,
+      sortby,
+      dir,
+    );
     try {
       const response = await api({
         url: `${Config.API_URL}products-list`,
@@ -43,6 +55,11 @@ export const exploreProductListing = createAsyncThunk(
         params: {
           page: page,
           keyWord: keyWord,
+          latitude: latitude,
+          longitude: longitude,
+          distance: distance,
+          sortby: sortby,
+          dir: dir,
         },
       });
       // console.log('Explore Product Listing', response);

@@ -34,20 +34,29 @@ const freshFindsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchFreshFinds.pending, state => {
-        state.freshFindsProductsLoading = true;
+        state.freshFindsProductsLoading = 'loading';
         state.freshFindsProductserror = null;
       })
       .addCase(fetchFreshFinds.fulfilled, (state, action) => {
-        state.freshFindsProductsLoading = false;
+        state.freshFindsProductsLoading = 'loaded';
         state.freshFindsProducts = action?.payload?.data;
       })
       .addCase(fetchFreshFinds.rejected, (state, action) => {
-        state.freshFindsProductsLoading = false;
+        state.freshFindsProductsLoading = 'error';
         state.freshFindsProductserror = action.payload;
       });
   },
 });
 
 export const freshFindsActions = freshFindsSlice.actions;
+export const freshFindsReducer = freshFindsSlice.reducer;
 
-export default freshFindsSlice.reducer;
+export const getFreshFindLoading = state => {
+  return state.freshFindsReducer.freshFindsProductsLoading === 'loading'
+    ? true
+    : false;
+};
+
+export const getFreshFindsData = state => {
+  return state.freshFindsReducer.freshFindsProducts;
+};

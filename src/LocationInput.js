@@ -16,16 +16,19 @@ const LocationInput = ({autoFocus}) => {
     <SafeAreaView style={{flex: 1}}>
       <GooglePlacesAutocomplete
         placeholder="Type a place"
-        onPress={(data, details = null) =>
-          console.log(
-            data,
-            'Lat Long of selected Place',
-            details?.geometry?.location,
-            'response',
-          )
-        }
-        query={{key: GOOGLE_PLACES_API_KEY}}
         fetchDetails={true}
+        onPress={(data, details = null) => {
+          // Access the selected place data
+          console.log(data);
+
+          // Access the latitude and longitude
+          if (details) {
+            const {lat, lng} = details.geometry.location;
+            console.log('Latitude:', lat);
+            console.log('Longitude:', lng);
+          }
+        }}
+        query={{key: GOOGLE_PLACES_API_KEY}}
         onFail={error => console.log(error)}
         onNotFound={() => console.log('no results')}
         textInputProps={{
