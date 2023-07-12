@@ -188,23 +188,19 @@ export const exploreProductDetail = createAsyncThunk(
 // API for chart
 export const productChart = createAsyncThunk(
   'explore/productChart',
-  async ({product_id, duration = 'sevendays'}, thunkAPI) => {
+  async (params, thunkAPI) => {
+    console.log('params', params);
     try {
       const response = await api({
-        url: `${Config.API_URL}products-chart/`,
-        method: 'POST',
+        url: `${Config.API_URL}products-chart`,
+        method: 'GET',
         headers: {
           Accept: 'application/json',
         },
-        params: {
-          product_id: '3',
-          duration: 'sevendays',
-        },
+        params: params,
       });
-      console.log('product chart detail', response);
       return response;
     } catch (error) {
-      console.log(error, 'bshkvhfkjshkjh');
       return thunkAPI.rejectWithValue(error);
     }
   },

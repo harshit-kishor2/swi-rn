@@ -158,7 +158,11 @@ dependencies {
      implementation 'com.facebook.android:facebook-android-sdk:11.1.0'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
-
+    
+    implementation 'io.branch.sdk.android:library:5.+'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.1.0+'
+    
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'
