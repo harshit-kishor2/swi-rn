@@ -27,10 +27,12 @@ import Banner from '../../components/BannerComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addWishlist,
+  brandListing,
   exploreBannerListing,
   exploreProductListing,
   exploreReducer,
   exploreTrendyWatchesListing,
+  increaseCurrentPage,
   toggleTabBar,
 } from '../../redux/explore.slice';
 import {exploreActions} from '../../redux/explore.slice';
@@ -108,7 +110,7 @@ const ExploreScreen = props => {
     setSelectedFilterView(prevView => (prevView === view ? null : view));
   };
 
-  const {error, loading, products} = useSelector(
+  const {error, loading, products, productResponse} = useSelector(
     state => state?.exploreReducer,
   );
 
@@ -126,7 +128,15 @@ const ExploreScreen = props => {
     productAddWishListData,
   } = useSelector(state => state?.exploreReducer);
   // console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
-  // console.log(error, loading, products?.data?.data, 'fgdjhgfdsghfjkdshjkfhskh');
+  console.log(
+    error,
+    loading,
+    productResponse,
+    products?.data?.data,
+    products?.data?.last_page,
+
+    'fgdjhgfdsghfjkdshjkfhskh',
+  );
   // console.log(
   //   trendyWatchesProductsLoading,
   //   trendyWatchesProductsError,
@@ -142,7 +152,8 @@ const ExploreScreen = props => {
   // );
 
   useEffect(() => {
-    loadMore();
+    dispatch(exploreProductListing({page: page}));
+    dispatch(brandListing());
     dispatch(exploreTrendyWatchesListing());
     dispatch(exploreBannerListing());
   }, []);
@@ -175,20 +186,26 @@ const ExploreScreen = props => {
   //   }
   // }
 
-  const loadMore = async () => {
-    setIsLoading(true);
-
-    try {
+  const loadMore = () => {
+    console.log('LOAD MORE -------');
+    if (page < productResponse?.data?.last_page) {
+      console.log('LOAD MORE NEXT-------');
+      setPage(page + 1);
+      setIsLoading(true);
       dispatch(exploreProductListing({page: page}));
-
-      // Assuming the API response returns an array of items
-
-      setPage(prevPage => prevPage + 1);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
       setIsLoading(false);
     }
+
+    //   dispatch(exploreProductListing({page: page}));
+
+    //   // Assuming the API response returns an array of items
+
+    //   setPage(prevPage => prevPage + 1);
+    //   setIsLoading(false);
+    // } catch (error) {
+    //   console.error('Error fetching data:', error);
+    //   setIsLoading(false);
+    // }
   };
 
   ////===============
@@ -874,7 +891,7 @@ const ExploreScreen = props => {
 
         <FlatList
           ListHeaderComponent={header}
-          data={products?.data?.data}
+          data={products ?? []}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           numColumns={2}
@@ -885,13 +902,13 @@ const ExploreScreen = props => {
           //contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
 
           onEndReached={loadMore}
-          // onEndReachedThreshold={0.4}
+          onEndReachedThreshold={0.01}
           ListFooterComponent={() => {
             {
               return (
                 isLoading && (
                   <ActivityIndicator
-                    style={{marginTop: 20, marginBottom: 140}}
+                    style={{marginTop: 100, marginBottom: 100}}
                     color={'black'}
                     size={30}
                   />

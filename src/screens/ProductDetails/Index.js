@@ -109,20 +109,25 @@ const ProductDetails = props => {
           )}
         </View>
         <View style={styless.thumbnailContainer}>
-          {images.map((image, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styless.thumbnail,
-                selectedImage === index && styless.selectedThumbnail,
-              ]}
-              onPress={() => handleImagePress(index)}>
-              <Image
-                style={styless.thumbnailImage}
-                source={{uri: image?.file}}
-              />
-            </TouchableOpacity>
-          ))}
+          {images?.length != 0 &&
+            images.map((image, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styless.thumbnail,
+                  selectedImage === index && styless.selectedThumbnail,
+                ]}
+                onPress={() => handleImagePress(index)}>
+                {image?.file ? (
+                  <Image
+                    style={styless.thumbnailImage}
+                    source={{uri: image?.file}}
+                  />
+                ) : (
+                  <Text>No image</Text>
+                )}
+              </TouchableOpacity>
+            ))}
         </View>
         <View style={styless.dotContainer}>
           {images.map((_, index) => (
@@ -372,10 +377,14 @@ const ProductDetails = props => {
               justifyContent: 'space-evenly',
               marginVertical: 5,
             }}>
-            <Image
-              source={{uri: productDetailData?.data?.user?.image}}
-              style={{height: 45, width: 45, borderRadius: 45 / 2}}
-            />
+            {productDetailData?.data?.user?.image ? (
+              <Image
+                source={{uri: productDetailData?.data?.user?.image}}
+                style={{height: 45, width: 45, borderRadius: 45 / 2}}
+              />
+            ) : (
+              <Text>No image</Text>
+            )}
             <View>
               <View
                 style={{
