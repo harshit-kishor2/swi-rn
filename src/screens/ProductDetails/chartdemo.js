@@ -34,8 +34,7 @@ const Chartdemo = () => {
           }}>
           <ActivityIndicator size={20} />
         </View>
-      ) : productChartData?.data?.chart?.label?.length === 0 &&
-        productChartData?.data?.chart?.value?.length === 0 ? (
+      ) : productChartData?.data?.chart?.length === 0 ? (
         <Text>No record found</Text>
       ) : (
         <LineChart
