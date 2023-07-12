@@ -43,7 +43,6 @@ const onDisplayNotification = async (title, body, data) => {
   //   id: 'default',
   //   name: 'Default Channel',
   // });
-
   // // Display a notification
   // await notifee.displayNotification({
   //   title: title,

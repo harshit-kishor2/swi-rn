@@ -13,7 +13,6 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {styles} from './style';
 import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
 import Custombutton from '../../components/Button1';
-import LocationInput from '../../LocationInput';
 import {connect, useDispatch} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/native';
 import {

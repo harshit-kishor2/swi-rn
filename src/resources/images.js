@@ -43,6 +43,7 @@ export const priceChartImage = require('../assets/images/priceChartImage.png');
 export const CompareImage = require('../assets/images/CompareImage.png');
 
 export const dropDownIcon = require('../assets/images/dropDownIcon.jpg');
+export const blackDropIcon = require('../assets/images/blackDropIcon.png');
 export const calendarIcon = require('../assets/images/calendar.png');
 export const dropIcon = require('../assets/images/dropIcon.png');
 export const maleIcon = require('../assets/images/maleIcon.png');
@@ -67,3 +68,5 @@ export const logout = require('../assets/images/logout.png');
 export const UserProfile1 = require('../assets/images/UserProfile1.png');
 export const tick = require('../assets/images/tick.png');
 export const share = require('../assets/images/share-2.png');
+export const visibility_on = require('../assets/images/visibility_on.png');
+export const visibility_off = require('../assets/images/visibility_off.png');

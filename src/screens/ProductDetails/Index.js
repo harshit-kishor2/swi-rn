@@ -4,7 +4,6 @@ import {
   Image,
   ScrollView,
   Alert,
-  Touchable,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
@@ -16,21 +15,36 @@ import {useState, useCallback} from 'react';
 import ProductViewComponent from '../../components/ProductViewComponent';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
-import {AlarmType} from '@notifee/react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-import {exploreProductDetail} from '../../redux/explore.slice';
+import {exploreProductDetail, productChart} from '../../redux/explore.slice';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
+import {useNavigation} from '@react-navigation/native';
+import Chartdemo from './chartdemo';
+
+const selectKey = [
+  {id: 1, name: 'Last 7 Days', key: 'seven_days'},
+  {id: 2, name: 'Last 30 Days', key: 'lastdays'},
+  {id: 3, name: 'Last 6 Months', key: 'lastmonths'},
+  {id: 4, name: 'Last 1 Year', key: 'lastyear'},
+];
 
 const ProductDetails = props => {
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
+  const [isChartDropDown, setIsChartDropDown] = useState(false);
+  const [selectFilteredValue, setSelectFilteredValue] = useState({
+    id: 1,
+    name: 'Last 7 Days',
+    key: 'seven_days',
+  });
   const toggleNumberOfLines = () => {
     //To toggle the show text or hide it
     setTextShown(!textShown);
   };
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const onTextLayout = useCallback(e => {
     setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
@@ -57,6 +71,17 @@ const ProductDetails = props => {
     }
   }, [props.route?.params?.product_id]);
 
+  useEffect(() => {
+    if (props.route.params.product_id) {
+      dispatch(
+        productChart({
+          product_id: props.route.params.product_id,
+          duration: selectFilteredValue.key ?? 'sevendays',
+        }),
+      );
+    }
+  }, [selectFilteredValue, props.route.params.product_id]);
+
   // Image view logic =======================
 
   const ImageView = ({images}) => {
@@ -68,12 +93,20 @@ const ProductDetails = props => {
     };
 
     return (
-      <View style={styless.container}>
+      <View style={[styless.container]}>
         <View style={styless.mainView}>
-          <Image
-            style={styless.mainImage}
-            source={{uri: images[selectedImage].file}}
-          />
+          {images[selectedImage] ? (
+            <Image
+              style={styless.mainImage}
+              source={{
+                uri: images[selectedImage].file,
+              }}
+            />
+          ) : (
+            <View>
+              <Text>No Image</Text>
+            </View>
+          )}
         </View>
         <View style={styless.thumbnailContainer}>
           {images.map((image, index) => (
@@ -86,7 +119,7 @@ const ProductDetails = props => {
               onPress={() => handleImagePress(index)}>
               <Image
                 style={styless.thumbnailImage}
-                source={{uri: image.file}}
+                source={{uri: image?.file}}
               />
             </TouchableOpacity>
           ))}
@@ -166,6 +199,36 @@ const ProductDetails = props => {
     },
   });
 
+  const DATA = [
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+    {
+      product_image: IMAGES.Rectangle91,
+      product_name: 'Mens Rolex Wat..',
+      price: '1200',
+      condition: 'Brand New',
+      seller_image: IMAGES.Ellipse7,
+      seller_name: 'immy van',
+      posting_day: 'Posted Two Days Ago',
+    },
+  ];
+
   return (
     <SafeAreaView style={{flex: 1}}>
       {productDetailLoading === false ? (
@@ -176,7 +239,7 @@ const ProductDetails = props => {
           <View style={styles.headerStyle}>
             <TouchableOpacity
               onPress={() => {
-                navigation.goBack();
+                props.navigation.goBack();
               }}>
               <Image
                 style={{height: SPACING.SCALE_13, width: SPACING.SCALE_40}}
@@ -186,7 +249,10 @@ const ProductDetails = props => {
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() => {
-                  Alert.alert('Product id', product_id.toString());
+                  Alert.alert(
+                    'Product id',
+                    props.route?.params?.product_id.toString(),
+                  );
                 }}>
                 <Image
                   style={{
@@ -439,13 +505,74 @@ const ProductDetails = props => {
                 marginHorizontal: 16,
               }}>
               <Text style={{fontFamily: 'OpenSans-Bold'}}>Price Chart</Text>
-              <View>
-                <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12}}>
-                  Last 4 week{' '}
+              <TouchableOpacity
+                onPress={() => setIsChartDropDown(!isChartDropDown)}
+                activeOpacity={0.7}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-Regular',
+                    fontSize: 16,
+                    color: '#868686',
+                    fontWeight: '600',
+                  }}>
+                  {selectFilteredValue.name}{' '}
                 </Text>
-              </View>
+                <Image
+                  source={IMAGES.blackDropIcon}
+                  resizeMode={'contain'}
+                  style={{
+                    height: SPACING.SCALE_10,
+                    width: SPACING.SCALE_10,
+                    marginTop: SPACING.SCALE_1,
+                  }}
+                />
+              </TouchableOpacity>
+              {isChartDropDown ? (
+                <View
+                  style={{
+                    position: 'absolute',
+                    zIndex: 2,
+                    right: SPACING.SCALE_7,
+                    backgroundColor: '#F0F2FA',
+                    top: SPACING.SCALE_24,
+                    borderBottomLeftRadius: SPACING.SCALE_8,
+                    borderBottomRightRadius: SPACING.SCALE_8,
+                    borderTopLeftRadius: SPACING.SCALE_8,
+                    borderWidth: SPACING.SCALE_2,
+                    borderColor: COLORS.themeColor,
+                  }}>
+                  {selectKey?.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSelectFilteredValue(item);
+                          setIsChartDropDown(false);
+                        }}
+                        activeOpacity={0.7}
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <Text
+                          style={{
+                            marginHorizontal: SPACING.SCALE_15,
+                            marginVertical: SPACING.SCALE_10,
+                          }}>
+                          {item.name}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              ) : null}
             </View>
             <View>
+              <Chartdemo />
               {/* <Image
             style={{height: SPACING.SCALE_196, width: SPACING.SCALE_344}}
             source={IMAGES.priceChartImage}
@@ -454,9 +581,16 @@ const ProductDetails = props => {
           </View>
 
           {/* horizontal watcehs  */}
-          <View style={{marginTop: 40}}>
+          <View style={{marginTop: 40, zIndex: -2}}>
             <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
-            <ProductViewComponent />
+
+            {productDetailData?.data?.suggested_data?.length != 0 ? (
+              <ProductViewComponent data={DATA} />
+            ) : (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text>No Suggested watches</Text>
+              </View>
+            )}
           </View>
 
           {/* make an offer and chat button  */}

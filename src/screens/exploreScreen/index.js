@@ -31,6 +31,7 @@ import {
   exploreProductListing,
   exploreReducer,
   exploreTrendyWatchesListing,
+  toggleTabBar,
 } from '../../redux/explore.slice';
 import {exploreActions} from '../../redux/explore.slice';
 import ProductViewComponent from '../../components/ProductViewComponent';
@@ -44,11 +45,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
 import {TextInput} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
+import LocationInput from '../../LocationInput';
 
 const ExploreScreen = props => {
   const flatListRef = useRef(null);
 
-  const [currentPage, setCurrentPage] = useState(1); // Current page of data
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
@@ -61,13 +66,41 @@ const ExploreScreen = props => {
   const [distance, setDistance] = useState(0);
   const [onMinFocus, setMinFocus] = useState(false);
   const [onMaxFocus, setMaxFocus] = useState(false);
+
   // states for filter
-  const [minPrice, setMinPrice] = useState();
-  const [maxPrice, setMaxPrice] = useState();
+
   const [selectCategory, setSelectCategory] = useState();
-  const [selectSort, setSelectSort] = useState();
+
+  // variable for filter
+  let watch_condition1 = useRef('');
+
+  let minPricee = useRef('');
+  let maxPricee = useRef('');
+  let sortByy = useRef('');
+  let dirr = useRef('');
+  let distancee = useRef('');
+
+  // clear all values after filter is applied
+
+  function clearAllFilterStates() {
+    setFilterSortToggle(0);
+    setSortSelectedItem(null);
+    setCategorySelectedItem(null);
+    setLocationType(null);
+    setSelectedBrands([]);
+    setSelectedFilterView(null);
+    setDistance(0);
+    minPricee.current = '';
+    maxPricee.current = '';
+    sortByy.current = '';
+    dirr.current = '';
+    distancee.current = '';
+  }
+
+  const navigation = useNavigation();
 
   const handleDistanceChange = value => {
+    distancee.current = value;
     setDistance(value);
   };
 
@@ -109,10 +142,10 @@ const ExploreScreen = props => {
   // );
 
   useEffect(() => {
-    dispatch(exploreProductListing({page: currentPage}));
+    loadMore();
     dispatch(exploreTrendyWatchesListing());
     dispatch(exploreBannerListing());
-  }, [currentPage]);
+  }, []);
 
   const handleItemClick = index => {
     const clickedItem = bannerList?.data[index];
@@ -123,33 +156,40 @@ const ExploreScreen = props => {
 
   const dispatch = useDispatch();
 
-  // const handleScroll = event => {
-  //   const contentOffset = event.nativeEvent.contentOffset.x;
-  //   const contentSize = event.nativeEvent.contentSize.width;
-  //   const layoutSize = event.nativeEvent.layoutMeasurement.width;
-  //   const progress = contentOffset / (contentSize - layoutSize);
-  //   setScrollProgress(progress);
-  // };
+  // function loadMoreData() {
+  //   setLoadingMore(true);
+  //   console.log('loadmore');
+  //   console.log('last page of product', products?.data?.last_page);
+  //   console.log('current page of API', currentPage);
+  //   if (currentPage < products?.data?.last_page) {
+  //     console.log(loadingMore, 'loadMore');
+  //     // console.log('#######');
+  //     if (!loadingMore) {
+  //       console.log('222222');
+  //       setCurrentPage(prevPage => prevPage + 1); // Increment the current page
+  //       setLoadingMore(true); // Set loadingMore flag to true
+  //     }
+  //   } else {
+  //     setCurrentPage(1);
+  //     setLoadingMore(false);
+  //   }
+  // }
 
-  // code to know End of ScrollView
+  const loadMore = async () => {
+    setIsLoading(true);
 
-  //
-  function loadMoreData() {
-    console.log('loadmore');
-    console.log(products?.data?.last_page);
-    console.log(currentPage);
-    if (currentPage < products?.data?.last_page) {
-      // console.log('#######');
-      if (!loadingMore) {
-        // console.log('222222');
-        setCurrentPage(prevPage => prevPage + 1); // Increment the current page
-        setLoadingMore(true); // Set loadingMore flag to true
-      }
-    } else {
-      setCurrentPage(1);
-      setLoadingMore(false);
+    try {
+      dispatch(exploreProductListing({page: page}));
+
+      // Assuming the API response returns an array of items
+
+      setPage(prevPage => prevPage + 1);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
     }
-  }
+  };
 
   ////===============
 
@@ -170,12 +210,24 @@ const ExploreScreen = props => {
       <TouchableOpacity onPress={onPress}>
         <View style={styles.outer}>
           <View style={styles.inner}>
-            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            {product_image ? (
+              <Image source={{uri: product_image}} style={styles.imageStyle} />
+            ) : (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: SPACING.SCALE_160,
+                  height: SPACING.SCALE_279,
+                }}>
+                <Text>No Image</Text>
+              </View>
+            )}
             <TouchableOpacity
               onPress={wishListPress}
               style={{
                 position: 'absolute',
-                top: 3,
+                top: 12,
                 right: 12,
                 height: 20,
                 width: 20,
@@ -238,16 +290,22 @@ const ExploreScreen = props => {
                 //justifyContent: 'center',
               }}>
               <View>
-                <Image
-                  source={{uri: seller_image}}
-                  style={{
-                    height: 17,
-                    width: 17,
-                    borderRadius: 17 / 2,
-                    marginTop: 5,
-                    marginLeft: 8,
-                  }}
-                />
+                {seller_image ? (
+                  <Image
+                    source={{uri: seller_image}}
+                    style={{
+                      height: 17,
+                      width: 17,
+                      borderRadius: 17 / 2,
+                      marginTop: 5,
+                      marginLeft: 8,
+                    }}
+                  />
+                ) : (
+                  <View>
+                    <Text>No Image</Text>
+                  </View>
+                )}
               </View>
               <View>
                 <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
@@ -299,7 +357,7 @@ const ExploreScreen = props => {
     />
   );
   const onSubmitEditing = () => {
-    dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
+    dispatch(exploreProductListing({page: '1', keyWord: keyword}));
     setKeyword('');
   };
   // Filter Data
@@ -310,8 +368,8 @@ const ExploreScreen = props => {
     'Ascending: A to Z',
     'Descending: Z to A',
   ];
-  const categoryItems = ['Brand new', 'Pre- owned'];
-  const Location = ['Nearby ', 'Distance range'];
+  const categoryItems = ['Brand_new', 'Pre_owned'];
+  const Location = ['Nearby', 'Distance range'];
 
   const watchBrands = [
     'Rolex',
@@ -339,6 +397,12 @@ const ExploreScreen = props => {
 
     setSelectedBrands(updatedSelection);
   };
+
+  // funtion to manage filter cliok
+  function filterShow() {
+    setFilterVisible(true);
+    dispatch(toggleTabBar(true));
+  }
 
   return filterVisible ? (
     <StoryScreen NoPadding={true} style={{backgroundColor: 'transparent'}}>
@@ -419,11 +483,10 @@ const ExploreScreen = props => {
                   <Text>Min Price</Text>
                   <TextInput
                     inputMode="numeric"
-                    onChange={val => {
-                      setMinPrice(val);
-                    }}
-                    onFocus={() => {
-                      setMinFocus(true);
+                    onChangeText={val => {
+                      // setMinPrice(val);
+                      minPricee.current = val;
+                      console.log('minprice---', minPricee);
                     }}
                     style={{
                       backgroundColor: 'transparent',
@@ -436,13 +499,15 @@ const ExploreScreen = props => {
                   <Text>Max Price</Text>
                   <TextInput
                     inputMode="numeric"
-                    onChange={val => {
-                      setMaxPrice(val);
+                    onChangeText={val => {
+                      // setMaxPrice(val);
+                      maxPricee.current = val;
+                      console.log('maxPrice---', maxPricee);
                     }}
                     style={{
                       backgroundColor: 'transparent',
-                      borderBottomColor: COLORS.BLACK,
-                      borderBottomWidth: 1,
+                      //borderBottomColor: COLORS.BLACK,
+                      // borderBottomWidth: 1,
                     }}></TextInput>
                 </View>
               </View>
@@ -468,6 +533,12 @@ const ExploreScreen = props => {
                         }}
                         onPress={() => {
                           setCategorySelectedItem(index);
+                          if (item === 'Brand_new') {
+                            watch_condition1.current = 'brand_new';
+                          } else if (item === 'Pre_owned') {
+                            watch_condition1.current = 'pre_owned';
+                          }
+
                           setSelectCategory(item);
 
                           console.log(item, selectCategory, 'hhhhppp');
@@ -580,11 +651,15 @@ const ExploreScreen = props => {
                         }}
                         onPress={() => {
                           setLocationType(index);
-                          if (locationtype == 0) {
-                            setDistance(20);
-                            console.log(distance, 'mknjnm');
+                          if (item === 'Nearby') {
+                            distancee.current = 20;
+                            // Alert.alert('nearby');
+                            // setDistance(20);
+                            // console.log(distance, 'mknjnm');
+                          } else if (item === 'Distance range') {
                           }
                           console.log(item, 'klklklkl');
+                          console.log(distance, 'mknjnm');
                         }}>
                         <View style={styles.sortObjectStyle}>
                           <View
@@ -642,6 +717,32 @@ const ExploreScreen = props => {
                     }}
                     onPress={() => {
                       setSortSelectedItem(index);
+                      console.log(item, 'kkklkmmk');
+                      switch (item) {
+                        case 'Recently added':
+                          sortByy.current = 'id';
+                          break;
+                        case 'Price: Low to High':
+                          sortByy.current = 'price';
+                          dirr.current = 'ASC';
+                          break;
+                        case 'Price: High to Low':
+                          sortByy.current = 'price';
+                          dirr.current = 'DESC';
+                          break;
+                        case 'Ascending: A to Z':
+                          sortByy.current = 'title';
+                          dirr.current = 'ASC';
+                          break;
+                        case 'Descending: Z to A':
+                          sortByy.current = 'title';
+                          dirr.current = 'DESC';
+                          break;
+                        default:
+                          sortByy.current = '';
+                          dirr.current = '';
+                          break;
+                      }
                     }}>
                     <View style={styles.sortObjectStyle}>
                       <View
@@ -681,19 +782,54 @@ const ExploreScreen = props => {
               width={160}
               title={'Apply'}
               onPress={() => {
-                setFilterVisible(!filterVisible);
-                dispatch(exploreProductListing({distance: distance}));
+                console.log(
+                  'values for filter---',
+                  watch_condition1.current,
+
+                  minPricee.current,
+                  maxPricee.current,
+                  distancee.current,
+                  sortByy.current,
+
+                  dirr.current,
+                  // minPrice,
+                  // maxPrice,
+                  // distance,
+                  // selectCategory,
+                  // selectedBrands,
+                  // dir,
+                  // sortBy,
+                );
+                if (
+                  watch_condition1.current !== '' ||
+                  minPricee.current !== '' ||
+                  maxPricee.current !== '' ||
+                  distancee.current !== '' ||
+                  sortByy.current !== '' ||
+                  dirr !== ''
+                ) {
+                  dispatch(
+                    exploreProductListing({
+                      distance: distancee.current,
+                      sortby: sortByy.current,
+                      dir: dirr.current,
+                      min_price: minPricee.current,
+                      max_price: maxPricee.current,
+                      //brands: selectedBrands,
+                      watch_condition: watch_condition1.current,
+                    }),
+                  );
+                  setFilterVisible(!filterVisible);
+                  clearAllFilterStates();
+                } else {
+                  Alert.alert('', 'Please apply one filter !');
+                }
+                dispatch(toggleTabBar(false));
               }}
             />
             <Custombutton2
               //backgroundColor={'white'}
-              onPress={() => {
-                setMinPrice(null);
-                setMaxPrice(null);
-                setSelectCategory(null);
-                setSelectSort(null);
-                setFilterVisible(!filterVisible);
-              }}
+              onPress={clearAllFilterStates}
               height={50}
               width={160}
               title={'Reset'}
@@ -747,13 +883,15 @@ const ExploreScreen = props => {
           //onScroll={handleScroll}
           // scrollEventThrottle={16}
           //contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
-          onEndReached={loadMoreData}
+
+          onEndReached={loadMore}
+          // onEndReachedThreshold={0.4}
           ListFooterComponent={() => {
             {
               return (
-                loading && (
+                isLoading && (
                   <ActivityIndicator
-                    style={{marginTop: 20, marginBottom: 150}}
+                    style={{marginTop: 20, marginBottom: 140}}
                     color={'black'}
                     size={30}
                   />
@@ -838,7 +976,7 @@ const ExploreScreen = props => {
               source={IMAGES.filter}
               height={30}
               width={30}
-              onPress={() => setFilterVisible(true)}
+              onPress={filterShow}
             />
           </View>
         </View>

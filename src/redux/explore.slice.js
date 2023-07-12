@@ -25,6 +25,12 @@ const initialState = {
   productDetailLoading: loadingStatus.NOT_LOADED,
   productDetailData: {},
   productDetailError: null,
+  // state to hide tab bar
+  isToggledTabBar: false,
+  // states for product detail
+  productChartLoading: loadingStatus.NOT_LOADED,
+  productChartData: {},
+  productChartError: null,
 };
 
 //  exploreProducts API
@@ -32,18 +38,44 @@ const initialState = {
 export const exploreProductListing = createAsyncThunk(
   'explore/Products',
   async (
-    {page, keyWord, latitude = 0, longitude = 0, distance, sortby, dir},
+    {
+      page = 1,
+      keyWord = '',
+      latitude = 0,
+      longitude = 0,
+      distance = 0,
+      sortby = '',
+      dir = '',
+      min_price = 0,
+      max_price = 9900000,
+      brands = [6, 4],
+      watch_condition = '',
+    },
     thunkAPI,
   ) => {
     console.log(
       'Keys for explore poduct  ',
+
+      'page--',
       page,
+      'keyWord',
       keyWord,
+      'latitude',
       latitude,
+      'longitude',
       longitude,
+      'distance',
       distance,
+      'sortby',
       sortby,
+      'dir',
       dir,
+      'minPrice',
+      min_price,
+      'maxPrice',
+      max_price,
+      'watchCondition',
+      watch_condition,
     );
     try {
       const response = await api({
@@ -53,6 +85,7 @@ export const exploreProductListing = createAsyncThunk(
           Accept: 'application/json',
         },
         params: {
+          min_price: min_price,
           page: page,
           keyWord: keyWord,
           latitude: latitude,
@@ -60,9 +93,12 @@ export const exploreProductListing = createAsyncThunk(
           distance: distance,
           sortby: sortby,
           dir: dir,
+          brands: brands,
+          max_price: max_price,
+          watch_condition: watch_condition,
         },
       });
-      // console.log('Explore Product Listing', response);
+      console.log('Explore Product Listing', response.data.data);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -149,10 +185,35 @@ export const exploreProductDetail = createAsyncThunk(
   },
 );
 
+// API for chart
+export const productChart = createAsyncThunk(
+  'explore/productChart',
+  async (params, thunkAPI) => {
+    console.log('params', params);
+    try {
+      const response = await api({
+        url: `${Config.API_URL}products-chart`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        params: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 const exploreSlice = createSlice({
   name: 'exploreSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleTabBar: (state, action) => {
+      state.isToggledTabBar = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(exploreProductListing.pending, state => {
@@ -233,8 +294,21 @@ const exploreSlice = createSlice({
       .addCase(exploreProductDetail.rejected, (state, action) => {
         state.productDetailLoading = false;
         state.productDetailError = action?.payload;
+      })
+      .addCase(productChart.pending, state => {
+        state.productChartLoading = true;
+      })
+      .addCase(productChart.fulfilled, (state, action) => {
+        state.productChartLoading = false;
+        console.log(action.payload, '======lll');
+        state.productChartData = action?.payload;
+      })
+      .addCase(productChart.rejected, (state, action) => {
+        state.productChartLoading = false;
+        state.productChartError = action?.payload;
       });
   },
 });
+export const {toggleTabBar} = exploreSlice.actions;
 export const {actions: exploreActions, reducer: exploreReducer} = exploreSlice;
 export default exploreSlice.reducer;
