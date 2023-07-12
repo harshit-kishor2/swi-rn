@@ -202,16 +202,16 @@ const FormDetails = ({
         title: title,
         no_certain: certain ? 'yes' : 'no',
         dated: date,
-        accessories: accessories?.name,
+        accessories: accessories?.id,
         description: watchDes,
         gender_type: gender,
-        dial: dial?.name,
-        dial_markers: dialMarker?.name,
-        case_size: caseSize?.name,
-        movement: movement?.name,
-        case_materials: caseMaterial?.name,
-        bracelet: strap?.name,
-        clasp: clasp?.name,
+        dial: dial?.id,
+        dial_markers: dialMarker?.id,
+        case_size: caseSize?.id,
+        movement: movement?.id,
+        case_materials: caseMaterial?.id,
+        bracelet: strap?.id,
+        clasp: clasp?.id,
         factory_gem_set: isFactoryGem,
 
         factory_gem: factoryGem,
@@ -583,7 +583,7 @@ const FormDetails = ({
                           setIsModalVisible(!isModalVisible);
                         }}
                         title={'Case Material'}
-                        isRequired={true}
+                        isRequired={false}
                         value={caseMaterial?.name}
                       />
                     </View>
@@ -595,7 +595,7 @@ const FormDetails = ({
                           setIsModalVisible(!isModalVisible);
                         }}
                         title={'Strap/Bracelet'}
-                        isRequired={true}
+                        isRequired={false}
                         value={strap?.name}
                       />
                     </View>
@@ -608,7 +608,7 @@ const FormDetails = ({
                         setIsModalVisible(!isModalVisible);
                       }}
                       title={'Clasp'}
-                      isRequired={true}
+                      isRequired={false}
                       value={clasp?.name}
                     />
                   </View>

@@ -24,6 +24,7 @@ import {addProductDetail} from '../../redux/addProduct.slice';
 const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
+  const [error, setError] = useState(false);
   const [thumb_Image, setthumb_Image] = useState();
   const [paused, setPaused] = useState(false);
   const dispatch = useDispatch();
@@ -123,6 +124,7 @@ const VideoimageScreen = ({NextPress}) => {
   };
   console.log(imagePath);
   const gallary = () => {
+    setError(false);
     ImageCropPicker.openPicker({
       width: 300,
       height: 400,
@@ -173,13 +175,18 @@ const VideoimageScreen = ({NextPress}) => {
   //   }
   // }
   // console.log('first Image --->>>>>', firstImageMode);
+
   const Submit = () => {
+    if (!imagePath.length) {
+      setError(true);
+      return;
+    }
     const formData = new FormData();
     imagePath.forEach((image, index) => {
-      console.log('==video==', image);
+      // console.log('==video==', image);
       const d = image?.path?.split('/');
       const name = d[d.length - 1];
-      console.log('Name', name);
+      // console.log('Name', name);
       formData.append(`product_file[${index}]`, {
         name: name ?? 'Image' + index + '.jpg',
         type: image.mime,
@@ -211,8 +218,6 @@ const VideoimageScreen = ({NextPress}) => {
     dispatch(addProductDetail(formData));
     NextPress();
   };
-  //-------------------------------------------------------------
-  //  imagePath.forEach()
 
   return (
     <View style={styles.container}>
@@ -249,6 +254,16 @@ const VideoimageScreen = ({NextPress}) => {
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
             Selected images/videos
           </Text>
+          {error == true ? (
+            <Text
+              style={{
+                fontFamily: 'OpenSans-Regular',
+                fontSize: 16,
+                color: 'red',
+              }}>
+              Please Select Files
+            </Text>
+          ) : null}
         </View>
         <ScrollView
           horizontal

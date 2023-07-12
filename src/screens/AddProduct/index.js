@@ -17,7 +17,7 @@ import {
 
 const SellScreen = props => {
   const [formNumber, setFormNumber] = useState('1');
-  console.log('formNumber', formNumber);
+  // console.log('formNumber', formNumber);
   // const mainNavigation = () => {
   //   if (formNumber === '1') {
   //     props.navigation.navigate('ExploreScreen');
