@@ -140,6 +140,7 @@ const Authslice = createSlice({
         });
       })
       .addCase(userSignup.rejected, (state, action) => {
+        console.log('action--->', action);
         state.signuploader = 'not loaded';
       })
       .addCase(userLogin.pending, (state, action) => {
@@ -177,6 +178,7 @@ const Authslice = createSlice({
         }
       })
       .addCase(userLogin.rejected, (state, action) => {
+        console.log('action of login--->>>', action);
         state.loginloader = 'not loaded';
         fire({
           title: 'Error',

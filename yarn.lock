@@ -6969,6 +6969,11 @@ react-native-alertbox@^0.2.11:
   resolved "https://registry.yarnpkg.com/react-native-alertbox/-/react-native-alertbox-0.2.11.tgz#859e08fc992e81ba9ea7f656d3ff0b2b665d8e7f"
   integrity sha512-1wwFCIPUlKyI0UQbCVmPHePVLrRullq0RGoiZvYekY/OBRDBJ2TKwByH5gFB2qzJM/dTgxbDP64qB8YBYghQ8Q==
 
+react-native-branch@^5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-5.9.0.tgz#8c3958453c67709e82548cc753b828c82f339765"
+  integrity sha512-sgKM2Y7LMAKLFX39qpzuyCEfOwOTwgg+Cg563usLxSggK44js2xojMk+Il/DQqmtRFtR0F+eVILGgfwn4icfIA==
+
 react-native-chart-kit@^6.12.0:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/react-native-chart-kit/-/react-native-chart-kit-6.12.0.tgz#187a4987a668a85b7e93588c248ed2c33b3a06f6"

@@ -17,6 +17,18 @@ import {
 
 const SellScreen = props => {
   const [formNumber, setFormNumber] = useState('1');
+  console.log('formNumber', formNumber);
+  // const mainNavigation = () => {
+  //   if (formNumber === '1') {
+  //     props.navigation.navigate('ExploreScreen');
+  //     setFormNumber('1');
+  //   }
+  //   if (formNumber === '2') {
+  //     setFormNumber('1');
+  //   } else {
+  //     setFormNumber('2');
+  //   }
+  // };
   return (
     <StoryScreen
       NoPadding={true}
