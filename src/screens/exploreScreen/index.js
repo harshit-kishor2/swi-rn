@@ -27,10 +27,12 @@ import Banner from '../../components/BannerComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addWishlist,
+  brandListing,
   exploreBannerListing,
   exploreProductListing,
   exploreReducer,
   exploreTrendyWatchesListing,
+  increaseCurrentPage,
   toggleTabBar,
 } from '../../redux/explore.slice';
 import {exploreActions} from '../../redux/explore.slice';
@@ -51,7 +53,9 @@ import LocationInput from '../../LocationInput';
 const ExploreScreen = props => {
   const flatListRef = useRef(null);
 
-  const [currentPage, setCurrentPage] = useState(1); // Current page of data
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
@@ -106,7 +110,7 @@ const ExploreScreen = props => {
     setSelectedFilterView(prevView => (prevView === view ? null : view));
   };
 
-  const {error, loading, products} = useSelector(
+  const {error, loading, products, productResponse} = useSelector(
     state => state?.exploreReducer,
   );
 
@@ -124,7 +128,15 @@ const ExploreScreen = props => {
     productAddWishListData,
   } = useSelector(state => state?.exploreReducer);
   // console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
-  // console.log(error, loading, products?.data?.data, 'fgdjhgfdsghfjkdshjkfhskh');
+  console.log(
+    error,
+    loading,
+    productResponse,
+    products?.data?.data,
+    products?.data?.last_page,
+
+    'fgdjhgfdsghfjkdshjkfhskh',
+  );
   // console.log(
   //   trendyWatchesProductsLoading,
   //   trendyWatchesProductsError,
@@ -140,10 +152,11 @@ const ExploreScreen = props => {
   // );
 
   useEffect(() => {
-    dispatch(exploreProductListing({page: currentPage}));
+    dispatch(exploreProductListing({page: page}));
+    dispatch(brandListing());
     dispatch(exploreTrendyWatchesListing());
     dispatch(exploreBannerListing());
-  }, [currentPage]);
+  }, []);
 
   const handleItemClick = index => {
     const clickedItem = bannerList?.data[index];
@@ -154,22 +167,46 @@ const ExploreScreen = props => {
 
   const dispatch = useDispatch();
 
-  function loadMoreData() {
-    console.log('loadmore');
-    console.log(products?.data?.last_page);
-    console.log(currentPage);
-    if (currentPage < products?.data?.last_page) {
-      // console.log('#######');
-      if (!loadingMore) {
-        // console.log('222222');
-        setCurrentPage(prevPage => prevPage + 1); // Increment the current page
-        setLoadingMore(true); // Set loadingMore flag to true
-      }
-    } else {
-      setCurrentPage(1);
-      setLoadingMore(false);
+  // function loadMoreData() {
+  //   setLoadingMore(true);
+  //   console.log('loadmore');
+  //   console.log('last page of product', products?.data?.last_page);
+  //   console.log('current page of API', currentPage);
+  //   if (currentPage < products?.data?.last_page) {
+  //     console.log(loadingMore, 'loadMore');
+  //     // console.log('#######');
+  //     if (!loadingMore) {
+  //       console.log('222222');
+  //       setCurrentPage(prevPage => prevPage + 1); // Increment the current page
+  //       setLoadingMore(true); // Set loadingMore flag to true
+  //     }
+  //   } else {
+  //     setCurrentPage(1);
+  //     setLoadingMore(false);
+  //   }
+  // }
+
+  const loadMore = () => {
+    console.log('LOAD MORE -------');
+    if (page < productResponse?.data?.last_page) {
+      console.log('LOAD MORE NEXT-------');
+      setPage(page + 1);
+      setIsLoading(true);
+      dispatch(exploreProductListing({page: page}));
+      setIsLoading(false);
     }
-  }
+
+    //   dispatch(exploreProductListing({page: page}));
+
+    //   // Assuming the API response returns an array of items
+
+    //   setPage(prevPage => prevPage + 1);
+    //   setIsLoading(false);
+    // } catch (error) {
+    //   console.error('Error fetching data:', error);
+    //   setIsLoading(false);
+    // }
+  };
 
   ////===============
 
@@ -190,7 +227,19 @@ const ExploreScreen = props => {
       <TouchableOpacity onPress={onPress}>
         <View style={styles.outer}>
           <View style={styles.inner}>
-            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            {product_image ? (
+              <Image source={{uri: product_image}} style={styles.imageStyle} />
+            ) : (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: SPACING.SCALE_160,
+                  height: SPACING.SCALE_279,
+                }}>
+                <Text>No Image</Text>
+              </View>
+            )}
             <TouchableOpacity
               onPress={wishListPress}
               style={{
@@ -258,16 +307,22 @@ const ExploreScreen = props => {
                 //justifyContent: 'center',
               }}>
               <View>
-                <Image
-                  source={{uri: seller_image}}
-                  style={{
-                    height: 17,
-                    width: 17,
-                    borderRadius: 17 / 2,
-                    marginTop: 5,
-                    marginLeft: 8,
-                  }}
-                />
+                {seller_image ? (
+                  <Image
+                    source={{uri: seller_image}}
+                    style={{
+                      height: 17,
+                      width: 17,
+                      borderRadius: 17 / 2,
+                      marginTop: 5,
+                      marginLeft: 8,
+                    }}
+                  />
+                ) : (
+                  <View>
+                    <Text>No Image</Text>
+                  </View>
+                )}
               </View>
               <View>
                 <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
@@ -319,7 +374,7 @@ const ExploreScreen = props => {
     />
   );
   const onSubmitEditing = () => {
-    dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
+    dispatch(exploreProductListing({page: '1', keyWord: keyword}));
     setKeyword('');
   };
   // Filter Data
@@ -836,7 +891,7 @@ const ExploreScreen = props => {
 
         <FlatList
           ListHeaderComponent={header}
-          data={products?.data?.data}
+          data={products ?? []}
           renderItem={renderItem}
           keyExtractor={item => item.id}
           numColumns={2}
@@ -845,13 +900,15 @@ const ExploreScreen = props => {
           //onScroll={handleScroll}
           // scrollEventThrottle={16}
           //contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
-          onEndReached={loadMoreData}
+
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.01}
           ListFooterComponent={() => {
             {
               return (
-                loading && (
+                isLoading && (
                   <ActivityIndicator
-                    style={{marginTop: 20, marginBottom: 150}}
+                    style={{marginTop: 100, marginBottom: 100}}
                     color={'black'}
                     size={30}
                   />

@@ -25,7 +25,9 @@ const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
   const [thumb_Image, setthumb_Image] = useState();
+  const [paused, setPaused] = useState(false);
   const dispatch = useDispatch();
+  console.log('imagePath', imagePath);
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
@@ -126,6 +128,17 @@ const VideoimageScreen = ({NextPress}) => {
       height: 400,
       cropping: true,
     }).then(image => {
+      // console.log('asdfghjk', image);
+      // let newImg = {
+      //   name: 'profile_pic',
+      //   filename: 'profile1.jpg',
+      //   path: image?.path,
+      //   filepath:
+      //     Platform.OS === 'android'
+      //       ? image?.path?.replace('file://', '')
+      //       : image?.path,
+      //   filetype: 'image/jpeg',
+      // };
       if (image?.size <= 5242880) {
         setImagePath(img => [...img, image]);
       } else {
@@ -146,6 +159,11 @@ const VideoimageScreen = ({NextPress}) => {
   };
   const handleImagePress = image => {
     setSelectedImage(image);
+    if (selectedImage?.mime === 'video/mp4') {
+      setPaused(true);
+    } else {
+      setPaused(false);
+    }
   };
 
   // for (const object of imagePath) {
@@ -156,35 +174,39 @@ const VideoimageScreen = ({NextPress}) => {
   // }
   // console.log('first Image --->>>>>', firstImageMode);
   const Submit = () => {
-    let thumbImage;
+    const formData = new FormData();
+    imagePath.forEach((image, index) => {
+      console.log('==video==', image);
+      const d = image?.path?.split('/');
+      const name = d[d.length - 1];
+      console.log('Name', name);
+      formData.append(`product_file[${index}]`, {
+        name: name ?? 'Image' + index + '.jpg',
+        type: image.mime,
+        uri:
+          Platform.OS === 'ios'
+            ? image.path.replace('file://', '')
+            : image.path,
+      });
+    });
+
     for (const object of imagePath) {
       if (object?.mime === 'image/jpeg') {
-        thumbImage = object?.path;
+        const a = object?.path?.split('/');
+        let mainthumb = a[a.length - 1];
+        formData.append('thumb_image', {
+          name: mainthumb,
+          type: object.mime,
+          uri:
+            Platform.OS === 'ios'
+              ? object?.path.replace('file://', '')
+              : object?.path,
+        });
         break;
       }
     }
-    const formData = new FormData();
-    imagePath.forEach((image, index) => {
-      formData.append(`product_file[${index}]`, {
-        name: 'profile_pic',
-        filename: 'profile1.jpg',
-        filepath: Platform.select({
-          android: image?.path.replace('file://', ''),
-          ios: image?.path,
-        }),
-        filetype: 'image/jpeg',
-      });
-    });
+
     formData.append('title', 'draft project');
-    formData.append('thumb_image', {
-      name: 'profile_pic',
-      filename: 'profile1.jpg',
-      filepath: Platform.select({
-        android: thumbImage?.replace('file://', ''),
-        ios: thumbImage,
-      }),
-      filetype: 'image/jpeg',
-    });
     formData.append('user_id', '3');
     dispatch(addProductDetail(formData));
     NextPress();
@@ -201,21 +223,28 @@ const VideoimageScreen = ({NextPress}) => {
           </Text>
           <Text>Please upload Image of max 10mb</Text>
         </View>
-        <View style={styles.bigImageContainer}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={selectedImage?.mime !== 'video/mp4'}
+          onPress={() => setPaused(!paused)}
+          style={styles.bigImageContainer}>
           {selectedImage?.mime === 'video/mp4' ? (
             <Video
-              controls={true}
+              controls={false}
               source={{uri: selectedImage?.path}}
               style={styles.backgroundVideo}
+              paused={paused}
               resizeMode="contain"
+              repeat={true}
             />
           ) : (
             <Image
               source={{uri: selectedImage?.path}}
               style={styles.bigImage}
+              resizeMode="contain"
             />
           )}
-        </View>
+        </TouchableOpacity>
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
             Selected images/videos

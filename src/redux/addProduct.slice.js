@@ -63,14 +63,20 @@ export const getProductModel = createAsyncThunk(
 // Add product
 export const addProductDetail = createAsyncThunk(
   'addProductDetail',
+
   async (params, thunkAPI) => {
+    console.log('add product params', params);
     try {
       const response = await api({
         url: 'add-product-mobile',
         method: 'POST',
-        params: params,
+        data: params,
         headers: {
           'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
+        },
+        params: {
+          step: 'first',
         },
       });
       console.log('--->>response from get product details', response);
@@ -81,6 +87,71 @@ export const addProductDetail = createAsyncThunk(
     }
   },
 );
+
+//-----------------------------------------------------------------
+//update product of second page
+export const updateSecondProductDetail = createAsyncThunk(
+  'updateSecondProductDetail',
+
+  async (params, thunkAPI) => {
+    console.log(
+      'update-product-data/{product_id}',
+      `update-product-data/${params?.productID}`,
+    );
+    try {
+      const response = await api({
+        url: `update-product-data/${params?.productID}`,
+        method: 'POST',
+        data: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
+        },
+        params: {
+          step: 'second',
+        },
+      });
+      console.log('--->>response from update product details', response);
+      return response;
+    } catch (error) {
+      console.log('error from get product Model', error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+//-----------------------------------------------------------------
+//update product of third page
+export const updateThirdProductDetail = createAsyncThunk(
+  'updateThirdProductDetail',
+
+  async (params, thunkAPI) => {
+    console.log(
+      'update-product-data/{product_id}',
+      `update-product-data/${params?.productID}`,
+    );
+    
+    try {
+      const response = await api({
+        url: `update-product-data/${params?.productID}`,
+        method: 'POST',
+        data: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
+        },
+        params: {
+          step: 'third',
+        },
+      });
+      console.log('--->>response from update Third product details', response);
+      return response;
+    } catch (error) {
+      console.log('error from get product Model', error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 export const initialState = addProductsAdapter.getInitialState({
   dropdownLoading: false,
   dropdownData: null,
@@ -88,6 +159,10 @@ export const initialState = addProductsAdapter.getInitialState({
   brandData: null,
   modelLoading: false,
   modelData: null,
+  product_id: '',
+  firstformloading: null,
+  secondformloading: null,
+  thirdformloading: null,
 });
 
 export const productSlice = createSlice({
@@ -125,6 +200,34 @@ export const productSlice = createSlice({
       })
       .addCase(getProductModel.rejected, (state, action) => {
         state.modelLoading = 'error';
+      })
+      .addCase(addProductDetail.pending, (state, action) => {
+        state.firstformloading = 'loading';
+      })
+      .addCase(addProductDetail.fulfilled, (state, action) => {
+        state.firstformloading = 'loaded';
+        state.product_id = action.payload?.data?.id;
+      })
+      .addCase(addProductDetail.rejected, (state, action) => {
+        state.firstformloading = 'error';
+      })
+      .addCase(updateSecondProductDetail.pending, (state, action) => {
+        state.secondformloading = 'loading';
+      })
+      .addCase(updateSecondProductDetail.fulfilled, (state, action) => {
+        state.secondformloading = 'loaded';
+      })
+      .addCase(updateSecondProductDetail.rejected, (state, action) => {
+        state.secondformloading = 'error';
+      })
+      .addCase(updateThirdProductDetail.pending, (state, action) => {
+        state.thirdformloading = 'loading';
+      })
+      .addCase(updateThirdProductDetail.fulfilled, (state, action) => {
+        state.thirdformloading = 'loaded';
+      })
+      .addCase(updateThirdProductDetail.rejected, (state, action) => {
+        state.thirdformloading = 'error';
       });
   },
 });
@@ -154,4 +257,16 @@ export const productModelLoading = state => {
 
 export const productModelData = state => {
   return state.addProductReducer.modelData;
+};
+export const productFirstLoading = state => {
+  return state.addProductReducer.firstformloading === 'loading' ? true : false;
+};
+export const pID = state => {
+  return state.addProductReducer.product_id;
+};
+export const productSecondLoading = state => {
+  return state.addProductReducer.secondformloading === 'loading' ? true : false;
+};
+export const productThirdLoading = state => {
+  return state.addProductReducer.thirdformloading === 'loading' ? true : false;
 };

@@ -10,7 +10,7 @@ import {
   Alert,
   Pressable,
 } from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {SPACING} from '../../resources';
 import StoryScreen from '../../components/StoryScreen';
 import NavigationBar from '../../components/NavigationBar';
@@ -39,7 +39,7 @@ const Item = ({
   navigation,
   id,
 }) => {
-  console.log('product image', product_image);
+  //console.log('product image', product_image);
   return (
     <View style={{margin: 10, marginBottom: -4}}>
       <TouchableOpacity
@@ -49,7 +49,10 @@ const Item = ({
         }}>
         <View style={styles.outer}>
           <View style={styles.inner}>
-            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            <Image
+              source={{uri: product_image ? product_image : null}}
+              style={styles.imageStyle}
+            />
             <TouchableOpacity
               onPress={wishListPress}
               style={{
@@ -131,12 +134,14 @@ const Item = ({
   );
 };
 const FreshFind = props => {
+  const [freshKeyword, setFreshKeyword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  var keyWord;
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchFreshFinds());
+      dispatch(fetchFreshFinds({}));
     }, []),
   );
 
@@ -168,7 +173,12 @@ const FreshFind = props => {
           width={SPACING.SCALE_300}
           placeholder={'Search By Product/ Brand/ Model'}
           onChange={e => {
-            console.log(e);
+            setFreshKeyword(e);
+            keyWord = e;
+            console.log('--->>', keyWord);
+          }}
+          onSubmitEditing={() => {
+            dispatch(fetchFreshFinds({keyWord: freshKeyword}));
           }}
         />
         <Pressable

@@ -254,6 +254,20 @@ const LoginScreen = props => {
                     ],
                   });
                 }
+                if (selectReCaptcha) {
+                  formik.handleSubmit();
+                } else {
+                  fire({
+                    message: 'Please select reCaptcha',
+                    actions: [
+                      {
+                        text: 'Ok',
+                        style: 'cancel',
+                      },
+                    ],
+                  });
+                }
+
               }}
             />
             <View

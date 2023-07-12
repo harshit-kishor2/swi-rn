@@ -3,9 +3,20 @@ import React, {useState} from 'react';
 import {COLORS, SPACING} from '../../resources';
 import CustomTextInput from '../../components/CustomtextInput';
 import Custombutton from '../../components/Button1';
+import {pID, updateThirdProductDetail} from '../../redux/addProduct.slice';
+import {connect, useDispatch} from 'react-redux';
 
-const SetPriceScreen = ({title}) => {
+const SetPriceScreen = ({title, navigation, product_ID}) => {
   const [price, setPrice] = useState();
+  const dispatch = useDispatch();
+  const value = {
+    price: price,
+    productID: product_ID,
+  };
+  const postForm = () => {
+    console.log('final form data', value);
+    dispatch(updateThirdProductDetail(value));
+  };
   return (
     <View style={{marginTop: SPACING.SCALE_30}}>
       <View style={{color: COLORS.PageBackground, backgroundColor: '#F0F2FA'}}>
@@ -92,13 +103,20 @@ const SetPriceScreen = ({title}) => {
             Boost Now
           </Text>
         </View>
-        <Custombutton title={'Post now'} width={'80%'} fontSize={20} />
+        <Custombutton
+          title={'Post now'}
+          width={'80%'}
+          fontSize={20}
+          onPress={postForm}
+        />
       </View>
     </View>
   );
 };
-
-export default SetPriceScreen;
+const mapStateToProps = state => ({
+  product_ID: pID(state),
+});
+export default connect(mapStateToProps)(SetPriceScreen);
 
 const styles = StyleSheet.create({
   container: {
