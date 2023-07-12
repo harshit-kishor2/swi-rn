@@ -39,7 +39,7 @@ const Item = ({
   navigation,
   id,
 }) => {
-  console.log('product image', product_image);
+  //console.log('product image', product_image);
   return (
     <View style={{margin: 10, marginBottom: -4}}>
       <TouchableOpacity
@@ -49,7 +49,10 @@ const Item = ({
         }}>
         <View style={styles.outer}>
           <View style={styles.inner}>
-            <Image source={{uri: product_image}} style={styles.imageStyle} />
+            <Image
+              source={{uri: product_image ? product_image : null}}
+              style={styles.imageStyle}
+            />
             <TouchableOpacity
               onPress={wishListPress}
               style={{
@@ -134,10 +137,11 @@ const FreshFind = props => {
   const [freshKeyword, setFreshKeyword] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  var keyWord;
 
   useFocusEffect(
     useCallback(() => {
-      dispatch(fetchFreshFinds());
+      dispatch(fetchFreshFinds({}));
     }, []),
   );
 
@@ -169,12 +173,12 @@ const FreshFind = props => {
           width={SPACING.SCALE_300}
           placeholder={'Search By Product/ Brand/ Model'}
           onChange={e => {
-            console.log(e);
             setFreshKeyword(e);
-            console.log('--->>', freshKeyword);
+            keyWord = e;
+            console.log('--->>', keyWord);
           }}
           onSubmitEditing={() => {
-            //dispatch(fetchFreshFinds({keyWord:freshKeyword}));
+            dispatch(fetchFreshFinds({keyWord: freshKeyword}));
           }}
         />
         <Pressable

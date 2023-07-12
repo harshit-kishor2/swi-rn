@@ -74,10 +74,18 @@ const ProductDetails = props => {
     return (
       <View style={styless.container}>
         <View style={styless.mainView}>
-          <Image
-            style={styless.mainImage}
-            source={{uri: images[selectedImage].file}}
-          />
+          {images[selectedImage] ? (
+            <Image
+              style={styless.mainImage}
+              source={{
+                uri: images[selectedImage].file,
+              }}
+            />
+          ) : (
+            <View>
+              <Text>No Image</Text>
+            </View>
+          )}
         </View>
         <View style={styless.thumbnailContainer}>
           {images.map((image, index) => (
@@ -494,7 +502,14 @@ const ProductDetails = props => {
           {/* horizontal watcehs  */}
           <View style={{marginTop: 40}}>
             <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
-            <ProductViewComponent data={DATA} />
+
+            {productDetailData?.data?.suggested_data?.length != 0 ? (
+              <ProductViewComponent data={DATA} />
+            ) : (
+              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+                <Text>No Suggested watches</Text>
+              </View>
+            )}
           </View>
 
           {/* make an offer and chat button  */}

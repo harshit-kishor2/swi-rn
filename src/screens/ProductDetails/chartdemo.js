@@ -19,6 +19,7 @@ const Chartdemo = () => {
     productChartError,
     productChartLoading,
     'hdhkhfksdahfkjhdskfhdsfhsfkhsk',
+    productChartData?.data?.chart?.label?.length,
   );
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -33,7 +34,8 @@ const Chartdemo = () => {
           }}>
           <ActivityIndicator size={20} />
         </View>
-      ) : productChartError ? (
+      ) : productChartData?.data?.chart?.label?.length === 0 &&
+        productChartData?.data?.chart?.value?.length === 0 ? (
         <Text>No record found</Text>
       ) : (
         <LineChart

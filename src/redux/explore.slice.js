@@ -47,7 +47,7 @@ export const exploreProductListing = createAsyncThunk(
       sortby = '',
       dir = '',
       min_price = 0,
-      max_price = 1000000,
+      max_price = 9900000,
       brands = [6, 4],
       watch_condition = '',
     },
