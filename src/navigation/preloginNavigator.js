@@ -22,15 +22,12 @@ const PreloginNavigator = () => {
         component={CreateAccountScreen}
       />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
-      <Stack.Screen
-        name="postedSuccessfullyScreen"
-        component={PostedSuccessfully}
-      />
+
       <Stack.Screen
         name="TermAndConditions"
         component={TermsandcondtionScreen}
       />
-     
+
       <Stack.Screen name="ProductView" component={ProductViewComponent} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen

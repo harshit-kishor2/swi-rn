@@ -2,9 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Image,
-  FlatList,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
@@ -12,7 +10,6 @@ import {
 const Banner = ({image, height, width, onItemClick}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollViewRef = useRef(null);
-  // console.log(image, 'IMage for banner');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -85,11 +82,6 @@ const Banner = ({image, height, width, onItemClick}) => {
 };
 
 const styles = StyleSheet.create({
-  // container: {},
-  // image: {
-  //   width: Dimensions.get('window').width,
-  //   height: 200,
-  // },
   pagination: {
     position: 'absolute',
     bottom: 10,

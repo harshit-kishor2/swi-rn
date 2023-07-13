@@ -3,6 +3,7 @@ import TabNavigations from './tab-navigators';
 import NotificationScreen from '../screens/Notifications/NotificationScreen';
 import ProductDetails from '../screens/ProductDetails/Index';
 import FreshFind from '../screens/freshFindScreen';
+import PostedSuccessfully from '../screens/AddProduct/PostedSuccessfully';
 
 const Stack = createNativeStackNavigator();
 const PostloginNavigator = () => {
@@ -28,6 +29,7 @@ const PostloginNavigator = () => {
         component={FreshFind}
         options={{headerShown: false}}
       />
+      <Stack.Screen name="PostedSuccessfully" component={PostedSuccessfully} />
     </Stack.Navigator>
   );
 };

@@ -11,6 +11,10 @@
   </array>
   </dict>
 </array>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Need to access the location for get Near by seller's location</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>Need to access the location for get Near by seller's location.</string>
 <key>FacebookAppID</key>
 <string>957893815463430</string>
 <key>FacebookClientToken</key>

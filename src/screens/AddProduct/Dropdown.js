@@ -1,15 +1,16 @@
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Modal,
-  FlatList,
-} from 'react-native';
-import React, {useCallback} from 'react';
-import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../../resources';
+import {View, Text, Image, TouchableOpacity, TextInput} from 'react-native';
+import React from 'react';
+import {COLORS, IMAGES, SPACING} from '../../resources';
 
-const Dropdown = ({title, isRequired, value, dropDownPress}) => {
+const Dropdown = ({
+  title,
+  isRequired,
+  value,
+  dropDownPress,
+  otherValue,
+  otherValueChangeText,
+  otherValuePlaceholder,
+}) => {
   return (
     <View style={{width: '100%'}}>
       <Text
@@ -43,6 +44,23 @@ const Dropdown = ({title, isRequired, value, dropDownPress}) => {
         </Text>
         <Image source={IMAGES.dropDownIcon} resizeMode={'contain'} />
       </TouchableOpacity>
+      {value === 'Others' ? (
+        <TextInput
+          style={{
+            height: SPACING.SCALE_44,
+            marginTop: SPACING.SCALE_2,
+            width: '95%',
+            borderBottomWidth: SPACING.SCALE_1,
+            // borderBottomColor: COLORS.BLACK,
+            borderBottomColor: '#00000040',
+          }}
+          placeholder={otherValuePlaceholder}
+          placeholderTextColor={'gray'}
+          value={otherValue}
+          onChangeText={otherValueChangeText}
+          maxLength={50}
+        />
+      ) : null}
     </View>
   );
 };
