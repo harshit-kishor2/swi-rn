@@ -24,7 +24,7 @@ import {addProductDetail} from '../../redux/addProduct.slice';
 const VideoimageScreen = ({NextPress}) => {
   const [selectedImage, setSelectedImage] = useState();
   const [imagePath, setImagePath] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState('no');
   const [thumb_Image, setthumb_Image] = useState();
   const [paused, setPaused] = useState(false);
   const dispatch = useDispatch();
@@ -124,7 +124,7 @@ const VideoimageScreen = ({NextPress}) => {
   };
   console.log(imagePath);
   const gallary = () => {
-    setError(false);
+    setError('no');
     ImageCropPicker.openPicker({
       width: 300,
       height: 400,
@@ -178,7 +178,7 @@ const VideoimageScreen = ({NextPress}) => {
 
   const Submit = () => {
     if (!imagePath.length) {
-      setError(true);
+      setError('yes');
       return;
     }
     const formData = new FormData();
@@ -254,7 +254,7 @@ const VideoimageScreen = ({NextPress}) => {
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
             Selected images/videos
           </Text>
-          {error == true ? (
+          {error === 'yes' ? (
             <Text
               style={{
                 fontFamily: 'OpenSans-Regular',
