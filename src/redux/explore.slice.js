@@ -7,8 +7,11 @@ import {fire} from 'react-native-alertbox';
 const initialState = {
   //states for explore product listing
   products: [],
+  productResponse: {},
+
   loading: loadingStatus.NOT_LOADED,
-  error: null,
+
+  isMoreProducts: false,
   // state for explore banner listing
   bannerLoading: loadingStatus.NOT_LOADED,
   bannerList: [],
@@ -31,6 +34,10 @@ const initialState = {
   productChartLoading: loadingStatus.NOT_LOADED,
   productChartData: {},
   productChartError: null,
+  // states for brand list
+  brandsLoading: loadingStatus.NOT_LOADED,
+  brands: [],
+  brandsError: null,
 };
 
 //  exploreProducts API
@@ -47,7 +54,7 @@ export const exploreProductListing = createAsyncThunk(
       sortby = '',
       dir = '',
       min_price = 0,
-      max_price = 1000000,
+      max_price = 9900000,
       brands = [6, 4],
       watch_condition = '',
     },
@@ -205,7 +212,25 @@ export const productChart = createAsyncThunk(
     }
   },
 );
-
+// API FOR BRAND LISTING
+export const brandListing = createAsyncThunk(
+  'explore/brandListing',
+  async (_, thunkAPI) => {
+    try {
+      const response = await api({
+        url: `${Config.API_URL}brand-list`,
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      console.log('brand Listing', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
 const exploreSlice = createSlice({
   name: 'exploreSlice',
   initialState,
@@ -222,8 +247,10 @@ const exploreSlice = createSlice({
       })
       .addCase(exploreProductListing.fulfilled, (state, action) => {
         state.loading = false;
-        // console.log(action.payload);
-        state.products = action?.payload;
+        console.log('ACTION PAYLOAD ====>>>>', action.payload);
+        state.productResponse = action?.payload;
+
+        state.products = [...state.products, ...action?.payload?.data?.data];
         // console.log('state.products', state.products);
       })
       .addCase(exploreProductListing.rejected, (state, action) => {
@@ -306,6 +333,18 @@ const exploreSlice = createSlice({
       .addCase(productChart.rejected, (state, action) => {
         state.productChartLoading = false;
         state.productChartError = action?.payload;
+      })
+      .addCase(brandListing.pending, state => {
+        state.brandsLoading = true;
+      })
+      .addCase(brandListing.fulfilled, (state, action) => {
+        state.brandsLoading = false;
+        console.log(action.payload, '======lll');
+        state.brands = action?.payload?.data;
+      })
+      .addCase(brandListing.rejected, (state, action) => {
+        state.brandsLoading = false;
+        state.brandsError = action?.payload;
       });
   },
 });

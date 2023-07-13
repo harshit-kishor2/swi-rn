@@ -60,7 +60,7 @@ const Banner = ({image, height, width, onItemClick}) => {
                 resizeMode: 'cover',
                 borderRadius: 8,
               }}
-              source={{uri: item.image}}
+              source={{uri: item.image ? item.image : null}}
             />
           </TouchableOpacity>
         ))}

@@ -67,7 +67,6 @@ const WalkThroughScreen = props => {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-
                 flex: 1,
               }}>
               <View style={styles.wrapper}>
@@ -129,7 +128,6 @@ const WalkThroughScreen = props => {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-
                 flex: 1,
               }}>
               <View style={styles.imageSizeStyle}>
@@ -190,8 +188,8 @@ const WalkThroughScreen = props => {
               style={{
                 alignItems: 'center',
                 justifyContent: 'center',
-
                 flex: 1,
+                //backgroundColor: 'red',
               }}>
               <View style={styles.wrapper}>
                 <Text style={styles.header}>Features</Text>
@@ -358,13 +356,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   outer: {
-    // display: 'flex',
     flexDirection: 'row',
-    // backgroundColor:'green',
+
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    marginTop: SPACING.SCALE_10,
-    marginBottom: SPACING.SCALE__20,
+    marginTop: SPACING.SCALE_12,
   },
   paragraph1: {
     fontSize: TYPOGRAPHY.FONT_SIZE_12,
@@ -372,7 +368,9 @@ const styles = StyleSheet.create({
     color: COLORS.BLACK,
     textAlign: 'left',
     width: SPACING.SCALE_200,
-    height: SPACING.SCALE_120,
-    marginTop: SPACING.SCALE_10,
+    height: SPACING.SCALE_100,
+    marginTop: SPACING.SCALE_20,
+
+    marginLeft: SPACING.SCALE_16,
   },
 });

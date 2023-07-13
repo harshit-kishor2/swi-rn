@@ -24,9 +24,11 @@ import Banner from '../../components/BannerComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addWishlist,
+  brandListing,
   exploreBannerListing,
   exploreProductListing,
   exploreTrendyWatchesListing,
+  increaseCurrentPage,
   toggleTabBar,
 } from '../../redux/explore.slice';
 import TouchableImage from '../../components/TouchableImage';
@@ -41,7 +43,10 @@ let promise;
 const ExploreScreen = props => {
   const dispatch = useDispatch();
   const flatListRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(1); // Current page of data
+  const [currentPage, setCurrentPage] = useState(1);
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [keyword, setKeyword] = useState('');
   const [filterVisible, setFilterVisible] = useState(false);
@@ -86,7 +91,7 @@ const ExploreScreen = props => {
     setSelectedFilterView(prevView => (prevView === view ? null : view));
   };
 
-  const {error, loading, products} = useSelector(
+  const {error, loading, products, productResponse} = useSelector(
     state => state?.exploreReducer,
   );
   const {bannerLoading, bannerList, bannerListError} = useSelector(
@@ -111,6 +116,7 @@ const ExploreScreen = props => {
   useFocusEffect(
     useCallback(() => {
       checkLocationPermission();
+      dispatch(brandListing());
       dispatch(exploreTrendyWatchesListing());
       dispatch(exploreBannerListing());
     }, []),
@@ -229,50 +235,182 @@ const ExploreScreen = props => {
     }
   };
 
-  function loadMoreData() {
-    if (currentPage < products?.data?.last_page) {
-      if (!loadingMore) {
-        setCurrentPage(prevPage => prevPage + 1); // Increment the current page
-        setLoadingMore(true); // Set loadingMore flag to true
-      }
-    } else {
-      setCurrentPage(1);
-      setLoadingMore(false);
+  const loadMore = () => {
+    console.log('LOAD MORE -------');
+    if (page < productResponse?.data?.last_page) {
+      console.log('LOAD MORE NEXT-------');
+      setPage(page + 1);
+      setIsLoading(true);
+      dispatch(exploreProductListing({page: page}));
+      setIsLoading(false);
     }
-  }
+  };
 
-  const renderItem = useCallback(
-    ({item, index}) => {
-      return (
-        <Item
-          product_image={item.thumb_image}
-          product_name={item.title}
-          price={item.price}
-          condition={item.watch_condition}
-          seller_image={item.thumb_image}
-          seller_name={item.user.name}
-          posting_day={item.created_at}
-          isInWishlist={item.isInWishlist}
-          id={item.id}
-          onPress={() => {
-            props.navigation.navigate('ProductDetails', {product_id: item.id});
-          }}
-          productAddWishListData={productAddWishListData}
-          wishListPress={() => {
-            dispatch(
-              addWishlist({
-                product_id: item?.id,
-                index: index,
-              }),
-            );
-          }}
-        />
-      );
-    },
-    [dispatch, productAddWishListData, props.navigation],
+  const Item = ({
+    product_image,
+    product_name,
+    price,
+    condition,
+    seller_image,
+    seller_name,
+    posting_day,
+    onPress,
+    wishListPress,
+    isInWishlist,
+    id,
+  }) => {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.outer}>
+          <View style={styles.inner}>
+            {product_image ? (
+              <Image source={{uri: product_image}} style={styles.imageStyle} />
+            ) : (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: SPACING.SCALE_160,
+                  height: SPACING.SCALE_279,
+                }}>
+                <Text>No Image</Text>
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={wishListPress}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                height: 20,
+                width: 20,
+              }}>
+              <Image
+                style={{
+                  tintColor:
+                    isInWishlist || productAddWishListData.id === id
+                      ? COLORS.APPGREEN
+                      : null,
+                }}
+                source={IMAGES.Vector1}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: 'OpenSans-SemiBold',
+                marginLeft: 10,
+                marginTop: 8,
+                color: 'black',
+              }}>
+              {product_name}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: 'OpenSans-SemiBold',
+                  fontSize: 13,
+                  color: COLORS.APPGREEN,
+                  marginLeft: 6,
+                  fontWeight: '600',
+                }}>
+                {'$'} {price} .
+              </Text>
+              <Text
+                style={{
+                  fontWeight: '400',
+                  fontFamily: 'OpenSans-Regular',
+                  fontSize: 12,
+                  marginTop: 2,
+                  color: COLORS.APPGREEN,
+                }}>
+                {' '}
+                {condition}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignItems: 'center',
+                //justifyContent: 'center',
+              }}>
+              <View>
+                {seller_image ? (
+                  <Image
+                    source={{uri: seller_image}}
+                    style={{
+                      height: 17,
+                      width: 17,
+                      borderRadius: 17 / 2,
+                      marginTop: 5,
+                      marginLeft: 8,
+                    }}
+                  />
+                ) : (
+                  <View>
+                    <Text>No Image</Text>
+                  </View>
+                )}
+              </View>
+              <View>
+                <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+                  {addEllipsis(seller_name, 10)}
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                marginLeft: 10,
+                fontFamily: 'OpenSans-Regular',
+                fontSize: 8,
+                marginTop: 13,
+              }}>
+              {formatTimestamp(posting_day)}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderItem = ({item, index}) => (
+    // console.log(item, 'ghghghghghghgh'),
+    <Item
+      product_image={item.thumb_image}
+      product_name={item.title}
+      price={item.price}
+      condition={item.watch_condition}
+      seller_image={item.thumb_image}
+      seller_name={item.user.name}
+      posting_day={item.created_at}
+      isInWishlist={item.isInWishlist}
+      id={item.id}
+      onPress={() => {
+        // Handle item press
+        props.navigation.navigate('ProductDetails', {product_id: item.id});
+      }}
+      wishListPress={() => {
+        dispatch(
+          addWishlist({
+            product_id: item?.id,
+            index: index,
+          }),
+        );
+
+        // Alert.alert(item?.id.toString(), item?.user?.id.toString());
+      }}
+    />
   );
   const onSubmitEditing = () => {
-    dispatch(exploreProductListing({page: currentPage, keyWord: keyword}));
+    dispatch(exploreProductListing({page: '1', keyWord: keyword}));
     setKeyword('');
   };
   const sortingItems = [
@@ -352,14 +490,25 @@ const ExploreScreen = props => {
         </View>
         <FlatList
           ListHeaderComponent={header}
-          data={products?.data?.data}
+          data={products ?? []}
           renderItem={renderItem}
           keyExtractor={item => `productsDataData${item.id}`}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           ref={flatListRef}
-          onEndReached={loadMoreData}
-          onEndReachedThreshold={0.1}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.01}
+          ListFooterComponent={() => {
+            return (
+              isLoading && (
+                <ActivityIndicator
+                  style={{marginTop: 100, marginBottom: 100}}
+                  color={'black'}
+                  size={30}
+                />
+              )
+            );
+          }}
         />
       </View>
       <Modal
