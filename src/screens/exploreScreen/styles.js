@@ -20,14 +20,13 @@ export default styles = StyleSheet.create({
   },
   outer: {
     backgroundColor: '#F6F6F6',
-    // backgroundColor:'red',
     width: SPACING.SCALE_160,
     height: SPACING.SCALE_279,
     borderRadius: 10,
     // alignSelf:'center',
     // justifyContent:'center',
-    marginTop: 40,
-    marginLeft: 15,
+    marginTop: SPACING.SCALE_20,
+    marginLeft: SPACING.SCALE_16,
     //marginBottom: 100,
   },
   inner: {

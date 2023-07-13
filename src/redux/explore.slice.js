@@ -24,6 +24,11 @@ const initialState = {
   productAddWishListLoading: loadingStatus.NOT_LOADED,
   productAddWishListError: null,
   productAddWishListData: {},
+  //state for product wish listing trendy watches
+  productTrendyAddWishListLoading: loadingStatus.NOT_LOADED,
+  productTrendyAddWishListError: null,
+  productTrendyAddWishListData: {},
+
   //state for product detail
   productDetailLoading: loadingStatus.NOT_LOADED,
   productDetailData: {},
@@ -171,6 +176,27 @@ export const addWishlist = createAsyncThunk(
   },
 );
 
+// trendy product adding in wishlisting
+
+export const addTrendyWishlist = createAsyncThunk(
+  'explore/addTrendyWishlist',
+  async ({product_id, index}, thunkAPI) => {
+    try {
+      const response = await api({
+        url: `${Config.API_URL}add-wishlist/${product_id}`,
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      // console.log('product added in wishlist', response);
+      return {response, index};
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  },
+);
+
 // Product detail api call
 export const exploreProductDetail = createAsyncThunk(
   'explore/ProductDetail',
@@ -238,6 +264,9 @@ const exploreSlice = createSlice({
     toggleTabBar: (state, action) => {
       state.isToggledTabBar = action.payload;
     },
+    clearProductsState: state => {
+      state.products = [];
+    },
   },
   extraReducers: builder => {
     builder
@@ -286,13 +315,12 @@ const exploreSlice = createSlice({
       })
       .addCase(addWishlist.fulfilled, (state, action) => {
         state.productAddWishListLoading = false;
+        console.log(action?.payload?.response, 'fhkdskfhdksjhfjkshkjhsk');
         state.productAddWishListData = action?.payload?.response;
-        if (
-          state.products.data.data[action.payload.index].isInWishlist == true
-        ) {
-          state.products.data.data[action.payload.index].isInWishlist = false;
+        if (state.products[action.payload.index].isInWishlist == true) {
+          state.products[action.payload.index].isInWishlist = false;
         } else {
-          state.products.data.data[action.payload.index].isInWishlist = true;
+          state.products[action.payload.index].isInWishlist = true;
         }
 
         fire({
@@ -308,6 +336,40 @@ const exploreSlice = createSlice({
       .addCase(addWishlist.rejected, (state, action) => {
         state.productAddWishListLoading = false;
         state.productAddWishListError = action?.payload;
+      })
+      .addCase(addTrendyWishlist.pending, state => {
+        state.productTrendyAddWishListLoading = true;
+      })
+      .addCase(addTrendyWishlist.fulfilled, (state, action) => {
+        state.productTrendyAddWishListLoading = false;
+        console.log(action?.payload?.response, 'fhkdskfhdksjhfjkshkjhsk');
+        state.productTrendyAddWishListData = action?.payload?.response;
+        if (
+          state.trendyWatchesProducts?.data[action.payload.index]
+            .isInWishlist == true
+        ) {
+          state.trendyWatchesProducts.data[
+            action.payload.index
+          ].isInWishlist = false;
+        } else {
+          state.trendyWatchesProducts.data[
+            action.payload.index
+          ].isInWishlist = true;
+        }
+
+        fire({
+          message: action.payload.response.message,
+          actions: [
+            {
+              text: 'Ok',
+              style: 'cancel',
+            },
+          ],
+        });
+      })
+      .addCase(addTrendyWishlist.rejected, (state, action) => {
+        state.productTrendyAddWishListLoading = false;
+        state.productTrendyAddWishListError = action?.payload;
       })
       .addCase(exploreProductDetail.pending, state => {
         state.productDetailLoading = true;
@@ -348,6 +410,6 @@ const exploreSlice = createSlice({
       });
   },
 });
-export const {toggleTabBar} = exploreSlice.actions;
+export const {toggleTabBar, clearProductsState} = exploreSlice.actions;
 export const {actions: exploreActions, reducer: exploreReducer} = exploreSlice;
 export default exploreSlice.reducer;

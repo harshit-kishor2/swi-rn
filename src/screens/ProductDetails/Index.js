@@ -247,7 +247,11 @@ const ProductDetails = props => {
                 props.navigation.goBack();
               }}>
               <Image
-                style={{height: SPACING.SCALE_13, width: SPACING.SCALE_40}}
+                style={{
+                  height: SPACING.SCALE_24,
+                  width: SPACING.SCALE_24,
+                  resizeMode: 'cover',
+                }}
                 source={IMAGES.BACKARROW}
               />
             </TouchableOpacity>
@@ -594,7 +598,9 @@ const ProductDetails = props => {
             <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
 
             {productDetailData?.data?.suggested_data?.length != 0 ? (
-              <ProductViewComponent data={DATA} />
+              <ProductViewComponent
+                data={productDetailData?.data?.suggested_data}
+              />
             ) : (
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Text>No Suggested watches</Text>

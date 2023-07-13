@@ -7,7 +7,7 @@ const Search = ({
   onChange,
   width,
   onSubmitEditing,
-  autoCapitalize,
+
   value,
 }) => {
   return (
@@ -18,7 +18,7 @@ const Search = ({
         onChangeText={onChange}
         onSubmitEditing={onSubmitEditing}
         value={value}
-        autoCapitalize={autoCapitalize ? 'none' : null}
+        autoCapitalize="none"
       />
       <Image source={IMAGES.search} style={styles.img} />
     </View>

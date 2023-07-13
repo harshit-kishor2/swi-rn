@@ -97,17 +97,21 @@ const Item = ({
 };
 
 const ProductViewComponent = ({data}) => {
+  console.log('gjgjgjgjgjgggggggggj', data);
   const renderItem = ({item, index}) => (
-    <Item
-      product_image={item.product_image}
-      product_name={item.product_name}
-      price={item.price}
-      condition={item.condition}
-      seller_image={item.seller_image}
-      seller_name={item.seller_name}
-      posting_day={item.posting_day}
-      index={index}
-    />
+    console.log(item, 'hbhbhbhbhbhbh'),
+    (
+      <Item
+        product_image={item.thumb_image}
+        product_name={item.title}
+        price={item.price}
+        condition={item.watch_condition}
+        seller_image={item.thumb_image}
+        seller_name={item.user.name}
+        posting_day={item.created_at}
+        index={index}
+      />
+    )
   );
 
   return (

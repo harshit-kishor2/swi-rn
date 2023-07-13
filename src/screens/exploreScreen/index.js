@@ -26,8 +26,10 @@ import CustomText from '../../components/CustomText';
 import Banner from '../../components/BannerComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  addTrendyWishlist,
   addWishlist,
   brandListing,
+  clearProductsState,
   exploreBannerListing,
   exploreProductListing,
   exploreReducer,
@@ -113,6 +115,9 @@ const ExploreScreen = props => {
   const {error, loading, products, productResponse} = useSelector(
     state => state?.exploreReducer,
   );
+  const {brandsError, brandsLoading, brands} = useSelector(
+    state => state?.exploreReducer,
+  );
 
   const {bannerLoading, bannerList, bannerListError} = useSelector(
     state => state?.exploreReducer,
@@ -128,15 +133,16 @@ const ExploreScreen = props => {
     productAddWishListData,
   } = useSelector(state => state?.exploreReducer);
   // console.log(bannerLoading, bannerList, bannerListError, '---->>>>');
-  console.log(
-    error,
-    loading,
-    productResponse,
-    products?.data?.data,
-    products?.data?.last_page,
+  // console.log(brandsError, brandsLoading, brands, 'asdfghjklkjhgfdsdfghj');
+  // console.log(
+  //   error,
+  //   loading,
+  //   productResponse,
+  //   products?.data?.data,
+  //   products?.data?.last_page,
 
-    'fgdjhgfdsghfjkdshjkfhskh',
-  );
+  //   'fgdjhgfdsghfjkdshjkfhskh',
+  // );
   // console.log(
   //   trendyWatchesProductsLoading,
   //   trendyWatchesProductsError,
@@ -208,8 +214,7 @@ const ExploreScreen = props => {
     // }
   };
 
-  ////===============
-
+  // For top notch watches
   const Item = ({
     product_image,
     product_name,
@@ -345,9 +350,147 @@ const ExploreScreen = props => {
     );
   };
 
+  // for trendy watches
+  const Itemm = ({
+    product_image,
+    product_name,
+    price,
+    condition,
+    seller_image,
+    seller_name,
+    posting_day,
+    onPress,
+    wishListPress,
+    isInWishlist,
+    id,
+  }) => {
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View style={styles.outer}>
+          <View style={styles.inner}>
+            {product_image ? (
+              <Image source={{uri: product_image}} style={styles.imageStyle} />
+            ) : (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: SPACING.SCALE_160,
+                  height: SPACING.SCALE_279,
+                }}>
+                <Text>No Image</Text>
+              </View>
+            )}
+            <TouchableOpacity
+              onPress={wishListPress}
+              style={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                height: 20,
+                width: 20,
+              }}>
+              <Image
+                style={{
+                  tintColor:
+                    isInWishlist || productAddWishListData.id === id
+                      ? COLORS.APPGREEN
+                      : null,
+                }}
+                source={IMAGES.Vector1}
+              />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text
+              style={{
+                fontFamily: 'OpenSans-SemiBold',
+                marginLeft: 10,
+                marginTop: 8,
+                color: 'black',
+              }}>
+              {product_name}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignContent: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: 'OpenSans-SemiBold',
+                  fontSize: 13,
+                  color: COLORS.APPGREEN,
+                  marginLeft: 6,
+                  fontWeight: '600',
+                }}>
+                {'$'} {price} .
+              </Text>
+              <Text
+                style={{
+                  fontWeight: '400',
+                  fontFamily: 'OpenSans-Regular',
+                  fontSize: 12,
+                  marginTop: 2,
+                  color: COLORS.APPGREEN,
+                }}>
+                {' '}
+                {condition}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                alignItems: 'center',
+                //justifyContent: 'center',
+              }}>
+              <View>
+                {seller_image ? (
+                  <Image
+                    source={{uri: seller_image}}
+                    style={{
+                      height: 17,
+                      width: 17,
+                      borderRadius: 17 / 2,
+                      marginTop: 5,
+                      marginLeft: 8,
+                    }}
+                  />
+                ) : (
+                  <View>
+                    <Text>No Image</Text>
+                  </View>
+                )}
+              </View>
+              <View>
+                <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+                  {addEllipsis(seller_name, 10)}
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                marginLeft: 10,
+                fontFamily: 'OpenSans-Regular',
+                fontSize: 8,
+                marginTop: 13,
+              }}>
+              {formatTimestamp(posting_day)}
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  // for Top notch watches
   const renderItem = ({item, index}) => (
     // console.log(item, 'ghghghghghghgh'),
     <Item
+      key={item.id}
       product_image={item.thumb_image}
       product_name={item.title}
       price={item.price}
@@ -362,6 +505,7 @@ const ExploreScreen = props => {
         props.navigation.navigate('ProductDetails', {product_id: item.id});
       }}
       wishListPress={() => {
+        //Alert.alert(item?.id.toString(), index.toString());
         dispatch(
           addWishlist({
             product_id: item?.id,
@@ -373,7 +517,40 @@ const ExploreScreen = props => {
       }}
     />
   );
+  //for trendy watches
+  const renderItemm = ({item, index}) => (
+    // console.log(item, 'ghghghghghghgh'),
+    <Itemm
+      key={item.id}
+      product_image={item.thumb_image}
+      product_name={item.title}
+      price={item.price}
+      condition={item.watch_condition}
+      seller_image={item.thumb_image}
+      seller_name={item.user.name}
+      posting_day={item.created_at}
+      isInWishlist={item.isInWishlist}
+      id={item.id}
+      onPress={() => {
+        // Handle item press
+        props.navigation.navigate('ProductDetails', {product_id: item.id});
+      }}
+      wishListPress={() => {
+        console.log('hjdgsjkkdsksdklkjkld');
+        //Alert.alert(item?.id.toString(), index.toString());
+        dispatch(
+          addTrendyWishlist({
+            product_id: item?.id,
+            index: index,
+          }),
+        );
+        // );
+        // Alert.alert(item?.id.toString(), item?.user?.id.toString());
+      }}
+    />
+  );
   const onSubmitEditing = () => {
+    dispatch(clearProductsState());
     dispatch(exploreProductListing({page: '1', keyWord: keyword}));
     setKeyword('');
   };
@@ -388,19 +565,6 @@ const ExploreScreen = props => {
   const categoryItems = ['Brand_new', 'Pre_owned'];
   const Location = ['Nearby', 'Distance range'];
 
-  const watchBrands = [
-    'Rolex',
-    'Omega',
-    'Tag Heuer',
-    'Patek Philippe',
-    'Breitling',
-    'Cartier',
-    'Audemars Piguet',
-    'Tissot',
-    'Seiko',
-    'Citizen',
-    'Fossil',
-  ];
   // Funnction to handle multiselect
   const handleBrandToggle = brand => {
     const isSelected = selectedBrands.includes(brand);
@@ -544,6 +708,7 @@ const ExploreScreen = props => {
                   {categoryItems.map((item, index) => {
                     return (
                       <TouchableOpacity
+                        key={item[index]}
                         style={{
                           marginVertical: 7,
                           marginLeft: 15,
@@ -607,40 +772,44 @@ const ExploreScreen = props => {
               </TouchableOpacity>
               {selectedFilterView === 'Brands' && (
                 <View>
-                  {watchBrands.map(brand => (
-                    <TouchableOpacity
-                      key={brand}
-                      onPress={() => handleBrandToggle(brand)}
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginBottom: 10,
-                      }}>
-                      <View
+                  {brands?.length > 0 ? (
+                    brands.map(brand => (
+                      <TouchableOpacity
+                        key={brand.id}
+                        onPress={() => handleBrandToggle(brand)}
                         style={{
-                          width: 24,
-                          height: 24,
-                          //borderRadius: 12,
-                          marginRight: 10,
-                          borderWidth: 2,
-                          borderColor: COLORS.APPGREEN,
-                          backgroundColor: selectedBrands.includes(brand)
-                            ? COLORS.APPGREEN
-                            : null,
-
-                          justifyContent: 'center',
+                          flexDirection: 'row',
                           alignItems: 'center',
+                          marginBottom: 10,
                         }}>
-                        {selectedBrands.includes(brand) && (
-                          <Image
-                            style={{height: 12, width: 12}}
-                            source={IMAGES.tick}
-                          />
-                        )}
-                      </View>
-                      <Text style={{marginLeft: 10}}>{brand}</Text>
-                    </TouchableOpacity>
-                  ))}
+                        <View
+                          style={{
+                            width: 24,
+                            height: 24,
+                            //borderRadius: 12,
+                            marginRight: 10,
+                            borderWidth: 2,
+                            borderColor: COLORS.APPGREEN,
+                            backgroundColor: selectedBrands.includes(brand)
+                              ? COLORS.APPGREEN
+                              : null,
+
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          {selectedBrands.includes(brand) && (
+                            <Image
+                              style={{height: 12, width: 12}}
+                              source={IMAGES.tick}
+                            />
+                          )}
+                        </View>
+                        <Text style={{marginLeft: 10}}>{brand?.name}</Text>
+                      </TouchableOpacity>
+                    ))
+                  ) : (
+                    <Text>No Brands</Text>
+                  )}
                 </View>
               )}
               <TouchableOpacity
@@ -866,7 +1035,6 @@ const ExploreScreen = props => {
               setKeyword(e);
             }}
             onSubmitEditing={onSubmitEditing}
-            autoCapitalize={false}
             value={keyword}
           />
           <Pressable
@@ -880,15 +1048,6 @@ const ExploreScreen = props => {
           </Pressable>
         </View>
 
-        {/* <View style={styles.progressContainer}>
-              <View
-                style={[
-                  styles.progressBar,
-                  {width: `${scrollProgress * 100}%`},
-                ]}
-              />
-            </View> */}
-
         <FlatList
           ListHeaderComponent={header}
           data={products ?? []}
@@ -896,22 +1055,39 @@ const ExploreScreen = props => {
           keyExtractor={item => item.id}
           numColumns={2}
           showsVerticalScrollIndicator={false}
-          ref={flatListRef}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={10}
+          //ref={flatListRef}
           //onScroll={handleScroll}
           // scrollEventThrottle={16}
           //contentContainerStyle={{paddingLeft: 10, paddingRight: 16}}
 
           onEndReached={loadMore}
-          onEndReachedThreshold={0.01}
+          //onEndReachedThreshold={0.01}
           ListFooterComponent={() => {
             {
               return (
-                isLoading && (
-                  <ActivityIndicator
-                    style={{marginTop: 100, marginBottom: 100}}
-                    color={'black'}
-                    size={30}
-                  />
+                loading && (
+                  <View
+                    style={{
+                      height: 200,
+                      width: 200,
+                      alignSelf: 'center',
+                      //backgroundColor: 'red',
+                    }}>
+                    <ActivityIndicator
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        // position: 'absolute',
+                        // bottom: SPACING.SCALE_120,
+                        // left: SPACING.SCALE_160,
+                      }}
+                      color={'black'}
+                      size={60}
+                    />
+                  </View>
                 )
               );
             }
@@ -951,28 +1127,30 @@ const ExploreScreen = props => {
 
           {trendyWatchesProducts?.data?.length != 0 ? (
             <FlatList
-              head
               data={trendyWatchesProducts?.data}
-              renderItem={renderItem}
+              renderItem={renderItemm}
               keyExtractor={item => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
               //onScroll={handleScroll}
-              scrollEventThrottle={16}
+              //scrollEventThrottle={16}
             />
           ) : (
             <>
               <CustomText text={'No Record'} />
             </>
           )}
-          <View style={{position: 'absolute', top: 120, right: 10}}>
+          <View
+            style={{
+              position: 'absolute',
+              top: SPACING.SCALE_100,
+              right: SPACING.SCALE_10,
+            }}>
             <TouchableImage
               source={IMAGES.rightArrow}
               height={30}
               width={30}
-              onPress={() => {
-                Alert.alert('Arrow');
-              }}
+              onPress={() => {}}
             />
           </View>
           <View
