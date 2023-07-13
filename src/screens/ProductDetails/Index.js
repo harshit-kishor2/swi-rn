@@ -8,25 +8,26 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {COLORS, IMAGES, SPACING} from '../../resources';
+import React, { useEffect } from 'react';
+import { COLORS, IMAGES, SPACING } from '../../resources';
 import styles from './styles';
-import {useState, useCallback} from 'react';
+import { useState, useCallback, useRef } from 'react';
 import ProductViewComponent from '../../components/ProductViewComponent';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch, useSelector} from 'react-redux';
-import {exploreProductDetail, productChart} from '../../redux/explore.slice';
-import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
-import {useNavigation} from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useDispatch, useSelector } from 'react-redux';
+import { exploreProductDetail, productChart } from '../../redux/explore.slice';
+import { addEllipsis, formatTimestamp } from '../../helper/commonFunction';
+import { useNavigation } from '@react-navigation/native';
 import Chartdemo from './chartdemo';
+import branch, { BranchEvent } from 'react-native-branch';
 
 const selectKey = [
-  {id: 1, name: 'Last 7 Days', key: 'seven_days'},
-  {id: 2, name: 'Last 30 Days', key: 'lastdays'},
-  {id: 3, name: 'Last 6 Months', key: 'lastmonths'},
-  {id: 4, name: 'Last 1 Year', key: 'lastyear'},
+  { id: 1, name: 'Last 7 Days', key: 'seven_days' },
+  { id: 2, name: 'Last 30 Days', key: 'lastdays' },
+  { id: 3, name: 'Last 6 Months', key: 'lastmonths' },
+  { id: 4, name: 'Last 1 Year', key: 'lastyear' },
 ];
 
 const ProductDetails = props => {
@@ -45,13 +46,14 @@ const ProductDetails = props => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const buoRef = useRef()
 
   const onTextLayout = useCallback(e => {
     setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
     // console.log(e.nativeEvent);
   }, []);
 
-  const {productDetailLoading, productDetailData, productDetailError} =
+  const { productDetailLoading, productDetailData, productDetailError } =
     useSelector(state => state?.exploreReducer);
   console.log(
     productDetailData.data,
@@ -69,6 +71,12 @@ const ProductDetails = props => {
         }),
       );
     }
+    return () => {
+      if (buoRef.current) {
+        console.log("buo release")
+        buoRef.current?.release();
+      }
+    }
   }, [props.route?.params?.product_id]);
 
   useEffect(() => {
@@ -84,7 +92,7 @@ const ProductDetails = props => {
 
   // Image view logic =======================
 
-  const ImageView = ({images}) => {
+  const ImageView = ({ images }) => {
     const [selectedImage, setSelectedImage] = useState(0);
     console.log(images, 'dfshfshk');
 
@@ -121,7 +129,7 @@ const ProductDetails = props => {
                 {image?.file ? (
                   <Image
                     style={styless.thumbnailImage}
-                    source={{uri: image?.file}}
+                    source={{ uri: image?.file }}
                   />
                 ) : (
                   <Text>No image</Text>
@@ -234,8 +242,55 @@ const ProductDetails = props => {
     },
   ];
 
+  const onShareClick = async () => {
+
+    let linkProperties = {
+      feature: 'share',
+      channel: 'RNApp',
+      campaign: `Product ID - ${props.route.params.product_id}`
+    }
+    let shareOptions = {
+      messageHeader: 'Check this out',
+      messageBody: 'No really, check this out!'
+    }
+
+    let controlParams = {
+      $desktop_url: 'https://www.google.com',
+
+    }
+
+
+    let eventParams = {
+      ptest: "hello"
+    }
+
+    buoRef.current = await branch.createBranchUniversalObject(`product/${props.route.params.product_id}`, {
+      title: 'Product Title',
+      contentDescription: 'Product Description',
+      canonicalUrl: '',
+      contentMetadata: {
+        customMetadata: {
+          productID: `${props.route.params.product_id}`
+        }
+      }
+    })
+
+    let event = new BranchEvent(BranchEvent.ViewItem, [buoRef.current], eventParams);
+    event.logEvent();
+
+
+    let { url } = await buoRef.current?.generateShortUrl(linkProperties, controlParams)
+
+    console.log("url", url)
+
+
+    let { channel, completed, error } = await buoRef.current?.showShareSheet(shareOptions, linkProperties, controlParams)
+    console.log("test", { channel, completed, error })
+
+  }
+
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       {productDetailLoading === false ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           {
@@ -247,18 +302,13 @@ const ProductDetails = props => {
                 props.navigation.goBack();
               }}>
               <Image
-                style={{height: SPACING.SCALE_13, width: SPACING.SCALE_40}}
+                style={{ height: SPACING.SCALE_13, width: SPACING.SCALE_40 }}
                 source={IMAGES.BACKARROW}
               />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity
-                onPress={() => {
-                  Alert.alert(
-                    'Product id',
-                    props.route?.params?.product_id.toString(),
-                  );
-                }}>
+                onPress={onShareClick}>
                 <Image
                   style={{
                     marginRight: 16,
@@ -270,7 +320,7 @@ const ProductDetails = props => {
               </TouchableOpacity>
               <TouchableOpacity>
                 <Image
-                  style={{height: SPACING.SCALE_24, width: SPACING.SCALE_19}}
+                  style={{ height: SPACING.SCALE_24, width: SPACING.SCALE_19 }}
                   source={IMAGES.Favorite}
                 />
               </TouchableOpacity>
@@ -332,20 +382,20 @@ const ProductDetails = props => {
               justifyContent: 'center',
               marginVertical: 5,
             }}>
-            <Text style={{fontFamily: 'Cabin-Bold', fontSize: 18}}>
+            <Text style={{ fontFamily: 'Cabin-Bold', fontSize: 18 }}>
               {productDetailData?.data?.gender_type}'s Watch with{' '}
               {productDetailData?.data?.bracelet} Strap
             </Text>
-            <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 18}}>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 18 }}>
               {productDetailData?.data?.brand?.name} - Model{' '}
               {productDetailData?.data?.model?.name}
             </Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK}}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK }}>
                 ${productDetailData?.data?.price}{' '}
               </Text>
               <Text
-                style={{fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK}}>
+                style={{ fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK }}>
                 .{productDetailData?.data?.watch_condition}
               </Text>
             </View>
@@ -362,7 +412,7 @@ const ProductDetails = props => {
               width: '100%',
               marginVertical: 5,
             }}>
-            <Text style={{fontFamily: 'OpenSans-Regular'}}>
+            <Text style={{ fontFamily: 'OpenSans-Regular' }}>
               {productDetailData?.data?.product_status}
             </Text>
           </View>
@@ -379,8 +429,8 @@ const ProductDetails = props => {
             }}>
             {productDetailData?.data?.user?.image ? (
               <Image
-                source={{uri: productDetailData?.data?.user?.image}}
-                style={{height: 45, width: 45, borderRadius: 45 / 2}}
+                source={{ uri: productDetailData?.data?.user?.image }}
+                style={{ height: 45, width: 45, borderRadius: 45 / 2 }}
               />
             ) : (
               <Text>No image</Text>
@@ -392,12 +442,12 @@ const ProductDetails = props => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
-                <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
+                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 15 }}>
                   {productDetailData?.data?.user?.name?.length > 8
                     ? addEllipsis(productDetailData?.data?.user?.name, 8)
                     : productDetailData?.data?.user?.name?.length}
                 </Text>
-                <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12}}>
+                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12 }}>
                   {formatTimestamp(productDetailData?.data?.user?.created_at)}
                 </Text>
               </View>
@@ -409,10 +459,10 @@ const ProductDetails = props => {
                   marginTop: 6,
                 }}>
                 <Image
-                  style={{height: 14.6, width: 12, marginRight: 6}}
+                  style={{ height: 14.6, width: 12, marginRight: 6 }}
                   source={IMAGES.LocationImage}
                 />
-                <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
+                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 15 }}>
                   3018, Singapore Marina Bay
                 </Text>
               </View>
@@ -472,11 +522,11 @@ const ProductDetails = props => {
 
           {/* ReadMore Text */}
 
-          <View style={{alignSelf: 'center', width: '90%', marginTop: 30}}>
+          <View style={{ alignSelf: 'center', width: '90%', marginTop: 30 }}>
             <Text
               onTextLayout={onTextLayout}
               numberOfLines={textShown ? undefined : 1}
-              style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
+              style={{ fontFamily: 'OpenSans-Regular', fontSize: 16 }}>
               {productDetailData?.data?.description}{' '}
             </Text>
 
@@ -506,14 +556,14 @@ const ProductDetails = props => {
 
           {/* Price Chart */}
 
-          <View style={{marginTop: 25}}>
+          <View style={{ marginTop: 25 }}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 16,
               }}>
-              <Text style={{fontFamily: 'OpenSans-Bold'}}>Price Chart</Text>
+              <Text style={{ fontFamily: 'OpenSans-Bold' }}>Price Chart</Text>
               <TouchableOpacity
                 onPress={() => setIsChartDropDown(!isChartDropDown)}
                 activeOpacity={0.7}
@@ -590,13 +640,13 @@ const ProductDetails = props => {
           </View>
 
           {/* horizontal watcehs  */}
-          <View style={{marginTop: 40, zIndex: -2}}>
-            <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
+          <View style={{ marginTop: 40, zIndex: -2 }}>
+            <Text style={{ marginLeft: 20 }}>Suggested watches for you</Text>
 
             {productDetailData?.data?.suggested_data?.length != 0 ? (
               <ProductViewComponent data={DATA} />
             ) : (
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Text>No Suggested watches</Text>
               </View>
             )}
@@ -642,13 +692,13 @@ const ProductDetails = props => {
               marginBottom: 20,
             }}>
             <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
               <Image source={IMAGES.CompareImage} />
               <TouchableOpacity
                 onPress={() => {
                   Alert.alert('Compare');
                 }}>
-                <Text style={{marginLeft: 10}}>Compare</Text>
+                <Text style={{ marginLeft: 10 }}>Compare</Text>
               </TouchableOpacity>
             </View>
             <View
@@ -676,7 +726,7 @@ const ProductDetails = props => {
           </View>
         </ScrollView>
       ) : (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size={30} color={COLORS.APPGREEN} />
         </View>
       )}
