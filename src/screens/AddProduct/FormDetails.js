@@ -67,6 +67,8 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
   const [address, setAddress] = useState();
   const [latitude, setLatitude] = useState();
   const [long, setLong] = useState();
+  const [brandText, setBrandText] = useState('');
+  const [modelText, setModelText] = useState('');
 
   useFocusEffect(
     useCallback(() => {
@@ -147,6 +149,9 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
               title={'Choose Brand'}
               isRequired={true}
               value={selectedBrand?.name}
+              otherValuePlaceholder={'Enter Brand'}
+              otherValue={brandText}
+              otherValueChangeText={e => setBrandText(e)}
             />
           </View>
           <View style={styles.halfWidth}>
@@ -160,6 +165,9 @@ const FormDetails = ({NextPress, dropdownData, brandData, modelData}) => {
               title={'Choose Model'}
               isRequired={true}
               value={selectedModel?.name}
+              otherValuePlaceholder={'Enter Model'}
+              otherValue={modelText}
+              otherValueChangeText={e => setModelText(e)}
             />
           </View>
         </View>
