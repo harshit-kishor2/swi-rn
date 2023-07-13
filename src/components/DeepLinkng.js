@@ -1,12 +1,28 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import branch from 'react-native-branch';
 
 const DeepLinkng = () => {
-  return (
-    <View>
-      <Text>DeepLinkng</Text>
-    </View>
-  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      branch.subscribe({
+        onOpenStart: ({ uri, cachedInitialEvent }) => { },
+        onOpenComplete: data => {
+          console.log('Response a long with error ->>', data);
+        },
+      });
+
+      let lastParams = await branch.getLatestReferringParams();
+      console.log('lastParams ->>', lastParams);
+      let installParams = await branch.getFirstReferringParams();
+      console.log('installParams ->>', installParams);
+    };
+
+    fetchData();
+
+  }, [])
+  return null;
 };
 
 export default DeepLinkng;
