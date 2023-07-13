@@ -29,7 +29,7 @@
         </intent-filter>
 
         <!-- Branch URI Scheme -->
-            <intent-filter>
+            <intent-filter android:autoVerify="true" >
                 <!-- If utilizing $deeplink_path please explicitly declare your hosts, or utilize a wildcard(*) -->
                 <data android:scheme="SWI" android:host="open" />
                 <action android:name="android.intent.action.VIEW" />
@@ -80,13 +80,6 @@
 
 
     </application>
-
-        <queries>
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-            <data android:mimeType="text/plain" />
-        </intent>
-    </queries>
 
 
 </manifest>

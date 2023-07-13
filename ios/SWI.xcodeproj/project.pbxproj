@@ -15,6 +15,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		18064E72F0104DB0979E9D75 /* Cabin-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FE151AB94EB476EBA95D087 /* Cabin-SemiBold.ttf */; };
+		18A8E3152A5FCC98001464E3 /* SWI.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 18162DEF2A4BFCC800776248 /* SWI.entitlements */; };
 		1D2B3696BAF94039BBD32E33 /* Cabin-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8088F699FEAA43A081CAB98E /* Cabin-BoldItalic.ttf */; };
 		254340AB0A0841BD8C90D474 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBE4E9FA55344C00BA01AD21 /* OpenSans-ExtraBoldItalic.ttf */; };
 		262DBEE3C90647F583B38B96 /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AACAD6A2067C417BAC25491F /* OpenSans-BoldItalic.ttf */; };
@@ -316,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A8E3152A5FCC98001464E3 /* SWI.entitlements in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9AC2EE752A9044E4A01EDFAD /* Kablammo Zoink.ttf in Resources */,
