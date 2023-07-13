@@ -198,8 +198,10 @@ const FormDetails = ({
   return (
     <Formik
       initialValues={{
-        brand_id: selectedBrand?.id,
-        model_id: selectedModel?.id,
+        brand_id:
+          selectedBrand?.name === 'Others' ? brandText : selectedBrand?.id,
+        model_id:
+          selectedModel?.name === 'Others' ? modelText : selectedModel?.id,
         watch_condition: watchCondition,
         title: title,
         no_certain: certain ? 'yes' : 'no',
@@ -215,7 +217,6 @@ const FormDetails = ({
         bracelet: strap?.id,
         clasp: clasp?.id,
         factory_gem_set: isFactoryGem,
-
         factory_gem: factoryGem,
         custom_gem_set: custom,
         custom_gem: customType,
@@ -223,6 +224,8 @@ const FormDetails = ({
         latitude: latitude,
         longitude: long,
         productID: product_ID,
+        new_brand: selectedBrand?.name === 'Others' ? true : false,
+        new_model: selectedModel?.name === 'Others' ? true : false,
       }}
       enableReinitialize
       validationSchema={validationSchema}
