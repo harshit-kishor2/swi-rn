@@ -1,18 +1,14 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import ExploreScreen from '../screens/exploreScreen';
-import FreshFind from '../screens/freshFindScreen';
-import SellScreen from '../screens/AddProduct';
-import ChatScreen from '../screens/chatScreen';
-import MyProfileScreen from '../screens/profileScreen';
-import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '../resources';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { COLORS, IMAGES, SPACING, TYPOGRAPHY } from '../resources';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { ChatScreen, ExploreScreen, FreshFindScreen, MyProfileScreen, SellScreen } from '../screens';
 
 const TabNavigations = () => {
-  const {isToggledTabBar} = useSelector(state => state?.exploreReducer);
+  const { isToggledTabBar } = useSelector(state => state?.exploreReducer);
   console.log('jjkk', isToggledTabBar);
   const Tab = createBottomTabNavigator();
-  const CustomsellButton = ({children, onPress}) => (
+  const CustomsellButton = ({ children, onPress }) => (
     <TouchableOpacity
       onPress={onPress}
       style={{
@@ -46,9 +42,9 @@ const TabNavigations = () => {
         name="ExploreScreen"
         component={ExploreScreen}
         options={{
-          tabBarStyle: {display: isToggledTabBar ? 'none' : null},
+          tabBarStyle: { display: isToggledTabBar ? 'none' : null },
           headerShown: false,
-          tabBarIcon: ({focused, size}) => {
+          tabBarIcon: ({ focused, size }) => {
             return (
               <View
                 style={{
@@ -82,10 +78,10 @@ const TabNavigations = () => {
       />
       <Tab.Screen
         name="FreshFind"
-        component={FreshFind}
+        component={FreshFindScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({focused, size}) => {
+          tabBarIcon: ({ focused, size }) => {
             return (
               <View
                 style={{
@@ -122,8 +118,8 @@ const TabNavigations = () => {
         component={SellScreen}
         options={{
           headerShown: false,
-          tabBarStyle: {display: 'none'},
-          tabBarIcon: ({focused}) => (
+          tabBarStyle: { display: 'none' },
+          tabBarIcon: ({ focused }) => (
             <View>
               <Image
                 source={IMAGES.Sellicon}
@@ -155,7 +151,7 @@ const TabNavigations = () => {
         component={ChatScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({focused, size}) => {
+          tabBarIcon: ({ focused, size }) => {
             return (
               <View
                 style={{
@@ -192,7 +188,7 @@ const TabNavigations = () => {
         component={MyProfileScreen}
         options={{
           headerShown: false,
-          tabBarIcon: ({focused, size}) => {
+          tabBarIcon: ({ focused, size }) => {
             return (
               <View
                 style={{
