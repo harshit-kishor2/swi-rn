@@ -15,14 +15,14 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Search from '../../components/Search';
-import {COLORS, IMAGES, SPACING} from '../../resources';
+import { COLORS, IMAGES, SPACING } from '../../resources';
 import styles from './styles';
 import StoryScreen from '../../components/StoryScreen';
 import CustomText from '../../components/CustomText';
 import Banner from '../../components/BannerComponent';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addTrendyWishlist,
   addWishlist,
@@ -35,12 +35,12 @@ import {
   toggleTabBar,
 } from '../../redux/explore.slice';
 import TouchableImage from '../../components/TouchableImage';
-import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
+import { addEllipsis, formatTimestamp } from '../../helper/commonFunction';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
-import {useFocusEffect} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
-import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 
 let promise;
 const ExploreScreen = props => {
@@ -95,14 +95,14 @@ const ExploreScreen = props => {
     setSelectedFilterView(prevView => (prevView === view ? null : view));
   };
 
-  const {error, loading, products, productResponse} = useSelector(
+  const { error, loading, products, productResponse } = useSelector(
     state => state?.exploreReducer,
   );
-  const {brandsError, brandsLoading, brands} = useSelector(
+  const { brandsError, brandsLoading, brands } = useSelector(
     state => state?.exploreReducer,
   );
 
-  const {bannerLoading, bannerList, bannerListError} = useSelector(
+  const { bannerLoading, bannerList, bannerListError } = useSelector(
     state => state?.exploreReducer,
   );
 
@@ -119,7 +119,7 @@ const ExploreScreen = props => {
 
   useEffect(() => {
     console.log('Use effect is called ===');
-    dispatch(exploreProductListing({page: currentPage}));
+    dispatch(exploreProductListing({ page: currentPage }));
   }, [currentPage]);
 
   useFocusEffect(
@@ -217,7 +217,7 @@ const ExploreScreen = props => {
       error => {
         console.error(error);
       },
-      {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
   };
 
@@ -226,8 +226,8 @@ const ExploreScreen = props => {
       'Turn on Location Services to allow SWI to determine your location.',
       '',
       [
-        {text: 'Go to Settings', onPress: openSetting},
-        {text: "Don't Use Location", onPress: () => {}},
+        { text: 'Go to Settings', onPress: openSetting },
+        { text: "Don't Use Location", onPress: () => { } },
       ],
     );
   };
@@ -251,7 +251,7 @@ const ExploreScreen = props => {
       console.log('LOAD MORE NEXT-------');
       setPage(page + 1);
       setIsLoading(true);
-      dispatch(exploreProductListing({page: page}));
+      dispatch(exploreProductListing({ page: page }));
       setIsLoading(false);
     }
   };
@@ -274,7 +274,7 @@ const ExploreScreen = props => {
         <View style={styles.outer}>
           <View style={styles.inner}>
             {product_image ? (
-              <Image source={{uri: product_image}} style={styles.imageStyle} />
+              <Image source={{ uri: product_image }} style={styles.imageStyle} />
             ) : (
               <View
                 style={{
@@ -355,7 +355,7 @@ const ExploreScreen = props => {
               <View>
                 {seller_image ? (
                   <Image
-                    source={{uri: seller_image}}
+                    source={{ uri: seller_image }}
                     style={{
                       height: 17,
                       width: 17,
@@ -371,7 +371,7 @@ const ExploreScreen = props => {
                 )}
               </View>
               <View>
-                <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+                <Text style={{ fontFamily: 'OpenSans-SemiBold', marginLeft: 10 }}>
                   {addEllipsis(seller_name, 10)}
                 </Text>
               </View>
@@ -410,7 +410,7 @@ const ExploreScreen = props => {
         <View style={styles.outer}>
           <View style={styles.inner}>
             {product_image ? (
-              <Image source={{uri: product_image}} style={styles.imageStyle} />
+              <Image source={{ uri: product_image }} style={styles.imageStyle} />
             ) : (
               <View
                 style={{
@@ -491,7 +491,7 @@ const ExploreScreen = props => {
               <View>
                 {seller_image ? (
                   <Image
-                    source={{uri: seller_image}}
+                    source={{ uri: seller_image }}
                     style={{
                       height: 17,
                       width: 17,
@@ -507,7 +507,7 @@ const ExploreScreen = props => {
                 )}
               </View>
               <View>
-                <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+                <Text style={{ fontFamily: 'OpenSans-SemiBold', marginLeft: 10 }}>
                   {addEllipsis(seller_name, 10)}
                 </Text>
               </View>
@@ -528,7 +528,7 @@ const ExploreScreen = props => {
   };
 
   // for Top notch watches
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     // console.log(item, 'ghghghghghghgh'),
     <Item
       key={index}
@@ -543,7 +543,7 @@ const ExploreScreen = props => {
       id={item.id}
       onPress={() => {
         // Handle item press
-        props.navigation.navigate('ProductDetails', {product_id: item.id});
+        props.navigation.navigate('ProductDetails', { product_id: item.id });
       }}
       wishListPress={() => {
         //Alert.alert(item?.id.toString(), index.toString());
@@ -559,7 +559,7 @@ const ExploreScreen = props => {
     />
   );
   //for trendy watches
-  const renderItemm = ({item, index}) => (
+  const renderItemm = ({ item, index }) => (
     // console.log(item, 'ghghghghghghgh'),
     <Itemm
       key={index}
@@ -574,7 +574,7 @@ const ExploreScreen = props => {
       id={item.id}
       onPress={() => {
         // Handle item press
-        props.navigation.navigate('ProductDetails', {product_id: item.id});
+        props.navigation.navigate('ProductDetails', { product_id: item.id });
       }}
       wishListPress={() => {
         console.log('hjdgsjkkdsksdklkjkld');
@@ -592,7 +592,7 @@ const ExploreScreen = props => {
   );
   const onSubmitEditing = () => {
     dispatch(clearProductsState());
-    dispatch(exploreProductListing({page: '1', keyWord: keyword}));
+    dispatch(exploreProductListing({ page: '1', keyWord: keyword }));
     setKeyword('');
   };
   const sortingItems = [
@@ -603,8 +603,8 @@ const ExploreScreen = props => {
     'Descending: Z to A',
   ];
   const categoryItems = [
-    {key: 'brand_new', name: 'Brand new', id: 1},
-    {key: 'Pre_owned', name: 'Pre owned', id: 2},
+    { key: 'brand_new', name: 'Brand new', id: 1 },
+    { key: 'Pre_owned', name: 'Pre owned', id: 2 },
   ];
   const Location = ['Nearby', 'Distance range'];
   const watchBrands = [
@@ -647,7 +647,7 @@ const ExploreScreen = props => {
         trendyWatchesProductsLoading ||
         loading
       }>
-      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         <View style={styles.searchViewStyle}>
           <Search
             width={SPACING.SCALE_300}
@@ -665,7 +665,7 @@ const ExploreScreen = props => {
             }}>
             <Image
               source={IMAGES.bell}
-              style={{marginLeft: SPACING.SCALE_10}}
+              style={{ marginLeft: SPACING.SCALE_10 }}
             />
           </TouchableOpacity>
         </View>
@@ -673,9 +673,7 @@ const ExploreScreen = props => {
           ListHeaderComponent={header}
           data={products ?? []}
           renderItem={renderItem}
-          // keyExtractor={item => {
-          //   item.id;
-          // }}
+          keyExtractor={(item, index) => index?.toString()}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           initialNumToRender={10}
@@ -684,7 +682,7 @@ const ExploreScreen = props => {
           refreshing={onRequestRefresh}
           onRefresh={() => {
             setOnRequestRefresh(true);
-            dispatch(exploreProductListing({page: currentPage}));
+            dispatch(exploreProductListing({ page: currentPage }));
             if (products != []) {
               setOnRequestRefresh(false);
             }
@@ -738,9 +736,9 @@ const ExploreScreen = props => {
             backgroundColor: 'rgba(0, 0, 0, 0.6)',
             minHeight: SPACING.SCALE_180,
           }}>
-          <View style={{flex: 1}} />
+          <View style={{ flex: 1 }} />
         </TouchableOpacity>
-        <ScrollView style={[styles.filterStyle, {flexGrow: 1}]}>
+        <ScrollView style={[styles.filterStyle, { flexGrow: 1 }]}>
           <View
             style={{
               height: SPACING.SCALE_3,
@@ -750,7 +748,7 @@ const ExploreScreen = props => {
               backgroundColor: 'grey',
             }}></View>
           <View
-            style={[styles.filterContainer, {marginBottom: SPACING.SCALE_50}]}>
+            style={[styles.filterContainer, { marginBottom: SPACING.SCALE_50 }]}>
             <View style={styles.filterSortSwitch}>
               <TouchableOpacity
                 onPress={() => {
@@ -809,14 +807,14 @@ const ExploreScreen = props => {
             </View>
 
             {filterSortToggle === 0 ? (
-              <View style={{paddingHorizontal: SPACING.SCALE_20}}>
+              <View style={{ paddingHorizontal: SPACING.SCALE_20 }}>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
                     marginTop: 20,
                   }}>
-                  <View style={{width: SPACING.SCALE_140}}>
+                  <View style={{ width: SPACING.SCALE_140 }}>
                     <Text>Min Price</Text>
                     <View
                       style={{
@@ -827,7 +825,7 @@ const ExploreScreen = props => {
 
                         paddingHorizontal: 10,
                       }}>
-                      <Text style={{fontSize: 18, marginRight: 5}}>$</Text>
+                      <Text style={{ fontSize: 18, marginRight: 5 }}>$</Text>
                       <TextInput
                         //multiline={false}
                         inputMode="numeric"
@@ -845,7 +843,7 @@ const ExploreScreen = props => {
                       />
                     </View>
                   </View>
-                  <View style={{width: SPACING.SCALE_140}}>
+                  <View style={{ width: SPACING.SCALE_140 }}>
                     <Text>Max Price</Text>
                     <View
                       style={{
@@ -856,7 +854,7 @@ const ExploreScreen = props => {
 
                         paddingHorizontal: 10,
                       }}>
-                      <Text style={{fontSize: 18, marginRight: 5}}>$</Text>
+                      <Text style={{ fontSize: 18, marginRight: 5 }}>$</Text>
                       <TextInput
                         inputMode="numeric"
                         onChangeText={val => {
@@ -891,7 +889,7 @@ const ExploreScreen = props => {
                   </View>
                 </TouchableOpacity>
                 {selectedFilterView === 'Category' && (
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     {categoryItems.map((item, index) => {
                       return (
                         <TouchableOpacity
@@ -907,7 +905,7 @@ const ExploreScreen = props => {
                                 <View style={styles.dotInsideIndicatorStyle} />
                               )}
                             </View>
-                            <View style={{marginLeft: SPACING.SCALE_7}}>
+                            <View style={{ marginLeft: SPACING.SCALE_7 }}>
                               <CustomText
                                 fontFamily={'OpenSans-Regular'}
                                 fontWeight="bold"
@@ -977,12 +975,12 @@ const ExploreScreen = props => {
                           }}>
                           {selectedBrands.includes(brand) && (
                             <Image
-                              style={{height: 12, width: 12}}
+                              style={{ height: 12, width: 12 }}
                               source={IMAGES.tick}
                             />
                           )}
                         </View>
-                        <Text style={{marginLeft: 10}}>{brand}</Text>
+                        <Text style={{ marginLeft: 10 }}>{brand}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -1030,7 +1028,7 @@ const ExploreScreen = props => {
                                 <View style={styles.dotInsideIndicatorStyle} />
                               )}
                             </View>
-                            <View style={{marginLeft: SPACING.SCALE_7}}>
+                            <View style={{ marginLeft: SPACING.SCALE_7 }}>
                               <CustomText
                                 fontFamily={'OpenSans-Regular'}
                                 fontWeight="bold"
@@ -1052,7 +1050,7 @@ const ExploreScreen = props => {
                       <>
                         <Text>Distance: {distance} km</Text>
                         <Slider
-                          style={{width: 330, height: 40}}
+                          style={{ width: 330, height: 40 }}
                           minimumValue={0}
                           maximumValue={100}
                           minimumTrackTintColor={COLORS.BLACK}
@@ -1112,7 +1110,7 @@ const ExploreScreen = props => {
                             <View style={styles.dotInsideIndicatorStyle}></View>
                           )}
                         </View>
-                        <View style={{marginLeft: SPACING.SCALE_7}}>
+                        <View style={{ marginLeft: SPACING.SCALE_7 }}>
                           <CustomText
                             fontFamily={'OpenSans-Regular'}
                             fontWeight="bold"
@@ -1200,7 +1198,7 @@ const ExploreScreen = props => {
           onItemClick={handleItemClick}
         />
         <View style={{}}>
-          <View style={{marginLeft: 18, marginTop: 15}}>
+          <View style={{ marginLeft: 18, marginTop: 15 }}>
             <CustomText
               text={'Check out trendy watches for you'}
               fontSize={20}
@@ -1213,11 +1211,12 @@ const ExploreScreen = props => {
             <FlatList
               data={trendyWatchesProducts?.data}
               renderItem={renderItemm}
-              //keyExtractor={item => item.id}
+              keyExtractor={(item, index) => index?.toString()}
+
               horizontal
               showsHorizontalScrollIndicator={false}
-              //onScroll={handleScroll}
-              //scrollEventThrottle={16}
+            //onScroll={handleScroll}
+            //scrollEventThrottle={16}
             />
           ) : (
             <>
@@ -1234,7 +1233,7 @@ const ExploreScreen = props => {
               source={IMAGES.rightArrow}
               height={30}
               width={30}
-              onPress={() => {}}
+              onPress={() => { }}
             />
           </View>
           <View
@@ -1284,7 +1283,7 @@ const Item = React.memo(
         <View style={styles.outer}>
           <View style={styles.inner}>
             {product_image ? (
-              <Image source={{uri: product_image}} style={styles.imageStyle} />
+              <Image source={{ uri: product_image }} style={styles.imageStyle} />
             ) : null}
             <TouchableOpacity
               onPress={wishListPress}
@@ -1355,7 +1354,7 @@ const Item = React.memo(
               {seller_image ? (
                 <View>
                   <Image
-                    source={{uri: seller_image}}
+                    source={{ uri: seller_image }}
                     style={{
                       height: 17,
                       width: 17,
@@ -1367,7 +1366,7 @@ const Item = React.memo(
                 </View>
               ) : null}
               <View>
-                <Text style={{fontFamily: 'OpenSans-SemiBold', marginLeft: 10}}>
+                <Text style={{ fontFamily: 'OpenSans-SemiBold', marginLeft: 10 }}>
                   {addEllipsis(seller_name, 10)}
                 </Text>
               </View>
