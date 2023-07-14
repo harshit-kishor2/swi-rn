@@ -8,9 +8,14 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
+    "bundle:android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "bundle:ios": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios",
     "tcp": "adb reverse tcp:8081 tcp:8081",
-    "build-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "build-ios": "react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios"
+    "android:tcp": "adb reverse tcp:8081 tcp:8081 && react-native run-android",
+    "apk:debug": "cd android && ./gradlew assembleDebug && cd ..",
+    "apk:release": "cd android && ./gradlew assembleRelease && cd ..",
+    "aab:release": "cd android && ./gradlew bundleRelease && cd ..",
+    "sha": "cd android && ./gradlew signingReport && cd .."
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",
