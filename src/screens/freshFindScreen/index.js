@@ -194,6 +194,16 @@ const FreshFind = props => {
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
         numColumns={2}
+        ListEmptyComponent={
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text>No record found</Text>
+          </View>
+        }
       />
     </StoryScreen>
   );

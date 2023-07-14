@@ -319,13 +319,7 @@ const ProductDetails = props => {
               />
             </TouchableOpacity>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  Alert.alert(
-                    'Product id',
-                    props.route?.params?.product_id.toString(),
-                  );
-                }}>
+              <TouchableOpacity onPress={onShareClick}>
                 <Image
                   style={{
                     marginRight: 16,
@@ -343,7 +337,9 @@ const ProductDetails = props => {
               </TouchableOpacity>
             </View>
           </View>
-          <ImageView images={productDetailData.data.files} />
+          {productDetailData.data.files ? (
+            <ImageView images={productDetailData.data.files} />
+          ) : null}
           {/* Main Image  */}
           {/* <View style={styles.ImageSizeStyle}>
         <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
@@ -612,7 +608,7 @@ const ProductDetails = props => {
                 <View
                   style={{
                     position: 'absolute',
-                    zIndex: 2,
+                    zIndex: 3,
                     right: SPACING.SCALE_7,
                     backgroundColor: '#F0F2FA',
                     top: SPACING.SCALE_24,
@@ -625,6 +621,7 @@ const ProductDetails = props => {
                   {selectKey?.map((item, index) => {
                     return (
                       <TouchableOpacity
+                        key={index}
                         onPress={() => {
                           setSelectFilteredValue(item);
                           setIsChartDropDown(false);

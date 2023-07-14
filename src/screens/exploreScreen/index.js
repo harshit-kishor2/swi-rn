@@ -604,7 +604,7 @@ const ExploreScreen = props => {
   ];
   const categoryItems = [
     {key: 'brand_new', name: 'Brand new', id: 1},
-    {key: 'Pre_owned', name: 'Pre owned', id: 2},
+    {key: 'pre_owned', name: 'Pre owned', id: 2},
   ];
   const Location = ['Nearby', 'Distance range'];
   const watchBrands = [

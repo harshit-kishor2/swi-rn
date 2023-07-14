@@ -35,7 +35,16 @@ const Chartdemo = () => {
           <ActivityIndicator size={20} />
         </View>
       ) : productChartData?.data?.chart?.length === 0 ? (
-        <Text>No record found</Text>
+        <View
+          style={{
+            height: 220,
+            width: SPACING.SCALE_344,
+            backgroundColor: '#F0F2FA',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text>No record found</Text>
+        </View>
       ) : (
         <LineChart
           data={{
