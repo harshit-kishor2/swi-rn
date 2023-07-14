@@ -87,7 +87,6 @@ const LoginScreen = props => {
                   Setemail(e);
                 }}
                 value={formik.values.email}
-                autoCapitalize={false}
               />
               <View
                 style={{
@@ -193,46 +192,55 @@ const LoginScreen = props => {
               </TouchableOpacity>
             </View>
 
-            <View style={{height:100, width:300, borderWidth:0.1, justifyContent:'space-between', padding:10, flexDirection:'row',borderWidth:0.5, borderRadius:1}}>
-           <View style={{justifyContent:'center'}}>
-
-          <View style={{ flexDirection:'row'}}>
-          <TouchableOpacity
-                onPress={() => {
-                  setSelectReCaptcha(!selectReCaptcha);
-                }}>
-                <View
-                  style={{
-                    width: 24,
-                    height: 24,
-                    //borderRadius: 12,
-                    marginRight: 10,
-                    borderWidth: 2,
-                    borderColor: COLORS.borderBottomColor,
-                    backgroundColor: selectReCaptcha ? COLORS.APPGREEN : null,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  {selectReCaptcha && (
-                    <Image
-                      style={{height: 12, width: 12}}
-                      source={IMAGES.tick}
-                    />
-                  )}
+            <View
+              style={{
+                height: 100,
+                width: 300,
+                borderWidth: 0.1,
+                justifyContent: 'space-between',
+                padding: 10,
+                flexDirection: 'row',
+                borderWidth: 0.5,
+                borderRadius: 1,
+              }}>
+              <View style={{justifyContent: 'center'}}>
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectReCaptcha(!selectReCaptcha);
+                    }}>
+                    <View
+                      style={{
+                        width: 24,
+                        height: 24,
+                        //borderRadius: 12,
+                        marginRight: 10,
+                        borderWidth: 2,
+                        borderColor: COLORS.borderBottomColor,
+                        backgroundColor: selectReCaptcha
+                          ? COLORS.APPGREEN
+                          : null,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      {selectReCaptcha && (
+                        <Image
+                          style={{height: 12, width: 12}}
+                          source={IMAGES.tick}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                  <Text>I'm not a robot </Text>
                 </View>
-              </TouchableOpacity>
-              <Text>I'm not a robot </Text>
-          </View>
-           </View>
-           <View style={{justifyContent:'center'}}>
-           
-           </View>
-           <View>
-            <Image source={IMAGES.recapchass}/>
-           </View>
+              </View>
+              <View style={{justifyContent: 'center'}}></View>
+              <View>
+                <Image source={IMAGES.recapchass} />
+              </View>
             </View>
 
-            {selectReCaptcha == true ? (captchaFunction()): null}
+            {selectReCaptcha == true ? captchaFunction() : null}
 
             <Custombutton
               title="Sign in"
@@ -267,7 +275,6 @@ const LoginScreen = props => {
                     ],
                   });
                 }
-
               }}
             />
             <View
@@ -305,7 +312,6 @@ const LoginScreen = props => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -335,14 +341,11 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
 export default LoginScreen;
-function captchaFunction(){
- return(
-  <View>
-    <G_Recaptcha />
-  </View>
- )
-  
+function captchaFunction() {
+  return (
+    <View>
+      <G_Recaptcha />
+    </View>
+  );
 }

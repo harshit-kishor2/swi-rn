@@ -55,13 +55,7 @@ export default styles = StyleSheet.create({
     backgroundColor: COLORS.APPGREEN,
   },
   filterStyle: {
-    flex: 1,
-
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: 'white',
-    marginTop: SPACING.SCALE_140,
-    // paddingHorizontal: SPACING.SCALE_16,
   },
   filterSortSwitch: {
     flexDirection: 'row',

@@ -15,7 +15,6 @@ const CustomTextInput = ({
   Hight,
   error,
   secureTextEntry,
-  autoCapitalize,
 }) => {
   return (
     <View
@@ -38,14 +37,18 @@ const CustomTextInput = ({
         type={type}
         placeholderTextColor={'#7C7C7C'}
         keyboardType={keyboardType ? keyboardType : 'default'}
-        style={{flex:1,marginLeft: 10, fontFamily: 'Cabin-SemiBold', fontSize: 16}}
+        style={{
+          flex: 1,
+          marginLeft: 10,
+          fontFamily: 'Cabin-SemiBold',
+          fontSize: 16,
+        }}
         secureTextEntry={type ? secureTextEntry : secureTextEntry}
         // maxLength={maxLength ? maxLength : 0}
         onChangeText={onChangeText}
         inputMode={inputMode}
         value={value}
-        autoCapitalize={autoCapitalize}
-         
+        autoCapitalize={'none'}
       />
     </View>
   );

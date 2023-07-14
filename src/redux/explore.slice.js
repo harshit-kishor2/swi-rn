@@ -265,6 +265,7 @@ const exploreSlice = createSlice({
       state.isToggledTabBar = action.payload;
     },
     clearProductsState: state => {
+      console.log('asdfghjksdfghjasdfghjkdfghsdfghfgh');
       state.products = [];
     },
   },

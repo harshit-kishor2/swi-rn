@@ -23,6 +23,7 @@ import ForgetPasswordScreen from '../forgetPasswordScreen';
 import {useNavigation} from '@react-navigation/native';
 import {StackActions} from '@react-navigation/native';
 import {fire} from 'react-native-alertbox';
+import {ActivityIndicator} from 'react-native-paper';
 
 const ForgetPassword = props => {
   //used to prevent second tap on the button
@@ -107,47 +108,44 @@ const ForgetPassword = props => {
               </Text>
             </View>
           </View>
-          <Custombutton
-            title="Send link"
-            marginTop={114}
-            height={51}
-            width={241}
-            marginHorizontal={20}
-            disabled={buttonDisabled}
-            onPress={() => {
-              if (email != '') {
-                setButtonDisabled(true);
-                dispatch(
-                  forgetPassword({
-                    email: email,
-                  }),
-                ).then(() => {
-                  if (forgetData?.status === 200) {
-                    fire({
-                      message: forgetData?.message,
-                      actions: [
-                        {
-                          text: 'Ok',
-                          style: 'cancel',
-                        },
-                      ],
-                    });
-                    navigation.dispatch(popAction);
-                  }
-                });
-                console.log(
-                  forgetPasswordLoader,
-                  forgetData,
-                  forgetPasswordError,
-                  'PPPPPPPPPPPP',
-                );
-                //navigation.dispatch(popAction);
-              } else {
-                Alert.alert('', 'Please enter email.');
-              }
-            }}
-            // onPress={formik.onSubmit}
-          />
+          {forgetPasswordLoader === true ? (
+            <ActivityIndicator size={20} />
+          ) : (
+            <Custombutton
+              title="Send link"
+              marginTop={14}
+              height={51}
+              width={241}
+              marginHorizontal={20}
+              //disabled={buttonDisabled}
+              onPress={() => {
+                if (email != '') {
+                  setButtonDisabled(true);
+                  dispatch(
+                    forgetPassword({
+                      email: email,
+                      type: 'user',
+                    }),
+                  ).then(e => {
+                    console.log(e, 'zxcvbnm');
+                    if (forgetData.message) {
+                      navigation.dispatch(popAction);
+                    }
+                  });
+                  // console.log(
+                  //   forgetPasswordLoader,
+                  //   forgetData,
+                  //   forgetPasswordError,
+                  //   'PPPPPPPPPPPP',
+                  // );
+                  //navigation.dispatch(popAction);
+                } else {
+                  Alert.alert('', 'Please enter email.');
+                }
+              }}
+              // onPress={formik.onSubmit}
+            />
+          )}
         </View>
       </ScrollView>
     </StoryScreen>
