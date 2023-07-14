@@ -673,9 +673,7 @@ const ExploreScreen = props => {
           ListHeaderComponent={header}
           data={products ?? []}
           renderItem={renderItem}
-          // keyExtractor={item => {
-          //   item.id;
-          // }}
+          keyExtractor={(item, index) => index?.toString()}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           initialNumToRender={10}
@@ -1013,6 +1011,7 @@ const ExploreScreen = props => {
                     {Location.map((item, index) => {
                       return (
                         <TouchableOpacity
+                          key={index}
                           style={{
                             marginVertical: 7,
                             marginLeft: 15,
@@ -1213,7 +1212,7 @@ const ExploreScreen = props => {
             <FlatList
               data={trendyWatchesProducts?.data}
               renderItem={renderItemm}
-              //keyExtractor={item => item.id}
+              keyExtractor={(item, index) => index?.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
               //onScroll={handleScroll}
