@@ -11,7 +11,7 @@ import {
 import React, {useEffect} from 'react';
 import {COLORS, IMAGES, SPACING} from '../../resources';
 import styles from './styles';
-import {useState, useCallback} from 'react';
+import {useState, useCallback, useRef} from 'react';
 import ProductViewComponent from '../../components/ProductViewComponent';
 import Custombutton from '../../components/Button1';
 import Custombutton2 from '../../components/Button2';
@@ -21,6 +21,7 @@ import {exploreProductDetail, productChart} from '../../redux/explore.slice';
 import {addEllipsis, formatTimestamp} from '../../helper/commonFunction';
 import {useNavigation} from '@react-navigation/native';
 import Chartdemo from './chartdemo';
+import branch, {BranchEvent} from 'react-native-branch';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -45,6 +46,7 @@ const ProductDetails = props => {
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const buoRef = useRef();
 
   const onTextLayout = useCallback(e => {
     setLengthMore(e.nativeEvent.lines.length >= 4); //to check the text is more than 4 lines or not
@@ -69,6 +71,12 @@ const ProductDetails = props => {
         }),
       );
     }
+    return () => {
+      if (buoRef.current) {
+        console.log('buo release');
+        buoRef.current?.release();
+      }
+    };
   }, [props.route?.params?.product_id]);
 
   useEffect(() => {
@@ -233,6 +241,61 @@ const ProductDetails = props => {
       posting_day: 'Posted Two Days Ago',
     },
   ];
+
+  const onShareClick = async () => {
+    let linkProperties = {
+      feature: 'share',
+      channel: 'RNApp',
+      campaign: `Product ID - ${props.route.params.product_id}`,
+    };
+    let shareOptions = {
+      messageHeader: 'Check this out',
+      messageBody: 'No really, check this out!',
+    };
+
+    let controlParams = {
+      $desktop_url: 'https://www.google.com',
+    };
+
+    let eventParams = {
+      ptest: 'hello',
+    };
+
+    buoRef.current = await branch.createBranchUniversalObject(
+      `product/${props.route.params.product_id}`,
+      {
+        title: 'Product Title',
+        contentDescription: 'Product Description',
+        canonicalUrl: '',
+        contentMetadata: {
+          customMetadata: {
+            productID: `${props.route.params.product_id}`,
+          },
+        },
+      },
+    );
+
+    let event = new BranchEvent(
+      BranchEvent.ViewItem,
+      [buoRef.current],
+      eventParams,
+    );
+    event.logEvent();
+
+    let {url} = await buoRef.current?.generateShortUrl(
+      linkProperties,
+      controlParams,
+    );
+
+    console.log('url', url);
+
+    let {channel, completed, error} = await buoRef.current?.showShareSheet(
+      shareOptions,
+      linkProperties,
+      controlParams,
+    );
+    console.log('test', {channel, completed, error});
+  };
 
   return (
     <SafeAreaView style={{flex: 1}}>

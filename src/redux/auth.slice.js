@@ -92,10 +92,21 @@ export const forgetPassword = createAsyncThunk(
         data: params,
       });
       console.log('forgetpassresponse', response);
+      if (response.message) {
+        fire({
+          message: response?.message,
+          actions: [
+            {
+              text: 'Ok',
+              style: 'cancel',
+            },
+          ],
+        });
+      }
       return response;
     } catch (error) {
       fire({
-        message: error.response.message,
+        message: error?.response?.data?.message,
         actions: [
           {
             text: 'Ok',
@@ -103,7 +114,7 @@ export const forgetPassword = createAsyncThunk(
           },
         ],
       });
-      console.log(error, 'aya error');
+      console.log(error?.response?.data?.message, error?.message, 'aya error');
       return thunkAPI.rejectWithValue(error);
     }
   },

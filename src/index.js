@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { AlertBox } from 'react-native-alertbox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DeepLinkng from './components/DeepLinkng';
 
 const App = () => {
   useEffect(() => {
@@ -17,7 +16,6 @@ const App = () => {
     <Provider store={store}>
       <View style={{ flex: 1 }}>
         <AppNavigator />
-        <DeepLinkng />
       </View>
       <AlertBox />
     </Provider>

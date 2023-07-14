@@ -531,7 +531,7 @@ const ExploreScreen = props => {
   const renderItem = ({item, index}) => (
     // console.log(item, 'ghghghghghghgh'),
     <Item
-      key={item.id}
+      key={index}
       product_image={item.thumb_image}
       product_name={item.title}
       price={item.price}
@@ -562,7 +562,7 @@ const ExploreScreen = props => {
   const renderItemm = ({item, index}) => (
     // console.log(item, 'ghghghghghghgh'),
     <Itemm
-      key={item.id}
+      key={index}
       product_image={item.thumb_image}
       product_name={item.title}
       price={item.price}
@@ -673,9 +673,9 @@ const ExploreScreen = props => {
           ListHeaderComponent={header}
           data={products ?? []}
           renderItem={renderItem}
-          keyExtractor={item => {
-            item.id;
-          }}
+          // keyExtractor={item => {
+          //   item.id;
+          // }}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           initialNumToRender={10}
@@ -899,7 +899,7 @@ const ExploreScreen = props => {
                             marginVertical: SPACING.SCALE_7,
                             marginLeft: SPACING.SCALE_15,
                           }}
-                          key={`category${item.id}`}
+                          key={`category${index}`}
                           onPress={() => setSelectCategory(item)}>
                           <View style={styles.sortObjectStyle}>
                             <View style={styles.dotIndicatorStyle}>
@@ -951,9 +951,9 @@ const ExploreScreen = props => {
                 </TouchableOpacity>
                 {selectedFilterView === 'Brands' && (
                   <View>
-                    {watchBrands.map(brand => (
+                    {watchBrands.map((brand, index) => (
                       <TouchableOpacity
-                        key={brand}
+                        key={index}
                         onPress={() => handleBrandToggle(brand)}
                         style={{
                           flexDirection: 'row',
@@ -1213,7 +1213,7 @@ const ExploreScreen = props => {
             <FlatList
               data={trendyWatchesProducts?.data}
               renderItem={renderItemm}
-              keyExtractor={item => item.id}
+              //keyExtractor={item => item.id}
               horizontal
               showsHorizontalScrollIndicator={false}
               //onScroll={handleScroll}

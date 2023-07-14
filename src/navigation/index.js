@@ -1,7 +1,7 @@
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {navigationRef} from './navigation-utilities';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { navigationRef } from './navigation-utilities';
 import PreloginNavigator from './preloginNavigator';
 import PostloginNavigator from './postloginNavigator';
 import {
@@ -9,7 +9,8 @@ import {
   getLoginToken,
   getTrustAuthorization,
 } from '../redux/auth.slice';
-import {connect, useDispatch} from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import DeepLinkng from '../components/DeepLinkng';
 const AppNavigator = props => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,7 @@ const AppNavigator = props => {
   }
   return (
     <NavigationContainer ref={navigationRef} onReady={() => setLoading(false)}>
+      <DeepLinkng isAuth={props.isLogin === 'true' ? true : false} />
       {props.isLogin === 'true' ? (
         <PostloginNavigator />
       ) : (
@@ -40,7 +42,7 @@ const AppNavigator = props => {
 };
 const LoadingComponent = () => {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <ActivityIndicator size="large" color="#0000ff" />
     </View>
   );

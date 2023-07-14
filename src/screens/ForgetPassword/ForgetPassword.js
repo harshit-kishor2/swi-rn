@@ -126,12 +126,7 @@ const ForgetPassword = props => {
                       email: email,
                       type: 'user',
                     }),
-                  ).then(e => {
-                    console.log(e, 'zxcvbnm');
-                    if (forgetData.message) {
-                      navigation.dispatch(popAction);
-                    }
-                  });
+                  );
                   // console.log(
                   //   forgetPasswordLoader,
                   //   forgetData,
