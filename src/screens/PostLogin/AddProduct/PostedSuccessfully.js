@@ -7,8 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Custombutton2 from '../../../components/Button2';
-import StoryScreen from '../../../components/StoryScreen';
+import { Custombutton2, StoryScreen } from '../../../components/Button2';
 import { IMAGES, SPACING } from '../../../resources';
 
 const PostedSuccessfully = () => {

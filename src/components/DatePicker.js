@@ -1,15 +1,14 @@
-import React, {Children, useState} from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
 import {
-  Image,
+  Modal,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Modal,
-  Platform,
+  View
 } from 'react-native';
-import {COLORS, FONTS, IMAGES, SPACING, TYPOGRAPHY} from '../resources';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { COLORS, SPACING, TYPOGRAPHY } from '../resources';
 
 const DatePicker = ({
   marginTop,
@@ -48,8 +47,8 @@ const DatePicker = ({
           onRequestClose={() => {
             setShow(false);
           }}>
-          <View style={{flex: 1, backgroundColor: '#0000004d'}} />
-          <View style={{backgroundColor: 'white', width: '100%'}}>
+          <View style={{ flex: 1, backgroundColor: '#0000004d' }} />
+          <View style={{ backgroundColor: 'white', width: '100%' }}>
             <View style={styles.iosBtn}>
               <Text style={styles.iosActionBtn} onPress={() => setShow(false)}>
                 {' '}

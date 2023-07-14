@@ -1,7 +1,6 @@
 import React from 'react'
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import NavigationBar from '../../../components/NavigationBar'
-import StoryScreen from '../../../components/StoryScreen'
+import { NavigationBar, StoryScreen } from '../../../components/NavigationBar'
 import { COLORS, IMAGES, SPACING } from '../../../resources'
 
 const Item = (

@@ -10,8 +10,7 @@ import {
   Text,
   View
 } from 'react-native';
-import NavigationBar from '../../../components/NavigationBar';
-import StoryScreen from '../../../components/StoryScreen';
+import { NavigationBar, StoryScreen } from '../../../components';
 import { COLORS, IMAGES, SPACING, TYPOGRAPHY } from '../../../resources';
 const WalkThroughScreen = props => {
   const { width, height } = Dimensions.get('screen');

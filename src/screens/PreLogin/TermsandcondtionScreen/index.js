@@ -1,9 +1,8 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import StoryScreen from '../../../components/StoryScreen';
 import { IMAGES } from '../../../resources';
 
-import NavigationBar from '../../../components/NavigationBar';
+import { NavigationBar, StoryScreen } from '../../../components';
 
 const Item = ({ title, content, srno }) => {
   return (

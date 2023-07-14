@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import Custombutton from '../../../components/Button1';
-import CustomTextInput from '../../../components/CustomtextInput';
-import NavigationBar from '../../../components/NavigationBar';
-import StoryScreen from '../../../components/StoryScreen';
+import { Custombutton, CustomTextInput, NavigationBar, StoryScreen } from '../../../components';
+
 import { userSignup } from '../../../redux/auth.slice';
 import { COLORS, IMAGES, SPACING } from '../../../resources';
 

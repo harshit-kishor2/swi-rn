@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 export default styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -26,5 +26,5 @@ export default styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  TextView: {alignSelf: 'center', marginTop: 40, flexDirection: 'column'},
+  TextView: { alignSelf: 'center', marginTop: 40, flexDirection: 'column' },
 });

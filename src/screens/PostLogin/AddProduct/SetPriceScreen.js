@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import Custombutton from '../../../components/Button1';
+import { Custombutton } from '../../../components';
 import { pID, updateThirdProductDetail } from '../../../redux/addProduct.slice';
 import { COLORS, SPACING } from '../../../resources';
 

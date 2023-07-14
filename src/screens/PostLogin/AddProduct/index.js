@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import NavigationBar from '../../../components/NavigationBar';
-import StoryScreen from '../../../components/StoryScreen';
+import { NavigationBar, StoryScreen } from '../../../components';
 import { COLORS, IMAGES, SPACING } from '../../../resources';
 import {
   productBrandData,

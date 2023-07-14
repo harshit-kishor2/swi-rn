@@ -7,16 +7,20 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import NavigationBar from '../../../components/NavigationBar';
-import StoryScreen from '../../../components/StoryScreen';
+
 import { COLORS, IMAGES, SPACING } from '../../../resources';
 
 import { Formik } from 'formik';
 import { fire } from 'react-native-alertbox';
 import { useDispatch, useSelector } from 'react-redux';
-import Custombutton from '../../../components/Button1';
-import CustomTextInput from '../../../components/CustomtextInput';
-import G_Recaptcha from '../../../components/Recaptcha';
+import {
+  Custombutton,
+  CustomTextInput,
+  G_Recaptcha,
+  NavigationBar,
+  StoryScreen
+} from '../../../components';
+
 import { userLogin } from '../../../redux/auth.slice';
 import { getFCMToken } from '../../../services/firebaseServices';
 

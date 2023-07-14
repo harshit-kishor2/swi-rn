@@ -15,7 +15,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Video from 'react-native-video';
 import { useDispatch } from 'react-redux';
 import { AndroidCameraPermission } from '../../../../androidcamerapermission';
-import Custombutton from '../../../components/Button1';
+import { Custombutton } from '../../../components';
 import { addProductDetail } from '../../../redux/addProduct.slice';
 import { styles } from './style';
 

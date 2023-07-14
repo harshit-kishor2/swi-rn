@@ -16,8 +16,7 @@ import {
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { connect, useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import Custombutton from '../../../components/Button1';
-import DatePicker from '../../../components/DatePicker';
+import { Custombutton, DatePicker } from '../../../components';
 import {
   getProductBrand,
   getProductModel,

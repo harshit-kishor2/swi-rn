@@ -13,12 +13,14 @@ import {
 import branch, { BranchEvent } from 'react-native-branch';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import Custombutton from '../../../components/Button1';
-import Custombutton2 from '../../../components/Button2';
+import {
+  Custombutton,
+  Custombutton2,
+  ProductViewComponent
+} from '../../../components';
 import { addEllipsis, formatTimestamp } from '../../../helper/commonFunction';
 import { exploreProductDetail, productChart } from '../../../redux/explore.slice';
 import { COLORS, IMAGES, SPACING } from '../../../resources';
-import ProductViewComponent from '../../../components/ProductViewComponent';
 import Chartdemo from './chartdemo';
 import styles from './styles';
 

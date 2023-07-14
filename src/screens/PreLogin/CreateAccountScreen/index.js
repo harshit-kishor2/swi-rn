@@ -1,35 +1,37 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  Button,
-  TouchableOpacity,
-  Platform,
-  ScrollView,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import StoryScreen from '../../../components/StoryScreen';
-import NavigationBar from '../../../components/NavigationBar';
-import { IMAGES, SPACING } from '../../../resources';
-import Custombutton from '../../../components/Button1';
-import Custombutton2 from '../../../components/Button2';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-import {
-  AccessToken,
-  GraphRequest,
-  GraphRequestManager,
-  LoginButton,
-  LoginManager,
-} from 'react-native-fbsdk-next';
-import jwt_decode from 'jwt-decode';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import jwt_decode from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import {
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+  LoginManager
+} from 'react-native-fbsdk-next';
 import { useDispatch } from 'react-redux';
-import { getFCMToken } from '../../../services/firebaseServices';
+
 import { userLogin } from '../../../redux/auth.slice';
+import { IMAGES, SPACING } from '../../../resources';
+import { getFCMToken } from '../../../services/firebaseServices';
+import {
+  Custombutton,
+  Custombutton2,
+  NavigationBar,
+  StoryScreen
+} from '../../../components';
+
 
 const CreateAccountScreen = props => {
   const [fcmToken, setFcmToken] = useState();

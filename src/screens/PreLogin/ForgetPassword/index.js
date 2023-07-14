@@ -1,27 +1,26 @@
+import { StackActions, useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   Alert,
   ScrollView,
-  Image,
-  TextInput,
+  Text,
+  View
 } from 'react-native';
-import styles from './styles';
-import React, { useState } from 'react';
-import StoryScreen from '../../../components/StoryScreen';
-import NavigationBar from '../../../components/NavigationBar';
-import { COLORS, IMAGES, SPACING } from '../../../resources';
-import CustomTextInput from '../../../components/CustomtextInput';
-import Custombutton from '../../../components/Button1';
-import { Formik } from 'formik';
-import { forgetPassword, userSignup } from '../../../redux/auth.slice';
+import { ActivityIndicator } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
-import { StackActions } from '@react-navigation/native';
-import { ActivityIndicator } from 'react-native-paper';
+
+import { forgetPassword } from '../../../redux/auth.slice';
+import { COLORS, IMAGES, SPACING } from '../../../resources';
+import styles from './styles';
+import {
+  Custombutton,
+  CustomTextInput,
+  NavigationBar,
+  StoryScreen
+} from '../../../components';
+
+
 
 const ForgetPassword = props => {
   //used to prevent second tap on the button

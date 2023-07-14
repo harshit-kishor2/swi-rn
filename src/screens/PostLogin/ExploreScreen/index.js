@@ -19,13 +19,16 @@ import {
 } from 'react-native';
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
 import { useDispatch, useSelector } from 'react-redux';
-import Banner from '../../../components/BannerComponent';
-import Custombutton from '../../../components/Button1';
-import Custombutton2 from '../../../components/Button2';
-import CustomText from '../../../components/CustomText';
-import Search from '../../../components/Search';
-import StoryScreen from '../../../components/StoryScreen';
-import TouchableImage from '../../../components/TouchableImage';
+import {
+  Banner,
+  Custombutton,
+  Custombutton2,
+  CustomText,
+  Search,
+  StoryScreen,
+  TouchableImage
+} from '../../../components';
+
 import { addEllipsis, formatTimestamp } from '../../../helper/commonFunction';
 import {
   addTrendyWishlist,

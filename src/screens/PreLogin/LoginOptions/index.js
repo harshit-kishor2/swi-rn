@@ -1,31 +1,32 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Alert,
-  Button,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import StoryScreen from '../../../components/StoryScreen';
-import NavigationBar from '../../../components/NavigationBar';
-import { IMAGES, SPACING } from '../../../resources';
-import Custombutton from '../../../components/Button1';
-import Custombutton2 from '../../../components/Button2';
 import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import jwt_decode from 'jwt-decode';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import {
   AccessToken,
   GraphRequest,
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk-next';
-import { userLogin } from '../../../redux/auth.slice';
 import { useDispatch } from 'react-redux';
+import {
+  Custombutton,
+  Custombutton2,
+  NavigationBar,
+  StoryScreen
+} from '../../../components';
+
+import { userLogin } from '../../../redux/auth.slice';
+import { IMAGES, SPACING } from '../../../resources';
 import { getFCMToken } from '../../../services/firebaseServices';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import LocationInput from '../../../LocationInput';
 
 const LoginOptions = props => {
   const dispatch = useDispatch();

@@ -12,8 +12,7 @@ import {
   View
 } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
-import Search from '../../../components/Search';
-import StoryScreen from '../../../components/StoryScreen';
+import { Search, StoryScreen } from '../../../components';
 import { formatTimestamp } from '../../../helper/commonFunction';
 import {
   fetchFreshFinds,
