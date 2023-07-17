@@ -1,22 +1,19 @@
+import React, {useRef} from 'react';
 import {
   Dimensions,
   FlatList,
-  StyleSheet,
-  Text,
-  View,
   Image,
+  Linking,
+  Pressable,
+  StyleSheet,
+  View,
 } from 'react-native';
-import React, {useRef} from 'react';
-import ProductCard from '@app/screens/atoms/ProductCard';
-import {IMAGES} from '@app/resources';
-import Pagination from '@app/screens/PreLogin/WalkThroughScreen/Pagination';
+import Pagination from './Pagination';
 const {height, width} = Dimensions.get('window');
-const DATA = [1, 2, 3];
 
-const Banner = () => {
+const Banner = ({bannerData}) => {
   const [currentPage, setCurrentPage] = React.useState(0);
   const flatlistRef = useRef();
-
   const handleScroll = event => {
     const contentOffset = event.nativeEvent.contentOffset.x;
     const page = Math.round(contentOffset / width);
@@ -34,29 +31,34 @@ const Banner = () => {
           borderRadius: 10,
           paddingHorizontal: 20,
         }}>
-        <View
-          style={{
-            width: width - 5,
-            height: 150,
-            alignItems: 'center',
-            borderRadius: 10,
-            borderWidth: 0.5,
+        <Pressable
+          onPress={() => {
+            Linking.openURL(item?.link);
           }}>
-          <Image
+          <View
             style={{
+              width: width - 5,
               height: 150,
-              width: '80%',
-            }}
-            resizeMode="contain"
-            source={IMAGES.Splash_logo}
-          />
-        </View>
-        <View
-          style={{
-            bottom: 20,
-          }}>
-          <Pagination currentPage={currentPage} />
-        </View>
+              alignItems: 'center',
+            }}>
+            <Image
+              style={{
+                height: 150,
+                width: '100%',
+                borderRadius: 10,
+                borderWidth: 0.5,
+              }}
+              resizeMode="cover"
+              source={{uri: item?.image}}
+            />
+          </View>
+          <View
+            style={{
+              bottom: 20,
+            }}>
+            <Pagination data={bannerData} currentPage={currentPage} />
+          </View>
+        </Pressable>
       </View>
     );
   };
@@ -68,9 +70,9 @@ const Banner = () => {
       <FlatList
         horizontal
         ref={flatlistRef}
-        data={[1, 2, 3]}
+        data={bannerData}
         renderItem={renderItem}
-        keyExtractor={item => item?.toString()}
+        keyExtractor={(item, index) => index?.toString()}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={handleScroll}

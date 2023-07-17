@@ -2,13 +2,13 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 // import {AuthReducer} from './auth.slice';
 import {freshFindsReducer} from './freshFinds.slice';
 import {addProductReducer} from './addProduct.slice';
-import {exploreReducer} from './explore.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
+import exploreProductReducer from './exploreProductSlice';
 
 const combinedReducer = combineReducers({
   authReducer,
-  exploreReducer,
+  exploreProductReducer,
   freshFindsReducer,
   addProductReducer,
 });

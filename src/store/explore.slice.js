@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Config } from '../helper/config';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {Config} from '../helper/config';
 import api from '../services/api';
 
-import { fire } from 'react-native-alertbox';
-import { LoadingStatus } from '../helper/strings';
+import {fire} from 'react-native-alertbox';
+import {LoadingStatus} from '../helper/strings';
 
 const initialState = {
   //states for explore product listing
@@ -160,7 +160,7 @@ export const exploreTrendyWatchesListing = createAsyncThunk(
 // product addition in wishlist
 export const addWishlist = createAsyncThunk(
   'explore/addWishlist',
-  async ({ product_id, index }, thunkAPI) => {
+  async ({product_id, index}, thunkAPI) => {
     try {
       const response = await api({
         url: `${Config.API_URL}add-wishlist/${product_id}`,
@@ -170,7 +170,7 @@ export const addWishlist = createAsyncThunk(
         },
       });
       // console.log('product added in wishlist', response);
-      return { response, index };
+      return {response, index};
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -181,7 +181,7 @@ export const addWishlist = createAsyncThunk(
 
 export const addTrendyWishlist = createAsyncThunk(
   'explore/addTrendyWishlist',
-  async ({ product_id, index }, thunkAPI) => {
+  async ({product_id, index}, thunkAPI) => {
     try {
       const response = await api({
         url: `${Config.API_URL}add-wishlist/${product_id}`,
@@ -191,7 +191,7 @@ export const addTrendyWishlist = createAsyncThunk(
         },
       });
       // console.log('product added in wishlist', response);
-      return { response, index };
+      return {response, index};
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -201,7 +201,7 @@ export const addTrendyWishlist = createAsyncThunk(
 // Product detail api call
 export const exploreProductDetail = createAsyncThunk(
   'explore/ProductDetail',
-  async ({ product_id }, thunkAPI) => {
+  async ({product_id}, thunkAPI) => {
     console.log('page---- ', product_id);
     try {
       const response = await api({
@@ -412,6 +412,6 @@ const exploreSlice = createSlice({
       });
   },
 });
-export const { toggleTabBar, clearProductsState } = exploreSlice.actions;
-export const { actions: exploreActions, reducer: exploreReducer } = exploreSlice;
+export const {toggleTabBar, clearProductsState} = exploreSlice.actions;
+export const {actions: exploreActions, reducer: exploreReducer} = exploreSlice;
 export default exploreSlice.reducer;

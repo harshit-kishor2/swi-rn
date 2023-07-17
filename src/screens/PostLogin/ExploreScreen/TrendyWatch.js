@@ -1,13 +1,13 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import PageTitle from '@app/screens/atoms/PageTitle';
-import ProductCard from '@app/screens/atoms/ProductCard';
 import {CustomIcon} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import PageTitle from '@app/screens/atoms/PageTitle';
+import ProductCard from '@app/screens/atoms/ProductCard';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 const TrendyWatch = props => {
+  const {exploreProduct, onAddWishList} = props;
   const renderItem = ({item, index}) => {
-    return <ProductCard />;
+    return <ProductCard key={index} item={item} />;
   };
   return (
     <View style={{height: 450, paddingHorizontal: 10}}>
@@ -15,9 +15,9 @@ const TrendyWatch = props => {
       <FlatList
         horizontal
         // ref={flatlistRef}
-        data={[1, 2, 3, 4, 5, 6, 8]}
+        data={exploreProduct?.trendyWatches}
         renderItem={renderItem}
-        keyExtractor={item => item?.toString()}
+        keyExtractor={(item, index) => index?.toString()}
         showsHorizontalScrollIndicator={false}
       />
       <View
