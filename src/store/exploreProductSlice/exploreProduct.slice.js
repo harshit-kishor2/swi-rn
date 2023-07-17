@@ -35,6 +35,7 @@ const initialState = entityAdapter.getInitialState({
 
   topNotchWatchLoadingStatus: LoadingStatus.NOT_LOADED,
   topNotchWatch: [],
+  isLoadMore: false,
   topNotchWatchError: null,
 
   productDetailsLoadingStatus: LoadingStatus.NOT_LOADED,
@@ -110,7 +111,12 @@ const reduxSlice = createSlice({
       })
       .addCase(getTopNotchWatchAction.fulfilled, (state, action) => {
         state.topNotchWatchLoadingStatus = LoadingStatus.LOADED;
-        state.topNotchWatch = action.payload?.data;
+        if (action.payload?.data?.next_page_url) {
+          state.isLoadMore = true;
+        } else {
+          state.isLoadMore = false;
+        }
+        state.topNotchWatch = action.payload?.data?.data;
       })
       .addCase(getTopNotchWatchAction.rejected, (state, action) => {
         state.topNotchWatchLoadingStatus = LoadingStatus.FAILED;
