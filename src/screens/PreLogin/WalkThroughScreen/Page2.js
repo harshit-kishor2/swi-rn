@@ -15,8 +15,8 @@ const Page2 = ({onPress}) => {
       <Image
         source={IMAGES.Rectangle1}
         style={{
-          height: 250,
-          width: 200,
+          height: 342,
+          width: 284,
           alignSelf: 'center',
           borderRadius: 10,
         }}
