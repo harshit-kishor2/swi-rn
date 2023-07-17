@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { connect, useDispatch } from 'react-redux';
 import * as yup from 'yup';
-import { Custombutton } from '../../../components';
-import { pID, updateThirdProductDetail } from '../../../redux/addProduct.slice';
-import { COLORS, SPACING } from '../../../resources';
+import { Custombutton } from '@app/components';
+import { pID, updateThirdProductDetail } from '@app/store/addProduct.slice';
+import { COLORS, SPACING } from '@app/resources';
 
 const SetPriceScreen = ({ title, product_ID }) => {
-  const [price, setPrice] = useState();
+  const [ price, setPrice ] = useState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -25,32 +25,32 @@ const SetPriceScreen = ({ title, product_ID }) => {
   };
   return (
     <Formik
-      initialValues={{
+      initialValues={ {
         price: price,
         productID: product_ID,
-      }}
+      } }
       enableReinitialize
-      validationSchema={loginValidationSchema}
-      onSubmit={values => {
+      validationSchema={ loginValidationSchema }
+      onSubmit={ values => {
         postForm(values);
-      }}>
-      {formik => (
-        <View style={{ marginTop: SPACING.SCALE_30 }}>
+      } }>
+      { formik => (
+        <View style={ { marginTop: SPACING.SCALE_30 } }>
           <View
-            style={{ color: COLORS.PageBackground, backgroundColor: '#F0F2FA' }}>
-            <View style={{}}>
+            style={ { color: COLORS.PageBackground, backgroundColor: '#F0F2FA' } }>
+            <View style={ {} }>
               <Text
-                style={{
+                style={ {
                   color: COLORS.HYPERLINK,
                   alignSelf: 'center',
                   marginTop: 30,
                   fontFamily: 'OpenSans-Regular',
                   fontSize: 16,
-                }}>
+                } }>
                 SetPrice
               </Text>
               <Text
-                style={{
+                style={ {
                   color: COLORS.BLACK,
                   marginLeft: 5,
                   fontFamily: 'OpenSans-SemiBold',
@@ -58,11 +58,11 @@ const SetPriceScreen = ({ title, product_ID }) => {
                   justifyContent: 'center',
                   alignSelf: 'center',
                   marginTop: 10,
-                }}>
-                {title}
+                } }>
+                { title }
               </Text>
               <Text
-                style={{
+                style={ {
                   color: COLORS.HYPERLINK,
                   marginLeft: 5,
                   fontFamily: 'OpenSans-Regular',
@@ -70,76 +70,76 @@ const SetPriceScreen = ({ title, product_ID }) => {
                   justifyContent: 'center',
                   alignSelf: 'center',
                   marginTop: 20,
-                }}>
-                SDG{' '}
+                } }>
+                SDG{ ' ' }
               </Text>
             </View>
             <View
-              style={[
+              style={ [
                 styles.container,
                 {
                   width: '55%',
                   height: 80,
                 },
-              ]}>
+              ] }>
               <TextInput
                 keyboardType="number-pad"
-                maxLength={10}
+                maxLength={ 10 }
                 textAlign="center"
-                style={{ fontFamily: 'OpenSans-Regular', width: '100%' }}
-                fontSize={40}
-                autoFocus={true}
-                onChangeText={e => {
+                style={ { fontFamily: 'OpenSans-Regular', width: '100%' } }
+                fontSize={ 40 }
+                autoFocus={ true }
+                onChangeText={ e => {
                   setPrice(e);
                   console.log(price);
-                }}
+                } }
               />
               <View>
                 <Text
-                  style={{
+                  style={ {
                     color: COLORS.RED,
-                  }}>
-                  {formik.errors.price && formik.touched.price
+                  } }>
+                  { formik.errors.price && formik.touched.price
                     ? formik.errors.price
-                    : null}
+                    : null }
                 </Text>
               </View>
             </View>
             <View
-              style={{
+              style={ {
                 flexDirection: 'row',
                 alignSelf: 'center',
                 justifyContent: 'center',
                 marginTop: 20,
                 marginBottom: 50,
-              }}>
+              } }>
               <Text
-                style={{
+                style={ {
                   fontFamily: 'OpenSans-Regular',
                   color: COLORS.BLACK,
                   fontSize: 14,
-                }}>
+                } }>
                 Get your watch listed on top
               </Text>
               <Text
-                style={{
+                style={ {
                   fontFamily: 'OpenSans-Regular',
                   color: COLORS.HYPERLINK,
                   fontSize: 14,
                   textDecorationLine: 'underline',
-                }}>
+                } }>
                 Boost Now
               </Text>
             </View>
             <Custombutton
-              title={'Post now'}
-              width={'80%'}
-              fontSize={20}
-              onPress={formik.handleSubmit}
+              title={ 'Post now' }
+              width={ '80%' }
+              fontSize={ 20 }
+              onPress={ formik.handleSubmit }
             />
           </View>
         </View>
-      )}
+      ) }
     </Formik>
   );
 };

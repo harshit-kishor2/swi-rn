@@ -1,19 +1,32 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import Navigator from '@app//navigations/Navigator';
+import { stayLoginAction } from '@app/store/authSlice';
+import SplashView from './SplashView';
 
-const SplashScreen = () => {
+const SplashScreen = props => {
+  const { checkIsLoggedInUser } = props;
 
-    useEffect(() => {
+  const [ isSplashEnd, setIsSplashEnd ] = useState(false);
 
-    }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsSplashEnd(true);
+    }, 3000);
+    checkIsLoggedInUser();
+  }, []);
 
-    return (
-        <View>
-            <Text>SplashScreen</Text>
-        </View>
-    );
+  return isSplashEnd ? <Navigator /> : <SplashView />;
 };
 
-export default SplashScreen;
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
 
-const styles = StyleSheet.create({});
+const mapDispatchToProps = dispatch => ({
+  checkIsLoggedInUser: () => dispatch(stayLoginAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

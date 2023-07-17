@@ -17,10 +17,10 @@ import {
   Custombutton,
   Custombutton2,
   ProductViewComponent
-} from '../../../components';
-import { addEllipsis, formatTimestamp } from '../../../helper/commonFunction';
-import { exploreProductDetail, productChart } from '../../../redux/explore.slice';
-import { COLORS, IMAGES, SPACING } from '../../../resources';
+} from '@app/components';
+import { addEllipsis, formatTimestamp } from '@app/helper/commonFunction';
+import { exploreProductDetail, productChart } from '@app/store/explore.slice';
+import { COLORS, IMAGES, SPACING } from '@app/resources';
 import Chartdemo from './chartdemo';
 import styles from './styles';
 
@@ -32,10 +32,10 @@ const selectKey = [
 ];
 
 const ProductDetails = props => {
-  const [textShown, setTextShown] = useState(false); //To show ur remaining Text
-  const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
-  const [isChartDropDown, setIsChartDropDown] = useState(false);
-  const [selectFilteredValue, setSelectFilteredValue] = useState({
+  const [ textShown, setTextShown ] = useState(false); //To show ur remaining Text
+  const [ lengthMore, setLengthMore ] = useState(false); //to show the "Read more & Less Line"
+  const [ isChartDropDown, setIsChartDropDown ] = useState(false);
+  const [ selectFilteredValue, setSelectFilteredValue ] = useState({
     id: 1,
     name: 'Last 7 Days',
     key: 'seven_days',
@@ -78,7 +78,7 @@ const ProductDetails = props => {
         buoRef.current?.release();
       }
     };
-  }, [props.route?.params?.product_id]);
+  }, [ props.route?.params?.product_id ]);
 
   useEffect(() => {
     if (props.route.params.product_id) {
@@ -89,12 +89,12 @@ const ProductDetails = props => {
         }),
       );
     }
-  }, [selectFilteredValue, props.route.params.product_id]);
+  }, [ selectFilteredValue, props.route.params.product_id ]);
 
   // Image view logic =======================
 
   const ImageView = ({ images }) => {
-    const [selectedImage, setSelectedImage] = useState(0);
+    const [ selectedImage, setSelectedImage ] = useState(0);
     console.log(images, 'dfshfshk');
 
     const handleImagePress = index => {
@@ -102,52 +102,52 @@ const ProductDetails = props => {
     };
 
     return (
-      <View style={[styless.container]}>
-        <View style={styless.mainView}>
-          {images[selectedImage] ? (
+      <View style={ [ styless.container ] }>
+        <View style={ styless.mainView }>
+          { images[ selectedImage ] ? (
             <Image
-              style={styless.mainImage}
-              source={{
-                uri: images[selectedImage].file,
-              }}
+              style={ styless.mainImage }
+              source={ {
+                uri: images[ selectedImage ].file,
+              } }
             />
           ) : (
             <View>
               <Text>No Image</Text>
             </View>
-          )}
+          ) }
         </View>
-        <View style={styless.thumbnailContainer}>
-          {images?.length != 0 &&
+        <View style={ styless.thumbnailContainer }>
+          { images?.length != 0 &&
             images.map((image, index) => (
               <TouchableOpacity
-                key={index}
-                style={[
+                key={ index }
+                style={ [
                   styless.thumbnail,
                   selectedImage === index && styless.selectedThumbnail,
-                ]}
-                onPress={() => handleImagePress(index)}>
-                {image?.file ? (
+                ] }
+                onPress={ () => handleImagePress(index) }>
+                { image?.file ? (
                   <Image
-                    style={styless.thumbnailImage}
-                    source={{ uri: image?.file }}
+                    style={ styless.thumbnailImage }
+                    source={ { uri: image?.file } }
                   />
                 ) : (
                   <Text>No image</Text>
-                )}
+                ) }
               </TouchableOpacity>
-            ))}
+            )) }
         </View>
-        <View style={styless.dotContainer}>
-          {images.map((_, index) => (
+        <View style={ styless.dotContainer }>
+          { images.map((_, index) => (
             <View
-              key={index}
-              style={[
+              key={ index }
+              style={ [
                 styless.dot,
                 selectedImage === index && styless.selectedDot,
-              ]}
+              ] }
             />
-          ))}
+          )) }
         </View>
       </View>
     );
@@ -278,7 +278,7 @@ const ProductDetails = props => {
 
     let event = new BranchEvent(
       BranchEvent.ViewItem,
-      [buoRef.current],
+      [ buoRef.current ],
       eventParams,
     );
     event.logEvent();
@@ -299,54 +299,54 @@ const ProductDetails = props => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {productDetailLoading === false ? (
-        <ScrollView showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={ { flex: 1 } }>
+      { productDetailLoading === false ? (
+        <ScrollView showsVerticalScrollIndicator={ false }>
           {
             //header
           }
-          <View style={styles.headerStyle}>
+          <View style={ styles.headerStyle }>
             <TouchableOpacity
-              onPress={() => {
+              onPress={ () => {
                 props.navigation.goBack();
-              }}>
+              } }>
               <Image
-                style={{
+                style={ {
                   height: SPACING.SCALE_24,
                   width: SPACING.SCALE_24,
                   resizeMode: 'cover',
-                }}
-                source={IMAGES.BACKARROW}
+                } }
+                source={ IMAGES.BACKARROW }
               />
             </TouchableOpacity>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity onPress={onShareClick}>
+            <View style={ { flexDirection: 'row', alignItems: 'center' } }>
+              <TouchableOpacity onPress={ onShareClick }>
                 <Image
-                  style={{
+                  style={ {
                     marginRight: 16,
                     height: SPACING.SCALE_24,
                     width: SPACING.SCALE_24,
-                  }}
-                  source={IMAGES.share}
+                  } }
+                  source={ IMAGES.share }
                 />
               </TouchableOpacity>
               <TouchableOpacity>
                 <Image
-                  style={{ height: SPACING.SCALE_24, width: SPACING.SCALE_19 }}
-                  source={IMAGES.Favorite}
+                  style={ { height: SPACING.SCALE_24, width: SPACING.SCALE_19 } }
+                  source={ IMAGES.Favorite }
                 />
               </TouchableOpacity>
             </View>
           </View>
-          {productDetailData.data.files ? (
-            <ImageView images={productDetailData.data.files} />
-          ) : null}
-          {/* Main Image  */}
+          { productDetailData.data.files ? (
+            <ImageView images={ productDetailData.data.files } />
+          ) : null }
+          {/* Main Image  */ }
           {/* <View style={styles.ImageSizeStyle}>
         <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
       </View> */}
 
-          {/* small Images */}
+          {/* small Images */ }
 
           {/* <View style={styles.SmallImageStyle}>
         <Image source={IMAGES.Rectangle1} style={styles.SmallImageSizeStyle} />
@@ -354,7 +354,7 @@ const ProductDetails = props => {
         <Image source={IMAGES.Rectangle2} style={styles.SmallImageSizeStyle} />
       </View> */}
 
-          {/* Three Dots */}
+          {/* Three Dots */ }
 
           {/* <View
         style={{
@@ -388,95 +388,95 @@ const ProductDetails = props => {
           }}></View>
       </View> */}
 
-          {/* MOdel, Brand, Price, condition */}
+          {/* MOdel, Brand, Price, condition */ }
 
           <View
-            style={{
+            style={ {
               alignItems: 'center',
               justifyContent: 'center',
               marginVertical: 5,
-            }}>
-            <Text style={{ fontFamily: 'Cabin-Bold', fontSize: 18 }}>
-              {productDetailData?.data?.gender_type}'s Watch with{' '}
-              {productDetailData?.data?.bracelet} Strap
+            } }>
+            <Text style={ { fontFamily: 'Cabin-Bold', fontSize: 18 } }>
+              { productDetailData?.data?.gender_type }'s Watch with{ ' ' }
+              { productDetailData?.data?.bracelet } Strap
             </Text>
-            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 18 }}>
-              {productDetailData?.data?.brand?.name} - Model{' '}
-              {productDetailData?.data?.model?.name}
+            <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 18 } }>
+              { productDetailData?.data?.brand?.name } - Model{ ' ' }
+              { productDetailData?.data?.model?.name }
             </Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK }}>
-                ${productDetailData?.data?.price}{' '}
+            <View style={ { flexDirection: 'row' } }>
+              <Text style={ { fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK } }>
+                ${ productDetailData?.data?.price }{ ' ' }
               </Text>
               <Text
-                style={{ fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK }}>
-                .{productDetailData?.data?.watch_condition}
+                style={ { fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK } }>
+                .{ productDetailData?.data?.watch_condition }
               </Text>
             </View>
           </View>
 
-          {/* Availability */}
+          {/* Availability */ }
 
           <View
-            style={{
+            style={ {
               backgroundColor: '#F0F2FA',
               justifyContent: 'center',
               alignItems: 'center',
               height: 40,
               width: '100%',
               marginVertical: 5,
-            }}>
-            <Text style={{ fontFamily: 'OpenSans-Regular' }}>
-              {productDetailData?.data?.product_status}
+            } }>
+            <Text style={ { fontFamily: 'OpenSans-Regular' } }>
+              { productDetailData?.data?.product_status }
             </Text>
           </View>
 
-          {/* Seller Details */}
+          {/* Seller Details */ }
 
           <View
-            style={{
+            style={ {
               //backgroundColor: 'red',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
               marginVertical: 5,
-            }}>
-            {productDetailData?.data?.user?.image ? (
+            } }>
+            { productDetailData?.data?.user?.image ? (
               <Image
-                source={{ uri: productDetailData?.data?.user?.image }}
-                style={{ height: 45, width: 45, borderRadius: 45 / 2 }}
+                source={ { uri: productDetailData?.data?.user?.image } }
+                style={ { height: 45, width: 45, borderRadius: 45 / 2 } }
               />
             ) : (
               <Text>No image</Text>
-            )}
+            ) }
             <View>
               <View
-                style={{
+                style={ {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                }}>
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 15 }}>
-                  {productDetailData?.data?.user?.name?.length > 8
+                } }>
+                <Text style={ { fontFamily: 'OpenSans-Regular', fontSize: 15 } }>
+                  { productDetailData?.data?.user?.name?.length > 8
                     ? addEllipsis(productDetailData?.data?.user?.name, 8)
-                    : productDetailData?.data?.user?.name?.length}
+                    : productDetailData?.data?.user?.name?.length }
                 </Text>
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12 }}>
-                  {formatTimestamp(productDetailData?.data?.user?.created_at)}
+                <Text style={ { fontFamily: 'OpenSans-Regular', fontSize: 12 } }>
+                  { formatTimestamp(productDetailData?.data?.user?.created_at) }
                 </Text>
               </View>
               <View
-                style={{
+                style={ {
                   flexDirection: 'row',
                   alignItems: 'center',
                   justifyContent: 'center',
                   marginTop: 6,
-                }}>
+                } }>
                 <Image
-                  style={{ height: 14.6, width: 12, marginRight: 6 }}
-                  source={IMAGES.LocationImage}
+                  style={ { height: 14.6, width: 12, marginRight: 6 } }
+                  source={ IMAGES.LocationImage }
                 />
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 15 }}>
+                <Text style={ { fontFamily: 'OpenSans-Regular', fontSize: 15 } }>
                   3018, Singapore Marina Bay
                 </Text>
               </View>
@@ -484,130 +484,130 @@ const ProductDetails = props => {
           </View>
 
           <View
-            style={{
+            style={ {
               flex: 1,
               height: 1,
               width: '90%',
               backgroundColor: 'gray',
               marginTop: 15,
               alignSelf: 'center',
-            }}
+            } }
           />
 
-          {/* Specifications  */}
+          {/* Specifications  */ }
           <View
-            style={{
+            style={ {
               flexDirection: 'column',
               justifyContent: 'space-between',
               // backgroundColor: 'red',
               paddingHorizontal: 20,
-            }}>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Accessories</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.accessories}
+            } }>
+            <View style={ styles.SpecifiactionView }>
+              <Text style={ styles.SpecifiactionText1 }>Accessories</Text>
+              <Text style={ styles.SpecifiactionText2 }>
+                { productDetailData?.data?.accessories }
               </Text>
             </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Dial</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.dial}
+            <View style={ styles.SpecifiactionView }>
+              <Text style={ styles.SpecifiactionText1 }>Dial</Text>
+              <Text style={ styles.SpecifiactionText2 }>
+                { productDetailData?.data?.dial }
               </Text>
             </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Dial Markers</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.dial_markers}
+            <View style={ styles.SpecifiactionView }>
+              <Text style={ styles.SpecifiactionText1 }>Dial Markers</Text>
+              <Text style={ styles.SpecifiactionText2 }>
+                { productDetailData?.data?.dial_markers }
               </Text>
             </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Case Size </Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.case_size}
+            <View style={ styles.SpecifiactionView }>
+              <Text style={ styles.SpecifiactionText1 }>Case Size </Text>
+              <Text style={ styles.SpecifiactionText2 }>
+                { productDetailData?.data?.case_size }
               </Text>
             </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Movement </Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.movement}
+            <View style={ styles.SpecifiactionView }>
+              <Text style={ styles.SpecifiactionText1 }>Movement </Text>
+              <Text style={ styles.SpecifiactionText2 }>
+                { productDetailData?.data?.movement }
               </Text>
             </View>
           </View>
 
-          {/* ReadMore Text */}
+          {/* ReadMore Text */ }
 
-          <View style={{ alignSelf: 'center', width: '90%', marginTop: 30 }}>
+          <View style={ { alignSelf: 'center', width: '90%', marginTop: 30 } }>
             <Text
-              onTextLayout={onTextLayout}
-              numberOfLines={textShown ? undefined : 1}
-              style={{ fontFamily: 'OpenSans-Regular', fontSize: 16 }}>
-              {productDetailData?.data?.description}{' '}
+              onTextLayout={ onTextLayout }
+              numberOfLines={ textShown ? undefined : 1 }
+              style={ { fontFamily: 'OpenSans-Regular', fontSize: 16 } }>
+              { productDetailData?.data?.description }{ ' ' }
             </Text>
 
-            {true ? (
+            { true ? (
               <Text
-                onPress={toggleNumberOfLines}
-                style={{
+                onPress={ toggleNumberOfLines }
+                style={ {
                   fontFamily: 'OpenSans-Regular',
                   color: COLORS.HYPERLINK,
                   textDecorationLine: 'underline',
-                }}>
-                {textShown ? 'Read less' : 'Read more'}
+                } }>
+                { textShown ? 'Read less' : 'Read more' }
               </Text>
-            ) : null}
+            ) : null }
           </View>
 
           <View
-            style={{
+            style={ {
               //flex: 1,
               height: 1,
               width: '90%',
               backgroundColor: 'gray',
               marginTop: 15,
               alignSelf: 'center',
-            }}
+            } }
           />
 
-          {/* Price Chart */}
+          {/* Price Chart */ }
 
-          <View style={{ marginTop: 25 }}>
+          <View style={ { marginTop: 25 } }>
             <View
-              style={{
+              style={ {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 16,
-              }}>
-              <Text style={{ fontFamily: 'OpenSans-Bold' }}>Price Chart</Text>
+              } }>
+              <Text style={ { fontFamily: 'OpenSans-Bold' } }>Price Chart</Text>
               <TouchableOpacity
-                onPress={() => setIsChartDropDown(!isChartDropDown)}
-                activeOpacity={0.7}
-                style={{
+                onPress={ () => setIsChartDropDown(!isChartDropDown) }
+                activeOpacity={ 0.7 }
+                style={ {
                   flexDirection: 'row',
                   justifyContent: 'center',
                   alignItems: 'center',
-                }}>
+                } }>
                 <Text
-                  style={{
+                  style={ {
                     fontFamily: 'OpenSans-Regular',
                     fontSize: 16,
                     color: '#868686',
                     fontWeight: '600',
-                  }}>
-                  {selectFilteredValue.name}{' '}
+                  } }>
+                  { selectFilteredValue.name }{ ' ' }
                 </Text>
                 <Image
-                  source={IMAGES.blackDropIcon}
-                  resizeMode={'contain'}
-                  style={{
+                  source={ IMAGES.blackDropIcon }
+                  resizeMode={ 'contain' }
+                  style={ {
                     height: SPACING.SCALE_10,
                     width: SPACING.SCALE_10,
                     marginTop: SPACING.SCALE_1,
-                  }}
+                  } }
                 />
               </TouchableOpacity>
-              {isChartDropDown ? (
+              { isChartDropDown ? (
                 <View
-                  style={{
+                  style={ {
                     position: 'absolute',
                     zIndex: 3,
                     right: SPACING.SCALE_7,
@@ -618,32 +618,32 @@ const ProductDetails = props => {
                     borderTopLeftRadius: SPACING.SCALE_8,
                     borderWidth: SPACING.SCALE_2,
                     borderColor: COLORS.themeColor,
-                  }}>
-                  {selectKey?.map((item, index) => {
+                  } }>
+                  { selectKey?.map((item, index) => {
                     return (
                       <TouchableOpacity
-                        key={index}
-                        onPress={() => {
+                        key={ index }
+                        onPress={ () => {
                           setSelectFilteredValue(item);
                           setIsChartDropDown(false);
-                        }}
-                        activeOpacity={0.7}
-                        style={{
+                        } }
+                        activeOpacity={ 0.7 }
+                        style={ {
                           justifyContent: 'center',
                           alignItems: 'center',
-                        }}>
+                        } }>
                         <Text
-                          style={{
+                          style={ {
                             marginHorizontal: SPACING.SCALE_15,
                             marginVertical: SPACING.SCALE_10,
-                          }}>
-                          {item.name}
+                          } }>
+                          { item.name }
                         </Text>
                       </TouchableOpacity>
                     );
-                  })}
+                  }) }
                 </View>
-              ) : null}
+              ) : null }
             </View>
             <View>
               <Chartdemo />
@@ -654,88 +654,88 @@ const ProductDetails = props => {
             </View>
           </View>
 
-          {/* horizontal watcehs  */}
-          <View style={{ marginTop: 40, zIndex: -2 }}>
-            <Text style={{ marginLeft: 20 }}>Suggested watches for you</Text>
+          {/* horizontal watcehs  */ }
+          <View style={ { marginTop: 40, zIndex: -2 } }>
+            <Text style={ { marginLeft: 20 } }>Suggested watches for you</Text>
 
-            {productDetailData?.data?.suggested_data?.length != 0 ? (
+            { productDetailData?.data?.suggested_data?.length != 0 ? (
               <ProductViewComponent
-                data={productDetailData?.data?.suggested_data}
+                data={ productDetailData?.data?.suggested_data }
               />
             ) : (
-              <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <View style={ { alignItems: 'center', justifyContent: 'center' } }>
                 <Text>No Suggested watches</Text>
               </View>
-            )}
+            ) }
           </View>
 
-          {/* make an offer and chat button  */}
+          {/* make an offer and chat button  */ }
           <View
-            style={{
+            style={ {
               flexDirection: 'row',
               marginVertical: 20,
               marginHorizontal: 20,
               justifyContent: 'space-evenly',
-            }}>
+            } }>
             <Custombutton
               title="Make Offer"
               //marginTop={50}
-              height={SPACING.SCALE_50}
-              width={SPACING.SCALE_160}
+              height={ SPACING.SCALE_50 }
+              width={ SPACING.SCALE_160 }
               // marginHorizontal={20}
-              onPress={() => {
+              onPress={ () => {
                 Alert.alert('Make an Offer');
-              }}
+              } }
             />
             <Custombutton2
               title="Chat"
               //marginTop={50}
-              height={SPACING.SCALE_50}
-              width={SPACING.SCALE_160}
+              height={ SPACING.SCALE_50 }
+              width={ SPACING.SCALE_160 }
               // marginHorizontal={20}
-              onPress={() => {
+              onPress={ () => {
                 Alert.alert('Chat');
-              }}
+              } }
             />
           </View>
 
-          {/* Compare PriceAlert  */}
+          {/* Compare PriceAlert  */ }
 
           <View
-            style={{
+            style={ {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               marginTop: 20,
               marginBottom: 20,
-            }}>
+            } }>
             <View
-              style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Image source={IMAGES.CompareImage} />
+              style={ { flexDirection: 'row', justifyContent: 'space-around' } }>
+              <Image source={ IMAGES.CompareImage } />
               <TouchableOpacity
-                onPress={() => {
+                onPress={ () => {
                   Alert.alert('Compare');
-                }}>
-                <Text style={{ marginLeft: 10 }}>Compare</Text>
+                } }>
+                <Text style={ { marginLeft: 10 } }>Compare</Text>
               </TouchableOpacity>
             </View>
             <View
-              style={{
+              style={ {
                 height: 40,
                 width: 1,
                 backgroundColor: 'gray',
                 flexShrink: 1,
-              }}
+              } }
             />
             <View>
               <TouchableOpacity
-                onPress={() => {
+                onPress={ () => {
                   Alert.alert('Price Alert');
-                }}>
+                } }>
                 <Text
-                  style={{
+                  style={ {
                     fontFamily: 'Cabin-SemiBold',
                     color: COLORS.HYPERLINK,
-                  }}>
+                  } }>
                   Price Alert
                 </Text>
               </TouchableOpacity>
@@ -743,10 +743,10 @@ const ProductDetails = props => {
           </View>
         </ScrollView>
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size={30} color={COLORS.APPGREEN} />
+        <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+          <ActivityIndicator size={ 30 } color={ COLORS.APPGREEN } />
         </View>
-      )}
+      ) }
     </SafeAreaView>
   );
 };

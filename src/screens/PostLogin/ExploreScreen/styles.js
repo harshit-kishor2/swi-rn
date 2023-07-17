@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS, SPACING } from '../../../resources';
+import { COLORS, SPACING } from '@app/resources';
 
 export default styles = StyleSheet.create({
   searchViewStyle: {

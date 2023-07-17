@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 export default styles = StyleSheet.create({
   outer: {
     backgroundColor: '#F6F6F6',

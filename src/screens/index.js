@@ -1,4 +1,3 @@
-
 import SplashScreen from './PreLogin/SplashScreen';
 import WalkThroughScreen from './PreLogin/WalkThroughScreen';
 import TermsandcondtionScreen from './PreLogin/TermsandcondtionScreen';
@@ -18,24 +17,23 @@ import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
 
 export {
-    // PreLogin
-    SplashScreen,
-    WalkThroughScreen,
-    TermsandcondtionScreen,
-    LoginOptions,
-    LoginScreen,
-    SignupScreen,
-    ForgetPassword,
-    CreateAccountScreen,
+  // PreLogin
+  SplashScreen,
+  WalkThroughScreen,
+  TermsandcondtionScreen,
+  LoginOptions,
+  LoginScreen,
+  SignupScreen,
+  ForgetPassword,
+  CreateAccountScreen,
 
-    // PostLogin
-    SellScreen,
-    ChatScreen,
-    ExploreScreen,
-    FreshFindScreen,
-    MyProfileScreen,
-    NotificationScreen,
-    ProductDetails,
-    PostedSuccessfully
-
-}
+  // PostLogin
+  SellScreen,
+  ChatScreen,
+  ExploreScreen,
+  FreshFindScreen,
+  MyProfileScreen,
+  NotificationScreen,
+  ProductDetails,
+  PostedSuccessfully,
+};

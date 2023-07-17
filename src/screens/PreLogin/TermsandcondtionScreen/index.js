@@ -1,17 +1,16 @@
-import React from 'react';
+import { IMAGES } from '@app/resources';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { IMAGES } from '../../../resources';
 
-import { NavigationBar, StoryScreen } from '../../../components';
+import { NavigationBar, StoryScreen } from '@app/components';
 
 const Item = ({ title, content, srno }) => {
   return (
     <View>
-      <View style={{ marginLeft: 15 }}>
-        <Text style={styles.titleStyle}>{srno}.{title}</Text>
+      <View style={ { marginLeft: 15 } }>
+        <Text style={ styles.titleStyle }>{ srno }.{ title }</Text>
       </View>
       <View>
-        <Text style={styles.contentStyle}>{content}</Text>
+        <Text style={ styles.contentStyle }>{ content }</Text>
       </View>
 
     </View>
@@ -37,23 +36,23 @@ const DATA = [
 ];
 const TermsandcondtionScreen = (props) => {
   const renderItem = ({ item, index }) => (
-    <Item content={item.content} title={item.title} srno={item.srno} index={index} />
+    <Item content={ item.content } title={ item.title } srno={ item.srno } index={ index } />
   );
   return (
     <StoryScreen>
       <NavigationBar
-        leftSource={IMAGES.BACKARROW}
-        leftAction={() => {
+        leftSource={ IMAGES.BACKARROW }
+        leftAction={ () => {
           props.navigation.goBack();
-        }}
+        } }
         flexDirection="row"
       />
-      <Text style={styles.HedaerTextStyle}> Terms And Conditions</Text>
+      <Text style={ styles.HedaerTextStyle }> Terms And Conditions</Text>
       <FlatList
 
-        data={DATA}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false} />
+        data={ DATA }
+        renderItem={ renderItem }
+        showsVerticalScrollIndicator={ false } />
 
 
 

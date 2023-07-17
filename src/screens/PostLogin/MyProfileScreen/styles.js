@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { COLORS } from '../../../resources'
+import { COLORS } from '@app/resources'
 
 const styles = StyleSheet.create({
   ImageStyle: {

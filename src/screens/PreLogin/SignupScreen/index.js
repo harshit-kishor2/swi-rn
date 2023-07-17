@@ -1,287 +1,234 @@
-import { Formik } from 'formik';
-import React, { useState } from 'react';
 import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import { useDispatch } from 'react-redux';
-import * as yup from 'yup';
-import { Custombutton, CustomTextInput, NavigationBar, StoryScreen } from '../../../components';
+  BackHeader,
+  Container,
+  CustomIcon,
+  CustomInput,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
+import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
+import LoginHeader from '@app/screens/atoms/LoginHeader';
+import TermsConditionRow from '@app/screens/atoms/TermsConditionRow';
+import {userSignupAction} from '@app/store/authSlice';
+import {useFormik} from 'formik';
+import {useState} from 'react';
+import {Keyboard, ScrollView, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import * as Yup from 'yup';
 
-import { userSignup } from '../../../redux/auth.slice';
-import { COLORS, IMAGES, SPACING } from '../../../resources';
+//Validation Schema for formik
+const validationSchema = Yup.object({
+  name: Yup.string().trim().required('Required*'),
+  email: Yup.string()
+    .required('Required*')
+    .email('Please enter a valid email.'),
+  password: Yup.string()
+    .trim()
+    .min(8, ({min}) => `Password must be at least ${min} characters`)
+    .max(15, ({max}) => `Password must not exceed ${max} characters`)
+    .required('Required*')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
+    ),
+  confirm_password: Yup.string()
+    .required('Required*')
+    .oneOf([Yup.ref('password')], 'Password does not match'),
+});
 
 const SignupScreen = props => {
-  const dispatch = useDispatch();
-  // const [username, Setusername] = useState();
-  // const [password, Setpassword] = useState();
-  // const [cnfpassword, Setcnfpassword] = useState();
-  // const [email, Setemail] = useState();
-  const [passwordFieldVisibleToggle, setPasswordFieldVisibleToggle] =
-    useState(true);
-  const [
-    confirmPasswordFieldVisibleToggle,
-    setConfirmPasswordFieldVisibleToggle,
-  ] = useState(true);
+  const {authReducer, onUserSignup} = props;
+  const [isChecked, setIsChecked] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  let loginValidationSchema = yup.object().shape({
-    name: yup
-      .string()
-      .required('Required *')
-      .matches(
-        // /^[aA-zZ][aA-zZ\d]+$/,
-        /^[a-zA-Z0-9_][aA-zZ)-9\s]*$/,
-        'Only alphanumeric characters are allowed with first character can only be an alphabet',
-      )
-      .test('len', 'Name should not be more than 20 characters', val =>
-        val ? val.toString().length <= 20 : false,
-      ),
-    email: yup
-      .string()
-      .email('Please enter valid email')
-      .required('Required *'),
-    password: yup
-      .string()
-      .min(8, ({ min }) => `Password must be at least ${min} characters`)
-      .max(15, ({ max }) => `Password must not exceed ${max} characters`)
-      .required('Required *')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
-      ),
-    confirmPassword: yup
-      .string()
-      .oneOf([yup.ref('password')], 'Password  and confirm does not match')
-      .required('Required *'),
-  });
-
-  const registerData = values => {
-    dispatch(userSignup(values));
+  // Initial Values for  formik
+  const initialValues = {
+    name: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+    serverError: '',
   };
+
+  // destructure formik values from formik hook
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    resetForm,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: async (val, {setErrors, setSubmitting}) => {
+      try {
+        Keyboard.dismiss();
+        if (isChecked) {
+          setButtonDisabled(true);
+          let params = {
+            name: val?.name,
+            email: val?.email,
+            password: val?.password,
+          };
+          onUserSignup(params).then(res => {
+            if (res?.type.includes('fulfilled')) {
+              resetForm();
+              setButtonDisabled(false);
+              showAlert({
+                title: 'Success',
+                message: res?.payload?.message ?? 'Success!',
+              });
+            }
+            if (res?.type.includes('rejected')) {
+              setButtonDisabled(false);
+              showAlert({
+                title: 'Error',
+                message: res?.payload?.message ?? 'Internal server error!',
+              });
+            }
+          });
+        } else {
+          showAlert({
+            title: 'Please accept terms & conditions',
+          });
+        }
+      } catch (err) {
+        setErrors({serverError: err.message});
+        setButtonDisabled(false);
+      }
+    },
+  });
+  console.log('BUtton', {buttonDisabled});
   return (
-    <Formik
-      initialValues={{
-        email: '',
-        name: '',
-        password: '',
-        confirmPassword: '',
-      }}
-      enableReinitialize
-      validationSchema={loginValidationSchema}
-      onSubmit={values => {
-        registerData(values);
-      }}>
-      {formik => (
-        <StoryScreen>
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            <NavigationBar
-              leftSource={IMAGES.BACKARROW}
-              leftAction={() => {
-                props.navigation.goBack();
-              }}
-              flexDirection="row"
-            />
-            <View style={styles.container}>
-              <View style={styles.topBox}>
-                <Text style={styles.headline}>Welcome!</Text>
-                <Text style={styles.subheadline}>
-                  Sign up with your email address
-                </Text>
-              </View>
-              <View style={{ alignSelf: 'center', marginTop: 40 }}>
-                <CustomTextInput
-                  icon={IMAGES.User}
-                  placeholder={'Enter name'}
-                  Width={SPACING.SCALE_239}
-                  onChangeText={formik.handleChange('name')}
-                  value={formik.values.name}
-                />
-                <View>
-                  <Text
-                    style={{
-                      color: COLORS.DANGER,
-                    }}>
-                    {formik.errors.name && formik.touched.name
-                      ? formik.errors.name
-                      : null}
-                  </Text>
-                </View>
-                <CustomTextInput
-                  icon={IMAGES.Email}
-                  placeholder={'Enter email address'}
-                  Width={SPACING.SCALE_239}
-                  onChangeText={formik.handleChange('email')}
-                  value={formik.values.email}
-                />
-                <View>
-                  <Text
-                    style={{
-                      color: COLORS.DANGER,
-                    }}>
-                    {formik.errors.email && formik.touched.email
-                      ? formik.errors.email
-                      : null}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // backgroundColor: 'red',
-                  }}>
-                  <CustomTextInput
-                    secureTextEntry={passwordFieldVisibleToggle}
-                    icon={IMAGES.Lock1}
-                    placeholder={'Set password'}
-                    Width={SPACING.SCALE_239}
-                    onChangeText={formik.handleChange('password')}
-                    value={formik.values.password}
-                    errors={
-                      formik.errors.password && formik.touched.password
-                        ? formik.errors.password
-                        : null
-                    }
-                  />
-                  <TouchableOpacity
-                    onPress={() => {
-                      setPasswordFieldVisibleToggle(
-                        !passwordFieldVisibleToggle,
-                      );
-                    }}
-                    style={{ position: 'absolute', right: 10, top: 5 }}>
-                    <Image
-                      style={{ height: 25, width: 25 }}
-                      source={
-                        passwordFieldVisibleToggle
-                          ? IMAGES.visibility_off
-                          : IMAGES.visibility_on
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      color: COLORS.DANGER,
-                    }}>
-                    {formik.errors.password && formik.touched.password
-                      ? formik.errors.password
-                      : null}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    // backgroundColor: 'red',
-                  }}>
-                  <CustomTextInput
-                    secureTextEntry={confirmPasswordFieldVisibleToggle}
-                    icon={IMAGES.Lock2}
-                    placeholder={'Confirm password'}
-                    Width={SPACING.SCALE_239}
-                    onChangeText={formik.handleChange('confirmPassword')}
-                    value={formik.values.confirmPassword}
-                  />
-                  <TouchableOpacity
-                    onPress={() => {
-                      setConfirmPasswordFieldVisibleToggle(
-                        !confirmPasswordFieldVisibleToggle,
-                      );
-                    }}
-                    style={{ position: 'absolute', right: 10, top: 5 }}>
-                    <Image
-                      style={{ height: 25, width: 25 }}
-                      source={
-                        confirmPasswordFieldVisibleToggle
-                          ? IMAGES.visibility_off
-                          : IMAGES.visibility_on
-                      }
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <Text
-                    style={{
-                      color: COLORS.DANGER,
-                    }}>
-                    {formik.errors.confirmPassword &&
-                      formik.touched.confirmPassword
-                      ? formik.errors.confirmPassword
-                      : null}
-                  </Text>
-                </View>
-              </View>
-              <Custombutton
-                title="Create Now"
-                marginTop={114}
-                height={51}
-                width={241}
-                marginHorizontal={20}
-                onPress={formik.handleSubmit}
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: '20%',
+          paddingBottom: 40,
+        }}>
+        <Container>
+          <LoginHeader
+            title={'Welcome!'}
+            description={'Sign up with your email address'}
+            descriptionStyle={{color: '#00958C'}}
+          />
+          <Spacer height={40} />
+          <CustomInput
+            placeholder="Enter name"
+            returnKeyType="next"
+            onChangeText={handleChange('name')}
+            onBlur={handleBlur('name')}
+            value={values.name}
+            error={errors?.name && touched?.name}
+            errorText={errors?.name}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="user"
+                color={'black'}
+                size={20}
               />
-              <View style={{ flexDirection: 'row', margin: 50 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: '#4E4E4E',
-                    fontFamily: 'Open Sans',
-                  }}>
-                  Already have an account?
-                </Text>
-                <TouchableOpacity style={{ marginLeft: 4 }}>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      color: '#00958C',
-                      fontFamily: 'Open Sans',
-                    }}
-                    onPress={() => {
-                      props.navigation.navigate('LoginScreen');
-                    }}>
-                    Sign In now
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </ScrollView>
-        </StoryScreen>
-      )}
-    </Formik>
+            }
+          />
+          <CustomInput
+            placeholder="Enter email address"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
+            value={values.email}
+            error={errors?.email && touched?.email}
+            errorText={errors?.email}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="user"
+                color={'black'}
+                size={20}
+              />
+            }
+          />
+          <CustomInput
+            placeholder="Set password"
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
+            value={values?.password}
+            error={errors?.password && touched?.password}
+            errorText={errors?.password}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="lock"
+                color={'black'}
+                size={20}
+              />
+            }
+          />
+          <CustomInput
+            placeholder="Confirm password"
+            onChangeText={handleChange('confirm_password')}
+            onBlur={handleBlur('confirm_password')}
+            value={values?.confirm_password}
+            error={errors?.confirm_password && touched?.confirm_password}
+            errorText={errors?.confirm_password}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="lock"
+                color={'black'}
+                size={20}
+              />
+            }
+          />
+          <TermsConditionRow
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+          />
+          <SubmitButton
+            disabled={buttonDisabled}
+            loading={buttonDisabled}
+            lable="Confirm"
+            onPress={handleSubmit}
+          />
+          <Spacer height={25} />
+        </Container>
+
+        <LinkNavigationRow
+          title={'Already have an account?'}
+          linkTitle={'Sign In now'}
+          onPress={() =>
+            NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
+          }
+        />
+      </ScrollView>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  headline: {
-    textAlign: 'center',
-    // fontWeight: 'bold',
-    fontSize: 40,
-    fontFamily: 'Open Sans',
-    marginTop: 10,
-    width: 240,
-    color: '#000000',
-  },
-  subheadline: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'Open Sans',
-    width: 600,
-    marginTop: 20,
-    color: '#00958C',
-  },
-  topBox: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  onUserSignup: params => dispatch(userSignupAction(params)),
 });
 
-export default SignupScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(SignupScreen);
+
+const styles = StyleSheet.create({});

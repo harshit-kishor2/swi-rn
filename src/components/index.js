@@ -1,4 +1,3 @@
-
 import Banner from './BannerComponent';
 import Custombutton from './Button1';
 import Custombutton2 from './Button2';
@@ -12,19 +11,35 @@ import G_Recaptcha from './Recaptcha';
 import Search from './Search';
 import StoryScreen from './StoryScreen';
 import TouchableImage from './TouchableImage';
+import KeyboardAwareView from './KeyboardAwareView';
+import Container from './Container';
+import SubmitButton from './SubmitButton';
+import Spacer from './Spacer';
+import CustomInput from './CustomInput';
+import CustomIcon from './CustomIcon';
+import BackHeader from './BackHeader';
+import Loader from './Loader';
 
 export {
-    Banner,
-    Custombutton,
-    Custombutton2,
-    CustomText,
-    CustomTextInput,
-    DatePicker,
-    DeepLinkng,
-    NavigationBar,
-    ProductViewComponent,
-    G_Recaptcha,
-    Search,
-    StoryScreen,
-    TouchableImage
-}
+  Banner,
+  Custombutton,
+  Custombutton2,
+  CustomTextInput,
+  DatePicker,
+  DeepLinkng,
+  NavigationBar,
+  ProductViewComponent,
+  G_Recaptcha,
+  Search,
+  StoryScreen,
+  TouchableImage,
+  KeyboardAwareView,
+  Container,
+  SubmitButton,
+  Spacer,
+  CustomInput,
+  CustomIcon,
+  CustomText,
+  BackHeader,
+  Loader,
+};

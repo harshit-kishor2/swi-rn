@@ -7,49 +7,49 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Custombutton2, StoryScreen } from '../../../components/Button2';
-import { IMAGES, SPACING } from '../../../resources';
+import { Custombutton2, StoryScreen } from '@app/components/Button2';
+import { IMAGES, SPACING } from '@app/resources';
 
 const PostedSuccessfully = () => {
   return (
     <StoryScreen>
       <View>
-        <View style={styles.imageSizeStyle}>
-          <Image source={IMAGES.check1} style={styles.imageStyle} />
+        <View style={ styles.imageSizeStyle }>
+          <Image source={ IMAGES.check1 } style={ styles.imageStyle } />
         </View>
         <View>
-          <Text style={styles.subheadline}>Posted Successfully</Text>
-          <Text style={styles.text}>
+          <Text style={ styles.subheadline }>Posted Successfully</Text>
+          <Text style={ styles.text }>
             Your post is now visible to the customers
           </Text>
-          <Text style={styles.text1}>
+          <Text style={ styles.text1 }>
             You can boost your post to get higher visibility and get attractions
           </Text>
         </View>
-        <View style={{ alignSelf: 'center' }}>
+        <View style={ { alignSelf: 'center' } }>
           <Custombutton2
-            title={'Boost now'}
-            marginTop={20}
-            width={241}
-            height={51}
-            marginHorizontal={20}
-            onPress={() => {
+            title={ 'Boost now' }
+            marginTop={ 20 }
+            width={ 241 }
+            height={ 51 }
+            marginHorizontal={ 20 }
+            onPress={ () => {
               Alert.alert('rrr');
-            }}
+            } }
           />
         </View>
         <View>
-          <TouchableOpacity style={{ alignSelf: 'center', marginTop: 30 }}>
+          <TouchableOpacity style={ { alignSelf: 'center', marginTop: 30 } }>
             <Text
-              style={{
+              style={ {
                 fontSize: 14,
                 color: '#00958C',
                 fontFamily: 'Open Sans',
                 textDecorationLine: 'underline',
-              }}
-              onPress={() => {
+              } }
+              onPress={ () => {
                 Alert.alert('in process');
-              }}>
+              } }>
               Not now, I'll do it later
             </Text>
           </TouchableOpacity>
@@ -57,21 +57,21 @@ const PostedSuccessfully = () => {
       </View>
 
       <View>
-        <View style={{ marginTop: 100 }}>
-          <Text style={styles.text}>
+        <View style={ { marginTop: 100 } }>
+          <Text style={ styles.text }>
             If you want to make any changes to your post you can do that from
             your posted ads section.
-            <TouchableOpacity style={{ alignSelf: 'center' }}>
+            <TouchableOpacity style={ { alignSelf: 'center' } }>
               <Text
-                style={{
+                style={ {
                   fontSize: 14,
                   color: '#00958C',
                   fontFamily: 'Open Sans',
                   textDecorationLine: 'underline',
-                }}
-                onPress={() => {
+                } }
+                onPress={ () => {
                   Alert.alert('in process');
-                }}>
+                } }>
                 ViewPost
               </Text>
             </TouchableOpacity>

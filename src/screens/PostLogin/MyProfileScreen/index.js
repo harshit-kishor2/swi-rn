@@ -1,19 +1,24 @@
+import {IMAGES} from '@app/resources';
+import store from '@app/store';
+import {logoutAction} from '@app/store/authSlice/auth.slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React from 'react';
-import { Alert, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { AuthAction } from '../../../redux/auth.slice';
-import { IMAGES } from '../../../resources';
-import store from '../../../store';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styles from './styles';
-
 
 const MyProfileScreen = () => {
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
-    store.dispatch(AuthAction.addIntotokenlogin());
+    store.dispatch(logoutAction());
   };
   return (
-    <ScrollView style={{ flex: 1, margin: 20, marginTop: 50 }}>
+    <ScrollView style={{flex: 1, margin: 20, marginTop: 50}}>
       <View style={styles.ProfilePicture}>
         <View>
           <Image source={IMAGES.UserProfile1} style={styles.ImageStyle} />
@@ -21,11 +26,14 @@ const MyProfileScreen = () => {
 
         {/* Parallel To Image Section  */}
 
-        <View >
+        <View>
           <View style={styles.NameBadgeStyle}>
             <Text style={styles.NameStyle}>Immy Van</Text>
             <View style={styles.BadgeStyle}>
-              <Text> {<Image source={IMAGES.ProfileBadge} />} Premium Dealer</Text>
+              <Text>
+                {' '}
+                {<Image source={IMAGES.ProfileBadge} />} Premium Dealer
+              </Text>
             </View>
           </View>
           <View style={styles.NameBadgeLineStyle} />
@@ -33,41 +41,49 @@ const MyProfileScreen = () => {
 
           <View>
             <View style={styles.VerificationViewStyle}>
-              <Image source={IMAGES.check} style={{ alignSelf: 'center' }} />
+              <Image source={IMAGES.check} style={{alignSelf: 'center'}} />
               <Text style={styles.VerificationStyle}> SingPass Verified</Text>
             </View>
             <View style={styles.VerificationViewStyle}>
-              <Image source={IMAGES.cross} style={{ alignSelf: 'center' }} />
-              <Text style={styles.VerificationStyle}> Email verification Pending</Text>
+              <Image source={IMAGES.cross} style={{alignSelf: 'center'}} />
+              <Text style={styles.VerificationStyle}>
+                {' '}
+                Email verification Pending
+              </Text>
             </View>
             <View style={styles.VerificationViewStyle}>
-              <Image source={IMAGES.cross} style={{ alignSelf: 'center' }} />
-              <Text style={styles.VerificationStyle}> Phone verification Pending</Text>
+              <Image source={IMAGES.cross} style={{alignSelf: 'center'}} />
+              <Text style={styles.VerificationStyle}>
+                {' '}
+                Phone verification Pending
+              </Text>
             </View>
             <View style={styles.VerificationViewStyle}>
-              <Image source={IMAGES.cross} style={{ alignSelf: 'center' }} />
-              <Text style={styles.VerificationStyle}> Facebook verification Pending</Text>
+              <Image source={IMAGES.cross} style={{alignSelf: 'center'}} />
+              <Text style={styles.VerificationStyle}>
+                {' '}
+                Facebook verification Pending
+              </Text>
             </View>
           </View>
           {/* Verification Line End */}
-
         </View>
-
-
 
         {/* Parallel to Image section End  */}
       </View>
 
       <View>
-        <Text style={styles.TextStyle1}>You have {<Image source={IMAGES.coin} />} 50 coins with you now</Text>
+        <Text style={styles.TextStyle1}>
+          You have {<Image source={IMAGES.coin} />} 50 coins with you now
+        </Text>
       </View>
       <View>
-
         {/* Pages for Navigate */}
 
-        <TouchableOpacity onPress={() => {
-          Alert.alert("Pressed")
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert('Pressed');
+          }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.Favorite} />
@@ -80,10 +96,10 @@ const MyProfileScreen = () => {
         </TouchableOpacity>
         <View style={styles.LineView} />
 
-
-        <TouchableOpacity onPress={() => {
-          Alert.alert("Pressed")
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert('Pressed');
+          }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.userPic} />
@@ -97,10 +113,10 @@ const MyProfileScreen = () => {
 
         <View style={styles.LineView} />
 
-
-        <TouchableOpacity onPress={() => {
-          Alert.alert("Pressed")
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert('Pressed');
+          }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.Dollar} />
@@ -114,10 +130,10 @@ const MyProfileScreen = () => {
 
         <View style={styles.LineView} />
 
-
-        <TouchableOpacity onPress={() => {
-          Alert.alert("Pressed")
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert('Pressed');
+          }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.settings} />
@@ -131,9 +147,10 @@ const MyProfileScreen = () => {
 
         <View style={styles.LineView} />
 
-        <TouchableOpacity onPress={() => {
-          Alert.alert("Pressed")
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            Alert.alert('Pressed');
+          }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.about} />
@@ -145,15 +162,11 @@ const MyProfileScreen = () => {
           </View>
         </TouchableOpacity>
         <View style={styles.LineView} />
-
-
       </View>
       <View>
         <TouchableOpacity onPress={logout}>
-
-          <View style={styles.VerificationViewStyle1} >
+          <View style={styles.VerificationViewStyle1}>
             <View style={styles.NavigationImageStyle}>
-
               <Image source={IMAGES.logout} style />
             </View>
             <Text style={styles.NavigationText}>Logout</Text>

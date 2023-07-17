@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Pressable, View, StyleSheet, Text} from 'react-native';
+import { Pressable, View, StyleSheet, Text } from 'react-native';
 
 // import {COLORS, TYPOGRAPHY} from '../resources';
 
@@ -20,7 +20,7 @@ const Custombutton = ({
     <Pressable
       onPress={onPress}
       disabled={disabled ?? false}
-      style={({pressed}) => [
+      style={({ pressed }) => [
         {
           marginTop: marginTop,
           marginBottom: marginBottom,
@@ -38,7 +38,7 @@ const Custombutton = ({
             backgroundColor: backgroundColor ?? 'black',
           },
         ]}>
-        <Text style={[styles.buttonText, {fontSize: fontSize ?? 16}]}>
+        <Text style={[styles.buttonText, { fontSize: fontSize ?? 16 }]}>
           {title}
         </Text>
       </View>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontFamily: 'Cabin-Bold',
-
     textAlign: 'center',
   },
 });

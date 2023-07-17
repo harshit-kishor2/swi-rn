@@ -4,62 +4,56 @@ import {
   LineChart
 } from 'react-native-chart-kit';
 import { useSelector } from 'react-redux';
-import { SPACING } from '../../../resources';
+import { SPACING } from '@app/resources';
 
 const Chartdemo = () => {
   const { productChartLoading, productChartData, productChartError } =
     useSelector(state => state?.exploreReducer);
-  console.log(
-    productChartData?.data?.chart,
-    productChartError,
-    productChartLoading,
-    'hdhkhfksdahfkjhdskfhdsfhsfkhsk',
-    productChartData?.data?.chart?.label?.length,
-  );
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      {productChartLoading ? (
+    <View style={ { flex: 1, justifyContent: 'center', alignItems: 'center' } }>
+      { productChartLoading ? (
         <View
-          style={{
+          style={ {
             height: 220,
             width: SPACING.SCALE_344,
             backgroundColor: '#F0F2FA',
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
-          <ActivityIndicator size={20} />
+          } }>
+          <ActivityIndicator size={ 20 } />
         </View>
       ) : productChartData?.data?.chart?.length === 0 ? (
         <View
-          style={{
+          style={ {
             height: 220,
             width: SPACING.SCALE_344,
             backgroundColor: '#F0F2FA',
             justifyContent: 'center',
             alignItems: 'center',
-          }}>
+          } }>
           <Text>No record found</Text>
         </View>
       ) : (
         <LineChart
-          data={{
+          data={ {
             labels: productChartData?.data?.chart?.label ?? [],
             datasets: [
               {
                 data: productChartData?.data?.chart?.value ?? [],
               },
             ],
-          }}
-          width={SPACING.SCALE_344} // from react-native
-          height={220}
+          } }
+          width={ SPACING.SCALE_344 } // from react-native
+          height={ 220 }
           //yAxisLabel="$"
           //yAxisSuffix="k"
-          yAxisInterval={1} // optional, defaults to 1
-          withDots={false}
-          withInnerLines={false}
-          withOuterLines={false}
+          yAxisInterval={ 1 } // optional, defaults to 1
+          withDots={ false }
+          withInnerLines={ false }
+          withOuterLines={ false }
           //propsForVerticalLabels={}
-          chartConfig={{
+          chartConfig={ {
             //backgroundColor: '#F0F2FA',
             backgroundGradientFrom: '#F0F2FA',
             // backgroundGradientFromOpacity: 0,
@@ -74,14 +68,14 @@ const Chartdemo = () => {
             //   //strokeWidth: '0',
             //   //stroke: '#ffa726',
             // },
-          }}
+          } }
           bezier
-          style={{
+          style={ {
             marginVertical: 8,
             borderRadius: 16,
-          }}
+          } }
         />
-      )}
+      ) }
     </View>
   );
 };

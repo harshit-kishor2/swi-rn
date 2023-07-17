@@ -1,50 +1,143 @@
-import { appleAuth } from '@invertase/react-native-apple-authentication';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import jwt_decode from 'jwt-decode';
-import React, { useEffect, useState } from 'react';
+import {BackHeader, Container, Spacer, SubmitButton} from '@app/components';
+import {Config} from '@app/helper/config';
+import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
+import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
+import LoginHeader from '@app/screens/atoms/LoginHeader';
+import Seprator from '@app/screens/atoms/Seprator';
+import {userSigninAction} from '@app/store/authSlice';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 import {
-  Alert,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import jwt_decode from 'jwt-decode';
+import {useEffect, useState} from 'react';
+import {Platform, View} from 'react-native';
 import {
   AccessToken,
   GraphRequest,
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk-next';
-import { useDispatch } from 'react-redux';
-import {
-  Custombutton,
-  Custombutton2,
-  NavigationBar,
-  StoryScreen
-} from '../../../components';
-
-import { userLogin } from '../../../redux/auth.slice';
-import { IMAGES, SPACING } from '../../../resources';
-import { getFCMToken } from '../../../services/firebaseServices';
+import {connect} from 'react-redux';
 
 const LoginOptions = props => {
-  const dispatch = useDispatch();
-  const [fcmToken, setFcmToken] = useState();
-  useEffect(() => {
-    getFCMToken().then(token => {
-      setFcmToken(token);
-    });
-  }, []);
+  const {authReducer, onUserLogin} = props;
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
+  //  Configure google client id
   useEffect(() => {
     GoogleSignin.configure({
-      webClientId:
-        '866067850894-qf7rd1sg94urtsbhuvfo4g6c7hq1tmgt.apps.googleusercontent.com',
+      webClientId: Config.GOOGLE_CLIENT_ID,
     });
   }, []);
 
-  const signUp = async () => {
+  //! Function for apple login
+  const _onAppleLogin = async () => {
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      // Note: it appears putting FULL_NAME first is important, see issue #293
+      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+    });
+    console.log('authres---->>>', appleAuthRequestResponse);
+    const {email, email_verified, is_private_email, sub} = jwt_decode(
+      appleAuthRequestResponse.identityToken,
+    );
+
+    if (email && appleAuthRequestResponse.user) {
+      const params = {
+        email: appleAuthRequestResponse?.email,
+        name: appleAuthRequestResponse?.givenName,
+        login_type: 'apple',
+        device_token: 'fcmToken',
+        device_type: Platform.OS,
+        //name:durgesh
+        //social_id:sdasdasd
+      };
+      onUserLogin(params).then(res => {
+        if (res?.type.includes('fulfilled')) {
+          setButtonDisabled(false);
+        }
+        if (res?.type.includes('rejected')) {
+          setButtonDisabled(false);
+          showAlert({
+            title: 'Error',
+            message: res?.payload?.message ?? 'Internal server error!',
+          });
+        }
+      });
+    }
+
+    // get current authentication state for user
+    // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    // const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+    // // use credentialState response to ensure the user is authenticated
+    // if (credentialState === appleAuth.State.AUTHORIZED) {
+    //   // user is authenticated
+    // }
+  };
+
+  //! Function for facebook login
+  const _onFacebookLogin = () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      async function (result) {
+        if (result.isCancelled) {
+          console.log('SignUp Cancelled');
+        } else {
+          let token = await AccessToken.getCurrentAccessToken();
+          if (token) {
+            const PROFILE_REQUEST_PARAMS = {
+              fields: {
+                string: 'id, name,  email',
+              },
+            };
+            const profileRequest = new GraphRequest(
+              '/me',
+              {token, parameters: PROFILE_REQUEST_PARAMS},
+              (error, result) => {
+                if (error) {
+                  console.log('login info has error: ' + error);
+                } else {
+                  let params = {
+                    email: result?.email,
+                    device_type: Platform.OS,
+                    device_token: 'fcmToken',
+                    login_type: 'google',
+                    name: result?.name,
+                    facebook_id: result?.id,
+                  };
+                  onUserLogin(params).then(res => {
+                    if (res?.type.includes('fulfilled')) {
+                      setButtonDisabled(false);
+                    }
+                    if (res?.type.includes('rejected')) {
+                      setButtonDisabled(false);
+                      showAlert({
+                        title: 'Error',
+                        message:
+                          res?.payload?.message ?? 'Internal server error!',
+                      });
+                    }
+                  });
+                }
+              },
+            );
+            new GraphRequestManager().addRequest(profileRequest).start();
+          }
+          console.log('You have Registered In Successfully');
+        }
+      },
+      function (error) {
+        alert('Login failed with error: ' + error);
+      },
+    );
+  };
+
+  //! Function for google login
+  const _onGoogleLogin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       await GoogleSignin.signOut();
@@ -54,12 +147,23 @@ const LoginOptions = props => {
         let params = {
           email: userInfo?.user?.email,
           device_type: Platform.OS,
-          device_token: fcmToken,
+          device_token: 'fcmToken',
           login_type: 'google',
           name: userInfo?.user?.name,
           google_id: userInfo?.user?.id,
         };
-        dispatch(userLogin(params));
+        onUserLogin(params).then(res => {
+          if (res?.type.includes('fulfilled')) {
+            setButtonDisabled(false);
+          }
+          if (res?.type.includes('rejected')) {
+            setButtonDisabled(false);
+            showAlert({
+              title: 'Error',
+              message: res?.payload?.message ?? 'Internal server error!',
+            });
+          }
+        });
       }
     } catch (error) {
       //  console.log('error', error);
@@ -71,232 +175,83 @@ const LoginOptions = props => {
     }
   };
 
-  // Apple log in code
-  async function onAppleButtonPress() {
-    // performs login request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      // Note: it appears putting FULL_NAME first is important, see issue #293
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
-    console.log('authres---->>>', appleAuthRequestResponse);
-    const { email, email_verified, is_private_email, sub } = jwt_decode(
-      appleAuthRequestResponse.identityToken,
-    );
-
-    if (email && appleAuthRequestResponse.user) {
-      dispatch(
-        userLogin({
-          email: appleAuthRequestResponse?.email,
-          name: appleAuthRequestResponse?.givenName,
-
-          login_type: 'apple',
-          device_token: fcmToken,
-          device_type: Platform.OS,
-          //name:durgesh
-          //social_id:sdasdasd
-        }),
-      );
-      console.log(
-        'email && appleAuthRequestResponse.user',
-        email,
-        appleAuthRequestResponse.user,
-      );
-    }
-
-    // get current authentication state for user
-    // // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
-    // const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
-
-    // // use credentialState response to ensure the user is authenticated
-    // if (credentialState === appleAuth.State.AUTHORIZED) {
-    //   // user is authenticated
-    // }
-  }
-  const getInfoFromToken = token => {
-    const PROFILE_REQUEST_PARAMS = {
-      fields: {
-        string: 'id, name,  email',
-      },
-    };
-    const profileRequest = new GraphRequest(
-      '/me',
-      { token, parameters: PROFILE_REQUEST_PARAMS },
-      (error, result) => {
-        if (error) {
-          console.log('login info has error: ' + error);
-        } else {
-          console.log('result:', result);
-          let params = {
-            email: result?.email,
-            device_type: Platform.OS,
-            device_token: fcmToken,
-            login_type: 'google',
-            name: result?.name,
-            facebook_id: result?.id,
-          };
-          dispatch(userLogin(params));
-        }
-      },
-    );
-    new GraphRequestManager().addRequest(profileRequest).start();
-  };
-
   return (
-    <StoryScreen>
-      <NavigationBar
-        leftSource={IMAGES.BACKARROW}
-        leftAction={() => {
-          console.log('first');
-          props.navigation.navigate('CreateAccountScreen');
-        }}
-        flexDirection="row"
-      />
-      <View style={styles.container}>
-        <View style={styles.topBox}>
-          <Text style={styles.headline}>Hello there!</Text>
-          <Text style={styles.subheadline}>Log in to your account</Text>
-        </View>
-        <Custombutton
-          title="Login via Email"
-          marginTop={50}
-          height={51}
-          width={241}
-          marginHorizontal={20}
-          onPress={() => {
-            props.navigation.navigate('LoginScreen');
-          }}
-        />
-        <Custombutton
-          title="Login via Singpass"
-          marginTop={13}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={() => {
-            Alert.alert('rrr');
-          }}
-        />
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <View
+        style={{
+          paddingHorizontal: '15%',
+          alignSelf: 'center',
+          flex: 1,
+        }}>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginTop: 50,
-            marginLeft: 80,
-            marginRight: 80,
+            flex: 1,
           }}>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-          <View>
-            <Text
-              style={{
-                width: 25,
-                textAlign: 'center',
-                color: '#00958C',
-                fontSize: 16,
-                fontFamily: 'Cabin-Bold',
-              }}>
-              Or
-            </Text>
-          </View>
-          <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
-        </View>
-        <Custombutton2
-          title={'Login with Facebook'}
-          marginTop={50}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={() => {
-            LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-              async function (result) {
-                if (result.isCancelled) {
-                  console.log('SignUp Cancelled');
-                } else {
-                  let token = await AccessToken.getCurrentAccessToken();
-                  if (token) {
-                    getInfoFromToken(token);
-                  }
-                  console.log('You have Registered In Successfully');
-                }
-              },
-              function (error) {
-                alert('Login failed with error: ' + error);
-              },
-            );
-          }}
-        />
-        <Custombutton2
-          title={'Login with Google'}
-          marginTop={15}
-          width={241}
-          height={51}
-          marginHorizontal={20}
-          onPress={signUp}
-        />
-        {Platform.OS === 'ios' && (
-          <Custombutton2
-            title={'Sign up with Apple ID'}
-            marginTop={15}
-            width={241}
-            height={51}
-            marginHorizontal={20}
-            onPress={onAppleButtonPress}
+          <LoginHeader
+            title={'Hello there!'}
+            description={'Log in to your account'}
+            descriptionStyle={{color: '#00958C'}}
           />
-        )}
-        <View style={{ flexDirection: 'row', marginTop: SPACING.SCALE_25 }}>
-          <Text
-            style={{
-              fontSize: 14,
-              color: '#4E4E4E',
-              fontFamily: 'OpenSans-Regular',
-            }}>
-            Don’t have an account yet?
-          </Text>
-          <TouchableOpacity style={{ marginLeft: 4 }}>
-            <Text
-              style={{
-                fontSize: 14,
-                color: '#00958C',
-                fontFamily: 'OpenSans-Regular',
-              }}
+          <Spacer height={30} />
+          <View>
+            <SubmitButton
+              lable="Log in via Email"
               onPress={() => {
-                props.navigation.navigate('CreateAccountScreen');
-              }}>
-              Sign up now
-            </Text>
-          </TouchableOpacity>
+                NavigationService.navigate(RoutesName.LOGIN_SCREEN);
+              }}
+            />
+            {/* <SubmitButton
+              lable="Log in via Singpass"
+              onPress={() => {
+                // NavigationService.navigate(RoutesName.LOGIN_SCREEN);
+              }}
+            /> */}
+          </View>
+          <Seprator />
+          <View>
+            {Platform.OS === 'ios' ?? (
+              <SubmitButton
+                type="outlined"
+                lable="Log in with Apple ID"
+                onPress={_onAppleLogin}
+              />
+            )}
+
+            <SubmitButton
+              type="outlined"
+              lable="Log in with Google"
+              onPress={_onGoogleLogin}
+            />
+
+            <SubmitButton
+              type="outlined"
+              lable="Log in with Facebook"
+              onPress={_onFacebookLogin}
+            />
+          </View>
         </View>
+
+        <LinkNavigationRow
+          title={'Don’t have an account yet?'}
+          linkTitle={'Sign Up'}
+          onPress={() =>
+            NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
+          }
+        />
+        <Spacer height={30} />
       </View>
-    </StoryScreen>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headline: {
-    textAlign: 'center',
-    fontFamily: 'Cabin-Bold',
-    fontSize: 18,
-    marginTop: 10,
-    width: 200,
-    color: '#000000',
-  },
-  subheadline: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'OpenSans-Regular',
-    width: 300,
-    marginTop: 7,
-    color: '#00958C',
-  },
-  topBox: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-});
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
 
-export default LoginOptions;
+const mapDispatchToProps = dispatch => ({
+  onUserLogin: params => dispatch(userSigninAction(params)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LoginOptions);

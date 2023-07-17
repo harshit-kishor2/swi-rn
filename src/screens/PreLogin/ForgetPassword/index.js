@@ -1,147 +1,152 @@
-import { StackActions, useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
 import {
-  Alert,
-  ScrollView,
-  Text,
-  View
-} from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import * as yup from 'yup';
+  BackHeader,
+  Container,
+  CustomIcon,
+  CustomInput,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
+import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
+import LoginHeader from '@app/screens/atoms/LoginHeader';
+import {forgotPasswordAction} from '@app/store/authSlice';
+import {useFormik} from 'formik';
+import {useState} from 'react';
+import {Keyboard, ScrollView, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import * as Yup from 'yup';
 
-import { forgetPassword } from '../../../redux/auth.slice';
-import { COLORS, IMAGES, SPACING } from '../../../resources';
-import styles from './styles';
-import {
-  Custombutton,
-  CustomTextInput,
-  NavigationBar,
-  StoryScreen
-} from '../../../components';
-
-
+//Validation Schema for formik
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .required('Email is required.')
+    .email('Please enter a valid email.'),
+});
 
 const ForgetPassword = props => {
-  //used to prevent second tap on the button
+  const {authReducer, onForgotPassword} = props;
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const [email, setEmail] = useState('');
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
-  const popAction = StackActions.pop(1);
 
-  const { forgetPasswordLoader, forgetData, forgetPasswordError } = useSelector(
-    state => state.AuthReducer,
-  );
-  // console.log(
-  //   forgetPasswordLoader,
-  //   forgetData,
-  //   forgetPasswordError,
-  //   'PPPPPPPPPPPP',
-  // );
+  // Initial Values for  formik
+  const initialValues = {
+    email: '',
+    serverError: '',
+  };
 
-  let ForgotValidationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email('Please enter valid email')
-      .required('Required *'),
+  // destructure formik values from formik hook
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    resetForm,
+    touched,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: async (val, {setErrors}) => {
+      Keyboard.dismiss();
+      try {
+        setButtonDisabled(true);
+        let params = {
+          email: val?.email,
+        };
+        onForgotPassword(params).then(res => {
+          if (res?.type.includes('fulfilled')) {
+            resetForm();
+            setButtonDisabled(false);
+            showAlert({
+              title: 'Success',
+              message: res?.payload?.message ?? 'Success!',
+            });
+          }
+          if (res?.type.includes('rejected')) {
+            setButtonDisabled(false);
+            showAlert({
+              title: 'Error',
+              message: res?.payload?.message ?? 'Internal server error!',
+            });
+          }
+        });
+      } catch (err) {
+        setErrors({serverError: err.message});
+        setButtonDisabled(false);
+      }
+    },
   });
 
-  const registerData = values => {
-    console.log('E mail is-', values);
-  };
   return (
-    // <Formik
-    //   initialValues={{
-    //     email: '',
-    //   }}
-    //   enableReinitialize
-    //   validationSchema={ForgotValidationSchema}
-    //   onSubmit={values => {
-    //     registerData(values);
-    //   }}>
-
-    <StoryScreen>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <NavigationBar
-          leftSource={IMAGES.BACKARROW}
-          leftAction={() => {
-            props.navigation.goBack();
-          }}
-          flexDirection="row"
-        />
-        <View style={styles.container}>
-          <View style={styles.topBox}>
-            <Text style={styles.headline} adjustsFontSizeToFit={true}>
-              Forgot Password
-            </Text>
-            <Text style={styles.subheadline}>
-              Enter email address for the link
-            </Text>
-          </View>
-          <View style={styles.TextView}>
-            <CustomTextInput
-              icon={IMAGES.Email}
-              placeholder={'Enter email address'}
-              Width={SPACING.SCALE_239}
-              onChangeText={value => {
-                setEmail(value);
-                console.log(email);
-                console.log(value);
-              }}
-              //value={formik.values.email}
-              autoCapitalize={'none'}
-            />
-
-            <View>
-              <Text
-                style={{
-                  color: COLORS.DANGER,
-                  fontFamily: 'OpenSans-Regular',
-                }}>
-                {/* {formik.errors.email && formik.touched.email
-                  ? formik.errors.email
-                  : null} */}
-              </Text>
-            </View>
-          </View>
-          {forgetPasswordLoader === true ? (
-            <ActivityIndicator size={20} />
-          ) : (
-            <Custombutton
-              title="Send link"
-              marginTop={14}
-              height={51}
-              width={241}
-              marginHorizontal={20}
-              //disabled={buttonDisabled}
-              onPress={() => {
-                if (email != '') {
-                  setButtonDisabled(true);
-                  dispatch(
-                    forgetPassword({
-                      email: email,
-                      type: 'user',
-                    }),
-                  );
-                  // console.log(
-                  //   forgetPasswordLoader,
-                  //   forgetData,
-                  //   forgetPasswordError,
-                  //   'PPPPPPPPPPPP',
-                  // );
-                  //navigation.dispatch(popAction);
-                } else {
-                  Alert.alert('', 'Please enter email.');
-                }
-              }}
-            // onPress={formik.onSubmit}
-            />
-          )}
-        </View>
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 40,
+          paddingHorizontal: '20%',
+        }}>
+        <Container>
+          <LoginHeader
+            title={'Forgot Password'}
+            description={'Enter email address for the link'}
+            descriptionStyle={{color: '#00958C'}}
+          />
+          <Spacer height={40} />
+          <CustomInput
+            placeholder="Enter email address"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
+            value={values.email}
+            error={errors?.email && touched?.email}
+            errorText={errors?.email}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="user"
+                color={'black'}
+                size={20}
+              />
+            }
+          />
+          <Spacer height={50} />
+          <SubmitButton
+            lable="Send Link"
+            onPress={handleSubmit}
+            loading={buttonDisabled}
+            disabled={buttonDisabled}
+          />
+          <Spacer height={10} />
+          <LinkNavigationRow
+            title={''}
+            linkTitle={'Resend Link'}
+            onPress={() =>
+              NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
+            }
+          />
+        </Container>
       </ScrollView>
-    </StoryScreen>
+    </Container>
   );
 };
 
-export default ForgetPassword;
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  onForgotPassword: params => dispatch(forgotPasswordAction(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgetPassword);
+
+const styles = StyleSheet.create({});

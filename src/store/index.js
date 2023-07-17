@@ -1,9 +1,30 @@
-import {configureStore} from '@reduxjs/toolkit';
-import combineReducer from '../redux';
-// import combineReducer from '../redux';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+// import {AuthReducer} from './auth.slice';
+import {freshFindsReducer} from './freshFinds.slice';
+import {addProductReducer} from './addProduct.slice';
+import {exploreReducer} from './explore.slice';
+import SharedPreference from '../helper/SharedPreference';
+import authReducer from './authSlice';
+
+const combinedReducer = combineReducers({
+  authReducer,
+  exploreReducer,
+  freshFindsReducer,
+  addProductReducer,
+});
+
+const rootReducers = (state, action) => {
+  if (action?.type === 'USER_LOGOUT') {
+    console.log('401 Unauth');
+    SharedPreference.clearAllData();
+    state = undefined;
+  }
+
+  return combinedReducer(state, action);
+};
 
 const store = configureStore({
-  reducer: combineReducer,
+  reducer: rootReducers,
   //code for serialization
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -1,16 +1,36 @@
-import React from 'react';
-import {Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
+import {
+  Caption,
+  Headline,
+  Paragraph,
+  Subheading,
+  Title,
+} from 'react-native-paper';
 
-const CustomText = ({text, fontSize, fontFamily, fontColor, fontWeight}) => {
-  const textStyle = {
-    fontSize: fontSize || 14,
-    fontFamily: fontFamily || 'Arial',
-    fontWeight: fontWeight || 'normal',
-
-    color: fontColor || 'black',
-  };
-
-  return <Text style={textStyle}>{text}</Text>;
+const CustomText = ({type, style, children}) => {
+  return (
+    <>
+      {type === 'caption' ? (
+        <Caption style={[styles.text, style]}>{children}</Caption>
+      ) : type === 'paragraph' ? (
+        <Paragraph style={[styles.text, style]}>{children}</Paragraph>
+      ) : type === 'subheading' ? (
+        <Subheading style={[styles.text, style]}>{children}</Subheading>
+      ) : type === 'title' ? (
+        <Title style={[styles.text, style]}>{children}</Title>
+      ) : type === 'headline' ? (
+        <Headline style={[styles.text, style]}>{children}</Headline>
+      ) : (
+        <Text style={[styles.text, style]}>{children}</Text>
+      )}
+    </>
+  );
 };
 
 export default CustomText;
+
+const styles = StyleSheet.create({
+  text: {
+    color: 'black',
+  },
+});

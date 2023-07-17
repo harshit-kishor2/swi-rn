@@ -1,351 +1,205 @@
-import React, { useEffect, useState } from 'react';
 import {
-  Image,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+  BackHeader,
+  Container,
+  CustomIcon,
+  CustomInput,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
+import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
+import LoginHeader from '@app/screens/atoms/LoginHeader';
+import TermsConditionRow from '@app/screens/atoms/TermsConditionRow';
+import {userSigninAction} from '@app/store/authSlice';
+import {useFormik} from 'formik';
+import {useState} from 'react';
+import {Keyboard, ScrollView, StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
+import * as Yup from 'yup';
+import SharedPreference from '../../../helper/SharedPreference';
 
-import { COLORS, IMAGES, SPACING } from '../../../resources';
-
-import { Formik } from 'formik';
-import { fire } from 'react-native-alertbox';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  Custombutton,
-  CustomTextInput,
-  G_Recaptcha,
-  NavigationBar,
-  StoryScreen
-} from '../../../components';
-
-import { userLogin } from '../../../redux/auth.slice';
-import { getFCMToken } from '../../../services/firebaseServices';
+//Validation Schema for formik
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .required('Email is required.')
+    .email('Please enter a valid email.'),
+  password: Yup.string().required('Password is required.'),
+});
 
 const LoginScreen = props => {
-  const dispatch = useDispatch();
-  const [password, Setpassword] = useState();
-  const [email, Setemail] = useState();
-  const [fcmToken, setFcmToken] = useState();
-  const [selectTermsNCond, setSelectTermsNCond] = useState(false);
-  const [selectReCaptcha, setSelectReCaptcha] = useState(false);
-  const [passwordFieldVisibleToggle, setPasswordFieldVisibleToggle] =
-    useState(true);
+  const {authReducer, onUserLogin} = props;
 
-  useEffect(() => {
-    getFCMToken().then(token => {
-      setFcmToken(token);
-    });
-  }, []);
+  const [isChecked, setIsChecked] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const loginloader = useSelector(state => state.AuthReducer.loginloader);
-  console.log(loginloader);
-
-  const registerData = values => {
-    console.log('userLogin All values', values);
-    dispatch(userLogin(values));
+  // Initial Values for  formik
+  const initialValues = {
+    email: '',
+    password: '',
+    serverError: '',
   };
+
+  // destructure formik values from formik hook
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    resetForm,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit: async (val, {setErrors}) => {
+      try {
+        Keyboard.dismiss();
+        if (isChecked) {
+          setButtonDisabled(true);
+          const deviceToken = await SharedPreference.getItem(
+            SharedPreference.keys.DEVICE_TOKEN,
+            'abc',
+          );
+          let params = {
+            // name: val?.name,
+            email: val?.email,
+            password: val?.password,
+            // login_type: '',
+            device_token: deviceToken,
+            device_type: Platform.OS,
+          };
+          onUserLogin(params).then(res => {
+            if (res?.type.includes('fulfilled')) {
+              resetForm();
+              setButtonDisabled(false);
+              // showAlert({
+              //   title: 'Success',
+              //   message: res?.payload?.message ?? 'Success!',
+              // });
+            }
+            if (res?.type.includes('rejected')) {
+              setButtonDisabled(false);
+              showAlert({
+                title: 'Error',
+                message: res?.payload?.message ?? 'Internal server error!',
+              });
+            }
+          });
+        } else {
+          showAlert({
+            title: 'Please accept terms & conditions',
+          });
+        }
+      } catch (err) {
+        setErrors({serverError: err.message});
+        setButtonDisabled(false);
+      }
+    },
+  });
+
   return (
-    <Formik
-      initialValues={{
-        email: email,
-        password: password,
-        device_type: Platform.OS,
-        device_token:
-          fcmToken ??
-          'fLGQET6mQf6CrLeM92-nJk:APA91bF40_bI50dwtl8OugWTzdC1-qOin4v86uQMG9TVMqbwlbOemdzEAwyTTR0-Ui_enREiNz6FaGvP_NLCVnbTsxyJQzVQY28F0K8D66hyd3tDVUZgXkbUU-sVHGFYGMYK1k-saFrX',
-        login_type: '',
-        name: '',
-      }}
-      enableReinitialize
-      // validationSchema={loginValidationSchema}
-      onSubmit={values => {
-        registerData(values);
-      }}>
-      {formik => (
-        <StoryScreen>
-          <NavigationBar
-            leftSource={IMAGES.BACKARROW}
-            leftAction={() => {
-              props.navigation.goBack();
-            }}
-            flexDirection="row"
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 40,
+          paddingHorizontal: '20%',
+        }}>
+        <Container>
+          <LoginHeader
+            title={'Welcome!'}
+            description={'Log in to your account'}
+            descriptionStyle={{color: '#00958C'}}
           />
-          <View style={styles.container}>
-            <View style={styles.topBox}>
-              <Text style={styles.headline}>Welcome!</Text>
-              <Text style={styles.subheadline}>Sign in to your account</Text>
-            </View>
-            <View style={{ marginTop: '10%' }}>
-              <CustomTextInput
-                icon={IMAGES.Email}
-                placeholder={'Enter email address'}
-                Width={SPACING.SCALE_239}
-                onChangeText={e => {
-                  Setemail(e);
-                }}
-                value={formik.values.email}
+          <Spacer height={40} />
+          <CustomInput
+            placeholder="Enter email address"
+            keyboardType="email-address"
+            returnKeyType="next"
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
+            value={values.email}
+            error={errors?.email && touched?.email}
+            errorText={errors?.email}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="user"
+                color={'black'}
+                size={20}
               />
-              <View
-                style={{
-                  height: 20,
-                }}
+            }
+          />
+          <CustomInput
+            placeholder="Enter password"
+            onChangeText={handleChange('password')}
+            onBlur={handleBlur('password')}
+            value={values?.password}
+            error={errors?.password && touched?.password}
+            errorText={errors?.password}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name="lock"
+                color={'black'}
+                size={20}
               />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  // backgroundColor: 'red',
-                }}>
-                <CustomTextInput
-                  secureTextEntry={passwordFieldVisibleToggle}
-                  icon={IMAGES.Lock1}
-                  placeholder={'Enter password'}
-                  Width={SPACING.SCALE_239}
-                  onChangeText={e => {
-                    Setpassword(e);
-                  }}
-                  value={formik.values.password}
-                />
-                <TouchableOpacity
-                  onPress={() => {
-                    setPasswordFieldVisibleToggle(!passwordFieldVisibleToggle);
-                  }}
-                  style={{ position: 'absolute', right: 10, top: 5 }}>
-                  <Image
-                    style={{ height: 25, width: 25 }}
-                    source={
-                      passwordFieldVisibleToggle
-                        ? IMAGES.visibility_off
-                        : IMAGES.visibility_on
-                    }
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View
-              style={{ alignSelf: 'flex-end', marginRight: 50, marginTop: 10 }}>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    fontFamily: 'OpenSans-Regular',
-                    color: COLORS.HYPERLINK,
-                  }}
-                  onPress={() => {
-                    props.navigation.navigate('ForgetPassword');
-                  }}>
-                  Forgot password?
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* <G_Recaptcha /> */}
-            <View
-              style={{ flexDirection: 'row', margin: 50, alignSelf: 'center' }}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectTermsNCond(!selectTermsNCond);
-                }}>
-                <View
-                  style={{
-                    width: 24,
-                    height: 24,
-                    //borderRadius: 12,
-                    marginRight: 10,
-                    borderWidth: 2,
-                    borderColor: COLORS.APPGREEN,
-                    backgroundColor: selectTermsNCond ? COLORS.APPGREEN : null,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  {selectTermsNCond && (
-                    <Image
-                      style={{ height: 12, width: 12 }}
-                      source={IMAGES.tick}
-                    />
-                  )}
-                </View>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#4E4E4E',
-                  fontFamily: 'OpenSans-Regular',
-                }}>
-                I agree to the
-              </Text>
-              <TouchableOpacity style={{ marginLeft: 4 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: '#00958C',
-                    fontFamily: 'OpenSans-SemiBold',
-                  }}
-                  onPress={() => {
-                    props.navigation.navigate('SignupScreen');
-                  }}>
-                  Terms and conditions
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{
-                height: 100,
-                width: 300,
-                borderWidth: 0.1,
-                justifyContent: 'space-between',
-                padding: 10,
-                flexDirection: 'row',
-                borderWidth: 0.5,
-                borderRadius: 1,
-              }}>
-              <View style={{ justifyContent: 'center' }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSelectReCaptcha(!selectReCaptcha);
-                    }}>
-                    <View
-                      style={{
-                        width: 24,
-                        height: 24,
-                        //borderRadius: 12,
-                        marginRight: 10,
-                        borderWidth: 2,
-                        borderColor: COLORS.borderBottomColor,
-                        backgroundColor: selectReCaptcha
-                          ? COLORS.APPGREEN
-                          : null,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      {selectReCaptcha && (
-                        <Image
-                          style={{ height: 12, width: 12 }}
-                          source={IMAGES.tick}
-                        />
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                  <Text>I'm not a robot </Text>
-                </View>
-              </View>
-              <View style={{ justifyContent: 'center' }}></View>
-              <View>
-                <Image source={IMAGES.recapchass} />
-              </View>
-            </View>
-
-            {selectReCaptcha == true ? captchaFunction() : null}
-
-            <Custombutton
-              title="Sign in"
-              marginTop={80}
-              height={51}
-              width={241}
-              marginHorizontal={SPACING.SCALE_50}
+            }
+          />
+          <View style={{alignSelf: 'flex-end'}}>
+            <LinkNavigationRow
+              title={''}
+              linkTitle={'Forgot password?'}
               onPress={() => {
-                if (selectTermsNCond) {
-                  formik.handleSubmit();
-                } else {
-                  fire({
-                    message: 'Please select terms and condition',
-                    actions: [
-                      {
-                        text: 'Ok',
-                        style: 'cancel',
-                      },
-                    ],
-                  });
-                }
-                if (selectReCaptcha) {
-                  formik.handleSubmit();
-                } else {
-                  fire({
-                    message: 'Please select reCaptcha',
-                    actions: [
-                      {
-                        text: 'Ok',
-                        style: 'cancel',
-                      },
-                    ],
-                  });
-                }
+                NavigationService.navigate(RoutesName.FORGOT_PASSWORD_SCREEN);
               }}
             />
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 30,
-                alignSelf: 'center',
-              }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: '#4E4E4E',
-                  fontFamily: 'OpenSans-Regular',
-                }}>
-                Don’t have an account yet?
-              </Text>
-              <TouchableOpacity style={{ marginLeft: 4 }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    color: '#00958C',
-                    fontFamily: 'OpenSans-Regular',
-                  }}
-                  onPress={() => {
-                    props.navigation.navigate('SignupScreen');
-                  }}>
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </StoryScreen>
-      )}
-    </Formik>
+          <Spacer height={40} />
+          <TermsConditionRow
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+          />
+          <Spacer height={50} />
+          <SubmitButton
+            lable="Confirm"
+            onPress={handleSubmit}
+            disabled={buttonDisabled}
+            loading={buttonDisabled}
+          />
+          <Spacer height={25} />
+        </Container>
+        <LinkNavigationRow
+          title={'Don’t have an account yet?'}
+          linkTitle={'Sign Up'}
+          onPress={() =>
+            NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
+          }
+        />
+      </ScrollView>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headline: {
-    textAlign: 'center',
-    fontFamily: 'Open Sans',
-    // fontWeight: 'bold',
-    fontSize: 40,
-    marginTop: 10,
-    width: 300,
-    color: '#000000',
-  },
-  subheadline: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'Open Sans',
-    width: 300,
-    marginTop: 20,
-    color: '#00958C',
-  },
-  topBox: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  onUserLogin: params => dispatch(userSigninAction(params)),
 });
 
-export default LoginScreen;
-function captchaFunction() {
-  return (
-    <View>
-      <G_Recaptcha />
-    </View>
-  );
-}
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+
+const styles = StyleSheet.create({});

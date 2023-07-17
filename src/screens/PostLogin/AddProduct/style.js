@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY } from '../../../resources';
+import { COLORS, SPACING, TYPOGRAPHY } from '@app/resources';
 
 export const styles = StyleSheet.create({
   //index

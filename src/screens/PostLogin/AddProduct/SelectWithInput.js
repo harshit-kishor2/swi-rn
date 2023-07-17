@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Image, TextInput } from 'react-native';
 import React from 'react';
-import { IMAGES } from '../../../resources';
+import { IMAGES } from '@app/resources';
 
 const SelectWithInput = ({
   item,
@@ -14,11 +14,11 @@ const SelectWithInput = ({
   return (
     <View>
       <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={onSelect}
-        style={{ flexDirection: 'row', marginVertical: 12 }}>
+        activeOpacity={ 0.7 }
+        onPress={ onSelect }
+        style={ { flexDirection: 'row', marginVertical: 12 } }>
         <View
-          style={{
+          style={ {
             height: 20,
             width: 20,
             borderWidth: 1,
@@ -26,51 +26,51 @@ const SelectWithInput = ({
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: backgroundColor,
-          }}>
-          {isCheck ? (
+          } }>
+          { isCheck ? (
             <Image
-              source={IMAGES.tickIcon}
-              resizeMode={'contain'}
-              style={{ height: 16, width: 16 }}
+              source={ IMAGES.tickIcon }
+              resizeMode={ 'contain' }
+              style={ { height: 16, width: 16 } }
             />
-          ) : null}
+          ) : null }
         </View>
         <Text
-          style={{
+          style={ {
             marginLeft: 15,
             color: '#4E4E4E',
             fontFamily: 'Open Sans',
             fontSize: 14,
             fontWeight: '400',
-          }}>
-          {item.name}
+          } }>
+          { item.name }
         </Text>
       </TouchableOpacity>
-      {isCheck ? (
+      { isCheck ? (
         <View>
           <Text
-            style={{
+            style={ {
               color: '#7C7C7C',
               fontFamily: 'Open Sans',
               fontSize: 14,
               fontWeight: '400',
               marginVertical: 10,
-            }}>
-            {`If yes, tick what’s ${item.name}`}
+            } }>
+            { `If yes, tick what’s ${item.name}` }
           </Text>
           <TextInput
-            value={textValue}
-            onChangeText={onChangeTextValue}
-            placeholder={placeholder}
-            placeholderTextColor={'#00000040'}
-            maxLength={50}
-            style={{
+            value={ textValue }
+            onChangeText={ onChangeTextValue }
+            placeholder={ placeholder }
+            placeholderTextColor={ '#00000040' }
+            maxLength={ 50 }
+            style={ {
               borderBottomWidth: 1,
               borderBottomColor: '#00000040',
-            }}
+            } }
           />
         </View>
-      ) : null}
+      ) : null }
     </View>
   );
 };
