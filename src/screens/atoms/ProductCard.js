@@ -31,7 +31,7 @@ const ProductCard = ({item, onPress}) => {
             size={24}
             source={
               item?.user?.image && item?.user?.image !== ''
-                ? item?.user?.image
+                ? {uri: item?.user?.image}
                 : IMAGES.Dollar
             }
           />
