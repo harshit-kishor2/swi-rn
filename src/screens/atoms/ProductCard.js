@@ -11,6 +11,7 @@ const ProductCard = ({item, onPress}) => {
   return (
     <Card style={styles.card_container}>
       <Card.Cover
+        resizeMode="contain"
         style={styles.cover_style}
         source={{uri: item?.thumb_image}}
       />
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   },
   cover_style: {
     height: 150,
+    // width: 100,
   },
   title: {
     fontSize: 18,
