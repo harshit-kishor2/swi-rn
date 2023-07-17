@@ -7,7 +7,7 @@ import {
 } from '@app/components';
 import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
-import {RoutesName} from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
@@ -19,7 +19,7 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import jwt_decode from 'jwt-decode';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Platform, Pressable, View} from 'react-native';
 import {
   AccessToken,
@@ -31,6 +31,8 @@ import {connect} from 'react-redux';
 
 const CreateAccountScreen = props => {
   const {authReducer, onUserSignup, onUserLogin} = props;
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
   //  Configure google client id
   useEffect(() => {
     GoogleSignin.configure({
@@ -62,11 +64,7 @@ const CreateAccountScreen = props => {
         //social_id:sdasdasd
       };
       onUserLogin(params).then(res => {
-        if (res?.type.includes('fulfilled')) {
-          setButtonDisabled(false);
-        }
         if (res?.type.includes('rejected')) {
-          setButtonDisabled(false);
           showAlert({
             title: 'Error',
             message: res?.payload?.message ?? 'Internal server error!',
@@ -115,11 +113,7 @@ const CreateAccountScreen = props => {
                     facebook_id: result?.id,
                   };
                   onUserLogin(params).then(res => {
-                    if (res?.type.includes('fulfilled')) {
-                      setButtonDisabled(false);
-                    }
                     if (res?.type.includes('rejected')) {
-                      setButtonDisabled(false);
                       showAlert({
                         title: 'Error',
                         message:
@@ -144,7 +138,6 @@ const CreateAccountScreen = props => {
   //! Function for google login
   const _onGoogleSignup = async () => {
     try {
-      setButtonDisabled(true);
       await GoogleSignin.hasPlayServices();
       await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
@@ -159,11 +152,7 @@ const CreateAccountScreen = props => {
           google_id: userInfo?.user?.id,
         };
         onUserLogin(params).then(res => {
-          if (res?.type.includes('fulfilled')) {
-            setButtonDisabled(false);
-          }
           if (res?.type.includes('rejected')) {
-            setButtonDisabled(false);
             showAlert({
               title: 'Error',
               message: res?.payload?.message ?? 'Internal server error!',
@@ -172,7 +161,6 @@ const CreateAccountScreen = props => {
         });
       }
     } catch (error) {
-      setButtonDisabled(false);
       //  console.log('error', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -182,7 +170,9 @@ const CreateAccountScreen = props => {
     }
   };
   return (
-    <Container useSafeAreaView={true}>
+    <Container
+      useSafeAreaView={true}
+      loading={authReducer?.signinLoadingStatus === LoadingStatus.LOADING}>
       <BackHeader />
       <View
         style={{

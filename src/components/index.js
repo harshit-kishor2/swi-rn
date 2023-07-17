@@ -19,6 +19,7 @@ import CustomInput from './CustomInput';
 import CustomIcon from './CustomIcon';
 import BackHeader from './BackHeader';
 import Loader from './Loader';
+import FullScreenLoader from './FullScreenLoader';
 
 export {
   Banner,
@@ -42,4 +43,5 @@ export {
   CustomText,
   BackHeader,
   Loader,
+  FullScreenLoader,
 };

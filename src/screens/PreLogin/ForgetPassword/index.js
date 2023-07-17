@@ -89,7 +89,7 @@ const ForgetPassword = props => {
         contentContainerStyle={{
           flexGrow: 1,
           paddingBottom: 40,
-          paddingHorizontal: '20%',
+          paddingHorizontal: 40,
         }}>
         <Container>
           <LoginHeader
@@ -127,8 +127,9 @@ const ForgetPassword = props => {
           <LinkNavigationRow
             title={''}
             linkTitle={'Resend Link'}
-            onPress={() =>
-              NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
+            onPress={
+              () => {}
+              // NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
             }
           />
         </Container>

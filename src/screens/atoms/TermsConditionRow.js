@@ -16,7 +16,7 @@ const TermsConditionRow = ({isChecked, setIsChecked}) => {
           color={isChecked ? '#00958C' : '#4E4E4E'}
         />
       </Pressable>
-      <Spacer width={5} />
+      <Spacer width={10} />
       <LinkNavigationRow
         title={'I agree to the'}
         linkTitle={'Terms and conditions'}

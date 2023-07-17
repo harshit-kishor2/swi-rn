@@ -1,6 +1,6 @@
 import {BackHeader, Container, Spacer, SubmitButton} from '@app/components';
 import {Config} from '@app/helper/config';
-import {RoutesName} from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
@@ -176,7 +176,9 @@ const LoginOptions = props => {
   };
 
   return (
-    <Container useSafeAreaView={true}>
+    <Container
+      useSafeAreaView={true}
+      loading={authReducer?.signinLoadingStatus === LoadingStatus.LOADING}>
       <BackHeader />
       <View
         style={{

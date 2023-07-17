@@ -11,11 +11,13 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
+import {SharedPreference} from '@app/helper';
 
 const MyProfileScreen = () => {
   const logout = async () => {
-    await AsyncStorage.setItem('Token', '');
-    store.dispatch(logoutAction());
+    // await AsyncStorage.setItem('Token', '');
+    SharedPreference.clearAllData();
+    store?.dispatch(logoutAction());
   };
   return (
     <ScrollView style={{flex: 1, margin: 20, marginTop: 50}}>
