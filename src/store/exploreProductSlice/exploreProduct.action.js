@@ -1,24 +1,25 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import axiosRequest from '@app/helper/axiosRequest';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 //! ======================== Redux : Async Thunk Actions ============================
 
 /**
  * Api Action
  */
-export const apiAction = createAsyncThunk(
-    'test/apiAction',
-    async (val, thunkAPI) => {
-        try {
-            // const result = await axiosRequest({
-            //   url: '/api_url',
-            //   method: 'POST',
-            //   data: val,
-            // })
-            return true
-        } catch (error) {
-            return thunkAPI.rejectWithValue(
-                error.response ? error.response?.data : error.data
-            )
-        }
+export const freshFindsAction = createAsyncThunk(
+  `exploreProduct/freshFindsAction`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/products-list-fresh`,
+        method: 'GET',
+        params: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
     }
-)
+  },
+);

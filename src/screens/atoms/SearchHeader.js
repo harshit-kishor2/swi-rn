@@ -22,6 +22,7 @@ const SearchHeader = ({onChangeSearch, searchQuery}) => {
         <CustomInput
           mode={'outlined'}
           outlineColor="grey"
+          onChangeText={onChangeSearch}
           style={{
             flex: 0.85,
           }}

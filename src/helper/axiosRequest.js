@@ -10,7 +10,7 @@ const axiosRequest = axios.create({
 //All response from axios
 axiosRequest.interceptors.response.use(
   response => {
-    console.log('Response=======>', response);
+    console.log('Response=======>', response.data);
     return response.data;
   },
   error => {

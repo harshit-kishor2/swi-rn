@@ -1,6 +1,7 @@
 import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
-import {apiAction} from './actions';
-import {LoadingStatus} from '../../helper/strings';
+
+import {LoadingStatus} from '@app/helper/strings';
+import {freshFindsAction} from './exploreProduct.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -11,9 +12,9 @@ const entityAdapter = createEntityAdapter();
 
 // Define Initial State
 const initialState = entityAdapter.getInitialState({
-  loginLoadingStatus: LoadingStatus.NOT_LOADED,
-  userDetails: null,
-  loginError: null,
+  freshFindLoadingStatus: LoadingStatus.NOT_LOADED,
+  freshFinds: [],
+  freshFindsError: null,
 });
 
 /**
@@ -31,14 +32,16 @@ const reduxSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(apiAction.pending, state => {
-        state.loginLoadingStatus = LoadingStatus.LOADING;
+      .addCase(freshFindsAction.pending, state => {
+        state.freshFindLoadingStatus = LoadingStatus.LOADING;
       })
-      .addCase(apiAction.fulfilled, (state, action) => {
-        state.loginLoadingStatus = LoadingStatus.LOADED;
+      .addCase(freshFindsAction.fulfilled, (state, action) => {
+        state.freshFindLoadingStatus = LoadingStatus.LOADED;
+        state.freshFinds = action.payload?.data;
       })
-      .addCase(apiAction.rejected, (state, action) => {
-        state.loginError = LoadingStatus.FAILED;
+      .addCase(freshFindsAction.rejected, (state, action) => {
+        state.freshFindLoadingStatus = LoadingStatus.FAILED;
+        state.freshFindsError = action.payload;
       });
   },
 });
