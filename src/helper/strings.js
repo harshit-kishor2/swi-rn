@@ -25,6 +25,7 @@ export const RoutesName = {
   //    Post Login
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
+  PRODUCT_DETAILS: 'Product Details',
 };
 
 export const Messages = {
