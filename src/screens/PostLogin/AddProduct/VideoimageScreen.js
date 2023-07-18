@@ -113,10 +113,10 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      if (image?.size <= 10485760) {
+      if (image?.size <= 5242880) {
         setImagePath(img => [...img, image]);
       } else {
-        Alert.alert('video length exceed 10MB');
+        Alert.alert('video length exceed 5MB');
       }
     });
   };
@@ -150,10 +150,10 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(video => {
-      if (video?.size <= 10485760) {
+      if (video?.size <= 5242880) {
         setImagePath(img => [...img, video]);
       } else {
-        Alert.alert('video length exceed 10MB');
+        Alert.alert('video length exceed 5MB');
       }
     });
   };
@@ -227,66 +227,68 @@ const VideoimageScreen = ({NextPress}) => {
               fontSize: 16,
               color: COLORS.BLACK,
             }}>
-            Upload watch images*
+            Upload watch images<Text style={{color: 'red'}}>*</Text>
           </Text>
           <Text style={{fontFamily: 'OpenSans-Regular', margin: 10}}>
             Please upload Image of max 10mb
           </Text>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          disabled={selectedImage?.mime !== 'video/mp4'}
-          onPress={() => setPaused(!paused)}
-          style={styles.bigImageContainer}>
-          {selectedImage?.mime === 'video/mp4' ? (
-            <Video
-              controls={false}
-              source={{uri: selectedImage?.path}}
-              style={styles.backgroundVideo}
-              paused={paused}
-              resizeMode="contain"
-              repeat={true}
-            />
-          ) : (
-            <Image
-              source={{uri: selectedImage?.path}}
-              style={styles.bigImage}
-              resizeMode="contain"
-            />
-          )}
-        </TouchableOpacity>
-        :
-        <TouchableOpacity
-          activeOpacity={0.7}
-          disabled={selectedImage?.mime !== 'video/mp4'}
-          onPress={() => setPaused(!paused)}
-          style={styles.bigImageContainer}>
-          {selectedImage?.mime === 'video/mp4' ? (
-            <Video
-              controls={false}
-              source={{uri: selectedImage?.path}}
-              style={styles.backgroundVideo}
-              paused={paused}
-              resizeMode="contain"
-              repeat={true}
-            />
-          ) : (
-            <View>
+        {selectedImage ? (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            disabled={selectedImage?.mime !== 'video/mp4'}
+            onPress={() => setPaused(!paused)}
+            style={styles.bigImageContainer}>
+            {selectedImage?.mime === 'video/mp4' ? (
+              <Video
+                controls={false}
+                source={{uri: selectedImage?.path}}
+                style={styles.backgroundVideo}
+                paused={paused}
+                resizeMode="contain"
+                repeat={true}
+              />
+            ) : (
               <Image
                 source={{uri: selectedImage?.path}}
                 style={styles.bigImage}
                 resizeMode="contain"
               />
-              <TouchableOpacity
-                onPress={uploadImage}
-                style={{justifyContent: 'center', alignItems: 'center'}}>
-                <View style={styles.addbtn}>
-                  <Image source={IMAGES.imageAdd} />
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-        </TouchableOpacity>
+            )}
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            disabled={selectedImage?.mime !== 'video/mp4'}
+            onPress={() => setPaused(!paused)}
+            style={styles.bigImageContainer}>
+            {selectedImage?.mime === 'video/mp4' ? (
+              <Video
+                controls={false}
+                source={{uri: selectedImage?.path}}
+                style={styles.backgroundVideo}
+                paused={paused}
+                resizeMode="contain"
+                repeat={true}
+              />
+            ) : (
+              <View>
+                <Image
+                  source={{uri: selectedImage?.path}}
+                  style={styles.bigImage}
+                  resizeMode="contain"
+                />
+                <TouchableOpacity
+                  onPress={uploadImage}
+                  style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <View style={styles.addbtn}>
+                    <Image source={IMAGES.imageAdd} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+          </TouchableOpacity>
+        )}
         <View style={{marginTop: 5, marginLeft: 15}}>
           <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
             Selected images/videos

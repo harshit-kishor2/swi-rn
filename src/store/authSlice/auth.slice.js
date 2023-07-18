@@ -71,6 +71,7 @@ const reduxSlice = createSlice({
       })
       .addCase(userSignupAction.fulfilled, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.LOADED;
+        state.userDetails = action.payload?.data;
       })
       .addCase(userSignupAction.rejected, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.FAILED;
@@ -83,7 +84,7 @@ const reduxSlice = createSlice({
       .addCase(userSigninAction.fulfilled, (state, action) => {
         state.signinLoadingStatus = LoadingStatus.LOADED;
 
-        state.userDetails = action.payload;
+        state.userProfileDetails = action.payload.data;
         state.isAuthenticate = true;
       })
       .addCase(userSigninAction.rejected, (state, action) => {
