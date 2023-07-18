@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {AlertBox} from 'react-native-alertbox';
-import SplashScreen from 'react-native-splash-screen';
+// import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {SplashScreen as CustomSplash} from './screens';
 import store from './store';
@@ -8,9 +8,9 @@ import {StatusBar} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
+  // useEffect(() => {
+  //   SplashScreen.hide();
+  // }, []);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>

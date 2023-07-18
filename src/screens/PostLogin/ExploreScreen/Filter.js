@@ -26,8 +26,8 @@ import * as Yup from 'yup';
 import useLocation from '@app/hooks/useLocation';
 const sortingItems = [
   {title: 'Recently added', key: 'id', order: 'DESC'},
-  {title: 'Price: Low to High', key: 'price', order: 'ASC'},
-  {title: 'Price: High to Low', key: 'price', order: 'DESC'},
+  {title: 'Price: Low to High', key: 'price', order: 'asc'},
+  {title: 'Price: High to Low', key: 'price', order: 'desc'},
   {title: 'Ascending: A to Z', key: 'title', order: 'ASC'},
   {title: 'Descending: Z to A', key: 'title', order: 'DESC'},
 ];
@@ -87,7 +87,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
           longitude: values.longitude,
           max_price: values.max_price,
           min_price: values.min_price,
-          sortBy: values.sortBy,
+          sortby: values.sortBy,
           watch_condition: values.watch_condition,
           ...obj,
         };
@@ -486,7 +486,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               paddingVertical: 20,
-              width: '90%',
+              width: '100%',
               height: 100,
             }}>
             <View
