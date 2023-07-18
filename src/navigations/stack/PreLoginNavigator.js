@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   CreateAccountScreen,
+  EntryFile,
   ForgetPassword,
   LoginOptions,
   LoginScreen,
@@ -8,39 +9,39 @@ import {
   TermsandcondtionScreen,
   WalkThroughScreen,
 } from '@app/screens';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { RoutesName } from '@app/helper/strings';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {RoutesName} from '@app/helper/strings';
 
 const Stack = createNativeStackNavigator();
 
 const PreLoginNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={ { headerShown: false } }
-      initialRouteName={ RoutesName.WALK_THROUGH_SCREEN }>
+      screenOptions={{headerShown: false}}
+      initialRouteName={RoutesName.LOGIN_OPTIONS_SCREEN}>
+      {/* <Stack.Screen
+        name={RoutesName.WALK_THROUGH_SCREEN}
+        component={EntryFile}
+      /> */}
       <Stack.Screen
-        name={ RoutesName.WALK_THROUGH_SCREEN }
-        component={ WalkThroughScreen }
+        name={RoutesName.LOGIN_OPTIONS_SCREEN}
+        component={LoginOptions}
       />
       <Stack.Screen
-        name={ RoutesName.CREATE_ACCOUNT_SCREEN }
-        component={ CreateAccountScreen }
+        name={RoutesName.CREATE_ACCOUNT_SCREEN}
+        component={CreateAccountScreen}
       />
       <Stack.Screen
-        name={ RoutesName.LOGIN_OPTIONS_SCREEN }
-        component={ LoginOptions }
+        name={RoutesName.TERM_AND_CONDITION_SCREEN}
+        component={TermsandcondtionScreen}
       />
-      <Stack.Screen
-        name={ RoutesName.TERM_AND_CONDITION_SCREEN }
-        component={ TermsandcondtionScreen }
-      />
-      <Stack.Screen name={ RoutesName.SIGNUP_SCREEN } component={ SignupScreen } />
+      <Stack.Screen name={RoutesName.SIGNUP_SCREEN} component={SignupScreen} />
 
-      <Stack.Screen name={ RoutesName.LOGIN_SCREEN } component={ LoginScreen } />
+      <Stack.Screen name={RoutesName.LOGIN_SCREEN} component={LoginScreen} />
 
       <Stack.Screen
-        name={ RoutesName.FORGOT_PASSWORD_SCREEN }
-        component={ ForgetPassword }
+        name={RoutesName.FORGOT_PASSWORD_SCREEN}
+        component={ForgetPassword}
       />
     </Stack.Navigator>
   );

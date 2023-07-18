@@ -19,7 +19,10 @@ const MyProfileScreen = () => {
   const dispatch = useDispatch();
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
-    SharedPreference.clearAllData();
+    SharedPreference.multiRemove([
+      SharedPreference.keys.IS_AUTHENTICATE,
+      SharedPreference.keys.TOKEN,
+    ]);
     dispatch(logoutAction());
   };
   return (

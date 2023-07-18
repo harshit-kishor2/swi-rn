@@ -179,7 +179,8 @@ const LoginOptions = props => {
     <Container
       useSafeAreaView={true}
       loading={authReducer?.signinLoadingStatus === LoadingStatus.LOADING}>
-      <BackHeader />
+      {/* <BackHeader /> */}
+      <Spacer height={50} />
       <View
         style={{
           paddingHorizontal: '15%',

@@ -104,7 +104,10 @@ export const logoutAction = createAsyncThunk(
       //   method: 'POST',
       //   data: params,
       // });
-      await SharedPreference.clearAllData();
+      SharedPreference.multiRemove([
+        SharedPreference.keys.IS_AUTHENTICATE,
+        SharedPreference.keys.TOKEN,
+      ]);
       return true;
     } catch (error) {
       return thunkAPI.rejectWithValue(
