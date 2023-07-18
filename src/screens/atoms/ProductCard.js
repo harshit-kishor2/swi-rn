@@ -11,7 +11,7 @@ const ProductCard = ({item, onPress}) => {
   return (
     <Card style={styles.card_container}>
       <Card.Cover
-        resizeMode="contain"
+        // resizeMode="contain"
         style={styles.cover_style}
         source={{uri: item?.thumb_image}}
       />
