@@ -20,6 +20,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  linkTitle: {color: '#00958C', marginLeft: 5},
-  title: {color: '#4E4E4E'},
+  linkTitle: {color: '#00958C', marginLeft: 5,fontFamily:'OpenSans-SemiBold', fontSize:12},
+  title: {color: '#4E4E4E', fontFamily:'OpenSans-Regular', fontSize:13},
 });

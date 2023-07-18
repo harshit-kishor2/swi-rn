@@ -12,7 +12,7 @@ const TrendyWatch = props => {
     return <ProductCard key={index} item={item} />;
   };
   return (
-    <View style={{height: 450, paddingHorizontal: 10}}>
+    <View style={{height: 500, paddingHorizontal: 10}}>
       <PageTitle title={'Check out trendy watches for you'} />
       <FlatList
         horizontal
