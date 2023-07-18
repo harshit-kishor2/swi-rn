@@ -7,7 +7,7 @@ import {SharedPreference} from '@app/helper';
 import WalkThroughScreen from '../WalkThroughScreen';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser} = props;
+  const {checkIsLoggedInUser,getUserProfile} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);

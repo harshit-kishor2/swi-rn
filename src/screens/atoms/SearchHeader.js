@@ -8,7 +8,7 @@ const SearchHeader = ({onChangeSearch, searchQuery}) => {
   return (
     <View
       style={{
-        height: 50,
+        height: 80,
         width: '100%',
       }}>
       <View
