@@ -16,6 +16,7 @@ const combinedReducer = combineReducers({
 });
 
 const rootReducers = (state, action) => {
+  console.log('Actions==================', action.type);
   if (action?.type === 'USER_LOGOUT') {
     console.log('401 Unauth');
     SharedPreference.clearAllData();
