@@ -38,7 +38,7 @@ const validationSchema = Yup.object({
   max_price: Yup.number().nullable().typeError('Please enter a valid number.'),
 });
 
-const Filter = ({isFilter, setIsFilter, ...props}) => {
+const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
   const {exploreProduct, getTopNotchWatch} = props;
   const location = useLocation();
 
@@ -55,8 +55,8 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
     dir: null, // DESC,ASC
     watch_condition: null, //brand_new or pre_owned
     brands: null,
-    // latitude: location?.coords?.latitude,
-    // longitude: location?.coords?.longitude,
+    latitude: null,
+    longitude: null,
   };
   // destructure formik values from formik hook
   const {
@@ -75,18 +75,37 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
     onSubmit: async (val, {setErrors}) => {
       try {
         Keyboard.dismiss();
-        getTopNotchWatch({
-          //   brands: values.brands,
-          //   dir: values.dir,
-          //   distance: values.distance,
-          //   latitude: values.latitude,
-          //   location: values.location,
-          //   longitude: values.longitude,
-          //   max_price: values.max_price,
-          //   min_price: values.min_price,
-          //   sortBy: values.sortBy,
-          watch_condition: values.watch_condition,
+        const obj = {};
+        (values.brands ?? []).forEach((element, index) => {
+          obj[`brand_id[${index}]`] = element;
         });
+        const props = {
+          dir: values.dir,
+          distance: values.distance,
+          latitude: values.latitude,
+          location: values.location,
+          longitude: values.longitude,
+          max_price: values.max_price,
+          min_price: values.min_price,
+          sortBy: values.sortBy,
+          watch_condition: values.watch_condition,
+          ...obj,
+        };
+        console.log('Props', props);
+        if (
+          props.max_price == null &&
+          props.min_price == null &&
+          props.watch_condition == null &&
+          props.location == null &&
+          (values.brands ?? []).length == 0
+        ) {
+          console.log('Empty');
+        } else {
+          setTopNotchWatch([]);
+          getTopNotchWatch(props).then(res => {
+            setIsFilter(false);
+          });
+        }
       } catch (err) {
         setErrors({serverError: err.message});
       }
@@ -295,6 +314,8 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
             onPress={() => {
               setFieldValue('location', 'near_by');
               setFieldValue('distance', 0);
+              setFieldValue('latitude', location?.coords?.latitude);
+              setFieldValue('longitude', location?.coords?.longitude);
             }}
             left={props => (
               <List.Icon
@@ -321,6 +342,8 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
             onPress={() => {
               setFieldValue('location', 'custom');
               setFieldValue('distance', 0);
+              setFieldValue('latitude', location?.coords?.latitude);
+              setFieldValue('longitude', location?.coords?.longitude);
             }}
             left={props => (
               <List.Icon
@@ -495,6 +518,7 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               <SubmitButton
                 onPress={() => {
                   resetForm();
+                  setSortQuery('');
                 }}
                 lable="Reset"
                 type="outlined"
