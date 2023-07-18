@@ -93,8 +93,8 @@ const FormDetails = ({
         /^[a-zA-Z0-9_][aA-zZ)-9\s]*$/,
         'Only alphanumeric characters are allowed with first character can only be an alphabet',
       )
-      .test('len', 'Title should not be more than 20 characters', val =>
-        val ? val.toString().length <= 20 : false,
+      .test('len', 'Title should not be more than 30 characters', val =>
+        val ? val.toString().length <= 30 : false,
       ),
     brand_id: yup.string().required('Please select an option'),
     model_id: yup.string().required('Please select an option'),
@@ -736,9 +736,9 @@ const FormDetails = ({
                   marginTop: SPACING.SCALE_20,
                   justifyContent: 'center',
                   alignSelf: 'center',
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'OpenSans-Bold',
                   fontSize: 18,
-                  fontWeight: '700',
+                 
                   color: COLORS.BLACK,
                 } }>
                 Select Address

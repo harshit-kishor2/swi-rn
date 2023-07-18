@@ -224,9 +224,9 @@ const VideoimageScreen = ({ NextPress }) => {
           <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 16 } }>
             Upload watch images*
           </Text>
-          <Text>Please upload Image of max 10mb</Text>
+          <Text style={{fontFamily:'OpenSans-Regular'}}>Please upload Image of max 10mb</Text>
         </View>
-        <TouchableOpacity
+        { selectedImage ? <TouchableOpacity
           activeOpacity={ 0.7 }
           disabled={ selectedImage?.mime !== 'video/mp4' }
           onPress={ () => setPaused(!paused) }
@@ -246,8 +246,41 @@ const VideoimageScreen = ({ NextPress }) => {
               style={ styles.bigImage }
               resizeMode="contain"
             />
+            
+          ) }
+        </TouchableOpacity> 
+        :
+<TouchableOpacity
+          activeOpacity={ 0.7 }
+          disabled={ selectedImage?.mime !== 'video/mp4' }
+          onPress={ () => setPaused(!paused) }
+          style={ styles.bigImageContainer }>
+          { selectedImage?.mime === 'video/mp4' ? (
+            <Video
+              controls={ false }
+              source={ { uri: selectedImage?.path } }
+              style={ styles.backgroundVideo }
+              paused={ paused }
+              resizeMode="contain"
+              repeat={ true }
+            />
+          ) : (
+            <View>
+              <Image
+              source={ { uri: selectedImage?.path } }
+              style={ styles.bigImage }
+              resizeMode="contain"
+            />
+            <TouchableOpacity onPress={ uploadImage } style={{justifyContent:'center', alignItems:'center'}}>
+            <View style={ styles.addbtn }>
+              <Image source={ IMAGES.imageAdd } />
+            </View>
+          </TouchableOpacity>
+            </View>
+            
           ) }
         </TouchableOpacity>
+       }
         <View style={ { marginTop: 5, marginLeft: 15 } }>
           <Text style={ { fontFamily: 'OpenSans-Regular', fontSize: 16 } }>
             Selected images/videos

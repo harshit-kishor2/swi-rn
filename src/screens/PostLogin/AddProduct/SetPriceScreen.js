@@ -48,7 +48,7 @@ const SetPriceScreen = ({title, product_ID}) => {
                   fontFamily: 'OpenSans-Regular',
                   fontSize: 16,
                 }}>
-                SetPrice
+                Set Price
               </Text>
               <Text
                 style={{

@@ -51,9 +51,8 @@ const SelectWithInput = ({
           <Text
             style={ {
               color: '#7C7C7C',
-              fontFamily: 'Open Sans',
+              fontFamily: 'OpenSans-Regular',
               fontSize: 14,
-              fontWeight: '400',
               marginVertical: 10,
             } }>
             { `If yes, tick what’s ${item.name}` }
