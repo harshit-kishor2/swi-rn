@@ -97,7 +97,8 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
           props.min_price == null &&
           props.watch_condition == null &&
           props.location == null &&
-          (values.brands ?? []).length == 0
+          (values.brands ?? []).length == 0 &&
+          values.sortBy == null
         ) {
           console.log('Empty');
         } else {
