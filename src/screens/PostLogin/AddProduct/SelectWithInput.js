@@ -39,9 +39,9 @@ const SelectWithInput = ({
           style={ {
             marginLeft: 15,
             color: '#4E4E4E',
-            fontFamily: 'Open Sans',
+            fontFamily: 'OpenSans-Regular',
             fontSize: 14,
-            fontWeight: '400',
+            
           } }>
           { item.name }
         </Text>

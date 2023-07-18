@@ -10,10 +10,11 @@ import {COLORS, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
 import NavigationService from '../../../navigations/NavigationService';
 
-const SetPriceScreen = ({title, product_ID}) => {
+const SetPriceScreen = ({DataFromParent}) => {
   const [price, setPrice] = useState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  console.log(DataFromParent,"data from parent ======>>>>>>>>>>>>>>>>>")
 
   let loginValidationSchema = yup.object().shape({
     price: yup.number().positive().required('Price is required'),
@@ -28,7 +29,7 @@ const SetPriceScreen = ({title, product_ID}) => {
     <Formik
       initialValues={{
         price: price,
-        productID: product_ID,
+        productID: DataFromParent.product_ID,
       }}
       enableReinitialize
       validationSchema={loginValidationSchema}
@@ -60,7 +61,7 @@ const SetPriceScreen = ({title, product_ID}) => {
                   alignSelf: 'center',
                   marginTop: 10,
                 }}>
-                {title}
+                {DataFromParent.title}
               </Text>
               <Text
                 style={{
@@ -120,7 +121,7 @@ const SetPriceScreen = ({title, product_ID}) => {
                   color: COLORS.BLACK,
                   fontSize: 14,
                 }}>
-                Get your watch listed on top
+                Get your watch listed on top {''}
               </Text>
               <Text
                 style={{

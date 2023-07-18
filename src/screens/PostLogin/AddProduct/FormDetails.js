@@ -109,6 +109,7 @@ const FormDetails = ({
     //   })
     //   .typeError('Field must be a valid date'),
     accessories: yup.string().required('Please select an option'),
+    
   });
 
   useFocusEffect(
@@ -187,10 +188,10 @@ const FormDetails = ({
     });
     return updatedArray;
   };
-  const registerData = value => {
-    console.log('value of register', value);
+  const registerData = (value) => {
+    console.log('value of register============>>>>>>>>>>>>>>>>>>>>', value.title);
     dispatch(updateSecondProductDetail(value));
-    NextPress();
+    NextPress(value);
   };
 
   return (
@@ -234,6 +235,7 @@ const FormDetails = ({
         <View style={ styles.formDetailsStyle }>
           <ScrollView
             showsHorizontalScrollIndicator={ false }
+            showsVerticalScrollIndicator={ false }
             style={ [ styles.formDetailsStyle, { paddingHorizontal: 0 } ] }>
             <View style={ styles.mainFormComponent }>
               <View style={ styles.halfWidth }>
@@ -269,7 +271,7 @@ const FormDetails = ({
                     setDropData(modelData?.data);
                     setIsModalVisible(!isModalVisible);
                   } }
-                  title={ 'Choose Model' }
+                  title={ 'Model' }
                   isRequired={ true }
                   value={ selectedModel?.name }
                   otherValuePlaceholder={ 'Enter Model' }
@@ -294,15 +296,17 @@ const FormDetails = ({
               </Text>
               <TextInput
                 style={ {
-                  marginBottom: SPACING.SCALE_16,
-                  marginTop: SPACING.SCALE_8,
+                  
+                  fontFamily:'OpenSans-Regular'
                 } }
                 value={ title }
                 maxLength={ 50 }
                 onChangeText={ e => setTitle(e) }
               />
 
-              <Text
+              
+            </View>
+            <Text
                 style={ {
                   color: 'red',
                 } }>
@@ -310,7 +314,6 @@ const FormDetails = ({
                   ? formik.errors.title
                   : null }
               </Text>
-            </View>
             <View style={ { marginTop: SPACING.SCALE_30 } }>
               <Text style={ styles.formHeaderText }>
                 Watch Condition <Text style={ { color: COLORS.RED } }>*</Text>
@@ -471,6 +474,7 @@ const FormDetails = ({
                     Tell the customers about this watch
                   </Text>
                   <View style={ styles.borderBottom }>
+                    
                     <TextInput
                       numberOfLines={ 5 }
                       multiline={ true }

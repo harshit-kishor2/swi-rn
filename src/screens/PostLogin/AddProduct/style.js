@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
     marginTop: SPACING.SCALE_30,
     flexGrow: 1,
     paddingHorizontal: SPACING.SCALE_25,
-    paddingTop: SPACING.SCALE_25,
+    // paddingTop: SPACING.SCALE_25,
   },
   mainFormComponent: {
     width: '100%',
@@ -141,7 +141,7 @@ export const styles = StyleSheet.create({
     width: TYPOGRAPHY.DYNAMIC_WIDTH('45%'),
   },
   formHeaderMainView: {
-    marginTop: 30,
+    
     borderBottomWidth: 1,
     borderBottomColor: '#00000040',
   },
@@ -212,7 +212,8 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   formWatchDescription: {
-    marginVertical: 20,
+    // marginVertical: 20,
+    marginTop:10,
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
     
