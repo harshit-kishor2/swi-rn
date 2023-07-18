@@ -127,7 +127,12 @@ const ExploreScreen = props => {
         )}
       />
       {isFilter ? (
-        <Filter isFilter={isFilter} setIsFilter={setIsFilter} {...props} />
+        <Filter
+          isFilter={isFilter}
+          setIsFilter={setIsFilter}
+          setTopNotchWatch={setTopNotchWatch}
+          {...props}
+        />
       ) : null}
     </Container>
   );
