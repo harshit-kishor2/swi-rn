@@ -19,7 +19,6 @@ axiosRequest.interceptors.response.use(
     if (error?.response) {
       if (error.response?.status === 401) {
         store.dispatch({type: 'USER_LOGOUT'});
-        // SharedPreference.clearAllData();
       } else {
         return new Promise((resolve, reject) => {
           reject(error);

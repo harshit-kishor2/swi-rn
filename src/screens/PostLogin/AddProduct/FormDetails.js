@@ -395,6 +395,7 @@ const FormDetails = ({
                       />
                     </View>
                   }
+                  maximumDate={new Date()}
                   onChangeDate={e => {
                     setDate(e);
                   }}

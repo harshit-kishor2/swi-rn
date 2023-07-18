@@ -3,11 +3,24 @@ import {connect} from 'react-redux';
 import Navigator from '@app//navigations/Navigator';
 import {stayLoginAction, userProfile} from '@app/store/authSlice';
 import SplashView from './SplashView';
+import {SharedPreference} from '@app/helper';
+import WalkThroughScreen from '../WalkThroughScreen';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser, getUserProfile} = props;
+  const {checkIsLoggedInUser} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
+  const [walkthroughDisable, setWalkthroughDisable] = useState(false);
+
+  useEffect(() => {
+    SharedPreference.getItem(
+      SharedPreference.keys.WALKTHROUGH_DISABLE,
+      'false',
+    ).then(res => {
+      let val = res == 'true' ? true : false;
+      setWalkthroughDisable(val);
+    });
+  }, [walkthroughDisable]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -16,8 +29,16 @@ const SplashScreen = props => {
     checkIsLoggedInUser();
     getUserProfile();
   }, []);
-
-  return isSplashEnd ? <Navigator /> : <SplashView />;
+  console.log('Hello', walkthroughDisable);
+  return isSplashEnd ? (
+    walkthroughDisable ? (
+      <Navigator />
+    ) : (
+      <WalkThroughScreen setWalkthroughDisable={setWalkthroughDisable} />
+    )
+  ) : (
+    <SplashView />
+  );
 };
 
 const mapStateToProps = state => {

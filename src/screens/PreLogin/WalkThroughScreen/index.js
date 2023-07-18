@@ -11,7 +11,7 @@ import {SharedPreference} from '@app/helper';
 const {height, width} = Dimensions.get('window');
 const DATA = [1, 2, 3];
 
-const WalkThroughScreen = () => {
+const WalkThroughScreen = ({setWalkthroughDisable}) => {
   const [currentPage, setCurrentPage] = React.useState(0);
   const flatlistRef = useRef();
 
@@ -24,7 +24,8 @@ const WalkThroughScreen = () => {
       setCurrentPage(currentPage + 1);
     }
     if (currentPage === 2) {
-      NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+      // NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+      setWalkthroughDisable(true);
       SharedPreference.setItem(
         SharedPreference.keys.WALKTHROUGH_DISABLE,
         'true',
@@ -70,7 +71,8 @@ const WalkThroughScreen = () => {
       <WalkThroughHeader
         onBack={onPagePrev}
         onSkip={() => {
-          NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+          // NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+          setWalkthroughDisable(true);
           SharedPreference.setItem(
             SharedPreference.keys.WALKTHROUGH_DISABLE,
             'true',
