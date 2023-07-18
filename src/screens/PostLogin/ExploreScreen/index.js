@@ -1,7 +1,7 @@
-import {Container} from '@app/components';
+import {Container, CustomText} from '@app/components';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import Banner from './Banner';
 import TrendyWatch from './TrendyWatch';
 import {connect} from 'react-redux';
@@ -16,6 +16,7 @@ import {
 import {useEffect, useState} from 'react';
 import {LoadingStatus} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
+import Filter from './Filter';
 
 const ExploreScreen = props => {
   const {
@@ -32,6 +33,7 @@ const ExploreScreen = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [topNotchWatch, setTopNotchWatch] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
 
   const query = useDebounce(searchQuery, 1000);
 
@@ -91,7 +93,7 @@ const ExploreScreen = props => {
     return (
       <>
         <Banner bannerData={exploreProduct?.bannerList} />
-        <TrendyWatch {...props} />
+        <TrendyWatch setIsFilter={setIsFilter} {...props} />
       </>
     );
   };
@@ -117,7 +119,15 @@ const ExploreScreen = props => {
         }}
         onEndReachedThreshold={30}
         onEndReached={onLoadMore}
+        ListEmptyComponent={() => (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <CustomText>No Data Found</CustomText>
+          </View>
+        )}
       />
+      {isFilter ? (
+        <Filter isFilter={isFilter} setIsFilter={setIsFilter} {...props} />
+      ) : null}
     </Container>
   );
 };
