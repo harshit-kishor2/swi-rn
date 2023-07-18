@@ -100,7 +100,7 @@ const useStyles = multiline =>
     // },
     containerStyle: {
       backgroundColor: 'white',
-      height: multiline ? null : 40,
+      // height: multiline ? null : 40,
       paddingHorizontal: 0,
       textAlignVertical: multiline ? 'top' : 'center',
     },
