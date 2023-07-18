@@ -325,7 +325,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             )}
           />
           <List.Item
-            title={'Distance Range : ' + values?.distance}
+            title={'Distance Range : ' + (values?.distance ?? 0)}
             onPress={() => {
               setFieldValue('location', 'custom');
               setFieldValue('distance', 0);
@@ -352,6 +352,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
               />
             )}
           />
+          <Spacer height={25} />
           {values.location === 'custom' ? (
             <Slider
               // style={{width: 330, height: 40}}
@@ -367,6 +368,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             />
           ) : null}
         </List.Accordion>
+        <Spacer height={50} />
       </ScrollView>
     );
   };
