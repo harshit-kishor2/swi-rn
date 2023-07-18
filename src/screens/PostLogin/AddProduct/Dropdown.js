@@ -16,7 +16,7 @@ const Dropdown = ({
       <Text
         style={ {
           color: '#7C7C7C',
-          fontFamily: 'Open Sans',
+          fontFamily: 'OpenSans-Regular',
           fontSize: 14,
         } }>
         { title } { isRequired ? <Text style={ { color: COLORS.RED } }>*</Text> : null }
@@ -37,7 +37,7 @@ const Dropdown = ({
           style={ {
             marginBottom: 10,
             color: COLORS.BLACK,
-            fontFamily: 'Open Sans',
+            fontFamily: 'OpenSans-Regular',
             fontSize: 16,
           } }>
           { value }

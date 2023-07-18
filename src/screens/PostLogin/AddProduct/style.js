@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   headline: {
     textAlign: 'center',
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
 
     fontSize: TYPOGRAPHY.FONT_SIZE_18,
     width: SPACING.SCALE_300,
@@ -127,7 +127,7 @@ export const styles = StyleSheet.create({
     marginTop: SPACING.SCALE_30,
     flexGrow: 1,
     paddingHorizontal: SPACING.SCALE_25,
-    paddingTop: SPACING.SCALE_25,
+    // paddingTop: SPACING.SCALE_25,
   },
   mainFormComponent: {
     width: '100%',
@@ -141,13 +141,13 @@ export const styles = StyleSheet.create({
     width: TYPOGRAPHY.DYNAMIC_WIDTH('45%'),
   },
   formHeaderMainView: {
-    marginTop: 30,
+    
     borderBottomWidth: 1,
     borderBottomColor: '#00000040',
   },
   formHeaderText: {
     color: '#7C7C7C',
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
   },
   formMainWatchConditionView: {
@@ -161,7 +161,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   formWatchConditionText: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
     marginVertical: 7,
     marginHorizontal: 16,
@@ -184,7 +184,7 @@ export const styles = StyleSheet.create({
   },
   formDateTextStyle: {
     color: 'black',
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 16,
   },
   formTickMainView: {
@@ -212,10 +212,11 @@ export const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   formWatchDescription: {
-    marginVertical: 20,
-    fontFamily: 'Open Sans',
+    // marginVertical: 20,
+    marginTop:10,
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    fontWeight: '400',
+    
   },
   borderBottom: {
     borderBottomWidth: 1,
@@ -225,9 +226,8 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginBottom: 4,
     color: '#00958C',
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-SemiBold',
     fontSize: 12,
-    fontWeight: '600',
   },
   genderTypeView: {
     flexDirection: 'row',
@@ -246,8 +246,8 @@ export const styles = StyleSheet.create({
     marginRight: 15,
     marginVertical: 7,
     fontSize: 14,
-    fontFamily: 'Open Sans',
-    fontWeight: '400',
+    fontFamily: 'OpenSans-Regular',
+    
   },
   formDropDownMainView: {
     flexDirection: 'row',
@@ -256,9 +256,9 @@ export const styles = StyleSheet.create({
   },
   formLocationTextView: {
     color: '#7C7C7C',
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    fontWeight: '400',
+   
     marginTop: 10,
   },
   formLocationMainView: {
@@ -268,9 +268,9 @@ export const styles = StyleSheet.create({
     marginVertical: SPACING.SCALE_30,
   },
   formModelTextStyle: {
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 16,
-    fontWeight: '400',
+  
     marginVertical: 8,
     textAlign: 'center',
   },

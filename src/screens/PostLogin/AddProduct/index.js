@@ -16,6 +16,7 @@ import { styles } from './style';
 
 const SellScreen = props => {
   const [ formNumber, setFormNumber ] = useState('1');
+  const [ dataToSend, setDataToSend]= useState('')
   // console.log('formNumber', formNumber);
   // const mainNavigation = () => {
   //   if (formNumber === '1') {
@@ -28,6 +29,13 @@ const SellScreen = props => {
   //     setFormNumber('2');
   //   }
   // };
+
+  const onSetValueClick=(value)=>{
+   setFormNumber('3');
+   setDataToSend(value)
+    console.log(value,"Value at set price up state===========>>>>>>>>>>>>>>>")
+
+  }
   return (
     <StoryScreen
       NoPadding={ true }
@@ -83,9 +91,9 @@ const SellScreen = props => {
         { formNumber === '1' ? (
           <VideoimageScreen NextPress={ () => setFormNumber('2') } />
         ) : formNumber === '2' ? (
-          <FormDetails NextPress={ () => setFormNumber('3') } />
+          <FormDetails NextPress={onSetValueClick} />
         ) : (
-          <SetPriceScreen />
+          <SetPriceScreen DataFromParent={dataToSend} />
         ) }
       </View>
     </StoryScreen>
