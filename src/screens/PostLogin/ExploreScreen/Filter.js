@@ -17,7 +17,7 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
-import {List} from 'react-native-paper';
+import {List, TextInput} from 'react-native-paper';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import Slider from '@react-native-community/slider';
 import {useReducer} from 'react';
@@ -138,14 +138,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
               value={values.min_price}
               error={errors?.min_price && touched?.min_price}
               errorText={errors?.min_price}
-              leftIcon={
-                <CustomIcon
-                  origin={ICON_TYPE.FEATHER_ICONS}
-                  name="user"
-                  color={'black'}
-                  size={20}
-                />
-              }
+              leftIcon={<TextInput.Affix text="$" />}
             />
           </View>
           <Spacer width={10} />
@@ -165,14 +158,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
               value={values.max_price}
               error={errors?.max_price && touched?.max_price}
               errorText={errors?.max_price}
-              leftIcon={
-                <CustomIcon
-                  origin={ICON_TYPE.FEATHER_ICONS}
-                  name="user"
-                  color={'black'}
-                  size={20}
-                />
-              }
+              leftIcon={<TextInput.Affix text="$" />}
             />
           </View>
         </View>
