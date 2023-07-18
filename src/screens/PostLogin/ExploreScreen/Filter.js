@@ -26,8 +26,8 @@ import * as Yup from 'yup';
 import useLocation from '@app/hooks/useLocation';
 const sortingItems = [
   {title: 'Recently added', key: 'id', order: 'DESC'},
-  {title: 'Price: Low to High', key: 'price', order: 'ASC'},
-  {title: 'Price: High to Low', key: 'price', order: 'DESC'},
+  {title: 'Price: Low to High', key: 'price', order: 'asc'},
+  {title: 'Price: High to Low', key: 'price', order: 'desc'},
   {title: 'Ascending: A to Z', key: 'title', order: 'ASC'},
   {title: 'Descending: Z to A', key: 'title', order: 'DESC'},
 ];
@@ -87,7 +87,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
           longitude: values.longitude,
           max_price: values.max_price,
           min_price: values.min_price,
-          sortBy: values.sortBy,
+          sortby: values.sortBy,
           watch_condition: values.watch_condition,
           ...obj,
         };
@@ -172,13 +172,13 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
-              paddingVertical: 20,
-              width: '90%',
+              //   justifyContent: 'center',
+              //   paddingVertical: 20,
+              width: '100%',
             }}>
             <View
               style={{
-                justifyContent: 'center',
+                // justifyContent: 'center',
                 //   alignItems: 'center',
                 width: '45%',
               }}>
@@ -211,7 +211,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             <Spacer width={10} />
             <View
               style={{
-                justifyContent: 'center',
+                // justifyContent: 'center',
                 //   alignItems: 'center',
                 width: '45%',
               }}>
@@ -325,7 +325,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             )}
           />
           <List.Item
-            title={'Distance Range : ' + values?.distance}
+            title={'Distance Range : ' + (values?.distance ?? 0)}
             onPress={() => {
               setFieldValue('location', 'custom');
               setFieldValue('distance', 0);
@@ -352,6 +352,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
               />
             )}
           />
+          <Spacer height={25} />
           {values.location === 'custom' ? (
             <Slider
               // style={{width: 330, height: 40}}
@@ -367,6 +368,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             />
           ) : null}
         </List.Accordion>
+        <Spacer height={50} />
       </ScrollView>
     );
   };
