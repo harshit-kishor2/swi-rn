@@ -5,7 +5,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {RoutesName} from '@app/helper/strings';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Pressable, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   ChatScreen,
   ExploreScreen,
@@ -15,6 +15,8 @@ import {
 } from '@app/screens';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 import SellStackNavigator from './SellStackNavigator';
+import {useDispatch, useSelector} from 'react-redux';
+import {userProfile} from '@app/store/authSlice';
 
 const Tab = createBottomTabNavigator();
 
@@ -118,6 +120,13 @@ const screenOptions = ({route}) => ({
 });
 
 const MainTabNavigator = () => {
+  const dispatch = useDispatch();
+  const {userProfileDetails} = useSelector(state => state.authReducer);
+  console.log(userProfileDetails, 'jhgghjgjhjgj');
+  // useEffect(() => {
+  //   dispatch(userProfile());
+  // }, []);
+
   return (
     <Tab.Navigator
       sceneAnimationEnabled={false}
@@ -127,16 +136,20 @@ const MainTabNavigator = () => {
         name={RoutesName.FRESH_FINDS_TAB}
         component={FreshFindScreen}
       />
-      <Tab.Screen
-        name={RoutesName.SELL_TAB}
-        component={SellStackNavigator}
-        options={{
-          tabBarHideOnKeyboard: true,
-          tabBarButton: props => {
-            return <CustomsellButton {...props} />;
-          },
-        }}
-      />
+
+      {userProfileDetails.role === 'seller' && (
+        <Tab.Screen
+          name={RoutesName.SELL_TAB}
+          component={SellStackNavigator}
+          options={{
+            tabBarHideOnKeyboard: true,
+            tabBarButton: props => {
+              return <CustomsellButton {...props} />;
+            },
+          }}
+        />
+      )}
+
       <Tab.Screen
         name={RoutesName.CHAT_TAB}
         component={ChatScreen}

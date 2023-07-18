@@ -1,4 +1,4 @@
-import {CustomIcon} from '@app/components';
+import {CustomIcon, CustomText} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import ProductCard from '@app/screens/atoms/ProductCard';
@@ -19,6 +19,11 @@ const TrendyWatch = props => {
         renderItem={renderItem}
         keyExtractor={(item, index) => index?.toString()}
         showsHorizontalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <CustomText>No Data Found</CustomText>
+          </View>
+        )}
       />
       <View
         style={{

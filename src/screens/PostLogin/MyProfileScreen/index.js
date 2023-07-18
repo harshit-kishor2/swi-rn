@@ -23,7 +23,9 @@ const MyProfileScreen = () => {
     dispatch(logoutAction());
   };
   return (
-    <ScrollView style={{flex: 1, margin: 20, marginTop: 50}}>
+    <ScrollView
+      style={{flex: 1, margin: 20, marginTop: 50}}
+      showsVerticalScrollIndicator={false}>
       <View style={styles.ProfilePicture}>
         <View>
           <Image source={IMAGES.UserProfile1} style={styles.ImageStyle} />
@@ -86,13 +88,14 @@ const MyProfileScreen = () => {
         {/* Pages for Navigate */}
 
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() => {
-            Alert.alert('Pressed');
+            //Alert.alert('Pressed');
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.Favorite} />
-              <Text style={styles.NavigationText}>My Fevorite {4}</Text>
+              <Text style={styles.NavigationText}>My Favourite</Text>
             </View>
             <View style={styles.NavigationImageStyle}>
               <Image source={IMAGES.Arrow} />
@@ -102,13 +105,14 @@ const MyProfileScreen = () => {
         <View style={styles.LineView} />
 
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() => {
-            Alert.alert('Pressed');
+            // Alert.alert('Pressed');
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.userPic} />
-              <Text style={styles.NavigationText}>Interest List {4}</Text>
+              <Text style={styles.NavigationText}>Interest List</Text>
             </View>
             <View style={styles.NavigationImageStyle}>
               <Image source={IMAGES.Arrow} />
@@ -119,8 +123,9 @@ const MyProfileScreen = () => {
         <View style={styles.LineView} />
 
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() => {
-            Alert.alert('Pressed');
+            // Alert.alert('Pressed');
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
@@ -136,8 +141,9 @@ const MyProfileScreen = () => {
         <View style={styles.LineView} />
 
         <TouchableOpacity
+          activeOpacity={1}
           onPress={() => {
-            Alert.alert('Pressed');
+            // Alert.alert('Pressed');
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
@@ -152,10 +158,7 @@ const MyProfileScreen = () => {
 
         <View style={styles.LineView} />
 
-        <TouchableOpacity
-          onPress={() => {
-            Alert.alert('Pressed');
-          }}>
+        <TouchableOpacity activeOpacity={1} onPress={() => {}}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.about} />

@@ -471,7 +471,7 @@ const ProductDetails = props => {
                     : productDetailData?.data?.user?.name?.length}
                 </Text>
                 <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12}}>
-                  {formatTimestamp(productDetailData?.data?.user?.created_at)}
+                  {formatTimestamp(productDetailData?.data?.created_at)}
                 </Text>
               </View>
               <View

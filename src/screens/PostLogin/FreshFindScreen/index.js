@@ -1,7 +1,7 @@
-import {Container, Loader} from '@app/components';
+import {Container, CustomText, Loader} from '@app/components';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {useEffect, useState} from 'react';
@@ -42,6 +42,11 @@ const FreshFindScreen = props => {
             paddingHorizontal: 20,
             paddingBottom: 10,
           }}
+          ListEmptyComponent={() => (
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <CustomText>No Data Found</CustomText>
+            </View>
+          )}
         />
       ) : (
         <Loader size={20} />

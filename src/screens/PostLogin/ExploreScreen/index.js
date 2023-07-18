@@ -1,7 +1,7 @@
-import {Container} from '@app/components';
+import {Container, CustomText} from '@app/components';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import Banner from './Banner';
 import TrendyWatch from './TrendyWatch';
 import {connect} from 'react-redux';
@@ -117,6 +117,11 @@ const ExploreScreen = props => {
         }}
         onEndReachedThreshold={30}
         onEndReached={onLoadMore}
+        ListEmptyComponent={() => (
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <CustomText>No Data Found</CustomText>
+          </View>
+        )}
       />
     </Container>
   );
