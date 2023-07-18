@@ -1,6 +1,6 @@
 import {IMAGES} from '@app/resources';
 import store from '@app/store';
-import {logoutAction} from '@app/store/authSlice/auth.slice';
+// import {logoutAction} from '@app/store/authSlice/auth.slice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
@@ -12,12 +12,15 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {SharedPreference} from '@app/helper';
+import {useDispatch} from 'react-redux';
+import {logoutAction} from '@app/store/authSlice';
 
 const MyProfileScreen = () => {
+  const dispatch = useDispatch();
   const logout = async () => {
-    // await AsyncStorage.setItem('Token', '');
+    await AsyncStorage.setItem('Token', '');
     SharedPreference.clearAllData();
-    store?.dispatch(logoutAction());
+    dispatch(logoutAction());
   };
   return (
     <ScrollView style={{flex: 1, margin: 20, marginTop: 50}}>

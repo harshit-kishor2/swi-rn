@@ -2,10 +2,12 @@ import {CustomIcon} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {useState} from 'react';
+import {FlatList, Pressable, StyleSheet, View} from 'react-native';
+import Filter from './Filter';
 
 const TrendyWatch = props => {
-  const {exploreProduct, onAddWishList} = props;
+  const {exploreProduct, onAddWishList, setIsFilter} = props;
   const renderItem = ({item, index}) => {
     return <ProductCard key={index} item={item} />;
   };
@@ -28,11 +30,16 @@ const TrendyWatch = props => {
           paddingRight: 30,
         }}>
         <PageTitle title={'Top-notch watches'} />
-        <CustomIcon
-          origin={ICON_TYPE.FEATHER_ICONS}
-          name={'filter'}
-          color={'#000'}
-        />
+        <Pressable
+          onPress={() => {
+            setIsFilter(true);
+          }}>
+          <CustomIcon
+            origin={ICON_TYPE.FEATHER_ICONS}
+            name={'filter'}
+            color={'#000'}
+          />
+        </Pressable>
       </View>
     </View>
   );
