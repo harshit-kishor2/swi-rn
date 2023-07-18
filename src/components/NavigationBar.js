@@ -38,7 +38,7 @@ const NavigationBar = ({
       <Text
         style={[
           styles.headerText,
-          {color: txtcolor ? txtcolor : COLORS.BLACK},
+          {color: txtcolor ? txtcolor : COLORS.BLACK, fontFamily:'Cabin-SemiBold'},
         ]}>
         {title}
       </Text>
