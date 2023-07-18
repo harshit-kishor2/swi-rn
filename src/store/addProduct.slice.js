@@ -6,6 +6,7 @@ import {
 import {Config} from '../helper/config';
 import api from '../services/api';
 import {fire} from 'react-native-alertbox';
+import axiosRequest from '@app/helper/axiosRequest';
 
 export const addProductsAdapter = createEntityAdapter();
 export const addProductSlice = 'ADD_PRODUCT_SLICE';
@@ -14,7 +15,7 @@ export const productDropdownAction = createAsyncThunk(
   'productDropdownAction',
   async (params, thunkAPI) => {
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: 'get-product-dropdown',
         method: 'GET',
         params: params,
@@ -33,7 +34,7 @@ export const getProductBrand = createAsyncThunk(
   'getProductBrand',
   async (params, thunkAPI) => {
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: 'brand-list',
         method: 'GET',
         params: params,
@@ -49,7 +50,7 @@ export const getProductModel = createAsyncThunk(
   'getProductModel',
   async (params, thunkAPI) => {
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: `model-list/${params.id}`,
         method: 'GET',
       });
@@ -67,7 +68,7 @@ export const addProductDetail = createAsyncThunk(
   async (params, thunkAPI) => {
     console.log('add product params', params);
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: 'add-product-mobile',
         method: 'POST',
         data: params,
@@ -99,7 +100,7 @@ export const updateSecondProductDetail = createAsyncThunk(
       `update-product-data/${params?.productID}`,
     );
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: `update-product-data/${params?.productID}`,
         method: 'POST',
         data: params,
@@ -129,9 +130,9 @@ export const updateThirdProductDetail = createAsyncThunk(
       'update-product-data/{product_id}',
       `update-product-data/${params?.productID}`,
     );
-    
+
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: `update-product-data/${params?.productID}`,
         method: 'POST',
         data: params,

@@ -6,15 +6,24 @@ import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES} from '@app/resources';
 import {formatTimestamp} from '@app/helper/commonFunction';
+import NavigationService from '@app/navigations/NavigationService';
+import {RoutesName} from '@app/helper/strings';
 
 const ProductCard = ({item, onPress}) => {
   return (
     <Card style={styles.card_container}>
-      <Card.Cover
-        // resizeMode="contain"
-        style={styles.cover_style}
-        source={{uri: item?.thumb_image}}
-      />
+      <Pressable
+        onPress={() => {
+          NavigationService.navigate(RoutesName.PRODUCT_DETAILS, {
+            product_id: item.id,
+          });
+        }}>
+        <Card.Cover
+          resizeMode="cover"
+          style={styles.cover_style}
+          source={{uri: item?.thumb_image}}
+        />
+      </Pressable>
       <Card.Content>
         <CustomText style={styles.title}>{item?.title}</CustomText>
         <View style={styles.price_container}>

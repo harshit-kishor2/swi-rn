@@ -25,6 +25,14 @@ export const RoutesName = {
   //    Post Login
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
+  PRODUCT_DETAILS: 'Product Details',
+
+  // Sell Tab
+  SELL_SCREEN1: 'Sell Screen1',
+  SELL_SCREEN2: 'Sell Screen2',
+  SELL_SCREEN3: 'Sell Screen3',
+  SUCCESS_SCREEN: 'Success Screen',
+  BOOST_SCREEN: 'Boost Screen',
 };
 
 export const Messages = {

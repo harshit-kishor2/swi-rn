@@ -17,6 +17,10 @@ const PostLoginNavigator = () => {
         name={RoutesName.MAIN_TAB_NAVIGATOR}
         component={MainTabNavigator}
       />
+      <Stack.Screen
+        name={RoutesName.PRODUCT_DETAILS}
+        component={ProductDetails}
+      />
       {/* <Stack.Screen
         name="FreshFind"
         component={FreshFindScreen}

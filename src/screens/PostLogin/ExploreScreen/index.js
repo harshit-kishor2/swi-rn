@@ -14,8 +14,8 @@ import {
   getTrendyWatchAction,
 } from '@app/store/exploreProductSlice';
 import {useEffect, useState} from 'react';
-import useDebounce from '@app/screens/atoms/useDebounce';
 import {LoadingStatus} from '@app/helper/strings';
+import useDebounce from '@app/hooks/useDebounce';
 
 const ExploreScreen = props => {
   const {
