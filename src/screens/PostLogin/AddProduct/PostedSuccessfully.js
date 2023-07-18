@@ -34,7 +34,7 @@ const PostedSuccessfully = props => {
             height={51}
             marginHorizontal={20}
             onPress={() => {
-              Alert.alert('rrr');
+              // Alert.alert('rrr');
             }}
           />
         </View>
@@ -44,11 +44,11 @@ const PostedSuccessfully = props => {
               style={{
                 fontSize: 14,
                 color: '#00958C',
-                fontFamily: 'Open Sans',
+                fontFamily: 'OpenSans-Regular',
                 textDecorationLine: 'underline',
               }}
               onPress={() => {
-                Alert.alert('in process');
+                // Alert.alert('in process');
               }}>
               Not now, I'll do it later
             </Text>
@@ -66,11 +66,11 @@ const PostedSuccessfully = props => {
                 style={{
                   fontSize: 14,
                   color: '#00958C',
-                  fontFamily: 'Open Sans',
+                  fontFamily: 'OpenSans-Regular',
                   textDecorationLine: 'underline',
                 }}
                 onPress={() => {
-                  Alert.alert('in process');
+                  // Alert.alert('in process');
                 }}>
                 ViewPost
               </Text>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   imageSizeStyle: {
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 100,
+    marginTop: 80,
   },
   imageStyle: {
     height: 75,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     fontSize: 12,
-    fontFamily: 'Open Sans',
+    fontFamily: 'OpenSans-Regular',
     marginTop: 5,
   },
 
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontFamily: 'OpenSans-SemiBold',
-    marginTop: 130,
+    marginTop: 105,
     width: 280,
 
     textAlign: 'center',

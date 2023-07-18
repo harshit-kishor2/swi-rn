@@ -656,6 +656,10 @@ const FormDetails = ({
                           />
                         );
                       }) }
+                      {isFactoryGem == 'Yes' && factoryGem.length ==0 ?
+                      <View>
+                        <Text style={{fontFamily:'OpenSans-Regular',color:'red'}}>Please Select an Option</Text>
+                      </View>: null}
                   </View>
                   <View style={ { marginTop: SPACING.SCALE_30 } }>
                     <HeaderFactoryGemSet
@@ -686,6 +690,10 @@ const FormDetails = ({
                           );
                         },
                       ) }
+                      {custom == 'Yes' && customType.length ==0 ?
+                      <View>
+                        <Text style={{fontFamily:'OpenSans-Regular',color:'red'}}>Please Select an Option</Text>
+                      </View>: null}
                   </View>
                   <View
                     style={ [
