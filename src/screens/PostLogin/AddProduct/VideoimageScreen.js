@@ -222,7 +222,7 @@ const VideoimageScreen = ({ NextPress }) => {
       <ScrollView style={ {} }>
         <View style={ { marginTop: 30 } }>
           <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 16 , color:COLORS.BLACK} }>
-            Upload watch images*
+            Upload watch images<Text style={{color:'red'}}>*</Text>
           </Text>
           <Text style={{fontFamily:'OpenSans-Regular', margin:10 }}>Please upload Image of max 10mb</Text>
         </View>
