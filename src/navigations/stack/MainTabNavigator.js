@@ -1,9 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import {FontsConst} from '@app/assets/assets';
 import {CustomIcon, CustomText} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {RoutesName} from '@app/helper/strings';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Pressable, View} from 'react-native';
+import React from 'react';
 import {
   ChatScreen,
   ExploreScreen,
@@ -135,7 +137,16 @@ const MainTabNavigator = () => {
           },
         }}
       />
-      <Tab.Screen name={RoutesName.CHAT_TAB} component={ChatScreen} />
+      <Tab.Screen
+        name={RoutesName.CHAT_TAB}
+        component={ChatScreen}
+        listeners={{
+          tabPress: e => {
+            // Prevent default action
+            e.preventDefault();
+          },
+        }}
+      />
       <Tab.Screen name={RoutesName.PROFILE_TAB} component={MyProfileScreen} />
     </Tab.Navigator>
   );

@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {Config} from '../helper/config';
-import api from '../services/api';
+// import axiosRequest from '../services/api';
 
 import {fire} from 'react-native-alertbox';
 import {LoadingStatus} from '../helper/strings';
+import axiosRequest from '@app/helper/axiosRequest';
 
 const initialState = {
   //states for explore product listing
@@ -91,7 +92,7 @@ export const exploreProductListing = createAsyncThunk(
       watch_condition,
     );
     try {
-      const response = await api({
+      const response = await axiosRequest({
         url: `${Config.API_URL}products-list`,
         method: 'GET',
         headers: {
@@ -123,8 +124,8 @@ export const exploreBannerListing = createAsyncThunk(
   'explore/BannerList',
   async (_, thunkAPI) => {
     try {
-      const response = await api({
-        url: `${Config.API_URL}banner-list`,
+      const response = await axiosRequest({
+        url: 'banner-list',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -142,8 +143,8 @@ export const exploreTrendyWatchesListing = createAsyncThunk(
   'explore/TrendyWatchesListing',
   async (_, thunkAPI) => {
     try {
-      const response = await api({
-        url: `${Config.API_URL}products-list-top`,
+      const response = await axiosRequest({
+        url: 'products-list-top',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -162,8 +163,8 @@ export const addWishlist = createAsyncThunk(
   'explore/addWishlist',
   async ({product_id, index}, thunkAPI) => {
     try {
-      const response = await api({
-        url: `${Config.API_URL}add-wishlist/${product_id}`,
+      const response = await axiosRequest({
+        url: `add-wishlist/${product_id}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -183,8 +184,8 @@ export const addTrendyWishlist = createAsyncThunk(
   'explore/addTrendyWishlist',
   async ({product_id, index}, thunkAPI) => {
     try {
-      const response = await api({
-        url: `${Config.API_URL}add-wishlist/${product_id}`,
+      const response = await axiosRequest({
+        url: `add-wishlist/${product_id}`,
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -202,10 +203,10 @@ export const addTrendyWishlist = createAsyncThunk(
 export const exploreProductDetail = createAsyncThunk(
   'explore/ProductDetail',
   async ({product_id}, thunkAPI) => {
-    console.log('page---- ', product_id);
+    console.log('page----======>> ', product_id);
     try {
-      const response = await api({
-        url: `${Config.API_URL}product-details/${product_id}`,
+      const response = await axiosRequest({
+        url: `product-details/${product_id}`,
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -214,6 +215,8 @@ export const exploreProductDetail = createAsyncThunk(
       console.log('Explore Product detail', response);
       return response;
     } catch (error) {
+      console.log('Errro1', error.response);
+
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -223,10 +226,10 @@ export const exploreProductDetail = createAsyncThunk(
 export const productChart = createAsyncThunk(
   'explore/productChart',
   async (params, thunkAPI) => {
-    console.log('params', params);
+    console.log('params====>>', params);
     try {
-      const response = await api({
-        url: `${Config.API_URL}products-chart`,
+      const response = await axiosRequest({
+        url: 'products-chart',
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -235,6 +238,7 @@ export const productChart = createAsyncThunk(
       });
       return response;
     } catch (error) {
+      console.log('Errro1', error.response);
       return thunkAPI.rejectWithValue(error);
     }
   },
@@ -244,8 +248,8 @@ export const brandListing = createAsyncThunk(
   'explore/brandListing',
   async (_, thunkAPI) => {
     try {
-      const response = await api({
-        url: `${Config.API_URL}brand-list`,
+      const response = await axiosRequest({
+        url: 'brand-list',
         method: 'GET',
         headers: {
           Accept: 'application/json',
