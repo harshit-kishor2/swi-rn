@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {IMAGES} from '@app/resources';
+import {COLORS, IMAGES} from '@app/resources';
 
 import {fire} from 'react-native-alertbox';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -221,10 +221,17 @@ const VideoimageScreen = ({NextPress}) => {
     <View style={styles.container}>
       <ScrollView style={{}}>
         <View style={{marginTop: 30}}>
-          <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 16}}>
+          <Text
+            style={{
+              fontFamily: 'OpenSans-SemiBold',
+              fontSize: 16,
+              color: COLORS.BLACK,
+            }}>
             Upload watch images*
           </Text>
-          <Text>Please upload Image of max 10mb</Text>
+          <Text style={{fontFamily: 'OpenSans-Regular', margin: 10}}>
+            Please upload Image of max 10mb
+          </Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -246,6 +253,38 @@ const VideoimageScreen = ({NextPress}) => {
               style={styles.bigImage}
               resizeMode="contain"
             />
+          )}
+        </TouchableOpacity>
+        :
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={selectedImage?.mime !== 'video/mp4'}
+          onPress={() => setPaused(!paused)}
+          style={styles.bigImageContainer}>
+          {selectedImage?.mime === 'video/mp4' ? (
+            <Video
+              controls={false}
+              source={{uri: selectedImage?.path}}
+              style={styles.backgroundVideo}
+              paused={paused}
+              resizeMode="contain"
+              repeat={true}
+            />
+          ) : (
+            <View>
+              <Image
+                source={{uri: selectedImage?.path}}
+                style={styles.bigImage}
+                resizeMode="contain"
+              />
+              <TouchableOpacity
+                onPress={uploadImage}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={styles.addbtn}>
+                  <Image source={IMAGES.imageAdd} />
+                </View>
+              </TouchableOpacity>
+            </View>
           )}
         </TouchableOpacity>
         <View style={{marginTop: 5, marginLeft: 15}}>
@@ -293,7 +332,7 @@ const VideoimageScreen = ({NextPress}) => {
         </ScrollView>
         <Custombutton
           title="NEXT"
-          marginTop={40}
+          marginTop={20}
           height={50}
           width={335}
           marginHorizontal={20}

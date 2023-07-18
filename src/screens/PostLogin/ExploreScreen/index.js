@@ -16,6 +16,8 @@ import {
 import {useEffect, useState} from 'react';
 import {LoadingStatus} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
+import Filter from './Filter';
+import useLocation from '@app/hooks/useLocation';
 
 const ExploreScreen = props => {
   const {
@@ -32,6 +34,7 @@ const ExploreScreen = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [topNotchWatch, setTopNotchWatch] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
 
   const query = useDebounce(searchQuery, 1000);
 
@@ -91,7 +94,7 @@ const ExploreScreen = props => {
     return (
       <>
         <Banner bannerData={exploreProduct?.bannerList} />
-        <TrendyWatch {...props} />
+        <TrendyWatch setIsFilter={setIsFilter} {...props} />
       </>
     );
   };
@@ -123,6 +126,9 @@ const ExploreScreen = props => {
           </View>
         )}
       />
+      {isFilter ? (
+        <Filter isFilter={isFilter} setIsFilter={setIsFilter} {...props} />
+      ) : null}
     </Container>
   );
 };

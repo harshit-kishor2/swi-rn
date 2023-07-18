@@ -137,7 +137,7 @@ const MainTabNavigator = () => {
         component={FreshFindScreen}
       />
 
-      {userProfileDetails.role === 'seller' && (
+      {userProfileDetails?.role === 'seller' && (
         <Tab.Screen
           name={RoutesName.SELL_TAB}
           component={SellStackNavigator}

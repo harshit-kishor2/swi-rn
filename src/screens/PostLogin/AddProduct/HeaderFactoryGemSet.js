@@ -19,9 +19,9 @@ const HeaderFactoryGemSet = ({
         <Text
           style={{
             color: 'black',
-            fontFamily: 'Open Sans',
+            fontFamily: 'OpenSans-Regular',
             fontSize: 16,
-            fontWeight: '400',
+           
           }}>
           {header}
         </Text>
@@ -58,9 +58,9 @@ const HeaderFactoryGemSet = ({
                 marginLeft: 5,
                 marginRight: 15,
                 color: 'black',
-                fontFamily: 'Open Sans',
+                fontFamily: 'OpenSans-Regular',
                 fontSize: 16,
-                fontWeight: '400',
+             
               }}>
               Yes
             </Text>
@@ -96,9 +96,9 @@ const HeaderFactoryGemSet = ({
                 marginLeft: 5,
                 marginRight: 15,
                 color: 'black',
-                fontFamily: 'Open Sans',
+                fontFamily: 'OpenSans-Regular',
                 fontSize: 16,
-                fontWeight: '400',
+           
               }}>
               No
             </Text>
@@ -108,9 +108,9 @@ const HeaderFactoryGemSet = ({
       <Text
         style={{
           color: '#7C7C7C',
-          fontFamily: 'Open Sans',
+          fontFamily: 'OpenSans-Regular',
           fontSize: 14,
-          fontWeight: '400',
+       
           marginVertical: 10,
         }}>
         {subTitle}

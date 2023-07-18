@@ -10,6 +10,9 @@ import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
 const ProductCard = ({item, onPress}) => {
+  const maxLength=10;
+  const truncatedText = item?.title.length > maxLength ? `${item?.title.substring(0, maxLength)}...` : item?.title;
+
   return (
     <Card style={styles.card_container}>
       <Pressable
@@ -25,7 +28,7 @@ const ProductCard = ({item, onPress}) => {
         />
       </Pressable>
       <Card.Content>
-        <CustomText style={styles.title}>{item?.title}</CustomText>
+        <CustomText style={styles.title}>{truncatedText}</CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
           <View style={styles.seprator} />
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
   },
   price: {
     color: '#00958C',
-    fontSize: 16,
+    fontSize: 12,
     fontFamily: FontsConst.Cabin_Bold,
   },
   seprator: {

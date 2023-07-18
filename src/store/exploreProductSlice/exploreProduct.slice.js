@@ -47,7 +47,7 @@ const initialState = entityAdapter.getInitialState({
   productChartError: null,
 
   brandListLoadingStatus: LoadingStatus.NOT_LOADED,
-  brandList: null,
+  brandList: [],
   brandListError: null,
 
   addWishListLoadingStatus: LoadingStatus.NOT_LOADED,

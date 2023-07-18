@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {API} from './config';
 import SharedPreference from './SharedPreference';
-import {store} from '../store';
+import store from '@app/store';
 
 const axiosRequest = axios.create({
   baseURL: API.BASE_URL,
@@ -14,7 +14,7 @@ axiosRequest.interceptors.response.use(
     return response.data;
   },
   error => {
-    console.log('Error=======>', error.response);
+    console.log('Error=======>', error?.response?.status, error.response);
     console.log(error);
     if (error?.response) {
       if (error.response?.status === 401) {
@@ -37,6 +37,7 @@ axiosRequest.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log('Config==', config);
     return config;
   },
   error => {
