@@ -541,7 +541,7 @@ const ProductDetails = props => {
               // backgroundColor: 'red',
               paddingHorizontal: 20,
             }}>
-            <View style={styles.SpecifiactionView}>
+            <View style={{...styles.SpecifiactionView, marginTop: 3}}>
               <Text style={styles.SpecifiactionText1}>Accessories</Text>
               <Text style={styles.SpecifiactionText2}>
                 {productDetailData?.data?.accessories}

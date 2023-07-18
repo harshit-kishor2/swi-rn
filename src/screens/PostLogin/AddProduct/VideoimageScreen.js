@@ -113,10 +113,10 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openCamera({
       mediaType: 'video',
     }).then(image => {
-      if (image?.size <= 5242880) {
+      if (image?.size <= 10485760) {
         setImagePath(img => [...img, image]);
       } else {
-        Alert.alert('video length exceed 5MB');
+        Alert.alert('video length exceed 10MB');
       }
     });
   };
@@ -150,10 +150,10 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(video => {
-      if (video?.size <= 5242880) {
+      if (video?.size <= 10485760) {
         setImagePath(img => [...img, video]);
       } else {
-        Alert.alert('video length exceed 5MB');
+        Alert.alert('video length exceed 10MB');
       }
     });
   };
