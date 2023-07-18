@@ -75,6 +75,7 @@ const FormDetails = ({
   const [ latitude, setLatitude ] = useState();
   const [ brandText, setBrandText ] = useState('');
   const [ modelText, setModelText ] = useState('');
+  const [check , setCheck] = useState(false)
 
   const [ isLocationModal, setIsLocationModal ] = useState(false);
   const [ address, setAddress ] = useState();
@@ -109,6 +110,7 @@ const FormDetails = ({
     //   })
     //   .typeError('Field must be a valid date'),
     accessories: yup.string().required('Please select an option'),
+    GemOptions: yup.string().required('Please select an option'),
     
   });
 
@@ -161,6 +163,7 @@ const FormDetails = ({
 
   const isSelectedFactory = (array, id) => {
     return array?.some(obj => obj.id === id);
+    
   };
 
   const onChangeTextValue = (arr, item, textValue) => {
@@ -477,7 +480,7 @@ const FormDetails = ({
                     
                     <TextInput
                       numberOfLines={ 5 }
-                      multiline={ true }
+                     multiline={true}
                       maxLength={ 250 }
                       onChangeText={ e => setWatchDes(e) }
                       value={ watchDes }
@@ -657,13 +660,16 @@ const FormDetails = ({
                         );
                       }) }
                   </View>
+                  { factoryGem.length == 0 && isFactoryGem === 'Yes' ? <View>
+                    <Text style={{color:'red', fontFamily:'OpenSans-Regular'}}>Please Select an option* </Text>
+                  </View> : null}
                   <View style={ { marginTop: SPACING.SCALE_30 } }>
                     <HeaderFactoryGemSet
                       header={ 'Custom ?' }
                       onPressYes={ () => setCustom('Yes') }
                       value={ custom }
                       onPressNo={ () => setCustom('No') }
-                      subTitle={ 'If yes, tick what’s custom' }
+                      suTitle={ 'If yes, tick what’s custom' }
                     />
                     { custom === 'Yes' &&
                       dropdownData?.data?.CUSTOMFACTTORYGEM?.map(
@@ -686,6 +692,9 @@ const FormDetails = ({
                           );
                         },
                       ) }
+                       { customType.length == 0 && custom === 'Yes' ? <View>
+                    <Text style={{color:'red', fontFamily:'OpenSans-Regular'}}>Please Select an option* </Text>
+                  </View> : null}
                   </View>
                   <View
                     style={ [
@@ -712,6 +721,7 @@ const FormDetails = ({
                   </View>
                 </View>
               ) : null }
+              
             </View>
             <View style={ { marginBottom: 50 } }>
               <Custombutton
