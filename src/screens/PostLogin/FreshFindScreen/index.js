@@ -8,7 +8,7 @@ import {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {freshFindsAction} from '@app/store/exploreProductSlice';
 import {LoadingStatus} from '@app/helper/strings';
-import useDebounce from '../../atoms/useDebounce';
+import useDebounce from '@app/hooks/useDebounce';
 
 const FreshFindScreen = props => {
   const {exploreProduct, onFreshFinds} = props;

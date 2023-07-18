@@ -11,36 +11,42 @@ import {
   MyProfileScreen,
   SellScreen,
 } from '@app/screens';
+import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
+import SellStackNavigator from './SellStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
-const CustomsellButton = ({children, onPress, accessibilityState}) => (
-  <Pressable
-    onPress={onPress}
-    style={{
-      top: -20,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-    <View
+const CustomsellButton = ({children, onPress, accessibilityState}) => {
+  const keyboardVisible = useKeyboardVisible();
+  console.log('keyboardVisible', keyboardVisible);
+  return (
+    <Pressable
+      onPress={onPress}
       style={{
-        height: 60,
-        width: 60,
-        borderRadius: 10,
-        backgroundColor: '#000',
+        top: keyboardVisible ? 0 : -20,
+        justifyContent: 'center',
+        alignItems: 'center',
       }}>
-      {children}
-    </View>
-    <CustomText
-      style={{
-        fontSize: 12,
-        fontFamily: FontsConst.Cabin_SemiBold,
-        color: accessibilityState?.selected ? '#00958C' : '#000000',
-      }}>
-      Sell
-    </CustomText>
-  </Pressable>
-);
+      <View
+        style={{
+          height: 60,
+          width: 60,
+          borderRadius: 10,
+          backgroundColor: '#000',
+        }}>
+        {children}
+      </View>
+      <CustomText
+        style={{
+          fontSize: 12,
+          fontFamily: FontsConst.Cabin_SemiBold,
+          color: accessibilityState?.selected ? '#00958C' : '#000000',
+        }}>
+        Sell
+      </CustomText>
+    </Pressable>
+  );
+};
 
 const screenOptions = ({route}) => ({
   headerShown: false,
@@ -121,8 +127,9 @@ const MainTabNavigator = () => {
       />
       <Tab.Screen
         name={RoutesName.SELL_TAB}
-        component={SellScreen}
+        component={SellStackNavigator}
         options={{
+          tabBarHideOnKeyboard: true,
           tabBarButton: props => {
             return <CustomsellButton {...props} />;
           },
