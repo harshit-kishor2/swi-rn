@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const keys = {
   APP_VERSION: '@appVersion',
   DEVICE_TOKEN: '@deviceToken',
+  WALKTHROUGH_DISABLE: '@walkthrough',
   IS_AUTHENTICATE: '@isAuthenticate',
   TOKEN: '@token',
   USER_DATA: '@userData',

@@ -7,6 +7,7 @@ import Page3 from './Page3';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 import {Container} from '@app/components';
+import {SharedPreference} from '@app/helper';
 const {height, width} = Dimensions.get('window');
 const DATA = [1, 2, 3];
 
@@ -24,6 +25,10 @@ const WalkThroughScreen = () => {
     }
     if (currentPage === 2) {
       NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+      SharedPreference.setItem(
+        SharedPreference.keys.WALKTHROUGH_DISABLE,
+        'true',
+      );
     }
   };
   const onPagePrev = () => {
@@ -64,9 +69,13 @@ const WalkThroughScreen = () => {
     <Container useSafeAreaView={true}>
       <WalkThroughHeader
         onBack={onPagePrev}
-        onSkip={() =>
-          NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
-        }
+        onSkip={() => {
+          NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+          SharedPreference.setItem(
+            SharedPreference.keys.WALKTHROUGH_DISABLE,
+            'true',
+          );
+        }}
         page={currentPage}
       />
       <FlatList
