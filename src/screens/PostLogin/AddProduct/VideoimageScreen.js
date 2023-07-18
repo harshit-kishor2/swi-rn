@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { COLORS, IMAGES } from '@app/resources';
+import { IMAGES } from '@app/resources';
 
 import { fire } from 'react-native-alertbox';
 import ImageCropPicker from 'react-native-image-crop-picker';
@@ -221,10 +221,10 @@ const VideoimageScreen = ({ NextPress }) => {
     <View style={ styles.container }>
       <ScrollView style={ {} }>
         <View style={ { marginTop: 30 } }>
-          <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 16 , color:COLORS.BLACK} }>
+          <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 16 } }>
             Upload watch images*
           </Text>
-          <Text style={{fontFamily:'OpenSans-Regular', margin:10 }}>Please upload Image of max 10mb</Text>
+          <Text style={{fontFamily:'OpenSans-Regular', marginTop:10}}>Please upload Image of max 10mb</Text>
         </View>
         { selectedImage ? <TouchableOpacity
           activeOpacity={ 0.7 }
@@ -326,7 +326,7 @@ const VideoimageScreen = ({ NextPress }) => {
         </ScrollView>
         <Custombutton
           title="NEXT"
-          marginTop={ 20 }
+          marginTop={ 40 }
           height={ 50 }
           width={ 335 }
           marginHorizontal={ 20 }
