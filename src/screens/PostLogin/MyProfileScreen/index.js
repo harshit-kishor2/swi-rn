@@ -92,7 +92,7 @@ const MyProfileScreen = () => {
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.Favorite} />
-              <Text style={styles.NavigationText}>My Fevorite {4}</Text>
+              <Text style={styles.NavigationText}>My Favorite </Text>
             </View>
             <View style={styles.NavigationImageStyle}>
               <Image source={IMAGES.Arrow} />
@@ -108,7 +108,7 @@ const MyProfileScreen = () => {
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
               <Image source={IMAGES.userPic} />
-              <Text style={styles.NavigationText}>Interest List {4}</Text>
+              <Text style={styles.NavigationText}>Interest List </Text>
             </View>
             <View style={styles.NavigationImageStyle}>
               <Image source={IMAGES.Arrow} />

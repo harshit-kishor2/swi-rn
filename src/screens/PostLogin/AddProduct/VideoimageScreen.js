@@ -224,7 +224,7 @@ const VideoimageScreen = ({ NextPress }) => {
           <Text style={ { fontFamily: 'OpenSans-SemiBold', fontSize: 16 } }>
             Upload watch images*
           </Text>
-          <Text style={{fontFamily:'OpenSans-Regular'}}>Please upload Image of max 10mb</Text>
+          <Text style={{fontFamily:'OpenSans-Regular', margin:10 }}>Please upload Image of max 10mb</Text>
         </View>
         { selectedImage ? <TouchableOpacity
           activeOpacity={ 0.7 }
