@@ -172,13 +172,13 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'center',
-              paddingVertical: 20,
-              width: '90%',
+              //   justifyContent: 'center',
+              //   paddingVertical: 20,
+              width: '100%',
             }}>
             <View
               style={{
-                justifyContent: 'center',
+                // justifyContent: 'center',
                 //   alignItems: 'center',
                 width: '45%',
               }}>
@@ -211,7 +211,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             <Spacer width={10} />
             <View
               style={{
-                justifyContent: 'center',
+                // justifyContent: 'center',
                 //   alignItems: 'center',
                 width: '45%',
               }}>
