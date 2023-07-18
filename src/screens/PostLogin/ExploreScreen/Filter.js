@@ -5,6 +5,7 @@ import {
   Text,
   View,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
@@ -14,46 +15,83 @@ import {
   CustomText,
   CustomTextInput,
   Spacer,
+  SubmitButton,
 } from '@app/components';
 import {List} from 'react-native-paper';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import Slider from '@react-native-community/slider';
 import {useReducer} from 'react';
-
+import {useFormik} from 'formik';
+import * as Yup from 'yup';
+import useLocation from '@app/hooks/useLocation';
 const sortingItems = [
-  'Recently added',
-  'Price: Low to High',
-  'Price: High to Low',
-  'Ascending: A to Z',
-  'Descending: Z to A',
+  {title: 'Recently added', key: 'id', order: 'DESC'},
+  {title: 'Price: Low to High', key: 'price', order: 'ASC'},
+  {title: 'Price: High to Low', key: 'price', order: 'DESC'},
+  {title: 'Ascending: A to Z', key: 'title', order: 'ASC'},
+  {title: 'Descending: Z to A', key: 'title', order: 'DESC'},
 ];
 
-const initialState = {
-  distance: '', //
-  sortBy: '', //price,id,title
-  dir: '', // DESC,ASC
-  min_price: '',
-  max_price: '',
-  watch_condition: '', //watch_condition or pre-owned
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case value:
-      break;
-
-    default:
-      break;
-  }
-};
+//Validation Schema for formik
+const validationSchema = Yup.object({
+  min_price: Yup.number().nullable().typeError('Please enter a valid number.'),
+  max_price: Yup.number().nullable().typeError('Please enter a valid number.'),
+});
 
 const Filter = ({isFilter, setIsFilter, ...props}) => {
-  const {exploreProduct} = props;
+  const {exploreProduct, getTopNotchWatch} = props;
+  const location = useLocation();
+
   const [activeTab, setActiveTab] = useState('Filter');
-  const [sortQuery, setSortQuery] = useState('Recently added');
+  const [sortQuery, setSortQuery] = useState('');
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-
+  // Initial Values for  formik
+  const initialState = {
+    location: null,
+    min_price: null,
+    max_price: null,
+    distance: null, //
+    sortBy: null, //price,id,title
+    dir: null, // DESC,ASC
+    watch_condition: null, //brand_new or pre_owned
+    brands: null,
+    // latitude: location?.coords?.latitude,
+    // longitude: location?.coords?.longitude,
+  };
+  // destructure formik values from formik hook
+  const {
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    values,
+    errors,
+    resetForm,
+    touched,
+    setFieldValue,
+  } = useFormik({
+    enableReinitialize: true,
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: async (val, {setErrors}) => {
+      try {
+        Keyboard.dismiss();
+        getTopNotchWatch({
+          //   brands: values.brands,
+          //   dir: values.dir,
+          //   distance: values.distance,
+          //   latitude: values.latitude,
+          //   location: values.location,
+          //   longitude: values.longitude,
+          //   max_price: values.max_price,
+          //   min_price: values.min_price,
+          //   sortBy: values.sortBy,
+          watch_condition: values.watch_condition,
+        });
+      } catch (err) {
+        setErrors({serverError: err.message});
+      }
+    },
+  });
   const getFilterTab = () => {
     return (
       <ScrollView>
@@ -63,6 +101,7 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
             justifyContent: 'center',
             paddingVertical: 20,
             width: '90%',
+            height: 100,
           }}>
           <View
             style={{
@@ -75,11 +114,11 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               placeholder="Min Price"
               keyboardType="email-address"
               returnKeyType="next"
-              // onChangeText={handleChange('email')}
-              // onBlur={handleBlur('email')}
-              // value={values.email}
-              // error={errors?.email && touched?.email}
-              // errorText={errors?.email}
+              onChangeText={handleChange('min_price')}
+              onBlur={handleBlur('min_price')}
+              value={values.min_price}
+              error={errors?.min_price && touched?.min_price}
+              errorText={errors?.min_price}
               leftIcon={
                 <CustomIcon
                   origin={ICON_TYPE.FEATHER_ICONS}
@@ -98,15 +137,15 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               width: '45%',
             }}>
             <CustomInput
-              label="Min Price"
-              placeholder="Min Price"
+              label="Max Price"
+              placeholder="Max Price"
               keyboardType="email-address"
               returnKeyType="next"
-              // onChangeText={handleChange('email')}
-              // onBlur={handleBlur('email')}
-              // value={values.email}
-              // error={errors?.email && touched?.email}
-              // errorText={errors?.email}
+              onChangeText={handleChange('max_price')}
+              onBlur={handleBlur('max_price')}
+              value={values.max_price}
+              error={errors?.max_price && touched?.max_price}
+              errorText={errors?.max_price}
               leftIcon={
                 <CustomIcon
                   origin={ICON_TYPE.FEATHER_ICONS}
@@ -139,6 +178,7 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               }}>
               <List.Item
                 title={'Brand New'}
+                onPress={() => setFieldValue('watch_condition', 'brand_new')}
                 left={props => (
                   <List.Icon
                     {...props}
@@ -146,9 +186,15 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
                       <CustomIcon
                         origin={ICON_TYPE.MATERIAL_ICONS}
                         name={
-                          sortQuery ? 'check-box' : 'check-box-outline-blank'
+                          values?.watch_condition === 'brand_new'
+                            ? 'check-box'
+                            : 'check-box-outline-blank'
                         }
-                        color={sortQuery ? '#00958C' : '#868686'}
+                        color={
+                          values?.watch_condition === 'brand_new'
+                            ? '#00958C'
+                            : '#868686'
+                        }
                         size={20}
                       />
                     )}
@@ -165,6 +211,7 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               }}>
               <List.Item
                 title={'Pre Owned'}
+                onPress={() => setFieldValue('watch_condition', 'pre_owned')}
                 left={props => (
                   <List.Icon
                     {...props}
@@ -172,9 +219,15 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
                       <CustomIcon
                         origin={ICON_TYPE.MATERIAL_ICONS}
                         name={
-                          sortQuery ? 'check-box' : 'check-box-outline-blank'
+                          values?.watch_condition === 'pre_owned'
+                            ? 'check-box'
+                            : 'check-box-outline-blank'
                         }
-                        color={sortQuery ? '#00958C' : '#868686'}
+                        color={
+                          values?.watch_condition === 'pre_owned'
+                            ? '#00958C'
+                            : '#868686'
+                        }
                         size={20}
                       />
                     )}
@@ -193,7 +246,18 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
           {exploreProduct?.brandList.map(item => {
             return (
               <List.Item
+                key={'Key-' + item?.id}
                 title={item?.name}
+                onPress={() => {
+                  let arr = values.brands ?? [];
+                  if (!arr.includes(item.id)) {
+                    //checking weather array contain the id
+                    arr.push(item.id); //adding to array because value doesnt exists
+                  } else {
+                    arr.splice(arr.indexOf(item.id), 1); //deleting
+                  }
+                  setFieldValue('brands', arr);
+                }}
                 left={props => (
                   <List.Icon
                     {...props}
@@ -201,11 +265,15 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
                       <CustomIcon
                         origin={ICON_TYPE.MATERIAL_ICONS}
                         name={
-                          sortQuery === item
+                          (values.brands ?? []).includes(item.id)
                             ? 'check-box'
                             : 'check-box-outline-blank'
                         }
-                        color={sortQuery === item ? '#00958C' : '#868686'}
+                        color={
+                          (values.brands ?? []).includes(item.id)
+                            ? '#00958C'
+                            : '#868686'
+                        }
                         size={20}
                       />
                     )}
@@ -224,14 +292,24 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
           id="3">
           <List.Item
             title={'Near By'}
+            onPress={() => {
+              setFieldValue('location', 'near_by');
+              setFieldValue('distance', 0);
+            }}
             left={props => (
               <List.Icon
                 {...props}
                 icon={() => (
                   <CustomIcon
                     origin={ICON_TYPE.MATERIAL_ICONS}
-                    name={sortQuery ? 'check-box' : 'check-box-outline-blank'}
-                    color={sortQuery ? '#00958C' : '#868686'}
+                    name={
+                      values?.location === 'near_by'
+                        ? 'check-box'
+                        : 'check-box-outline-blank'
+                    }
+                    color={
+                      values?.location === 'near_by' ? '#00958C' : '#868686'
+                    }
                     size={20}
                   />
                 )}
@@ -239,34 +317,46 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
             )}
           />
           <List.Item
-            title={'Distance Range'}
+            title={'Distance Range : ' + values?.distance}
+            onPress={() => {
+              setFieldValue('location', 'custom');
+              setFieldValue('distance', 0);
+            }}
             left={props => (
               <List.Icon
                 {...props}
                 icon={() => (
                   <CustomIcon
                     origin={ICON_TYPE.MATERIAL_ICONS}
-                    name={sortQuery ? 'check-box' : 'check-box-outline-blank'}
-                    color={sortQuery ? '#00958C' : '#868686'}
+                    name={
+                      values?.location === 'custom'
+                        ? 'check-box'
+                        : 'check-box-outline-blank'
+                    }
+                    color={
+                      values?.location === 'custom' ? '#00958C' : '#868686'
+                    }
                     size={20}
                   />
                 )}
               />
             )}
           />
-          <Slider
-            // style={{width: 330, height: 40}}
-            minimumValue={0}
-            maximumValue={100}
-            minimumTrackTintColor={'#000'}
-            maximumTrackTintColor="#000000"
-            step={1}
-            // value={distance}
-            // onValueChange={handleDistanceChange}
-          />
+          {values.location === 'custom' ? (
+            <Slider
+              // style={{width: 330, height: 40}}
+              minimumValue={0}
+              maximumValue={100}
+              minimumTrackTintColor={'#000'}
+              maximumTrackTintColor="#000000"
+              step={1}
+              value={Number(values.distance)}
+              onValueChange={v => {
+                setFieldValue('distance', v);
+              }}
+            />
+          ) : null}
         </List.Accordion>
-
-        <View></View>
       </ScrollView>
     );
   };
@@ -277,9 +367,13 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
         {sortingItems.map((item, index) => {
           return (
             <List.Item
-              onPress={() => setSortQuery(item)}
+              onPress={() => {
+                setFieldValue('sortBy', item?.key);
+                setFieldValue('dir', item?.order);
+                setSortQuery(item.title);
+              }}
               key={index}
-              title={item}
+              title={item?.title}
               left={props => (
                 <List.Icon
                   {...props}
@@ -287,11 +381,11 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
                     <CustomIcon
                       origin={ICON_TYPE.MATERIAL_ICONS}
                       name={
-                        sortQuery === item
+                        sortQuery === item.title
                           ? 'check-box'
                           : 'check-box-outline-blank'
                       }
-                      color={sortQuery === item ? '#00958C' : '#868686'}
+                      color={sortQuery === item.title ? '#00958C' : '#868686'}
                       size={20}
                     />
                   )}
@@ -376,6 +470,36 @@ const Filter = ({isFilter, setIsFilter, ...props}) => {
               backgroundColor: 'white',
             }}>
             {activeTab === 'Filter' ? getFilterTab() : getSortTab()}
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              paddingVertical: 20,
+              width: '90%',
+              height: 100,
+            }}>
+            <View
+              style={{
+                justifyContent: 'center',
+                width: '45%',
+              }}>
+              <SubmitButton lable="Apply" onPress={handleSubmit} />
+            </View>
+            <Spacer width={10} />
+            <View
+              style={{
+                justifyContent: 'center',
+                width: '45%',
+              }}>
+              <SubmitButton
+                onPress={() => {
+                  resetForm();
+                }}
+                lable="Reset"
+                type="outlined"
+              />
+            </View>
           </View>
         </View>
       </View>

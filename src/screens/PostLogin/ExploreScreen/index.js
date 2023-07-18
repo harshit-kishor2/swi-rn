@@ -17,6 +17,7 @@ import {useEffect, useState} from 'react';
 import {LoadingStatus} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import Filter from './Filter';
+import useLocation from '@app/hooks/useLocation';
 
 const ExploreScreen = props => {
   const {
