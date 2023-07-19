@@ -218,34 +218,14 @@ const SignupScreen = props => {
             <Spacer height={25} />
           </Container>
 
-          <LinkNavigationRow
-            title={'Already have an account?'}
-            linkTitle={'Sign In now'}
-            onPress={() =>
-              NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
-            }
-          />
-          <TermsConditionRow
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-            onPress={() => {
-              resetForm();
-              NavigationService.navigate(RoutesName.TERM_AND_CONDITION_SCREEN);
-            }}
-          />
-          <SubmitButton
-            disabled={buttonDisabled}
-            loading={buttonDisabled}
-            lable="Confirm"
-            onPress={handleSubmit}
-          />
           <Spacer height={25} />
           <LinkNavigationRow
             title={'Already have an account?'}
             linkTitle={'Sign In now'}
-            onPress={() =>
-              NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
-            }
+            onPress={() => {
+              resetForm();
+              NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
+            }}
           />
         </ScrollView>
       </KeyboardAvoidingView>

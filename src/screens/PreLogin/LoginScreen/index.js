@@ -188,6 +188,7 @@ const LoginScreen = props => {
           title={'Don’t have an account yet?'}
           linkTitle={'Sign Up'}
           onPress={() => {
+            resetForm();
             NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN);
           }}
         />
