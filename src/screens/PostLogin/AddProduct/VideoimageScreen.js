@@ -328,6 +328,7 @@ const VideoimageScreen = ({NextPress}) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.smallImagesContainer}>
+          {console.log('hgjkl;', imagePath)}
           {imagePath
             ? imagePath?.map((image, index) => (
                 <TouchableOpacity
@@ -338,10 +339,25 @@ const VideoimageScreen = ({NextPress}) => {
                       // styles.smallImageWrapper,
                       selectedImage === image && styles.selectedImageWrapper,
                     ]}>
-                    <Image
-                      source={{uri: image.path}}
-                      style={styles.smallImage}
-                    />
+                    {image?.mime == 'video/mp4' ? (
+                      <Image
+                        style={{
+                          width: 85,
+                          height: 85,
+                          resizeMode: 'center',
+                        }}
+                        source={{
+                          uri: 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png',
+                        }}
+                      />
+                    ) : (
+                      <>
+                        <Image
+                          source={{uri: image.path}}
+                          style={styles.smallImage}
+                        />
+                      </>
+                    )}
                   </View>
                 </TouchableOpacity>
               ))

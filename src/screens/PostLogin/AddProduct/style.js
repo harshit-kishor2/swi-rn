@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY } from '@app/resources';
+import {StyleSheet} from 'react-native';
+import {COLORS, SPACING, TYPOGRAPHY} from '@app/resources';
 
 export const styles = StyleSheet.create({
   //index
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     padding: SPACING.SCALE_10,
-    borderRadius: SPACING.SCALE_8
+    borderRadius: SPACING.SCALE_8,
   },
   bigImage: {
     flex: 1,
@@ -119,7 +119,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: SPACING.SCALE_308,
     borderRadius: SPACING.SCALE_10,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   //FormDetails
   formDetailsStyle: {
@@ -141,7 +141,6 @@ export const styles = StyleSheet.create({
     width: TYPOGRAPHY.DYNAMIC_WIDTH('45%'),
   },
   formHeaderMainView: {
-    
     borderBottomWidth: 1,
     borderBottomColor: '#00000040',
   },
@@ -213,10 +212,9 @@ export const styles = StyleSheet.create({
   },
   formWatchDescription: {
     // marginVertical: 20,
-    marginTop:10,
+    marginTop: 10,
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-    
   },
   borderBottom: {
     borderBottomWidth: 1,
@@ -247,7 +245,6 @@ export const styles = StyleSheet.create({
     marginVertical: 7,
     fontSize: 14,
     fontFamily: 'OpenSans-Regular',
-    
   },
   formDropDownMainView: {
     flexDirection: 'row',
@@ -258,7 +255,7 @@ export const styles = StyleSheet.create({
     color: '#7C7C7C',
     fontFamily: 'OpenSans-Regular',
     fontSize: 14,
-   
+
     marginTop: 10,
   },
   formLocationMainView: {
@@ -270,7 +267,7 @@ export const styles = StyleSheet.create({
   formModelTextStyle: {
     fontFamily: 'OpenSans-Regular',
     fontSize: 16,
-  
+
     marginVertical: 8,
     textAlign: 'center',
   },

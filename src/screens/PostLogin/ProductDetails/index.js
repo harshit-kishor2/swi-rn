@@ -479,55 +479,72 @@ const ProductDetails = props => {
                 style={{height: 45, width: 45, borderRadius: 45 / 2}}
               />
             ) : (
-               <Image
+              <Image
                 source={IMAGES.Ellipse7}
                 style={{height: 45, width: 45, borderRadius: 45 / 2}}
               />
             )}
 
-            <View style={{flexDirection:'column'}}>
-            <View style={{flexDirection:'row',alignContent:'center', justifyContent:'space-evenly'}}>
-            <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 14, margin:4}}>
+            <View style={{flexDirection: 'column'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignContent: 'center',
+                  justifyContent: 'space-evenly',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-Regular',
+                    fontSize: 14,
+                    margin: 4,
+                  }}>
                   {productDetailData?.data?.user?.name?.length > 8
                     ? addEllipsis(productDetailData?.data?.user?.name, 8)
                     : productDetailData?.data?.user?.name?.length}
                 </Text>
-                <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12,margin:5}}>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-Regular',
+                    fontSize: 12,
+                    margin: 5,
+                  }}>
                   {formatTimestamp(productDetailData?.data?.created_at)}
                 </Text>
-            </View>
-            <View >
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                }}>
-               
               </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginTop: 6,
-                }}>
-                {productDetailData?.data?.location && (
-                  <>
-                    <Image
-                      style={{height: 14.6, width: 12, marginRight: 6}}
-                      source={IMAGES.LocationImage}
-                    />
-                    <View style={{maxWidth: 200}}>
-                      <Text
-                        style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
-                        {productDetailData?.data?.location}
-                      </Text>
-                    </View>
-                  </>
-                )}
+              <View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: 6,
+                  }}>
+                  {productDetailData?.data?.location && (
+                    <>
+                      <Image
+                        style={{height: 14.6, width: 12, marginRight: 6}}
+                        source={IMAGES.LocationImage}
+                      />
+                      <View style={{maxWidth: 200}}>
+                        <Text
+                          style={{
+                            fontFamily: 'OpenSans-Regular',
+                            fontSize: 15,
+                          }}>
+                          {productDetailData?.data?.location}
+                        </Text>
+                      </View>
+                    </>
+                  )}
+                </View>
               </View>
-            </View>
             </View>
           </View>
 
@@ -549,7 +566,7 @@ const ProductDetails = props => {
               justifyContent: 'space-between',
               // backgroundColor: 'red',
               paddingHorizontal: 20,
-              marginTop:20
+              marginTop: 20,
             }}>
             <View style={{...styles.SpecifiactionView, marginTop: 3}}>
               <Text style={styles.SpecifiactionText1}>Accessories</Text>

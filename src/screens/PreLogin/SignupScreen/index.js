@@ -29,7 +29,10 @@ import * as Yup from 'yup';
 
 //Validation Schema for formik
 const validationSchema = Yup.object({
-  name: Yup.string().trim().required('Required*'),
+  name: Yup.string()
+    .trim()
+    .required('Required*')
+    .max(30, 'Name should exceed 30 character'),
   email: Yup.string()
     .required('Required*')
     .email('Please enter a valid email.'),
