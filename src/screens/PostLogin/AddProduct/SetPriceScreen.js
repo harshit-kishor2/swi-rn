@@ -12,6 +12,7 @@ import NavigationService from '../../../navigations/NavigationService';
 
 const SetPriceScreen = ({DataFromParent}) => {
   const [price, setPrice] = useState();
+  const [formattedValue, setFormattedValue] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   console.log(DataFromParent, 'data from parent ======>>>>>>>>>>>>>>>>>');
@@ -24,6 +25,19 @@ const SetPriceScreen = ({DataFromParent}) => {
     dispatch(updateThirdProductDetail(value));
     console.log('navigation', navigation);
     NavigationService.navigate(RoutesName.SUCCESS_SCREEN);
+  };
+  
+  const handleChangeText = (text) => {
+    // Remove any non-digit characters from the input
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setPrice(numericValue);
+
+    // Format the numeric value with commas every three digits
+    const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+ 
+    console.log(price,"Price Value ====================>>>>>>>>>>>>>>")
+    setFormattedValue(formattedNumber);
+    console.log(formattedValue,"formatted Value ====================>>>>>>>>>>>>>>")
   };
   return (
     <Formik
@@ -91,10 +105,10 @@ const SetPriceScreen = ({DataFromParent}) => {
                 style={{fontFamily: 'OpenSans-Regular', width: '100%'}}
                 fontSize={40}
                 autoFocus={true}
-                onChangeText={e => {
-                  setPrice(e);
-                  console.log(price);
-                }}
+                value={formattedValue}
+                onChangeText={
+                  handleChangeText
+                }
               />
               <View>
                 <Text
