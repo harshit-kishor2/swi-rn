@@ -398,7 +398,7 @@ const FormDetails = ({
             </View>
             <View style={{marginTop: SPACING.SCALE_30}}>
               <Text style={styles.formHeaderText}>
-                Dated <Text style={{color: COLORS.RED}}>*</Text>
+                Dated <Text style={{color: COLORS.RED}} />
               </Text>
               <View style={styles.formDateMainView}>
                 <DatePicker
@@ -498,8 +498,8 @@ const FormDetails = ({
                       maxLength={250}
                       onChangeText={e => setWatchDes(e)}
                       value={watchDes}
-                      textAlignVertical='top'
-                      style={{fontFamily:'OpenSans-Regular'}}
+                      textAlignVertical="top"
+                      style={{fontFamily: 'OpenSans-Regular'}}
                     />
                     <Text style={styles.watchDescriptionText}>
                       {watchDes?.length ?? 0}/250
