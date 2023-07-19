@@ -161,6 +161,7 @@ const LoginScreen = props => {
               linkTitle={'Forgot password?'}
               onPress={() => {
                 NavigationService.navigate(RoutesName.FORGOT_PASSWORD_SCREEN);
+                resetForm();
               }}
             />
           </View>
@@ -168,6 +169,10 @@ const LoginScreen = props => {
           <TermsConditionRow
             isChecked={isChecked}
             setIsChecked={setIsChecked}
+            onPress={() => {
+              resetForm();
+              NavigationService.navigate(RoutesName.TERM_AND_CONDITION_SCREEN);
+            }}
           />
           <Spacer height={50} />
           <SubmitButton
@@ -181,9 +186,9 @@ const LoginScreen = props => {
         <LinkNavigationRow
           title={'Don’t have an account yet?'}
           linkTitle={'Sign Up'}
-          onPress={() =>
-            NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
-          }
+          onPress={() => {
+            NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN);
+          }}
         />
       </ScrollView>
     </Container>

@@ -197,6 +197,10 @@ const SignupScreen = props => {
           <TermsConditionRow
             isChecked={isChecked}
             setIsChecked={setIsChecked}
+            onPress={() => {
+              resetForm();
+              NavigationService.navigate(RoutesName.TERM_AND_CONDITION_SCREEN);
+            }}
           />
           <SubmitButton
             disabled={buttonDisabled}
