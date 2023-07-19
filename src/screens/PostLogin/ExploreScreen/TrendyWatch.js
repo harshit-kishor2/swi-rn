@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {CustomIcon, CustomText} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import PageTitle from '@app/screens/atoms/PageTitle';
@@ -12,7 +13,7 @@ const TrendyWatch = props => {
     return <ProductCard key={index} item={item} />;
   };
   return (
-    <View style={{height: 500, paddingHorizontal: 10}}>
+    <View style={{paddingHorizontal: 10}}>
       <PageTitle title={'Check out trendy watches for you'} />
       <FlatList
         horizontal

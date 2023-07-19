@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   BackHeader,
   Container,
@@ -16,7 +17,13 @@ import TermsConditionRow from '@app/screens/atoms/TermsConditionRow';
 import {userSignupAction} from '@app/store/authSlice';
 import {useFormik} from 'formik';
 import {useState} from 'react';
-import {Keyboard, ScrollView, StyleSheet} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
@@ -109,112 +116,117 @@ const SignupScreen = props => {
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingHorizontal: '20%',
-          paddingBottom: 40,
-        }}>
-        <Container>
-          <LoginHeader
-            title={'Welcome!'}
-            description={'Sign up with your email address'}
-            descriptionStyle={{color: '#00958C'}}
-          />
-          <Spacer height={40} />
-          <CustomInput
-            placeholder="Enter name"
-            returnKeyType="next"
-            onChangeText={handleChange('name')}
-            onBlur={handleBlur('name')}
-            value={values.name}
-            error={errors?.name && touched?.name}
-            errorText={errors?.name}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="user"
-                color={'black'}
-                size={20}
-              />
-            }
-          />
-          <CustomInput
-            placeholder="Enter email address"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
-            error={errors?.email && touched?.email}
-            errorText={errors?.email}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="user"
-                color={'black'}
-                size={20}
-              />
-            }
-          />
-          <CustomInput
-            placeholder="Set password"
-            onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
-            value={values?.password}
-            error={errors?.password && touched?.password}
-            errorText={errors?.password}
-            secureTextEntry={true}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="lock"
-                color={'black'}
-                size={20}
-              />
-            }
-          />
-          <CustomInput
-            placeholder="Confirm password"
-            onChangeText={handleChange('confirm_password')}
-            onBlur={handleBlur('confirm_password')}
-            value={values?.confirm_password}
-            error={errors?.confirm_password && touched?.confirm_password}
-            errorText={errors?.confirm_password}
-            secureTextEntry={true}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="lock"
-                color={'black'}
-                size={20}
-              />
-            }
-          />
-          <TermsConditionRow
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
-          />
-          <SubmitButton
-            disabled={buttonDisabled}
-            loading={buttonDisabled}
-            lable="Confirm"
-            onPress={handleSubmit}
-          />
-          <Spacer height={25} />
-        </Container>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={Platform.OS === 'ios' && {flex: 1}}
+        keyboardVerticalOffset={30}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingHorizontal: '20%',
+            paddingBottom: 40,
+          }}>
+          <Container>
+            <LoginHeader
+              title={'Welcome!'}
+              description={'Sign up with your email address'}
+              descriptionStyle={{color: '#00958C'}}
+            />
+            <Spacer height={40} />
+            <CustomInput
+              placeholder="Enter name"
+              returnKeyType="next"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              error={errors?.name && touched?.name}
+              errorText={errors?.name}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="user"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <CustomInput
+              placeholder="Enter email address"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              error={errors?.email && touched?.email}
+              errorText={errors?.email}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="user"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <CustomInput
+              placeholder="Set password"
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              value={values?.password}
+              error={errors?.password && touched?.password}
+              errorText={errors?.password}
+              secureTextEntry={true}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="lock"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <CustomInput
+              placeholder="Confirm password"
+              onChangeText={handleChange('confirm_password')}
+              onBlur={handleBlur('confirm_password')}
+              value={values?.confirm_password}
+              error={errors?.confirm_password && touched?.confirm_password}
+              errorText={errors?.confirm_password}
+              secureTextEntry={true}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="lock"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <TermsConditionRow
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
+            />
+            <SubmitButton
+              disabled={buttonDisabled}
+              loading={buttonDisabled}
+              lable="Confirm"
+              onPress={handleSubmit}
+            />
+            <Spacer height={25} />
+          </Container>
 
-        <LinkNavigationRow
-          title={'Already have an account?'}
-          linkTitle={'Sign In now'}
-          onPress={() =>
-            NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
-          }
-        />
-      </ScrollView>
+          <LinkNavigationRow
+            title={'Already have an account?'}
+            linkTitle={'Sign In now'}
+            onPress={() =>
+              NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
+            }
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 };

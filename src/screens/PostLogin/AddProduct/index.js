@@ -13,10 +13,21 @@ import FormDetails from './FormDetails';
 import SetPriceScreen from './SetPriceScreen';
 import VideoimageScreen from './VideoimageScreen';
 import {styles} from './style';
+import {ScrollView} from 'react-native-gesture-handler';
+import {useIsFocused} from '@react-navigation/native';
+import {useEffect} from 'react';
 
 const SellScreen = props => {
   const [formNumber, setFormNumber] = useState('1');
   const [dataToSend, setDataToSend] = useState('');
+  // const focus = useIsFocused();
+  // useEffect(() => {
+  //   if (focus) {
+  //     console.log(focus);
+  //     setFormNumber('1');
+  //   }
+  // }, [focus]);
+
   // console.log('formNumber', formNumber);
   // const mainNavigation = () => {
   //   if (formNumber === '1') {
@@ -29,6 +40,7 @@ const SellScreen = props => {
   //     setFormNumber('2');
   //   }
   // };
+  console.log(formNumber, 'asdfghjkljhgfdsdfghj');
 
   const onSetValueClick = value => {
     setFormNumber('3');
@@ -52,7 +64,7 @@ const SellScreen = props => {
             props.navigation.goBack();
           }
         }}
-        title={'Post Your watch'}
+        title={'Post your watch'}
         flexDirection="row"
         txtcolor={COLORS.HEADER_TEXT}
         mainStyle={{marginHorizontal: SPACING.SCALE_25}}
@@ -86,15 +98,20 @@ const SellScreen = props => {
           />
         </View>
       </View>
-      <View style={{flex: 1}}>
-        {formNumber === '1' ? (
-          <VideoimageScreen NextPress={() => setFormNumber('2')} />
-        ) : formNumber === '2' ? (
-          <FormDetails NextPress={onSetValueClick} />
-        ) : (
-          <SetPriceScreen DataFromParent={dataToSend} />
-        )}
-      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{flex: 1, marginBottom: 30}}>
+          {formNumber === '1' ? (
+            <VideoimageScreen NextPress={() => setFormNumber('2')} />
+          ) : formNumber === '2' ? (
+            <FormDetails NextPress={onSetValueClick} />
+          ) : (
+            <SetPriceScreen
+              DataFromParent={dataToSend}
+              setFormNumber={setFormNumber}
+            />
+          )}
+        </View>
+      </ScrollView>
     </StoryScreen>
   );
 };

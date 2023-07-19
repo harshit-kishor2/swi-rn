@@ -9,59 +9,40 @@ import {
 } from 'react-native';
 import {Custombutton2, StoryScreen} from '@app/components';
 import {IMAGES, SPACING} from '@app/resources';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const PostedSuccessfully = props => {
   return (
     <StoryScreen>
-      <View>
-        <View style={styles.imageSizeStyle}>
-          <Image source={IMAGES.check1} style={styles.imageStyle} />
-        </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <Text style={styles.subheadline}>Posted Successfully</Text>
-          <Text style={styles.text}>
-            Your post is now visible to the customers
-          </Text>
-          <Text style={styles.text1}>
-            You can boost your post to get higher visibility and get attractions
-          </Text>
-        </View>
-        <View style={{alignSelf: 'center'}}>
-          <Custombutton2
-            title={'Boost now'}
-            marginTop={20}
-            width={241}
-            height={51}
-            marginHorizontal={20}
-            onPress={() => {
-              // Alert.alert('rrr');
-            }}
-          />
-        </View>
-        <View>
-          <TouchableOpacity style={{alignSelf: 'center', marginTop: 30}}>
-            <Text
-              style={{
-                fontSize: 14,
-                color: '#00958C',
-                fontFamily: 'OpenSans-Regular',
-                textDecorationLine: 'underline',
-              }}
-              onPress={() => {
-                // Alert.alert('in process');
-              }}>
-              Not now, I'll do it later
+          <View style={styles.imageSizeStyle}>
+            <Image source={IMAGES.check1} style={styles.imageStyle} />
+          </View>
+          <View>
+            <Text style={styles.subheadline}>Posted Successfully</Text>
+            <Text style={styles.text}>
+              Your post is now visible to the customers
             </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View>
-        <View style={{marginTop: 100}}>
-          <Text style={styles.text}>
-            If you want to make any changes to your post you can do that from
-            your posted ads section.
-            <TouchableOpacity style={{alignSelf: 'center'}}>
+            <Text style={styles.text1}>
+              You can boost your post to get higher visibility and get
+              attractions
+            </Text>
+          </View>
+          <View style={{alignSelf: 'center'}}>
+            <Custombutton2
+              title={'Boost now'}
+              marginTop={20}
+              width={241}
+              height={51}
+              marginHorizontal={20}
+              onPress={() => {
+                // Alert.alert('rrr');
+              }}
+            />
+          </View>
+          <View>
+            <TouchableOpacity style={{alignSelf: 'center', marginTop: 30}}>
               <Text
                 style={{
                   fontSize: 14,
@@ -72,12 +53,35 @@ const PostedSuccessfully = props => {
                 onPress={() => {
                   // Alert.alert('in process');
                 }}>
-                ViewPost
+                Not now, I'll do it later
               </Text>
             </TouchableOpacity>
-          </Text>
+          </View>
         </View>
-      </View>
+
+        <View>
+          <View style={{marginTop: 100}}>
+            <Text style={styles.text}>
+              If you want to make any changes to your post you can do that from
+              your posted ads section.
+              <TouchableOpacity style={{alignSelf: 'center'}}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: '#00958C',
+                    fontFamily: 'OpenSans-Regular',
+                    textDecorationLine: 'underline',
+                  }}
+                  onPress={() => {
+                    // Alert.alert('in process');
+                  }}>
+                  ViewPost
+                </Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
     </StoryScreen>
   );
 };

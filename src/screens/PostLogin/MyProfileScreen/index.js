@@ -14,8 +14,10 @@ import styles from './styles';
 import {SharedPreference} from '@app/helper';
 import {useDispatch} from 'react-redux';
 import {logoutAction} from '@app/store/authSlice';
+import {useState} from 'react';
 
 const MyProfileScreen = () => {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const dispatch = useDispatch();
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
@@ -24,6 +26,31 @@ const MyProfileScreen = () => {
       SharedPreference.keys.TOKEN,
     ]);
     dispatch(logoutAction());
+  };
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+    Alert.alert(
+      'Logout',
+      'Are you sure you want to log out?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => setIsLoggingOut(false),
+        },
+        {text: 'Logout', style: 'destructive', onPress: () => performLogout()},
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const performLogout = () => {
+    logout();
+    // Your logout logic goes here
+    // For example: call an API to clear user session, navigate to login screen, etc.
+    setIsLoggingOut(false);
+    // Add your logout logic here
   };
   return (
     <ScrollView
@@ -175,7 +202,7 @@ const MyProfileScreen = () => {
         <View style={styles.LineView} />
       </View>
       <View>
-        <TouchableOpacity onPress={logout}>
+        <TouchableOpacity onPress={handleLogout}>
           <View style={styles.VerificationViewStyle1}>
             <View style={styles.NavigationImageStyle}>
               <Image source={IMAGES.logout} style />
