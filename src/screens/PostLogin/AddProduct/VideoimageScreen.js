@@ -151,6 +151,7 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(video => {
+      console.log('Size===', video);
       if (video?.size <= 10485760) {
         setImagePath(img => [...img, video]);
       } else {
@@ -196,10 +197,12 @@ const VideoimageScreen = ({NextPress}) => {
       });
     });
 
+    let mainthumb;
     for (const object of imagePath) {
+      console.log('OBJ===', object);
       if (object?.mime === 'image/jpeg') {
         const a = object?.path?.split('/');
-        let mainthumb = a[a.length - 1];
+        mainthumb = a[a.length - 1];
         formData.append('thumb_image', {
           name: mainthumb,
           type: object.mime,
@@ -209,13 +212,19 @@ const VideoimageScreen = ({NextPress}) => {
               : object?.path,
         });
         break;
+      } else {
+        setError('yes');
       }
     }
-
-    formData.append('title', 'draft project');
-    formData.append('user_id', '3');
-    dispatch(addProductDetail(formData));
-    NextPress();
+    if (!mainthumb) {
+      setError('thumb');
+      return;
+    } else {
+      formData.append('title', 'draft project');
+      formData.append('user_id', '3');
+      dispatch(addProductDetail(formData));
+      NextPress();
+    }
   };
 
   return (
@@ -302,6 +311,16 @@ const VideoimageScreen = ({NextPress}) => {
                 color: 'red',
               }}>
               Please Select Files
+            </Text>
+          ) : null}
+          {error === 'thumb' ? (
+            <Text
+              style={{
+                fontFamily: 'OpenSans-Regular',
+                fontSize: 16,
+                color: 'red',
+              }}>
+              Please Select Thumbnail File
             </Text>
           ) : null}
         </View>

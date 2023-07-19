@@ -6,15 +6,21 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
-import {Custombutton2, StoryScreen} from '@app/components';
+import {Container, Custombutton2, Spacer, StoryScreen} from '@app/components';
 import {IMAGES, SPACING} from '@app/resources';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const PostedSuccessfully = props => {
   return (
-    <StoryScreen>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <Container useSafeAreaView={true}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 10,
+          paddingBottom: 30,
+        }}>
         <View>
           <View style={styles.imageSizeStyle}>
             <Image source={IMAGES.check1} style={styles.imageStyle} />
@@ -81,8 +87,9 @@ const PostedSuccessfully = props => {
             </Text>
           </View>
         </View>
+        <Spacer height={30} />
       </ScrollView>
-    </StoryScreen>
+    </Container>
   );
 };
 
