@@ -498,6 +498,10 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                 onPress={() => {
                   resetForm();
                   setSortQuery('');
+                  setTopNotchWatch([]);
+                  getTopNotchWatch().then(res => {
+                    // setIsFilter(false);
+                  });
                 }}
                 lable="Reset"
                 type="outlined"
@@ -511,5 +515,3 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
 };
 
 export default Filter;
-
-const styles = StyleSheet.create({});

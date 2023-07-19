@@ -13,7 +13,7 @@ import {
   getTopNotchWatchAction,
   getTrendyWatchAction,
 } from '@app/store/exploreProductSlice';
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {LoadingStatus} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import Filter from './Filter';
@@ -35,6 +35,7 @@ const ExploreScreen = props => {
   const [page, setPage] = useState(1);
   const [topNotchWatch, setTopNotchWatch] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
+  const filterRef = useRef(false);
 
   const query = useDebounce(searchQuery, 1000);
 
@@ -126,14 +127,12 @@ const ExploreScreen = props => {
           </View>
         )}
       />
-      {isFilter ? (
-        <Filter
-          isFilter={isFilter}
-          setIsFilter={setIsFilter}
-          setTopNotchWatch={setTopNotchWatch}
-          {...props}
-        />
-      ) : null}
+      <Filter
+        isFilter={isFilter}
+        setIsFilter={setIsFilter}
+        setTopNotchWatch={setTopNotchWatch}
+        {...props}
+      />
     </Container>
   );
 };

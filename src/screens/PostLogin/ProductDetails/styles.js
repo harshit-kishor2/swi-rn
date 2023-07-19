@@ -35,14 +35,16 @@ export default styles = StyleSheet.create({
     marginVertical: 3,
   },
   SpecifiactionText1: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans-SemiBold',
     flex: 1,
-    fontSize: 13,
+    fontSize: 15,
+    color:'#868686'
   },
   SpecifiactionText2: {
     fontFamily: 'OpenSans-SemiBold',
     flex: 1,
-    fontSize: 12,
+    fontSize: 13,
+    color:'#454545'
   },
   headerStyle: {
     flexDirection: 'row',

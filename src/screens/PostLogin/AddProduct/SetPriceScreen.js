@@ -20,9 +20,10 @@ import NavigationService from '../../../navigations/NavigationService';
 
 const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
   const [price, setPrice] = useState();
+  const [formattedValue, setFormattedValue] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  console.log(DataFromParent, 'data from parent ======>>>>>>>>>>>>>>>>>');
+  // console.log(DataFromParent, 'data from parent ======>>>>>>>>>>>>>>>>>');
 
   let loginValidationSchema = yup.object().shape({
     price: yup.number().positive().required('Price is required'),
@@ -30,10 +31,22 @@ const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
   const postForm = value => {
     console.log('final form data', value);
     dispatch(updateThirdProductDetail(value));
-    console.log('navigation', navigation);
+    console.log('navigation===================>>>>>>>>>>>>>>>>>>>>>>>', value);
     NavigationService.navigate(RoutesName.SUCCESS_SCREEN);
   };
+  
+  const handleChangeText = (text) => {
+    // Remove any non-digit characters from the input
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setPrice(numericValue);
 
+    // Format the numeric value with commas every three digits
+    const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+ 
+    // console.log(price,"Price Value ====================>>>>>>>>>>>>>>")
+    setFormattedValue(formattedNumber);
+    // console.log(formattedValue,"formatted Value ====================>>>>>>>>>>>>>>")
+  };
   return (
     <Pressable
       onPress={() => {
@@ -48,6 +61,7 @@ const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
         validationSchema={loginValidationSchema}
         onSubmit={values => {
           postForm(values);
+          console.log("Value from post data ==================>>>>>",values);
         }}>
         {formik => (
           <View
@@ -112,10 +126,8 @@ const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
                   style={{fontFamily: 'OpenSans-Regular', width: '100%'}}
                   fontSize={40}
                   autoFocus={true}
-                  onChangeText={e => {
-                    setPrice(e);
-                    console.log(price);
-                  }}
+                  value={formattedValue}
+                  onChangeText={handleChangeText}
                 />
                 <View>
                   <Text
