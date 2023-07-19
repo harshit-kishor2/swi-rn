@@ -480,6 +480,8 @@ const FormDetails = ({
                       maxLength={250}
                       onChangeText={e => setWatchDes(e)}
                       value={watchDes}
+                      textAlignVertical='top'
+                      style={{fontFamily:'OpenSans-Regular'}}
                     />
                     <Text style={styles.watchDescriptionText}>
                       {watchDes?.length ?? 0}/250

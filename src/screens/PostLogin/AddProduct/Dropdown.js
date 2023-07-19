@@ -42,7 +42,7 @@ const Dropdown = ({
           } }>
           { value }
         </Text>
-        <Image source={ IMAGES.dropDownIcon } resizeMode={ 'contain' } />
+        <Image source={ IMAGES.DropDownImage } resizeMode={ 'contain' } />
       </TouchableOpacity>
       { value === 'Others' ? (
         <TextInput
