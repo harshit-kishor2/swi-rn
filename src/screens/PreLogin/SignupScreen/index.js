@@ -29,7 +29,10 @@ import * as Yup from 'yup';
 
 //Validation Schema for formik
 const validationSchema = Yup.object({
-  name: Yup.string().trim().required('Required*'),
+  name: Yup.string()
+    .trim()
+    .required('Required*')
+    .max(30, 'Name should exceed 30 character'),
   email: Yup.string()
     .required('Required*')
     .email('Please enter a valid email.'),
@@ -218,6 +221,28 @@ const SignupScreen = props => {
             <Spacer height={25} />
           </Container>
 
+          <LinkNavigationRow
+            title={'Already have an account?'}
+            linkTitle={'Sign In now'}
+            onPress={() =>
+              NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN)
+            }
+          />
+          <TermsConditionRow
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
+            onPress={() => {
+              resetForm();
+              NavigationService.navigate(RoutesName.TERM_AND_CONDITION_SCREEN);
+            }}
+          />
+          <SubmitButton
+            disabled={buttonDisabled}
+            loading={buttonDisabled}
+            lable="Confirm"
+            onPress={handleSubmit}
+          />
+          <Spacer height={25} />
           <LinkNavigationRow
             title={'Already have an account?'}
             linkTitle={'Sign In now'}

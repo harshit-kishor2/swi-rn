@@ -5,7 +5,7 @@ import NavigationService from '@app/navigations/NavigationService';
 import {Pressable, StyleSheet, View} from 'react-native';
 import LinkNavigationRow from './LinkNavigationRow';
 
-const TermsConditionRow = ({isChecked, setIsChecked}) => {
+const TermsConditionRow = ({isChecked, setIsChecked, onPress}) => {
   return (
     <View style={styles.container}>
       <Pressable onPress={() => setIsChecked(!isChecked)}>
@@ -20,9 +20,7 @@ const TermsConditionRow = ({isChecked, setIsChecked}) => {
       <LinkNavigationRow
         title={'I agree to the'}
         linkTitle={'Terms and conditions'}
-        onPress={() =>
-          NavigationService.navigate(RoutesName.TERM_AND_CONDITION_SCREEN)
-        }
+        onPress={onPress}
       />
     </View>
   );

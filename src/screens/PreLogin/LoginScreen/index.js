@@ -17,7 +17,14 @@ import TermsConditionRow from '@app/screens/atoms/TermsConditionRow';
 import {userSigninAction} from '@app/store/authSlice';
 import {useFormik} from 'formik';
 import {useState} from 'react';
-import {Keyboard, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import {connect} from 'react-redux';
 import * as Yup from 'yup';
 import SharedPreference from '../../../helper/SharedPreference';
@@ -105,89 +112,101 @@ const LoginScreen = props => {
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 40,
-          paddingHorizontal: '20%',
-        }}>
-        <Container>
-          <LoginHeader
-            title={'Welcome!'}
-            description={'Log in to your account'}
-            descriptionStyle={{color: '#00958C'}}
-          />
-          <Spacer height={40} />
-          <CustomInput
-            placeholder="Enter email address"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
-            error={errors?.email && touched?.email}
-            errorText={errors?.email}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="user"
-                color={'black'}
-                size={20}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={Platform.OS === 'ios' && {flex: 1}}
+        keyboardVerticalOffset={30}>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 150,
+            paddingHorizontal: '20%',
+          }}>
+          <Container>
+            <LoginHeader
+              title={'Welcome!'}
+              description={'Log in to your account'}
+              descriptionStyle={{color: '#00958C'}}
+            />
+            <Spacer height={40} />
+            <CustomInput
+              placeholder="Enter email address"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              error={errors?.email && touched?.email}
+              errorText={errors?.email}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="user"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <CustomInput
+              placeholder="Enter password"
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
+              value={values?.password}
+              error={errors?.password && touched?.password}
+              errorText={errors?.password}
+              secureTextEntry={true}
+              leftIcon={
+                <CustomIcon
+                  origin={ICON_TYPE.FEATHER_ICONS}
+                  name="lock"
+                  color={'black'}
+                  size={20}
+                />
+              }
+            />
+            <View style={{alignSelf: 'flex-end'}}>
+              <LinkNavigationRow
+                title={''}
+                linkTitle={'Forgot password?'}
+                onPress={() => {
+                  resetForm();
+                  NavigationService.navigate(RoutesName.FORGOT_PASSWORD_SCREEN);
+                  resetForm();
+                }}
               />
-            }
-          />
-          <CustomInput
-            placeholder="Enter password"
-            onChangeText={handleChange('password')}
-            onBlur={handleBlur('password')}
-            value={values?.password}
-            error={errors?.password && touched?.password}
-            errorText={errors?.password}
-            secureTextEntry={true}
-            leftIcon={
-              <CustomIcon
-                origin={ICON_TYPE.FEATHER_ICONS}
-                name="lock"
-                color={'black'}
-                size={20}
-              />
-            }
-          />
-          <View style={{alignSelf: 'flex-end'}}>
-            <LinkNavigationRow
-              title={''}
-              linkTitle={'Forgot password?'}
+            </View>
+            <Spacer height={40} />
+            <TermsConditionRow
+              isChecked={isChecked}
+              setIsChecked={setIsChecked}
               onPress={() => {
                 resetForm();
-                NavigationService.navigate(RoutesName.FORGOT_PASSWORD_SCREEN);
+                NavigationService.navigate(
+                  RoutesName.TERM_AND_CONDITION_SCREEN,
+                );
               }}
             />
-          </View>
-          <Spacer height={40} />
-          <TermsConditionRow
-            isChecked={isChecked}
-            setIsChecked={setIsChecked}
+            <Spacer height={50} />
+            <SubmitButton
+              lable="Confirm"
+              onPress={handleSubmit}
+              disabled={buttonDisabled}
+              loading={buttonDisabled}
+            />
+            <Spacer height={25} />
+          </Container>
+          <LinkNavigationRow
+            title={'Don’t have an account yet?'}
+            linkTitle={'Sign Up'}
+            onPress={() => {
+              NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN);
+            }}
           />
-          <Spacer height={50} />
-          <SubmitButton
-            lable="Confirm"
-            onPress={handleSubmit}
-            disabled={buttonDisabled}
-            loading={buttonDisabled}
-          />
-          <Spacer height={25} />
-        </Container>
-        <LinkNavigationRow
-          title={'Don’t have an account yet?'}
-          linkTitle={'Sign Up'}
-          onPress={() =>
-            NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
-          }
-        />
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 };

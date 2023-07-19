@@ -69,7 +69,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
     touched,
     setFieldValue,
   } = useFormik({
-    enableReinitialize: true,
+    // enableReinitialize: true,
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: async (val, {setErrors}) => {
@@ -163,199 +163,201 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             />
           </View>
         </View>
-        <List.Accordion
-          titleStyle={{
-            color: '#636363',
-          }}
-          title="Category"
-          id="2">
-          <View
-            style={{
-              flexDirection: 'row',
-              //   justifyContent: 'center',
-              //   paddingVertical: 20,
-              width: '100%',
-            }}>
+        <List.AccordionGroup>
+          <List.Accordion
+            titleStyle={{
+              color: '#636363',
+            }}
+            title="Category"
+            id="2">
             <View
               style={{
-                // justifyContent: 'center',
-                //   alignItems: 'center',
-                width: '45%',
+                flexDirection: 'row',
+                //   justifyContent: 'center',
+                //   paddingVertical: 20,
+                width: '100%',
               }}>
-              <List.Item
-                title={'Brand New'}
-                onPress={() => setFieldValue('watch_condition', 'brand_new')}
-                left={props => (
-                  <List.Icon
-                    {...props}
-                    icon={() => (
-                      <CustomIcon
-                        origin={ICON_TYPE.ICONICONS}
-                        name={
-                          values?.watch_condition === 'brand_new'
-                            ? 'radio-button-on'
-                            : 'radio-button-off'
-                        }
-                        color={'#00958C'}
-                        size={20}
-                      />
-                    )}
-                  />
-                )}
-              />
+              <View
+                style={{
+                  // justifyContent: 'center',
+                  //   alignItems: 'center',
+                  width: '45%',
+                }}>
+                <List.Item
+                  title={'Brand New'}
+                  onPress={() => setFieldValue('watch_condition', 'brand_new')}
+                  left={props => (
+                    <List.Icon
+                      {...props}
+                      icon={() => (
+                        <CustomIcon
+                          origin={ICON_TYPE.ICONICONS}
+                          name={
+                            values?.watch_condition === 'brand_new'
+                              ? 'radio-button-on'
+                              : 'radio-button-off'
+                          }
+                          color={'#00958C'}
+                          size={20}
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </View>
+              <Spacer width={10} />
+              <View
+                style={{
+                  // justifyContent: 'center',
+                  //   alignItems: 'center',
+                  width: '45%',
+                }}>
+                <List.Item
+                  title={'Pre Owned'}
+                  onPress={() => setFieldValue('watch_condition', 'pre_owned')}
+                  left={props => (
+                    <List.Icon
+                      {...props}
+                      icon={() => (
+                        <CustomIcon
+                          origin={ICON_TYPE.ICONICONS}
+                          name={
+                            values?.watch_condition === 'pre_owned'
+                              ? 'radio-button-on'
+                              : 'radio-button-off'
+                          }
+                          color={'#00958C'}
+                          size={20}
+                        />
+                      )}
+                    />
+                  )}
+                />
+              </View>
             </View>
-            <Spacer width={10} />
-            <View
-              style={{
-                // justifyContent: 'center',
-                //   alignItems: 'center',
-                width: '45%',
-              }}>
-              <List.Item
-                title={'Pre Owned'}
-                onPress={() => setFieldValue('watch_condition', 'pre_owned')}
-                left={props => (
-                  <List.Icon
-                    {...props}
-                    icon={() => (
-                      <CustomIcon
-                        origin={ICON_TYPE.ICONICONS}
-                        name={
-                          values?.watch_condition === 'pre_owned'
-                            ? 'radio-button-on'
-                            : 'radio-button-off'
-                        }
-                        color={'#00958C'}
-                        size={20}
-                      />
-                    )}
-                  />
-                )}
-              />
-            </View>
-          </View>
-        </List.Accordion>
-        <List.Accordion
-          titleStyle={{
-            color: '#636363',
-          }}
-          title="Brands"
-          id="1">
-          {exploreProduct?.brandList.map(item => {
-            return (
-              <List.Item
-                key={'Key-' + item?.id}
-                title={item?.name}
-                onPress={() => {
-                  let arr = values.brands ?? [];
-                  if (!arr.includes(item.id)) {
-                    //checking weather array contain the id
-                    arr.push(item.id); //adding to array because value doesnt exists
-                  } else {
-                    arr.splice(arr.indexOf(item.id), 1); //deleting
-                  }
-                  setFieldValue('brands', arr);
-                }}
-                left={props => (
-                  <List.Icon
-                    {...props}
-                    icon={() => (
-                      <CustomIcon
-                        origin={ICON_TYPE.MATERIAL_ICONS}
-                        name={
-                          (values.brands ?? []).includes(item.id)
-                            ? 'check-box'
-                            : 'check-box-outline-blank'
-                        }
-                        color={
-                          (values.brands ?? []).includes(item.id)
-                            ? '#00958C'
-                            : '#868686'
-                        }
-                        size={20}
-                      />
-                    )}
-                  />
-                )}
-              />
-            );
-          })}
-        </List.Accordion>
+          </List.Accordion>
+          <List.Accordion
+            titleStyle={{
+              color: '#636363',
+            }}
+            title="Brands"
+            id="1">
+            {exploreProduct?.brandList.map(item => {
+              return (
+                <List.Item
+                  key={'Key-' + item?.id}
+                  title={item?.name}
+                  onPress={() => {
+                    let arr = values.brands ?? [];
+                    if (!arr.includes(item.id)) {
+                      //checking weather array contain the id
+                      arr.push(item.id); //adding to array because value doesnt exists
+                    } else {
+                      arr.splice(arr.indexOf(item.id), 1); //deleting
+                    }
+                    setFieldValue('brands', arr);
+                  }}
+                  left={props => (
+                    <List.Icon
+                      {...props}
+                      icon={() => (
+                        <CustomIcon
+                          origin={ICON_TYPE.MATERIAL_ICONS}
+                          name={
+                            (values.brands ?? []).includes(item.id)
+                              ? 'check-box'
+                              : 'check-box-outline-blank'
+                          }
+                          color={
+                            (values.brands ?? []).includes(item.id)
+                              ? '#00958C'
+                              : '#868686'
+                          }
+                          size={20}
+                        />
+                      )}
+                    />
+                  )}
+                />
+              );
+            })}
+          </List.Accordion>
 
-        <List.Accordion
-          titleStyle={{
-            color: '#636363',
-          }}
-          title="Location"
-          id="3">
-          <List.Item
-            title={'Near By'}
-            onPress={() => {
-              setFieldValue('location', 'near_by');
-              setFieldValue('distance', 0);
-              setFieldValue('latitude', location?.coords?.latitude);
-              setFieldValue('longitude', location?.coords?.longitude);
+          <List.Accordion
+            titleStyle={{
+              color: '#636363',
             }}
-            left={props => (
-              <List.Icon
-                {...props}
-                icon={() => (
-                  <CustomIcon
-                    origin={ICON_TYPE.MATERIAL_ICONS}
-                    name={
-                      values?.location === 'near_by'
-                        ? 'radio-button-on'
-                        : 'radio-button-off'
-                    }
-                    color={'#00958C'}
-                    size={20}
-                  />
-                )}
-              />
-            )}
-          />
-          <List.Item
-            title={'Distance Range : ' + (values?.distance ?? 0) + ' KM'}
-            onPress={() => {
-              setFieldValue('location', 'custom');
-              setFieldValue('distance', 0);
-              setFieldValue('latitude', location?.coords?.latitude);
-              setFieldValue('longitude', location?.coords?.longitude);
-            }}
-            left={props => (
-              <List.Icon
-                {...props}
-                icon={() => (
-                  <CustomIcon
-                    origin={ICON_TYPE.MATERIAL_ICONS}
-                    name={
-                      values?.location === 'custom'
-                        ? 'radio-button-on'
-                        : 'radio-button-off'
-                    }
-                    color={'#00958C'}
-                    size={20}
-                  />
-                )}
-              />
-            )}
-          />
-          <Spacer height={25} />
-          {values.location === 'custom' ? (
-            <Slider
-              // style={{width: 330, height: 40}}
-              minimumValue={0}
-              maximumValue={100}
-              minimumTrackTintColor={'#000'}
-              maximumTrackTintColor="#000000"
-              step={1}
-              value={Number(values.distance)}
-              onValueChange={v => {
-                setFieldValue('distance', v);
+            title="Location"
+            id="3">
+            <List.Item
+              title={'Near By'}
+              onPress={() => {
+                setFieldValue('location', 'near_by');
+                setFieldValue('distance', 0);
+                setFieldValue('latitude', location?.coords?.latitude);
+                setFieldValue('longitude', location?.coords?.longitude);
               }}
+              left={props => (
+                <List.Icon
+                  {...props}
+                  icon={() => (
+                    <CustomIcon
+                      origin={ICON_TYPE.MATERIAL_ICONS}
+                      name={
+                        values?.location === 'near_by'
+                          ? 'radio-button-on'
+                          : 'radio-button-off'
+                      }
+                      color={'#00958C'}
+                      size={20}
+                    />
+                  )}
+                />
+              )}
             />
-          ) : null}
-        </List.Accordion>
+            <List.Item
+              title={'Distance Range : ' + (values?.distance ?? 0) + ' KM'}
+              onPress={() => {
+                setFieldValue('location', 'custom');
+                setFieldValue('distance', 0);
+                setFieldValue('latitude', location?.coords?.latitude);
+                setFieldValue('longitude', location?.coords?.longitude);
+              }}
+              left={props => (
+                <List.Icon
+                  {...props}
+                  icon={() => (
+                    <CustomIcon
+                      origin={ICON_TYPE.MATERIAL_ICONS}
+                      name={
+                        values?.location === 'custom'
+                          ? 'radio-button-on'
+                          : 'radio-button-off'
+                      }
+                      color={'#00958C'}
+                      size={20}
+                    />
+                  )}
+                />
+              )}
+            />
+            <Spacer height={25} />
+            {values.location === 'custom' ? (
+              <Slider
+                // style={{width: 330, height: 40}}
+                minimumValue={0}
+                maximumValue={100}
+                minimumTrackTintColor={'#000'}
+                maximumTrackTintColor="#000000"
+                step={1}
+                value={Number(values.distance)}
+                onValueChange={v => {
+                  setFieldValue('distance', v);
+                }}
+              />
+            ) : null}
+          </List.Accordion>
+        </List.AccordionGroup>
         <Spacer height={50} />
       </ScrollView>
     );
