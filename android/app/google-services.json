@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "866067850894-l0lb6v5l2qrti1msvp3mmenml7kl8f3m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swi",
+            "certificate_hash": "900465c71e7ac49b173467d742caaae4e224cebb"
+          }
+        },
+        {
           "client_id": "866067850894-dh3ebggit9pfu0e4l957lejk9uc2qeg4.apps.googleusercontent.com",
           "client_type": 3
         }

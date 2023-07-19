@@ -11,18 +11,19 @@ export const AndroidCameraPermission = () =>
         ]);
         console.log(granted, 'granted response');
         if (
-          granted['android.permission.CAMERA'] !== 'granted' ||
-          granted['android.permission.WRITE_EXTERNAL_STORAGE'] !== 'granted' ||
-          granted['android.permission.READ_EXTERNAL_STORAGE'] !== 'granted'
+          granted['android.permission.CAMERA'] !== 'granted'
+          //|| granted['android.permission.WRITE_EXTERNAL_STORAGE'] !== 'granted' ||
+          // granted['android.permission.READ_EXTERNAL_STORAGE'] !== 'granted'
         ) {
           // eslint-disable-next-line no-undef
-          showError('Dont have required permission. please allow permission');
+          // showError('Dont have required permission. please allow permission');
           return resolve(false);
         }
         return resolve(true);
       }
       return resolve(true);
     } catch (error) {
+      console.log('Error===========', error);
       return resolve(false);
     }
   });

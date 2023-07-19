@@ -14,7 +14,7 @@ const SetPriceScreen = ({DataFromParent}) => {
   const [price, setPrice] = useState();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  console.log(DataFromParent,"data from parent ======>>>>>>>>>>>>>>>>>")
+  console.log(DataFromParent, 'data from parent ======>>>>>>>>>>>>>>>>>');
 
   let loginValidationSchema = yup.object().shape({
     price: yup.number().positive().required('Price is required'),
@@ -29,7 +29,7 @@ const SetPriceScreen = ({DataFromParent}) => {
     <Formik
       initialValues={{
         price: price,
-        productID: DataFromParent.product_ID,
+        productID: DataFromParent.productID,
       }}
       enableReinitialize
       validationSchema={loginValidationSchema}

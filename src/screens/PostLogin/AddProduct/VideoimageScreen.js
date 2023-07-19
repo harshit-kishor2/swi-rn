@@ -30,6 +30,7 @@ const VideoimageScreen = ({NextPress}) => {
 
   const uploadImage = async () => {
     const permissionStatus = await AndroidCameraPermission();
+    console.log('Permission', permissionStatus);
     if (permissionStatus) {
       fire({
         title: 'Choose Mode',
