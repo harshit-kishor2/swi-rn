@@ -69,7 +69,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
     touched,
     setFieldValue,
   } = useFormik({
-    enableReinitialize: true,
+    // enableReinitialize: true,
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: async (val, {setErrors}) => {
