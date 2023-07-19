@@ -37,16 +37,16 @@ const VideoimageScreen = ({NextPress}) => {
 
         actions: [
           {
-            text: 'camera',
+            text: 'Camera',
             onPress: cameramode,
           },
 
           {
-            text: 'gallary',
+            text: 'Gallery',
             onPress: gallarymode,
           },
           {
-            text: 'ok',
+            text: 'Cancel',
             style: 'cancel',
           },
         ],
@@ -69,7 +69,7 @@ const VideoimageScreen = ({NextPress}) => {
         },
 
         {
-          text: 'ok',
+          text: 'Cancel',
           style: 'cancel',
         },
       ],
@@ -90,7 +90,7 @@ const VideoimageScreen = ({NextPress}) => {
         },
 
         {
-          text: 'ok',
+          text: 'Cancel',
           style: 'cancel',
         },
       ],
