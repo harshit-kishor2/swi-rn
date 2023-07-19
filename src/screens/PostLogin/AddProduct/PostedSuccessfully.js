@@ -32,7 +32,7 @@ const PostedSuccessfully = props => {
           <View style={{alignSelf: 'center'}}>
             <Custombutton2
               title={'Boost now'}
-              marginTop={20}
+              marginTop={10}
               width={241}
               height={51}
               marginHorizontal={20}
@@ -71,6 +71,7 @@ const PostedSuccessfully = props => {
                     color: '#00958C',
                     fontFamily: 'OpenSans-Regular',
                     textDecorationLine: 'underline',
+                    
                   }}
                   onPress={() => {
                     // Alert.alert('in process');
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontFamily: 'OpenSans-SemiBold',
-    marginTop: 105,
+    marginTop:80,
     width: 280,
 
     textAlign: 'center',
