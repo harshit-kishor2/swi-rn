@@ -190,17 +190,13 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                     {...props}
                     icon={() => (
                       <CustomIcon
-                        origin={ICON_TYPE.MATERIAL_ICONS}
+                        origin={ICON_TYPE.ICONICONS}
                         name={
                           values?.watch_condition === 'brand_new'
-                            ? 'check-box'
-                            : 'check-box-outline-blank'
+                            ? 'radio-button-on'
+                            : 'radio-button-off'
                         }
-                        color={
-                          values?.watch_condition === 'brand_new'
-                            ? '#00958C'
-                            : '#868686'
-                        }
+                        color={'#00958C'}
                         size={20}
                       />
                     )}
@@ -223,17 +219,13 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                     {...props}
                     icon={() => (
                       <CustomIcon
-                        origin={ICON_TYPE.MATERIAL_ICONS}
+                        origin={ICON_TYPE.ICONICONS}
                         name={
                           values?.watch_condition === 'pre_owned'
-                            ? 'check-box'
-                            : 'check-box-outline-blank'
+                            ? 'radio-button-on'
+                            : 'radio-button-off'
                         }
-                        color={
-                          values?.watch_condition === 'pre_owned'
-                            ? '#00958C'
-                            : '#868686'
-                        }
+                        color={'#00958C'}
                         size={20}
                       />
                     )}
@@ -312,12 +304,10 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                     origin={ICON_TYPE.MATERIAL_ICONS}
                     name={
                       values?.location === 'near_by'
-                        ? 'check-box'
-                        : 'check-box-outline-blank'
+                        ? 'radio-button-on'
+                        : 'radio-button-off'
                     }
-                    color={
-                      values?.location === 'near_by' ? '#00958C' : '#868686'
-                    }
+                    color={'#00958C'}
                     size={20}
                   />
                 )}
@@ -325,7 +315,7 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
             )}
           />
           <List.Item
-            title={'Distance Range : ' + (values?.distance ?? 0)}
+            title={'Distance Range : ' + (values?.distance ?? 0) + ' KM'}
             onPress={() => {
               setFieldValue('location', 'custom');
               setFieldValue('distance', 0);
@@ -340,12 +330,10 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                     origin={ICON_TYPE.MATERIAL_ICONS}
                     name={
                       values?.location === 'custom'
-                        ? 'check-box'
-                        : 'check-box-outline-blank'
+                        ? 'radio-button-on'
+                        : 'radio-button-off'
                     }
-                    color={
-                      values?.location === 'custom' ? '#00958C' : '#868686'
-                    }
+                    color={'#00958C'}
                     size={20}
                   />
                 )}
@@ -391,13 +379,13 @@ const Filter = ({isFilter, setIsFilter, setTopNotchWatch, ...props}) => {
                   {...props}
                   icon={() => (
                     <CustomIcon
-                      origin={ICON_TYPE.MATERIAL_ICONS}
+                      origin={ICON_TYPE.ICONICONS}
                       name={
                         sortQuery === item.title
-                          ? 'check-box'
-                          : 'check-box-outline-blank'
+                          ? 'radio-button-on-outline'
+                          : 'radio-button-off'
                       }
-                      color={sortQuery === item.title ? '#00958C' : '#868686'}
+                      color={'#00958C'}
                       size={20}
                     />
                   )}

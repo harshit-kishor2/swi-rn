@@ -82,6 +82,7 @@ export const forgotPasswordAction = createAsyncThunk(
         url: `/forgot-password`,
         method: 'POST',
         data: params,
+        params: {type: 'user'},
       });
       return response;
     } catch (error) {
