@@ -17,6 +17,7 @@ import {
 import branch, {BranchEvent} from 'react-native-branch';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
+import Video from 'react-native-video';
 import {
   Custombutton,
   Custombutton2,
@@ -113,16 +114,41 @@ const ProductDetails = props => {
     return (
       <View style={[styless.container]}>
         <View style={styless.mainView}>
-          {images[selectedImage] ? (
-            <Image
-              style={styless.mainImage}
-              source={{
-                uri: images[selectedImage].file,
-              }}
-            />
+          {images[selectedImage]?.file ? (
+            images[selectedImage]?.file?.includes('mp4') ? (
+              <>
+                <View style={{width: 239, height: 239}}>
+                  <Video
+                    source={{
+                      uri: images[selectedImage]?.file,
+                    }}
+                    ref={ref => {
+                      this.player = ref;
+                    }}
+                    resizeMode="cover"
+                    onBuffer={this.onBuffer}
+                    onError={this.videoError}
+                    style={{width: 239, height: 239}}
+                  />
+                </View>
+              </>
+            ) : (
+              <Image
+                style={styless.mainImage}
+                source={{
+                  uri: images[selectedImage]?.file,
+                }}
+              />
+            )
           ) : (
-            <View>
-              <Text>No Image</Text>
+            <View
+              style={{
+                width: 239,
+                height: 239,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text>No image</Text>
             </View>
           )}
         </View>
@@ -139,7 +165,11 @@ const ProductDetails = props => {
                 {image?.file ? (
                   <Image
                     style={styless.thumbnailImage}
-                    source={{uri: image?.file}}
+                    source={{
+                      uri: image?.file?.includes('mp4')
+                        ? 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png'
+                        : image?.file,
+                    }}
                   />
                 ) : (
                   <Text>No image</Text>
@@ -182,7 +212,7 @@ const ProductDetails = props => {
       justifyContent: 'space-evenly',
       alignItems: 'center',
       marginTop: 15,
-      paddingHorizontal: 85,
+      paddingHorizontal: 10,
       marginBottom: 10,
     },
     thumbnail: {
@@ -251,7 +281,7 @@ const ProductDetails = props => {
       posting_day: 'Posted Two Days Ago',
     },
   ];
-// uncomment code to enable share option with deep linking
+  // uncomment code to enable share option with deep linking
   const onShareClick = async () => {
     // let linkProperties = {
     //   feature: 'share',
@@ -262,15 +292,12 @@ const ProductDetails = props => {
     //   messageHeader: 'Check this out',
     //   messageBody: 'No really, check this out!',
     // };
-
     // let controlParams = {
     //   $desktop_url: 'https://www.google.com',
     // };
-
     // let eventParams = {
     //   ptest: 'hello',
     // };
-
     // buoRef.current = await branch.createBranchUniversalObject(
     //   `product/${props.route.params.product_id}`,
     //   {
@@ -284,21 +311,17 @@ const ProductDetails = props => {
     //     },
     //   },
     // );
-
     // let event = new BranchEvent(
     //   BranchEvent.ViewItem,
     //   [buoRef.current],
     //   eventParams,
     // );
     // event.logEvent();
-
     // let {url} = await buoRef.current?.generateShortUrl(
     //   linkProperties,
     //   controlParams,
     // );
-
     // console.log('url', url);
-
     // let {channel, completed, error} = await buoRef.current?.showShareSheet(
     //   shareOptions,
     //   linkProperties,
@@ -471,7 +494,7 @@ const ProductDetails = props => {
                     : productDetailData?.data?.user?.name?.length}
                 </Text>
                 <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 12}}>
-                  {formatTimestamp(productDetailData?.data?.user?.created_at)}
+                  {formatTimestamp(productDetailData?.data?.created_at)}
                 </Text>
               </View>
               <View
@@ -481,15 +504,20 @@ const ProductDetails = props => {
                   justifyContent: 'center',
                   marginTop: 6,
                 }}>
-                <Image
-                  style={{height: 14.6, width: 12, marginRight: 6}}
-                  source={IMAGES.LocationImage}
-                />
-                <View style={{maxWidth: 200}}>
-                  <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
-                    {productDetailData?.data?.location}
-                  </Text>
-                </View>
+                {productDetailData?.data?.location && (
+                  <>
+                    <Image
+                      style={{height: 14.6, width: 12, marginRight: 6}}
+                      source={IMAGES.LocationImage}
+                    />
+                    <View style={{maxWidth: 200}}>
+                      <Text
+                        style={{fontFamily: 'OpenSans-Regular', fontSize: 15}}>
+                        {productDetailData?.data?.location}
+                      </Text>
+                    </View>
+                  </>
+                )}
               </View>
             </View>
           </View>
@@ -513,7 +541,7 @@ const ProductDetails = props => {
               // backgroundColor: 'red',
               paddingHorizontal: 20,
             }}>
-            <View style={styles.SpecifiactionView}>
+            <View style={{...styles.SpecifiactionView, marginTop: 3}}>
               <Text style={styles.SpecifiactionText1}>Accessories</Text>
               <Text style={styles.SpecifiactionText2}>
                 {productDetailData?.data?.accessories}

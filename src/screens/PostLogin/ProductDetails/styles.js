@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, PixelRatio } from 'react-native';
+import {View, Text, StyleSheet, PixelRatio} from 'react-native';
 import React from 'react';
-import { SPACING } from '../../../resources';
+import {SPACING} from '../../../resources';
 
 export default styles = StyleSheet.create({
   ImageSizeStyle: {
@@ -32,6 +32,7 @@ export default styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginLeft: 20,
     marginRight: 20,
+    marginVertical: 3,
   },
   SpecifiactionText1: {
     fontFamily: 'OpenSans-Regular',

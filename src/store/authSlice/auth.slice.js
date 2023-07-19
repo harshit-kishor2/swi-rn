@@ -4,6 +4,7 @@ import {
   forgotPasswordAction,
   logoutAction,
   stayLoginAction,
+  userProfile,
   userSigninAction,
   userSignupAction,
 } from './auth.actions';
@@ -35,6 +36,10 @@ const initialState = entityAdapter.getInitialState({
 
   logoutLoadingStatus: LoadingStatus.NOT_LOADED,
   logoutError: null,
+
+  userProfileLoadingStatus: LoadingStatus.NOT_LOADED,
+  userProfileError: null,
+  userProfileDetails: null,
 });
 
 /**
@@ -66,6 +71,7 @@ const reduxSlice = createSlice({
       })
       .addCase(userSignupAction.fulfilled, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.LOADED;
+        state.userDetails = action.payload?.data;
       })
       .addCase(userSignupAction.rejected, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.FAILED;
@@ -77,7 +83,8 @@ const reduxSlice = createSlice({
       })
       .addCase(userSigninAction.fulfilled, (state, action) => {
         state.signinLoadingStatus = LoadingStatus.LOADED;
-        state.userDetails = action.payload;
+
+        state.userProfileDetails = action.payload.data;
         state.isAuthenticate = true;
       })
       .addCase(userSigninAction.rejected, (state, action) => {
@@ -106,6 +113,17 @@ const reduxSlice = createSlice({
       .addCase(logoutAction.rejected, (state, action) => {
         state.logoutLoadingStatus = LoadingStatus.FAILED;
         state.logoutError = action.payload;
+      })
+      .addCase(userProfile.pending, (state, action) => {
+        state.userProfileLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(userProfile.fulfilled, (state, action) => {
+        state.userProfileLoadingStatus = LoadingStatus.LOADED;
+        state.userProfileDetails = action.payload?.data;
+      })
+      .addCase(userProfile.rejected, (state, action) => {
+        state.userProfileLoadingStatus = LoadingStatus.FAILED;
+        state.userProfileError = action.payload;
       });
   },
 });

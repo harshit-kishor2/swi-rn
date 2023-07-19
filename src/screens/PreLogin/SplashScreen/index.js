@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import Navigator from '@app//navigations/Navigator';
-import {stayLoginAction} from '@app/store/authSlice';
+import {stayLoginAction, userProfile} from '@app/store/authSlice';
 import SplashView from './SplashView';
 import {SharedPreference} from '@app/helper';
 import WalkThroughScreen from '../WalkThroughScreen';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser} = props;
+  const {checkIsLoggedInUser,getUserProfile} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
@@ -27,6 +27,7 @@ const SplashScreen = props => {
       setIsSplashEnd(true);
     }, 3000);
     checkIsLoggedInUser();
+    getUserProfile();
   }, []);
   console.log('Hello', walkthroughDisable);
   return isSplashEnd ? (
@@ -48,6 +49,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   checkIsLoggedInUser: () => dispatch(stayLoginAction()),
+  getUserProfile: () => dispatch(userProfile()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SplashScreen);

@@ -186,6 +186,7 @@ const LoginOptions = props => {
           paddingHorizontal: '15%',
           alignSelf: 'center',
           flex: 1,
+          marginTop: 60,
         }}>
         <View
           style={{

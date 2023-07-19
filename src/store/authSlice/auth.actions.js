@@ -116,3 +116,20 @@ export const logoutAction = createAsyncThunk(
     }
   },
 );
+
+export const userProfile = createAsyncThunk(
+  'auth/userProfile',
+  async (val, thunkAPI) => {
+    try {
+      const result = await axiosRequest({
+        url: '/user-profile',
+        method: 'GET',
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

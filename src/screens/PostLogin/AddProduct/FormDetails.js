@@ -1,7 +1,7 @@
-import { useFocusEffect } from '@react-navigation/native';
-import { Formik } from 'formik';
+import {useFocusEffect} from '@react-navigation/native';
+import {Formik} from 'formik';
 import moment from 'moment';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -13,10 +13,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { connect, useDispatch } from 'react-redux';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import {connect, useDispatch} from 'react-redux';
 import * as yup from 'yup';
-import { Custombutton, DatePicker } from '@app/components';
+import {Custombutton, DatePicker} from '@app/components';
 import {
   getProductBrand,
   getProductModel,
@@ -26,18 +26,18 @@ import {
   productDropdownData,
   productDropdownLoading,
   productModelData,
-  updateSecondProductDetail
+  updateSecondProductDetail,
 } from '@app/store/addProduct.slice';
-import { COLORS, IMAGES, SPACING, TYPOGRAPHY } from '@app/resources';
+import {COLORS, IMAGES, SPACING, TYPOGRAPHY} from '@app/resources';
 import Dropdown from './Dropdown';
 import HeaderFactoryGemSet from './HeaderFactoryGemSet';
 import SelectWithInput from './SelectWithInput';
-import { styles } from './style';
+import {styles} from './style';
 
 const genderType = [
-  { name: 'Male', icon: IMAGES.maleIcon, id: 1 },
-  { name: 'Female', icon: IMAGES.femaleIcon, id: 2 },
-  { name: 'Unisex', icon: IMAGES.unisexIcon, id: 3 },
+  {name: 'Male', icon: IMAGES.maleIcon, id: 1},
+  {name: 'Female', icon: IMAGES.femaleIcon, id: 2},
+  {name: 'Unisex', icon: IMAGES.unisexIcon, id: 3},
 ];
 
 const FormDetails = ({
@@ -48,39 +48,39 @@ const FormDetails = ({
   product_ID,
 }) => {
   const dispatch = useDispatch();
-  const [ isModalVisible, setIsModalVisible ] = useState(false);
-  const [ title, setTitle ] = useState();
-  const [ watchDes, setWatchDes ] = useState();
-  const [ gender, setGender ] = useState('Male');
-  const [ isFactoryGem, setIsFactoryGem ] = useState('Yes');
-  const [ custom, setCustom ] = useState('Yes');
-  const [ factoryGem, setFactoryGem ] = useState([]);
-  const [ customType, setCustomType ] = useState([]);
-  const [ dial, setDial ] = useState();
-  const [ openAdditionalInfo, setOpenAdditionalInfo ] = useState(false);
-  const [ selectedModel, setSelectedModel ] = useState({});
-  const [ selectedBrand, setSelectedBrand ] = useState({});
-  const [ dropData, setDropData ] = useState([]);
-  const [ headerTitle, setHeaderTitle ] = useState('');
-  const [ watchCondition, setWatchCondition ] = useState('brand_new');
-  const [ date, setDate ] = useState();
-  const [ certain, setCertain ] = useState('no');
-  const [ accessories, setAccessories ] = useState({});
-  const [ dialMarker, setDialMarker ] = useState({});
-  const [ caseSize, setCaseSize ] = useState({});
-  const [ movement, setMovement ] = useState({});
-  const [ caseMaterial, setCaseMaterial ] = useState({});
-  const [ strap, setStrap ] = useState({});
-  const [ clasp, setClasp ] = useState({});
-  const [ latitude, setLatitude ] = useState();
-  const [ brandText, setBrandText ] = useState('');
-  const [ modelText, setModelText ] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [title, setTitle] = useState();
+  const [watchDes, setWatchDes] = useState();
+  const [gender, setGender] = useState('Male');
+  const [isFactoryGem, setIsFactoryGem] = useState('Yes');
+  const [custom, setCustom] = useState('Yes');
+  const [factoryGem, setFactoryGem] = useState([]);
+  const [customType, setCustomType] = useState([]);
+  const [dial, setDial] = useState();
+  const [openAdditionalInfo, setOpenAdditionalInfo] = useState(false);
+  const [selectedModel, setSelectedModel] = useState({});
+  const [selectedBrand, setSelectedBrand] = useState({});
+  const [dropData, setDropData] = useState([]);
+  const [headerTitle, setHeaderTitle] = useState('');
+  const [watchCondition, setWatchCondition] = useState('brand_new');
+  const [date, setDate] = useState();
+  const [certain, setCertain] = useState('no');
+  const [accessories, setAccessories] = useState({});
+  const [dialMarker, setDialMarker] = useState({});
+  const [caseSize, setCaseSize] = useState({});
+  const [movement, setMovement] = useState({});
+  const [caseMaterial, setCaseMaterial] = useState({});
+  const [strap, setStrap] = useState({});
+  const [clasp, setClasp] = useState({});
+  const [latitude, setLatitude] = useState();
+  const [brandText, setBrandText] = useState('');
+  const [modelText, setModelText] = useState('');
 
-  const [ isLocationModal, setIsLocationModal ] = useState(false);
-  const [ address, setAddress ] = useState();
+  const [isLocationModal, setIsLocationModal] = useState(false);
+  const [address, setAddress] = useState();
 
-  const [ long, setLong ] = useState();
-  const [ productID, setProductID ] = useState(product_ID);
+  const [long, setLong] = useState();
+  const [productID, setProductID] = useState(product_ID);
   // console.log('latitude&long&address->', latitude, long, address);
   console.log('product_ID-->', product_ID);
   console.log('customType-->', customType);
@@ -109,7 +109,6 @@ const FormDetails = ({
     //   })
     //   .typeError('Field must be a valid date'),
     accessories: yup.string().required('Please select an option'),
-    
   });
 
   useFocusEffect(
@@ -133,7 +132,7 @@ const FormDetails = ({
       id: selectedBrand?.id,
     };
     dispatch(getProductModel(params));
-  }, [ selectedBrand ]);
+  }, [selectedBrand]);
 
   const factoryAddFun = (arr, item) => {
     if (arr?.find(obj => obj?.id === item.id)) {
@@ -152,9 +151,9 @@ const FormDetails = ({
         text: '',
       };
       if (item.type === 'FACTTORYGEM') {
-        setFactoryGem(e => [ ...e, paramObj ]);
+        setFactoryGem(e => [...e, paramObj]);
       } else {
-        setCustomType(e => [ ...e, paramObj ]);
+        setCustomType(e => [...e, paramObj]);
       }
     }
   };
@@ -188,15 +187,18 @@ const FormDetails = ({
     });
     return updatedArray;
   };
-  const registerData = (value) => {
-    console.log('value of register============>>>>>>>>>>>>>>>>>>>>', value.title);
+  const registerData = value => {
+    console.log(
+      'value of register============>>>>>>>>>>>>>>>>>>>>',
+      value.title,
+    );
     dispatch(updateSecondProductDetail(value));
     NextPress(value);
   };
 
   return (
     <Formik
-      initialValues={ {
+      initialValues={{
         brand_id:
           selectedBrand?.name === 'Others' ? brandText : selectedBrand?.id,
         model_id:
@@ -225,104 +227,101 @@ const FormDetails = ({
         productID: product_ID,
         new_brand: selectedBrand?.name === 'Others' ? true : false,
         new_model: selectedModel?.name === 'Others' ? true : false,
-      } }
+      }}
       enableReinitialize
-      validationSchema={ validationSchema }
-      onSubmit={ values => {
+      validationSchema={validationSchema}
+      onSubmit={values => {
         registerData(values);
-      } }>
-      { formik => (
-        <View style={ styles.formDetailsStyle }>
+      }}>
+      {formik => (
+        <View style={styles.formDetailsStyle}>
           <ScrollView
-            showsHorizontalScrollIndicator={ false }
-            showsVerticalScrollIndicator={ false }
-            style={ [ styles.formDetailsStyle, { paddingHorizontal: 0 } ] }>
-            <View style={ styles.mainFormComponent }>
-              <View style={ styles.halfWidth }>
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            style={[styles.formDetailsStyle, {paddingHorizontal: 0}]}>
+            <View style={styles.mainFormComponent}>
+              <View style={styles.halfWidth}>
                 <Dropdown
-                  dropDownPress={ () => {
+                  dropDownPress={() => {
                     setDropData(brandData?.data);
                     setHeaderTitle('Select Brand');
                     setIsModalVisible(!isModalVisible);
-                  } }
-                  title={ 'Choose Brand' }
-                  isRequired={ true }
-                  value={ selectedBrand?.name }
-                  otherValuePlaceholder={ 'Enter Brand' }
-                  otherValue={ brandText }
-                  otherValueChangeText={ e => setBrandText(e) }
+                  }}
+                  title={'Choose Brand'}
+                  isRequired={true}
+                  value={selectedBrand?.name}
+                  otherValuePlaceholder={'Enter Brand'}
+                  otherValue={brandText}
+                  otherValueChangeText={e => setBrandText(e)}
                 />
                 <View>
                   <Text
-                    style={ {
+                    style={{
                       color: 'red',
-                    } }>
-                    { formik.errors.brand_id && formik.touched.brand_id
+                    }}>
+                    {formik.errors.brand_id && formik.touched.brand_id
                       ? formik.errors.brand_id
-                      : null }
+                      : null}
                   </Text>
                 </View>
               </View>
-              <View style={ styles.halfWidth }>
+              <View style={styles.halfWidth}>
                 <Dropdown
-                  transparent={ true }
-                  dropDownPress={ () => {
+                  transparent={true}
+                  dropDownPress={() => {
                     setHeaderTitle('Select Model');
                     setDropData(modelData?.data);
                     setIsModalVisible(!isModalVisible);
-                  } }
-                  title={ 'Model' }
-                  isRequired={ true }
-                  value={ selectedModel?.name }
-                  otherValuePlaceholder={ 'Enter Model' }
-                  otherValue={ modelText }
-                  otherValueChangeText={ e => setModelText(e) }
+                  }}
+                  title={'Model'}
+                  isRequired={true}
+                  value={selectedModel?.name}
+                  otherValuePlaceholder={'Enter Model'}
+                  otherValue={modelText}
+                  otherValueChangeText={e => setModelText(e)}
                 />
                 <View>
                   <Text
-                    style={ {
+                    style={{
                       color: 'red',
-                    } }>
-                    { formik.errors.model_id && formik.touched.model_id
+                    }}>
+                    {formik.errors.model_id && formik.touched.model_id
                       ? formik.errors.model_id
-                      : null }
+                      : null}
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={ styles.formHeaderMainView }>
-              <Text style={ styles.formHeaderText }>
-                Title <Text style={ { color: COLORS.RED } }>*</Text>
+            <View style={styles.formHeaderMainView}>
+              <Text style={styles.formHeaderText}>
+                Title <Text style={{color: COLORS.RED}}>*</Text>
               </Text>
               <TextInput
-                style={ {
-                  
-                  fontFamily:'OpenSans-Regular'
-                } }
-                value={ title }
-                maxLength={ 50 }
-                onChangeText={ e => setTitle(e) }
+                style={{
+                  fontFamily: 'OpenSans-Regular',
+                }}
+                value={title}
+                maxLength={50}
+                onChangeText={e => setTitle(e)}
               />
-
-              
             </View>
             <Text
-                style={ {
-                  color: 'red',
-                } }>
-                { formik.errors.title && formik.touched.title
-                  ? formik.errors.title
-                  : null }
+              style={{
+                color: 'red',
+              }}>
+              {formik.errors.title && formik.touched.title
+                ? formik.errors.title
+                : null}
+            </Text>
+            <View style={{marginTop: SPACING.SCALE_30}}>
+              <Text style={styles.formHeaderText}>
+                Watch Condition <Text style={{color: COLORS.RED}}>*</Text>
               </Text>
-            <View style={ { marginTop: SPACING.SCALE_30 } }>
-              <Text style={ styles.formHeaderText }>
-                Watch Condition <Text style={ { color: COLORS.RED } }>*</Text>
-              </Text>
-              <View style={ styles.formMainWatchConditionView }>
+              <View style={styles.formMainWatchConditionView}>
                 <TouchableOpacity
-                  onPress={ () => setWatchCondition('brand_new') }
-                  activeOpacity={ 0.7 }
-                  style={ [
+                  onPress={() => setWatchCondition('brand_new')}
+                  activeOpacity={0.7}
+                  style={[
                     styles.formWatchConditionView,
                     {
                       backgroundColor:
@@ -334,9 +333,9 @@ const FormDetails = ({
                           ? COLORS.WHITE
                           : COLORS.themeColor,
                     },
-                  ] }>
+                  ]}>
                   <Text
-                    style={ [
+                    style={[
                       styles.formWatchConditionText,
                       {
                         color:
@@ -344,14 +343,14 @@ const FormDetails = ({
                             ? COLORS.WHITE
                             : COLORS.themeColor,
                       },
-                    ] }>
+                    ]}>
                     Brand new
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={ () => setWatchCondition('pre_owned') }
-                  activeOpacity={ 0.7 }
-                  style={ [
+                  onPress={() => setWatchCondition('pre_owned')}
+                  activeOpacity={0.7}
+                  style={[
                     styles.formWatchConditionView,
                     {
                       backgroundColor:
@@ -363,9 +362,9 @@ const FormDetails = ({
                           ? COLORS.WHITE
                           : COLORS.themeColor,
                     },
-                  ] }>
+                  ]}>
                   <Text
-                    style={ [
+                    style={[
                       styles.formWatchConditionText,
                       {
                         color:
@@ -373,130 +372,129 @@ const FormDetails = ({
                             ? COLORS.WHITE
                             : COLORS.themeColor,
                       },
-                    ] }>
+                    ]}>
                     Pre-Owned
                   </Text>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={ { marginTop: SPACING.SCALE_30 } }>
-              <Text style={ styles.formHeaderText }>
-                Dated <Text style={ { color: COLORS.RED } }>*</Text>
+            <View style={{marginTop: SPACING.SCALE_30}}>
+              <Text style={styles.formHeaderText}>
+                Dated <Text style={{color: COLORS.RED}}>*</Text>
               </Text>
-              <View style={ styles.formDateMainView }>
+              <View style={styles.formDateMainView}>
                 <DatePicker
                   children={
-                    <View style={ styles.formDateChildrenMainView }>
-                      <Text style={ styles.formDateTextStyle }>
-                        { date ? moment(date).format('MMM, YYYY') : 'MMM, YYYY' }
+                    <View style={styles.formDateChildrenMainView}>
+                      <Text style={styles.formDateTextStyle}>
+                        {date ? moment(date).format('MM, YYYY') : 'MM, YYYY'}
                       </Text>
                       <Image
-                        source={ IMAGES.calendarIcon }
-                        resizeMode={ 'contain' }
+                        source={IMAGES.calendarIcon}
+                        resizeMode={'contain'}
                       />
                     </View>
                   }
                   maximumDate={new Date()}
-                  onChangeDate={ e => {
+                  onChangeDate={e => {
                     setDate(e);
-                  } }
+                  }}
                 />
-                { formik.touched.date && formik.errors.date && (
-                  <Text style={ { color: 'red' } }>{ formik.errors.date }</Text>
-                ) }
-                <View style={ { flexDirection: 'row' } }>
+                {formik.touched.date && formik.errors.date && (
+                  <Text style={{color: 'red'}}>{formik.errors.date}</Text>
+                )}
+                <View style={{flexDirection: 'row'}}>
                   <TouchableOpacity
-                    activeOpacity={ 0.7 }
-                    onPress={ () => setCertain(!certain) }
-                    style={ [
+                    activeOpacity={0.7}
+                    onPress={() => setCertain(!certain)}
+                    style={[
                       styles.formTickMainView,
                       {
                         backgroundColor: certain
                           ? COLORS.themeColor
                           : COLORS.WHITE,
                       },
-                    ] }>
-                    { certain ? (
+                    ]}>
+                    {certain ? (
                       <Image
-                        source={ IMAGES.tickIcon }
-                        resizeMode={ 'contain' }
-                        style={ {
+                        source={IMAGES.tickIcon}
+                        resizeMode={'contain'}
+                        style={{
                           height: SPACING.SCALE_16,
                           width: SPACING.SCALE_16,
-                        } }
+                        }}
                       />
-                    ) : null }
+                    ) : null}
                   </TouchableOpacity>
                   <Text>No Certain</Text>
                 </View>
               </View>
             </View>
-            <View style={ { marginTop: SPACING.SCALE_30 } }>
+            <View style={{marginTop: SPACING.SCALE_30}}>
               <Dropdown
-                dropDownPress={ () => {
+                dropDownPress={() => {
                   setDropData(dropdownData?.data?.ACCESSORIES);
                   setHeaderTitle('Select Accessories');
                   setIsModalVisible(!isModalVisible);
-                } }
-                title={ 'Accessories' }
-                isRequired={ true }
-                value={ accessories?.name }
+                }}
+                title={'Accessories'}
+                isRequired={true}
+                value={accessories?.name}
               />
               <View>
                 <Text
-                  style={ {
+                  style={{
                     color: COLORS.RED,
-                  } }>
-                  { formik.errors.accessories && formik.touched.accessories
+                  }}>
+                  {formik.errors.accessories && formik.touched.accessories
                     ? formik.errors.accessories
-                    : null }
+                    : null}
                 </Text>
               </View>
             </View>
-            <View style={ styles.formAdditionalInfo }>
+            <View style={styles.formAdditionalInfo}>
               <TouchableOpacity
-                activeOpacity={ 0.7 }
-                onPress={ () => setOpenAdditionalInfo(!openAdditionalInfo) }
-                style={ styles.formAdditionalView }>
-                <Text style={ [ styles.formDateTextStyle, { fontWeight: '600' } ] }>
+                activeOpacity={0.7}
+                onPress={() => setOpenAdditionalInfo(!openAdditionalInfo)}
+                style={styles.formAdditionalView}>
+                <Text style={[styles.formDateTextStyle, {fontWeight: '600'}]}>
                   Fill in additional information
                 </Text>
-                <Image source={ IMAGES.dropIcon } resizeMode={ 'contain' } />
+                <Image source={IMAGES.dropIcon} resizeMode={'contain'} />
               </TouchableOpacity>
-              { openAdditionalInfo ? (
-                <View style={ { marginHorizontal: SPACING.SCALE_15 } }>
+              {openAdditionalInfo ? (
+                <View style={{marginHorizontal: SPACING.SCALE_15}}>
                   <View
-                    style={ {
+                    style={{
                       borderBottomWidth: SPACING.SCALE_0_5,
                       borderBottomColor: COLORS.borderBottomColor,
-                    } }
+                    }}
                   />
-                  <Text style={ styles.formWatchDescription }>
+                  <Text style={styles.formWatchDescription}>
                     Tell the customers about this watch
                   </Text>
-                  <View style={ styles.borderBottom }>
-                    
+                  <View style={styles.borderBottom}>
                     <TextInput
-                      numberOfLines={ 5 }
-                     multiline={true}
-                      maxLength={ 250 }
-                      onChangeText={ e => setWatchDes(e) }
-                      value={ watchDes }
+                      numberOfLines={5}
+                      multiline={true}
+                      maxLength={250}
+                      onChangeText={e => setWatchDes(e)}
+                      value={watchDes}
                     />
-                    <Text style={ styles.watchDescriptionText }>
-                      { watchDes?.length ?? 0 }/250
+                    <Text style={styles.watchDescriptionText}>
+                      {watchDes?.length ?? 0}/250
                     </Text>
                   </View>
-                  <View style={ { marginTop: SPACING.SCALE_30 } }>
-                    <Text style={ styles.formHeaderText }>Gender</Text>
-                    <View style={ styles.genderTypeView }>
-                      { genderType?.map((item, index) => {
+                  <View style={{marginTop: SPACING.SCALE_30}}>
+                    <Text style={styles.formHeaderText}>Gender</Text>
+                    <View style={styles.genderTypeView}>
+                      {genderType?.map((item, index) => {
                         return (
                           <TouchableOpacity
-                            activeOpacity={ 0.7 }
-                            onPress={ () => setGender(item.name) }
-                            key={ `gender${index}` }
-                            style={ [
+                            activeOpacity={0.7}
+                            onPress={() => setGender(item.name)}
+                            key={`gender${index}`}
+                            style={[
                               styles.genderSelectView,
                               {
                                 borderColor:
@@ -508,19 +506,19 @@ const FormDetails = ({
                                     ? COLORS.themeColor
                                     : COLORS.PageBackground,
                               },
-                            ] }>
+                            ]}>
                             <Image
-                              source={ item.icon }
-                              style={ {
+                              source={item.icon}
+                              style={{
                                 marginLeft: SPACING.SCALE_15,
                                 tintColor:
                                   gender === item.name
                                     ? COLORS.WHITE
                                     : COLORS.themeColor,
-                              } }
+                              }}
                             />
                             <Text
-                              style={ [
+                              style={[
                                 styles.genderTextStyle,
                                 {
                                   color:
@@ -528,258 +526,272 @@ const FormDetails = ({
                                       ? COLORS.WHITE
                                       : COLORS.themeColor,
                                 },
-                              ] }>
-                              { item?.name }
+                              ]}>
+                              {item?.name}
                             </Text>
                           </TouchableOpacity>
                         );
-                      }) }
+                      })}
                     </View>
                   </View>
-                  <View style={ styles.formDropDownMainView }>
-                    <View style={ styles.fortyFivePercent }>
+                  <View style={styles.formDropDownMainView}>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.DIAL);
                           setHeaderTitle('Select Dial');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Dial' }
-                        isRequired={ false }
-                        value={ dial?.name }
+                        }}
+                        title={'Dial'}
+                        isRequired={false}
+                        value={dial?.name}
                       />
                     </View>
-                    <View style={ styles.fortyFivePercent }>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.DIALMARKERS);
                           setHeaderTitle('Select Dial Markers');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Dial Markers' }
-                        isRequired={ false }
-                        value={ dialMarker?.name }
+                        }}
+                        title={'Dial Markers'}
+                        isRequired={false}
+                        value={dialMarker?.name}
                       />
                     </View>
                   </View>
-                  <View style={ styles.formDropDownMainView }>
-                    <View style={ styles.fortyFivePercent }>
+                  <View style={styles.formDropDownMainView}>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.CASESIZE);
                           setHeaderTitle('Select Case Size');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Case Size' }
-                        isRequired={ false }
-                        value={ caseSize?.name }
+                        }}
+                        title={'Case Size'}
+                        isRequired={false}
+                        value={caseSize?.name}
                       />
                     </View>
-                    <View style={ styles.fortyFivePercent }>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.MOVEMENT);
                           setHeaderTitle('Select Movement');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Movement' }
-                        isRequired={ false }
-                        value={ movement?.name }
+                        }}
+                        title={'Movement'}
+                        isRequired={false}
+                        value={movement?.name}
                       />
                     </View>
                   </View>
-                  <View style={ styles.formDropDownMainView }>
-                    <View style={ styles.fortyFivePercent }>
+                  <View style={styles.formDropDownMainView}>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.CASEMATERIAL);
                           setHeaderTitle('Select Case Material');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Case Material' }
-                        isRequired={ false }
-                        value={ caseMaterial?.name }
+                        }}
+                        title={'Case Material'}
+                        isRequired={false}
+                        value={caseMaterial?.name}
                       />
                     </View>
-                    <View style={ styles.fortyFivePercent }>
+                    <View style={styles.fortyFivePercent}>
                       <Dropdown
-                        dropDownPress={ () => {
+                        dropDownPress={() => {
                           setDropData(dropdownData?.data?.STRAPBRACELET);
                           setHeaderTitle('Select Strap/Bracelet');
                           setIsModalVisible(!isModalVisible);
-                        } }
-                        title={ 'Strap/Bracelet' }
-                        isRequired={ false }
-                        value={ strap?.name }
+                        }}
+                        title={'Strap/Bracelet'}
+                        isRequired={false}
+                        value={strap?.name}
                       />
                     </View>
                   </View>
-                  <View style={ styles.formDropDownMainView }>
+                  <View style={styles.formDropDownMainView}>
                     <Dropdown
-                      dropDownPress={ () => {
+                      dropDownPress={() => {
                         setDropData(dropdownData?.data?.CLASP);
                         setHeaderTitle('Select Clasp');
                         setIsModalVisible(!isModalVisible);
-                      } }
-                      title={ 'Clasp' }
-                      isRequired={ false }
-                      value={ clasp?.name }
+                      }}
+                      title={'Clasp'}
+                      isRequired={false}
+                      value={clasp?.name}
                     />
                   </View>
                   <View
-                    style={ {
+                    style={{
                       marginTop: SPACING.SCALE_30,
                       marginBottom: SPACING.SCALE_20,
-                    } }>
+                    }}>
                     <HeaderFactoryGemSet
-                      header={ 'Factory Gem set ?' }
-                      onPressYes={ () => setIsFactoryGem('Yes') }
-                      value={ isFactoryGem }
-                      onPressNo={ () => setIsFactoryGem('No') }
-                      subTitle={ 'If yes, tick what’s gem-setted' }
+                      header={'Factory Gem set ?'}
+                      onPressYes={() => setIsFactoryGem('Yes')}
+                      value={isFactoryGem}
+                      onPressNo={() => setIsFactoryGem('No')}
+                      subTitle={'If yes, tick what’s gem-setted'}
                     />
-                    { isFactoryGem === 'Yes' &&
+                    {isFactoryGem === 'Yes' &&
                       dropdownData?.data?.FACTTORYGEM?.map((item, index) => {
                         return (
                           <SelectWithInput
-                            item={ item }
-                            onSelect={ () => factoryAddFun(factoryGem, item) }
+                            item={item}
+                            onSelect={() => factoryAddFun(factoryGem, item)}
                             backgroundColor={
                               isSelectedFactory(factoryGem, item.id)
                                 ? COLORS.themeColor
                                 : COLORS.WHITE
                             }
-                            isCheck={ isSelectedFactory(factoryGem, item.id) }
-                            textValue={ item.text }
-                            onChangeTextValue={ e =>
+                            isCheck={isSelectedFactory(factoryGem, item.id)}
+                            textValue={item.text}
+                            onChangeTextValue={e =>
                               onChangeTextValue(factoryGem, item, e)
                             }
                           />
                         );
-                      }) }
-                      {isFactoryGem == 'Yes' && factoryGem.length ==0 ?
+                      })}
+                    {isFactoryGem == 'Yes' && factoryGem.length == 0 ? (
                       <View>
-                        <Text style={{fontFamily:'OpenSans-Regular',color:'red'}}>Please Select an Option</Text>
-                      </View>: null}
+                        <Text
+                          style={{
+                            fontFamily: 'OpenSans-Regular',
+                            color: 'red',
+                          }}>
+                          Please Select an Option
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
-                  <View style={ { marginTop: SPACING.SCALE_30 } }>
+                  <View style={{marginTop: SPACING.SCALE_30}}>
                     <HeaderFactoryGemSet
-                      header={ 'Custom ?' }
-                      onPressYes={ () => setCustom('Yes') }
-                      value={ custom }
-                      onPressNo={ () => setCustom('No') }
-                      subTitle={ 'If yes, tick what’s custom' }
+                      header={'Custom ?'}
+                      onPressYes={() => setCustom('Yes')}
+                      value={custom}
+                      onPressNo={() => setCustom('No')}
+                      subTitle={'If yes, tick what’s custom'}
                     />
-                    { custom === 'Yes' &&
+                    {custom === 'Yes' &&
                       dropdownData?.data?.CUSTOMFACTTORYGEM?.map(
                         (item, index) => {
                           return (
                             <SelectWithInput
-                              item={ item }
-                              onSelect={ () => factoryAddFun(customType, item) }
+                              item={item}
+                              onSelect={() => factoryAddFun(customType, item)}
                               backgroundColor={
                                 isSelectedFactory(customType, item.id)
                                   ? COLORS.themeColor
                                   : COLORS.WHITE
                               }
-                              isCheck={ isSelectedFactory(customType, item.id) }
-                              textValue={ item.text }
-                              onChangeTextValue={ e =>
+                              isCheck={isSelectedFactory(customType, item.id)}
+                              textValue={item.text}
+                              onChangeTextValue={e =>
                                 onChangeTextValue(customType, item, e)
                               }
                             />
                           );
                         },
-                      ) }
-                      {custom == 'Yes' && customType.length ==0 ?
+                      )}
+                    {custom == 'Yes' && customType.length == 0 ? (
                       <View>
-                        <Text style={{fontFamily:'OpenSans-Regular',color:'red'}}>Please Select an Option</Text>
-                      </View>: null}
+                        <Text
+                          style={{
+                            fontFamily: 'OpenSans-Regular',
+                            color: 'red',
+                          }}>
+                          Please Select an Option
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                   <View
-                    style={ [
+                    style={[
                       styles.borderBottom,
                       {
                         marginBottom: SPACING.SCALE_20,
                       },
-                    ] }>
-                    <Text style={ styles.formLocationTextView }>
+                    ]}>
+                    <Text style={styles.formLocationTextView}>
                       What is the location of this product?
                     </Text>
-                    <View style={ styles.formLocationMainView }>
+                    <View style={styles.formLocationMainView}>
                       <TouchableOpacity
-                        activeOpacity={ 0.7 }
-                        onPress={ () => setIsLocationModal(!isLocationModal) }
-                        style={ { width: TYPOGRAPHY.DYNAMIC_WIDTH('80%') } }>
-                        <Text>{ address }</Text>
+                        activeOpacity={0.7}
+                        onPress={() => setIsLocationModal(!isLocationModal)}
+                        style={{width: TYPOGRAPHY.DYNAMIC_WIDTH('80%')}}>
+                        <Text>{address}</Text>
                       </TouchableOpacity>
                       <Image
-                        source={ IMAGES.locationIcon }
-                        resizeMode={ 'contain' }
+                        source={IMAGES.locationIcon}
+                        resizeMode={'contain'}
                       />
                     </View>
                   </View>
                 </View>
-              ) : null }
+              ) : null}
             </View>
-            <View style={ { marginBottom: 50 } }>
+            <View style={{marginBottom: 50}}>
               <Custombutton
                 title="NEXT"
-                marginTop={ 40 }
-                height={ 50 }
-                width={ '100%' }
-                marginHorizontal={ 20 }
-                onPress={ formik.handleSubmit }
+                marginTop={40}
+                height={50}
+                width={'100%'}
+                marginHorizontal={20}
+                onPress={formik.handleSubmit}
               />
             </View>
           </ScrollView>
           <Modal
-            transparent={ true }
-            visible={ isLocationModal }
-            style={ { flex: 1 } }
-            onRequestClose={ () => setIsLocationModal(false) }>
+            transparent={true}
+            visible={isLocationModal}
+            style={{flex: 1}}
+            onRequestClose={() => setIsLocationModal(false)}>
             <SafeAreaView
-              style={ {
+              style={{
                 flex: 1,
                 backgroundColor: COLORS.WHITE,
                 paddingHorizontal: SPACING.SCALE_20,
-              } }>
+              }}>
               <Text
-                style={ {
+                style={{
                   marginTop: SPACING.SCALE_20,
                   justifyContent: 'center',
                   alignSelf: 'center',
                   fontFamily: 'OpenSans-Bold',
                   fontSize: 18,
-                 
+
                   color: COLORS.BLACK,
-                } }>
+                }}>
                 Select Address
               </Text>
-              <View style={ { marginTop: SPACING.SCALE_20, flex: 1 } }>
+              <View style={{marginTop: SPACING.SCALE_20, flex: 1}}>
                 <GooglePlacesAutocomplete
                   placeholder="Type a place"
-                  fetchDetails={ true }
-                  onPress={ (data, details = null) => {
+                  fetchDetails={true}
+                  onPress={(data, details = null) => {
                     setAddress(data?.description);
                     console.log(data);
                     if (details) {
-                      const { lat, lng } = details.geometry.location;
+                      const {lat, lng} = details.geometry.location;
                       setLatitude(lat);
                       setLong(lng);
                       console.log('Latitude:', lat);
                       console.log('Longitude:', lng);
                     }
                     setIsLocationModal(false);
-                  } }
-                  query={ { key: 'AIzaSyCGz3NzE46sAz0Q7J912AJftXjdy0fOrgI' } }
-                  onFail={ error => console.log(error) }
-                  onNotFound={ () => console.log('no results') }
-                  textInputProps={ {
+                  }}
+                  query={{key: 'AIzaSyCGz3NzE46sAz0Q7J912AJftXjdy0fOrgI'}}
+                  onFail={error => console.log(error)}
+                  onNotFound={() => console.log('no results')}
+                  textInputProps={{
                     autoFocus: true,
                     blurOnSubmit: false,
-                  } }
-                  styles={ {
+                  }}
+                  styles={{
                     textInputContainer: {},
                     textInput: {
                       height: 38,
@@ -790,49 +802,49 @@ const FormDetails = ({
                     predefinedPlacesDescription: {
                       color: '#1faadb',
                     },
-                  } }
+                  }}
                 />
               </View>
             </SafeAreaView>
           </Modal>
 
           <Modal
-            transparent={ true }
-            visible={ isModalVisible }
-            style={ { flex: 1 } }
-            onRequestClose={ () => setIsModalVisible(false) }>
-            <SafeAreaView style={ { flex: 1 } }>
+            transparent={true}
+            visible={isModalVisible}
+            style={{flex: 1}}
+            onRequestClose={() => setIsModalVisible(false)}>
+            <SafeAreaView style={{flex: 1}}>
               <TouchableOpacity
-                activeOpacity={ 0.8 }
-                onPress={ () => setIsModalVisible(false) }
-                style={ {
+                activeOpacity={0.8}
+                onPress={() => setIsModalVisible(false)}
+                style={{
                   flex: 1,
                   backgroundColor: 'rgba(0,0,0,0.1)',
                   minHeight: SPACING.SCALE_250,
-                } }>
-                <View style={ { flex: 1 } } />
+                }}>
+                <View style={{flex: 1}} />
               </TouchableOpacity>
               <FlatList
-                data={ dropData }
+                data={dropData}
                 ListHeaderComponent={
                   <View
-                    style={ {
+                    style={{
                       justifyContent: 'center',
                       alignItems: 'center',
                       marginVertical: 15,
-                    } }>
-                    <Text style={ [ TYPOGRAPHY.HEADER_TITLE, { color: 'black' } ] }>
-                      { headerTitle }
+                    }}>
+                    <Text style={[TYPOGRAPHY.HEADER_TITLE, {color: 'black'}]}>
+                      {headerTitle}
                     </Text>
                   </View>
                 }
-                style={ { backgroundColor: 'white', paddingBottom: 20 } }
-                keyExtractor={ (item, index) => `${item?.id}${index}` }
-                renderItem={ ({ item, index }) => {
+                style={{backgroundColor: 'white', paddingBottom: 20}}
+                keyExtractor={(item, index) => `${item?.id}${index}`}
+                renderItem={({item, index}) => {
                   return (
                     <TouchableOpacity
-                      activeOpacity={ 0.7 }
-                      onPress={ () => {
+                      activeOpacity={0.7}
+                      onPress={() => {
                         if (headerTitle === 'Select Brand') {
                           setSelectedBrand(item);
                         } else if (headerTitle === 'Select Accessories') {
@@ -855,19 +867,19 @@ const FormDetails = ({
                           setSelectedModel(item);
                         }
                         setIsModalVisible(false);
-                      } }
-                      style={ { alignItems: 'center' } }>
-                      <Text style={ styles.formModelTextStyle }>
-                        { item?.name }
+                      }}
+                      style={{alignItems: 'center'}}>
+                      <Text style={styles.formModelTextStyle}>
+                        {item?.name}
                       </Text>
                     </TouchableOpacity>
                   );
-                } }
+                }}
               />
             </SafeAreaView>
           </Modal>
         </View>
-      ) }
+      )}
     </Formik>
   );
 };
