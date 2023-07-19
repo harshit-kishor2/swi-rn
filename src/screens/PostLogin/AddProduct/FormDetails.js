@@ -52,8 +52,8 @@ const FormDetails = ({
   const [title, setTitle] = useState();
   const [watchDes, setWatchDes] = useState();
   const [gender, setGender] = useState('Male');
-  const [isFactoryGem, setIsFactoryGem] = useState('Yes');
-  const [custom, setCustom] = useState('Yes');
+  const [isFactoryGem, setIsFactoryGem] = useState('No');
+  const [custom, setCustom] = useState('No');
   const [factoryGem, setFactoryGem] = useState([]);
   const [customType, setCustomType] = useState([]);
   const [dial, setDial] = useState();
@@ -75,7 +75,8 @@ const FormDetails = ({
   const [latitude, setLatitude] = useState();
   const [brandText, setBrandText] = useState('');
   const [modelText, setModelText] = useState('');
-
+ const [ValidError, setValidError] = useState(false);
+ const [CustomValidError, setCustomValidError] = useState(false);
   const [isLocationModal, setIsLocationModal] = useState(false);
   const [address, setAddress] = useState();
 
@@ -187,13 +188,30 @@ const FormDetails = ({
     });
     return updatedArray;
   };
+  console.log(isFactoryGem,"is factory Gem ================>>>>>>>>>>>>>")
   const registerData = value => {
     console.log(
       'value of register============>>>>>>>>>>>>>>>>>>>>',
       value.title,
     );
-    dispatch(updateSecondProductDetail(value));
+    // {isFactoryGem == 'Yes' && factoryGem.length == 0 ? (
+    //   setValidError(!ValidError)
+    // ) :( dispatch(updateSecondProductDetail(value));
+    // NextPress(value);)}
+    if(isFactoryGem == 'Yes' && factoryGem.length == 0 )
+    {
+      setValidError(!ValidError)
+    }
+    else if(custom == 'Yes' && customType.length == 0  )
+    {
+      setCustomValidError(!CustomValidError)
+    }
+    else
+    {
+      dispatch(updateSecondProductDetail(value));
     NextPress(value);
+    }
+    
   };
 
   return (
@@ -657,7 +675,7 @@ const FormDetails = ({
                           />
                         );
                       })}
-                    {isFactoryGem == 'Yes' && factoryGem.length == 0 ? (
+                    {ValidError == true ? (
                       <View>
                         <Text
                           style={{
@@ -698,7 +716,7 @@ const FormDetails = ({
                           );
                         },
                       )}
-                    {custom == 'Yes' && customType.length == 0 ? (
+                    {CustomValidError == true ? (
                       <View>
                         <Text
                           style={{
