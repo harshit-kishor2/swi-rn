@@ -161,6 +161,7 @@ const LoginScreen = props => {
               title={''}
               linkTitle={'Forgot password?'}
               onPress={() => {
+                resetForm();
                 NavigationService.navigate(RoutesName.FORGOT_PASSWORD_SCREEN);
               }}
             />
