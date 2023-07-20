@@ -38,6 +38,14 @@
 				<string>branchsters</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.866067850894-51t0n05rkvqo7n6977n3eb96eh9u0m49</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -67,16 +75,16 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access location for filter products based on user&apos;s location</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access microphone to upload product video.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) wants to access camera to capture photos for uploading product images.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to access location for filter products based on user's location</string>
 	<key>NSLocationUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access location for filter products based on user&apos;s location</string>
+	<string>$(PRODUCT_NAME) wants to access location for filter products based on user's location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to access location for filter products based on user&apos;s location</string>
+	<string>$(PRODUCT_NAME) wants to access location for filter products based on user's location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to access microphone to upload product video.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) wants to access gallery to use photos for uploading product images.</string>
 	<key>UIAppFonts</key>

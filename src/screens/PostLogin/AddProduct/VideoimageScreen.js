@@ -114,6 +114,7 @@ const VideoimageScreen = ({NextPress}) => {
     ImageCropPicker.openCamera({
       mediaType: 'video',
     }).then(image => {
+      console.log(image.size, '============>>>>>>>>>');
       if (image?.size <= 10485760) {
         setImagePath(img => [...img, image]);
       } else {
@@ -150,8 +151,10 @@ const VideoimageScreen = ({NextPress}) => {
   const videofromgallary = () => {
     ImageCropPicker.openPicker({
       mediaType: 'video',
+      height: 400,
+      width: 300,
     }).then(video => {
-      console.log('Size===', video);
+      console.log('Size===------------------------->>>>>>>', video.size);
       if (video?.size <= 10485760) {
         setImagePath(img => [...img, video]);
       } else {
@@ -228,158 +231,162 @@ const VideoimageScreen = ({NextPress}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={{}}>
-        <View style={{marginTop: 30}}>
-          <Text
-            style={{
-              fontFamily: 'OpenSans-SemiBold',
-              fontSize: 16,
-              color: COLORS.BLACK,
-            }}>
-            Upload watch images<Text style={{color: 'red'}}>*</Text>
-          </Text>
-          <Text style={{fontFamily: 'OpenSans-Regular', margin: 10}}>
-            Please upload Image of max 10mb
-          </Text>
-        </View>
-        {selectedImage ? (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            disabled={selectedImage?.mime !== 'video/mp4'}
-            onPress={() => setPaused(!paused)}
-            style={styles.bigImageContainer}>
-            {selectedImage?.mime === 'video/mp4' ? (
-              <Video
-                controls={false}
-                source={{uri: selectedImage?.path}}
-                style={styles.backgroundVideo}
-                paused={paused}
-                resizeMode="contain"
-                repeat={true}
-              />
-            ) : (
+    <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        paddingBottom: 50,
+        paddingHorizontal: 25,
+      }}
+      showsVerticalScrollIndicator={false}>
+      <View style={{marginTop: 30}}>
+        <Text
+          style={{
+            fontFamily: 'OpenSans-SemiBold',
+            fontSize: 16,
+            color: COLORS.BLACK,
+          }}>
+          Upload watch images<Text style={{color: 'red'}}>*</Text>
+        </Text>
+        <Text style={{fontFamily: 'OpenSans-Regular', marginVertical: 10}}>
+          Please upload Image of max 10mb
+        </Text>
+      </View>
+      {selectedImage ? (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={selectedImage?.mime !== 'video/mp4'}
+          onPress={() => setPaused(!paused)}
+          style={styles.bigImageContainer}>
+          {selectedImage?.mime === 'video/mp4' ? (
+            <Video
+              controls={false}
+              source={{uri: selectedImage?.path}}
+              style={styles.backgroundVideo}
+              paused={paused}
+              resizeMode="contain"
+              repeat={true}
+            />
+          ) : (
+            <Image
+              source={{uri: selectedImage?.path}}
+              style={styles.bigImage}
+              resizeMode="contain"
+            />
+          )}
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          activeOpacity={0.7}
+          disabled={selectedImage?.mime !== 'video/mp4'}
+          onPress={() => setPaused(!paused)}
+          style={styles.bigImageContainer}>
+          {selectedImage?.mime === 'video/mp4' ? (
+            <Video
+              controls={false}
+              source={{uri: selectedImage?.path}}
+              style={styles.backgroundVideo}
+              paused={paused}
+              resizeMode="contain"
+              repeat={true}
+            />
+          ) : (
+            <View>
               <Image
                 source={{uri: selectedImage?.path}}
                 style={styles.bigImage}
                 resizeMode="contain"
               />
-            )}
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            activeOpacity={0.7}
-            disabled={selectedImage?.mime !== 'video/mp4'}
-            onPress={() => setPaused(!paused)}
-            style={styles.bigImageContainer}>
-            {selectedImage?.mime === 'video/mp4' ? (
-              <Video
-                controls={false}
-                source={{uri: selectedImage?.path}}
-                style={styles.backgroundVideo}
-                paused={paused}
-                resizeMode="contain"
-                repeat={true}
-              />
-            ) : (
-              <View>
-                <Image
-                  source={{uri: selectedImage?.path}}
-                  style={styles.bigImage}
-                  resizeMode="contain"
-                />
-                <TouchableOpacity
-                  onPress={uploadImage}
-                  style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <View style={styles.addbtn}>
-                    <Image source={IMAGES.imageAdd} />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            )}
-          </TouchableOpacity>
-        )}
-        <View style={{marginTop: 5, marginLeft: 15}}>
-          <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
-            Selected images/videos
-          </Text>
-          {error === 'yes' ? (
-            <Text
-              style={{
-                fontFamily: 'OpenSans-Regular',
-                fontSize: 16,
-                color: 'red',
-              }}>
-              Please Select Files
-            </Text>
-          ) : null}
-          {error === 'thumb' ? (
-            <Text
-              style={{
-                fontFamily: 'OpenSans-Regular',
-                fontSize: 16,
-                color: 'red',
-              }}>
-              Please Select Thumbnail File
-            </Text>
-          ) : null}
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.smallImagesContainer}>
-          {console.log('hgjkl;', imagePath)}
-          {imagePath
-            ? imagePath?.map((image, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => handleImagePress(image)}>
-                  <View
-                    style={[
-                      // styles.smallImageWrapper,
-                      selectedImage === image && styles.selectedImageWrapper,
-                    ]}>
-                    {image?.mime == 'video/mp4' ? (
-                      <Image
-                        style={{
-                          width: 85,
-                          height: 85,
-                          resizeMode: 'center',
-                        }}
-                        source={{
-                          uri: 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png',
-                        }}
-                      />
-                    ) : (
-                      <>
-                        <Image
-                          source={{uri: image.path}}
-                          style={styles.smallImage}
-                        />
-                      </>
-                    )}
-                  </View>
-                </TouchableOpacity>
-              ))
-            : null}
-          <TouchableOpacity onPress={uploadImage}>
-            <View style={styles.addbtn}>
-              <Image source={IMAGES.imageAdd} />
+              <TouchableOpacity
+                onPress={uploadImage}
+                style={{justifyContent: 'center', alignItems: 'center'}}>
+                <View style={styles.addbtn}>
+                  <Image source={IMAGES.imageAdd} />
+                </View>
+              </TouchableOpacity>
             </View>
-          </TouchableOpacity>
-        </ScrollView>
-        <Custombutton
-          title="NEXT"
-          marginTop={20}
-          height={50}
-          width={335}
-          marginHorizontal={20}
-          onPress={() => {
-            Submit();
-          }}
-        />
+          )}
+        </TouchableOpacity>
+      )}
+      <View style={{marginTop: 5, marginLeft: 15}}>
+        <Text style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
+          Selected images/videos
+        </Text>
+        {error === 'yes' ? (
+          <Text
+            style={{
+              fontFamily: 'OpenSans-Regular',
+              fontSize: 16,
+              color: 'red',
+            }}>
+            Please Select Files
+          </Text>
+        ) : null}
+        {error === 'thumb' ? (
+          <Text
+            style={{
+              fontFamily: 'OpenSans-Regular',
+              fontSize: 16,
+              color: 'red',
+            }}>
+            Please Select Thumbnail File
+          </Text>
+        ) : null}
+      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.smallImagesContainer}>
+        {console.log('hgjkl;', imagePath)}
+        {imagePath
+          ? imagePath?.map((image, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleImagePress(image)}>
+                <View
+                  style={[
+                    // styles.smallImageWrapper,
+                    selectedImage === image && styles.selectedImageWrapper,
+                  ]}>
+                  {image?.mime == 'video/mp4' ? (
+                    <Image
+                      style={{
+                        width: 85,
+                        height: 85,
+                        resizeMode: 'center',
+                      }}
+                      source={{
+                        uri: 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png',
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <Image
+                        source={{uri: image.path}}
+                        style={styles.smallImage}
+                      />
+                    </>
+                  )}
+                </View>
+              </TouchableOpacity>
+            ))
+          : null}
+        <TouchableOpacity onPress={uploadImage}>
+          <View style={styles.addbtn}>
+            <Image source={IMAGES.imageAdd} />
+          </View>
+        </TouchableOpacity>
       </ScrollView>
-    </View>
+      <Custombutton
+        title="NEXT"
+        marginTop={20}
+        height={50}
+        width={335}
+        marginHorizontal={20}
+        onPress={() => {
+          Submit();
+        }}
+      />
+    </ScrollView>
   );
 };
 

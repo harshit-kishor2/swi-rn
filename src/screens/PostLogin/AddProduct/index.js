@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import {NavigationBar, StoryScreen} from '@app/components';
+import {Container, NavigationBar, StoryScreen} from '@app/components';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import {
   productBrandData,
@@ -48,8 +48,8 @@ const SellScreen = props => {
     console.log(value, 'Value at set price up state===========>>>>>>>>>>>>>>>');
   };
   return (
-    <StoryScreen
-      NoPadding={true}
+    <Container
+      // NoPadding={true}
       loading={
         props.dropdownLoading || props.brandLoading || props.modelLoading
       }>
@@ -98,8 +98,13 @@ const SellScreen = props => {
           />
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{flex: 1, marginBottom: 30}}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          marginTop: 20,
+        }}
+        showsVerticalScrollIndicator={false}>
+        <View style={{flex: 1}}>
           {formNumber === '1' ? (
             <VideoimageScreen NextPress={() => setFormNumber('2')} />
           ) : formNumber === '2' ? (
@@ -112,7 +117,7 @@ const SellScreen = props => {
           )}
         </View>
       </ScrollView>
-    </StoryScreen>
+    </Container>
   );
 };
 const mapStateToProps = state => ({

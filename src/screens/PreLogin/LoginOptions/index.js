@@ -1,4 +1,6 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {BackHeader, Container, Spacer, SubmitButton} from '@app/components';
+import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
@@ -46,10 +48,12 @@ const LoginOptions = props => {
       appleAuthRequestResponse.identityToken,
     );
 
+    console.log('Apple detail', {email, email_verified, is_private_email, sub});
+
     if (email && appleAuthRequestResponse.user) {
       const params = {
-        email: appleAuthRequestResponse?.email,
-        name: appleAuthRequestResponse?.givenName,
+        email: email,
+        name: appleAuthRequestResponse?.fullName?.givenName ?? 'Anonymous',
         login_type: 'apple',
         device_token: 'fcmToken',
         device_type: Platform.OS,
@@ -214,7 +218,7 @@ const LoginOptions = props => {
           </View>
           <Seprator />
           <View>
-            {Platform.OS === 'ios' ?? (
+            {Platform.OS === 'ios' && (
               <SubmitButton
                 type="outlined"
                 lable="Log in with Apple ID"
