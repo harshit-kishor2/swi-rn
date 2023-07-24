@@ -1,16 +1,16 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {Avatar, Card} from 'react-native-paper';
-import {CustomIcon, CustomText, Spacer} from '@app/components';
-import {FontsConst} from '@app/assets/assets';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {IMAGES} from '@app/resources';
-import {formatTimestamp} from '@app/helper/commonFunction';
+import { Avatar, Card } from 'react-native-paper';
+import { CustomIcon, CustomText, Spacer } from '@app/components';
+import { FontsConst } from '@app/assets/assets';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { IMAGES } from '@app/resources';
+import { formatTimestamp } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
-import {RoutesName} from '@app/helper/strings';
+import { RoutesName } from '@app/helper/strings';
 
-const ProductCard = ({item, onPress}) => {
-  const maxLength=10;
+const ProductCard = ({ item, onPress }) => {
+  const maxLength = 10;
   const truncatedText = item?.title.length > maxLength ? `${item?.title.substring(0, maxLength)}...` : item?.title;
 
   return (
@@ -24,7 +24,7 @@ const ProductCard = ({item, onPress}) => {
         <Card.Cover
           resizeMode="cover"
           style={styles.cover_style}
-          source={{uri: item?.thumb_image}}
+          source={{ uri: item?.thumb_image }}
         />
       </Pressable>
       <Card.Content>
@@ -43,7 +43,7 @@ const ProductCard = ({item, onPress}) => {
             size={24}
             source={
               item?.user?.image && item?.user?.image !== ''
-                ? {uri: item?.user?.image}
+                ? { uri: item?.user?.image }
                 : IMAGES.Dollar
             }
           />
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     elevation: 1,
     margin: 5,
+    width: 175
   },
   cover_style: {
     height: 150,
