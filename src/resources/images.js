@@ -77,3 +77,7 @@ export const downArrow = require('../assets/images/downArrow8.png');
 
 // InterestList 
 export const send_Icon = require('../assets/images/send_Icon.png');
+// Boost Now Pages
+export const BoostNowShade1 = require('../assets/images/BoostNowShade1.png');
+export const CoinBoostNow = require('../assets/images/CoinBoostNow.png');
+export const GroupIcon = require('../assets/images/GroupIcon.png');
