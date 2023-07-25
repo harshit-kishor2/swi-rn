@@ -72,3 +72,9 @@ export const visibility_on = require('../assets/images/visibility_on.png');
 export const visibility_off = require('../assets/images/visibility_off.png');
 export const recapchass = require('../assets/images/recapchass.png');
 export const downArrow = require('../assets/images/downArrow8.png');
+
+
+// Boost Now Pages
+export const BoostNowShade1 =require('../assets/images/BoostNowShade1.png');
+export const CoinBoostNow =require('../assets/images/CoinBoostNow.png');
+export const GroupIcon =require('../assets/images/GroupIcon.png');
