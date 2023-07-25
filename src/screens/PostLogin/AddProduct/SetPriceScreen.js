@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/core';
 import {Formik} from 'formik';
 import React, {useState} from 'react';
 import {
+  Dimensions,
   Keyboard,
   Pressable,
   StyleSheet,
@@ -17,7 +18,8 @@ import {pID, updateThirdProductDetail} from '@app/store/addProduct.slice';
 import {COLORS, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
 import NavigationService from '../../../navigations/NavigationService';
-
+import {ScrollView} from 'react-native-gesture-handler';
+const {height} = Dimensions.get('window');
 const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
   const [price, setPrice] = useState();
   const [formattedValue, setFormattedValue] = useState('');
@@ -34,42 +36,37 @@ const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
     console.log('navigation===================>>>>>>>>>>>>>>>>>>>>>>>', value);
     NavigationService.navigate(RoutesName.SUCCESS_SCREEN);
   };
-  
-  const handleChangeText = (text) => {
+
+  const handleChangeText = text => {
     // Remove any non-digit characters from the input
     const numericValue = text.replace(/[^0-9]/g, '');
     setPrice(numericValue);
 
     // Format the numeric value with commas every three digits
     const formattedNumber = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
- 
+
     // console.log(price,"Price Value ====================>>>>>>>>>>>>>>")
     setFormattedValue(formattedNumber);
     // console.log(formattedValue,"formatted Value ====================>>>>>>>>>>>>>>")
   };
   return (
-    <Pressable
-      onPress={() => {
-        Keyboard.dismiss();
-      }}>
-      <Formik
-        initialValues={{
-          price: price,
-          productID: DataFromParent.productID,
-        }}
-        enableReinitialize
-        validationSchema={loginValidationSchema}
-        onSubmit={values => {
-          postForm(values);
-          console.log("Value from post data ==================>>>>>",values);
+    <View style={{flex: 1, backgroundColor: COLORS.PageBackground}}>
+      <Pressable
+        onPress={() => {
+          Keyboard.dismiss();
         }}>
-        {formik => (
-          <View
-            style={{
-              marginTop: SPACING.SCALE_30,
-              height: '100%',
-              color: COLORS.PageBackground,
-            }}>
+        <Formik
+          initialValues={{
+            price: price,
+            productID: DataFromParent.productID,
+          }}
+          enableReinitialize
+          validationSchema={loginValidationSchema}
+          onSubmit={values => {
+            postForm(values);
+            console.log('Value from post data ==================>>>>>', values);
+          }}>
+          {formik => (
             <View
               style={{
                 color: COLORS.PageBackground,
@@ -176,10 +173,10 @@ const SetPriceScreen = ({DataFromParent, setFormNumber}) => {
                 }}
               />
             </View>
-          </View>
-        )}
-      </Formik>
-    </Pressable>
+          )}
+        </Formik>
+      </Pressable>
+    </View>
   );
 };
 const mapStateToProps = state => ({

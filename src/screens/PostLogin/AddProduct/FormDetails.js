@@ -75,8 +75,8 @@ const FormDetails = ({
   const [latitude, setLatitude] = useState();
   const [brandText, setBrandText] = useState('');
   const [modelText, setModelText] = useState('');
- const [ValidError, setValidError] = useState(false);
- const [CustomValidError, setCustomValidError] = useState(false);
+  const [ValidError, setValidError] = useState(false);
+  const [CustomValidError, setCustomValidError] = useState(false);
   const [isLocationModal, setIsLocationModal] = useState(false);
   const [address, setAddress] = useState();
 
@@ -188,7 +188,7 @@ const FormDetails = ({
     });
     return updatedArray;
   };
-  console.log(isFactoryGem,"is factory Gem ================>>>>>>>>>>>>>")
+  console.log(isFactoryGem, 'is factory Gem ================>>>>>>>>>>>>>');
   const registerData = value => {
     console.log(
       'value of register============>>>>>>>>>>>>>>>>>>>>',
@@ -198,20 +198,14 @@ const FormDetails = ({
     //   setValidError(!ValidError)
     // ) :( dispatch(updateSecondProductDetail(value));
     // NextPress(value);)}
-    if(isFactoryGem == 'Yes' && factoryGem.length == 0 )
-    {
-      setValidError(!ValidError)
-    }
-    else if(custom == 'Yes' && customType.length == 0  )
-    {
-      setCustomValidError(!CustomValidError)
-    }
-    else
-    {
+    if (isFactoryGem == 'Yes' && factoryGem.length == 0) {
+      setValidError(!ValidError);
+    } else if (custom == 'Yes' && customType.length == 0) {
+      setCustomValidError(!CustomValidError);
+    } else {
       dispatch(updateSecondProductDetail(value));
-    NextPress(value);
+      NextPress(value);
     }
-    
   };
 
   return (
@@ -254,6 +248,7 @@ const FormDetails = ({
       {formik => (
         <View style={styles.formDetailsStyle}>
           <ScrollView
+            keyboardShouldPersistTaps="always"
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             style={[styles.formDetailsStyle, {paddingHorizontal: 0}]}>
@@ -770,7 +765,7 @@ const FormDetails = ({
             visible={isLocationModal}
             style={{flex: 1}}
             onRequestClose={() => setIsLocationModal(false)}>
-            <SafeAreaView
+            <View
               style={{
                 flex: 1,
                 backgroundColor: COLORS.WHITE,
@@ -790,9 +785,12 @@ const FormDetails = ({
               </Text>
               <View style={{marginTop: SPACING.SCALE_20, flex: 1}}>
                 <GooglePlacesAutocomplete
+                  keepResultsAfterBlur={true}
                   placeholder="Type a place"
+                  listViewDisplayed={false}
                   fetchDetails={true}
-                  onPress={(data, details = null) => {
+                  onPress={(data, details) => {
+                    console.log('ENTER', data, details);
                     setAddress(data?.description);
                     console.log(data);
                     if (details) {
@@ -807,10 +805,10 @@ const FormDetails = ({
                   query={{key: 'AIzaSyCGz3NzE46sAz0Q7J912AJftXjdy0fOrgI'}}
                   onFail={error => console.log(error)}
                   onNotFound={() => console.log('no results')}
-                  textInputProps={{
-                    autoFocus: true,
-                    blurOnSubmit: false,
-                  }}
+                  // textInputProps={{
+                  //   autoFocus: true,
+                  //   blurOnSubmit: false,
+                  // }}
                   styles={{
                     textInputContainer: {},
                     textInput: {
@@ -825,7 +823,7 @@ const FormDetails = ({
                   }}
                 />
               </View>
-            </SafeAreaView>
+            </View>
           </Modal>
 
           <Modal
