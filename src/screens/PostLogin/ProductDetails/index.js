@@ -1,7 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable eqeqeq */
-/* eslint-disable react/no-unstable-nested-components */
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -284,48 +280,48 @@ const ProductDetails = props => {
   // uncomment code to enable share option with deep linking
   const onShareClick = async () => {
     // let linkProperties = {
-    //   feature: 'share',
-    //   channel: 'RNApp',
-    //   campaign: `Product ID - ${props.route.params.product_id}`,
+    // feature: 'share',
+    // channel: 'RNApp',
+    // campaign: `Product ID - ${props.route.params.product_id}`,
     // };
     // let shareOptions = {
-    //   messageHeader: 'Check this out',
-    //   messageBody: 'No really, check this out!',
+    // messageHeader: 'Check this out',
+    // messageBody: 'No really, check this out!',
     // };
     // let controlParams = {
-    //   $desktop_url: 'https://www.google.com',
+    // $desktop_url: 'https://www.google.com',
     // };
     // let eventParams = {
-    //   ptest: 'hello',
+    // ptest: 'hello',
     // };
     // buoRef.current = await branch.createBranchUniversalObject(
-    //   `product/${props.route.params.product_id}`,
-    //   {
-    //     title: 'Product Title',
-    //     contentDescription: 'Product Description',
-    //     canonicalUrl: '',
-    //     contentMetadata: {
-    //       customMetadata: {
-    //         productID: `${props.route.params.product_id}`,
-    //       },
-    //     },
-    //   },
+    // `product/${props.route.params.product_id}`,
+    // {
+    // title: 'Product Title',
+    // contentDescription: 'Product Description',
+    // canonicalUrl: '',
+    // contentMetadata: {
+    // customMetadata: {
+    // productID: `${props.route.params.product_id}`,
+    // },
+    // },
+    // },
     // );
     // let event = new BranchEvent(
-    //   BranchEvent.ViewItem,
-    //   [buoRef.current],
-    //   eventParams,
+    // BranchEvent.ViewItem,
+    // [buoRef.current],
+    // eventParams,
     // );
     // event.logEvent();
     // let {url} = await buoRef.current?.generateShortUrl(
-    //   linkProperties,
-    //   controlParams,
+    // linkProperties,
+    // controlParams,
     // );
     // console.log('url', url);
     // let {channel, completed, error} = await buoRef.current?.showShareSheet(
-    //   shareOptions,
-    //   linkProperties,
-    //   controlParams,
+    // shareOptions,
+    // linkProperties,
+    // controlParams,
     // );
     // console.log('test', {channel, completed, error});
   };
@@ -373,52 +369,52 @@ const ProductDetails = props => {
           {productDetailData?.data?.files ? (
             <ImageView images={productDetailData.data.files} />
           ) : null}
-          {/* Main Image  */}
+          {/* Main Image */}
           {/* <View style={styles.ImageSizeStyle}>
-        <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
-      </View> */}
+ <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
+ </View> */}
 
           {/* small Images */}
 
           {/* <View style={styles.SmallImageStyle}>
-        <Image source={IMAGES.Rectangle1} style={styles.SmallImageSizeStyle} />
-        <Image source={IMAGES.Rectangle2} style={styles.SmallImageSizeStyle} />
-        <Image source={IMAGES.Rectangle2} style={styles.SmallImageSizeStyle} />
-      </View> */}
+ <Image source={IMAGES.Rectangle1} style={styles.SmallImageSizeStyle} />
+ <Image source={IMAGES.Rectangle2} style={styles.SmallImageSizeStyle} />
+ <Image source={IMAGES.Rectangle2} style={styles.SmallImageSizeStyle} />
+ </View> */}
 
           {/* Three Dots */}
 
           {/* <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            height: 8,
-            width: 8,
-            borderRadius: 4,
-            backgroundColor: 'black',
-            margin: 5,
-          }}></View>
-        <View
-          style={{
-            height: 6,
-            width: 6,
-            borderRadius: 3,
-            backgroundColor: '#5C5C5C',
-            margin: 5,
-          }}></View>
-        <View
-          style={{
-            height: 6,
-            width: 6,
-            borderRadius: 3,
-            backgroundColor: '#5C5C5C',
-            margin: 5,
-          }}></View>
-      </View> */}
+ style={{
+ flexDirection: 'row',
+ alignItems: 'center',
+ justifyContent: 'center',
+ }}>
+ <View
+ style={{
+ height: 8,
+ width: 8,
+ borderRadius: 4,
+ backgroundColor: 'black',
+ margin: 5,
+ }}></View>
+ <View
+ style={{
+ height: 6,
+ width: 6,
+ borderRadius: 3,
+ backgroundColor: '#5C5C5C',
+ margin: 5,
+ }}></View>
+ <View
+ style={{
+ height: 6,
+ width: 6,
+ borderRadius: 3,
+ backgroundColor: '#5C5C5C',
+ margin: 5,
+ }}></View>
+ </View> */}
 
           {/* MOdel, Brand, Price, condition */}
 
@@ -559,7 +555,7 @@ const ProductDetails = props => {
             }}
           />
 
-          {/* Specifications  */}
+          {/* Specifications */}
           <View
             style={{
               flexDirection: 'column',
@@ -636,16 +632,17 @@ const ProductDetails = props => {
 
           {/* Price Chart */}
 
-          <View style={{marginTop: 25}}>
+          <View style={{marginTop: 25, position: 'relative'}}>
             <View
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 marginHorizontal: 16,
+                zIndex: 1,
               }}>
               <Text style={{fontFamily: 'OpenSans-Bold'}}>Price Chart</Text>
               <TouchableOpacity
-                // onPress={() => setIsChartDropDown(!isChartDropDown)}
+                onPress={() => setIsChartDropDown(!isChartDropDown)}
                 activeOpacity={0.7}
                 style={{
                   flexDirection: 'row',
@@ -671,7 +668,7 @@ const ProductDetails = props => {
                   }}
                 />
               </TouchableOpacity>
-              {/* {isChartDropDown ? (
+              {isChartDropDown ? (
                 <View
                   style={{
                     position: 'absolute',
@@ -709,18 +706,14 @@ const ProductDetails = props => {
                     );
                   })}
                 </View>
-              ) : null} */}
+              ) : null}
             </View>
             <View>
               <Chartdemo />
-              {/* <Image
-            style={{height: SPACING.SCALE_196, width: SPACING.SCALE_344}}
-            source={IMAGES.priceChartImage}
-          /> */}
             </View>
           </View>
 
-          {/* horizontal watcehs  */}
+          {/* horizontal watcehs */}
           <View style={{marginTop: 40, zIndex: -2}}>
             <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
 
@@ -735,7 +728,7 @@ const ProductDetails = props => {
             )}
           </View>
 
-          {/* make an offer and chat button  */}
+          {/* make an offer and chat button */}
           <View
             style={{
               flexDirection: 'row',
@@ -750,7 +743,7 @@ const ProductDetails = props => {
               width={SPACING.SCALE_160}
               // marginHorizontal={20}
               // onPress={() => {
-              //   // Alert.alert('Make an Offer');
+              // // Alert.alert('Make an Offer');
               // }}
             />
             <Custombutton2
@@ -760,12 +753,12 @@ const ProductDetails = props => {
               width={SPACING.SCALE_160}
               // marginHorizontal={20}
               // onPress={() => {
-              //   // Alert.alert('Chat');
+              // // Alert.alert('Chat');
               // }}
             />
           </View>
 
-          {/* Compare PriceAlert  */}
+          {/* Compare PriceAlert */}
 
           <View
             style={{
