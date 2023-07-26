@@ -4,6 +4,7 @@ import {addProductReducer} from './addProduct.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
 import exploreProductReducer from './exploreProductSlice';
+import exploreReducer from './explore.slice';
 import {productReducer, productStateReducer} from './productSlice';
 
 const combinedReducer = combineReducers({
@@ -12,6 +13,7 @@ const combinedReducer = combineReducers({
   addProductReducer,
   productReducer,
   productStateReducer,
+  exploreReducer,
 });
 
 const rootReducers = (state, action) => {
