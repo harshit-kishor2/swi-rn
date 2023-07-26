@@ -65,7 +65,7 @@ const Banner = ({bannerData}) => {
   return (
     <View
       style={{
-        height: 160,
+        height: bannerData.length > 0 ? 160 : 0,
       }}>
       <FlatList
         horizontal

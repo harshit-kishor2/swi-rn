@@ -1,22 +1,20 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 // import {AuthReducer} from './auth.slice';
-import {freshFindsReducer} from './freshFinds.slice';
 import {addProductReducer} from './addProduct.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
 import exploreProductReducer from './exploreProductSlice';
-import {exploreReducer} from './explore.slice';
+import {productReducer, productStateReducer} from './productSlice';
 
 const combinedReducer = combineReducers({
   authReducer,
   exploreProductReducer,
-  exploreReducer,
-  freshFindsReducer,
   addProductReducer,
+  productReducer,
+  productStateReducer,
 });
 
 const rootReducers = (state, action) => {
-  console.log('Actions==================', action.type);
   if (action?.type === 'USER_LOGOUT') {
     console.log('401 Unauth');
     SharedPreference.clearAllData();

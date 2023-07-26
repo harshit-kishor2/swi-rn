@@ -1,6 +1,13 @@
 import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
-import {apiAction} from './actions';
-import {LoadingStatus} from '../../helper/strings';
+import {LoadingStatus} from '@app/helper/strings';
+import {
+  addProductDetailAction,
+  addProductImageAction,
+  addProductPriceAction,
+  getAllBrandAction,
+  getAllProductDropdownAction,
+  getAllProductModelAction,
+} from './addProduct.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -11,9 +18,29 @@ const entityAdapter = createEntityAdapter();
 
 // Define Initial State
 const initialState = entityAdapter.getInitialState({
-  loginLoadingStatus: LoadingStatus.NOT_LOADED,
-  userDetails: null,
-  loginError: null,
+  getAllBrandLoadinStatus: LoadingStatus.NOT_LOADED,
+  getAllBrand: [],
+  getAllBrandError: null,
+
+  getAllProductDropdownLoadingStatus: LoadingStatus.NOT_LOADED,
+  getAllProductDropdown: [],
+  getAllProductDropdownError: null,
+
+  getAllProductModelLoadingStatus: LoadingStatus.NOT_LOADED,
+  getAllProductModel: [],
+  addProductPriceError: null,
+
+  addProductImageLoadingStatus: LoadingStatus.NOT_LOADED,
+  addProductImage: null,
+  addProductImageError: null,
+
+  addProductDetailLoadingStatus: LoadingStatus.NOT_LOADED,
+  addProductDetail: null,
+  addProductDetailError: null,
+
+  addProductPriceLoadingStatus: LoadingStatus.NOT_LOADED,
+  addProductPrice: null,
+  addProductPriceError: null,
 });
 
 /**
@@ -31,14 +58,72 @@ const reduxSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(apiAction.pending, state => {
-        state.loginLoadingStatus = LoadingStatus.LOADING;
+      // getAllBrand
+      .addCase(getAllBrandAction.pending, state => {
+        state.getAllBrandLoadinStatus = LoadingStatus.LOADING;
       })
-      .addCase(apiAction.fulfilled, (state, action) => {
-        state.loginLoadingStatus = LoadingStatus.LOADED;
+      .addCase(getAllBrandAction.fulfilled, (state, action) => {
+        state.getAllBrandLoadinStatus = LoadingStatus.LOADED;
+        state.getAllBrand = action.payload?.data;
       })
-      .addCase(apiAction.rejected, (state, action) => {
-        state.loginError = LoadingStatus.FAILED;
+      .addCase(getAllBrandAction.rejected, (state, action) => {
+        state.getAllBrandLoadinStatus = LoadingStatus.FAILED;
+      })
+      // getAllProductDropdownAction
+      .addCase(getAllProductDropdownAction.pending, state => {
+        state.getAllProductDropdownLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getAllProductDropdownAction.fulfilled, (state, action) => {
+        state.getAllProductDropdownLoadingStatus = LoadingStatus.LOADED;
+        state.getAllProductDropdown = action.payload?.data;
+      })
+      .addCase(getAllProductDropdownAction.rejected, (state, action) => {
+        state.getAllProductDropdownLoadingStatus = LoadingStatus.FAILED;
+      })
+      // getAllProductModelAction
+      .addCase(getAllProductModelAction.pending, state => {
+        state.getAllProductModel = [];
+        state.getAllProductModelLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getAllProductModelAction.fulfilled, (state, action) => {
+        state.getAllProductModelLoadingStatus = LoadingStatus.LOADED;
+        state.getAllProductModel = action.payload?.data;
+      })
+      .addCase(getAllProductModelAction.rejected, (state, action) => {
+        state.getAllProductModelLoadingStatus = LoadingStatus.FAILED;
+      })
+      // addProductImageAction
+      .addCase(addProductImageAction.pending, state => {
+        state.addProductImageLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addProductImageAction.fulfilled, (state, action) => {
+        state.addProductImageLoadingStatus = LoadingStatus.LOADED;
+        state.addProductImage = action.payload?.data;
+      })
+      .addCase(addProductImageAction.rejected, (state, action) => {
+        state.addProductImageLoadingStatus = LoadingStatus.FAILED;
+      })
+      // addProductDetailAction
+      .addCase(addProductDetailAction.pending, state => {
+        state.addProductDetailLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addProductDetailAction.fulfilled, (state, action) => {
+        state.addProductDetailLoadingStatus = LoadingStatus.LOADED;
+        state.addProductDetail = action.payload?.data;
+      })
+      .addCase(addProductDetailAction.rejected, (state, action) => {
+        state.addProductDetailLoadingStatus = LoadingStatus.FAILED;
+      })
+      // addProductPriceAction
+      .addCase(addProductPriceAction.pending, state => {
+        state.addProductPriceLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addProductPriceAction.fulfilled, (state, action) => {
+        state.addProductPriceLoadingStatus = LoadingStatus.LOADED;
+        state.addProductPrice = action.payload?.data;
+      })
+      .addCase(addProductPriceAction.rejected, (state, action) => {
+        state.addProductPriceLoadingStatus = LoadingStatus.FAILED;
       });
   },
 });
@@ -49,4 +134,4 @@ const reduxSlice = createSlice({
 
 export const {resetSliceState} = reduxSlice.actions;
 
-export const addProductReducer = reduxSlice.reducer;
+export const productReducer = reduxSlice.reducer;

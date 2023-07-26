@@ -4,13 +4,13 @@ import {useNavigation} from '@react-navigation/native';
 
 const AddProduct = () => {
   const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      tabBarStyle: {
-        display: 'none',
-      },
-    });
-  }, []);
+  // useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     tabBarStyle: {
+  //       display: 'none',
+  //     },
+  //   });
+  // }, []);
 
   return (
     <View>

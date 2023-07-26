@@ -15,6 +15,7 @@ const SubmitButton = ({
   buttonStyle,
   loading = false,
   disabled = false,
+  ...props
 }) => {
   switch (type) {
     case 'contained':
@@ -27,7 +28,8 @@ const SubmitButton = ({
           textColor="white"
           labelStyle={[styles.labelStyle, labelStyle]}
           style={[styles.buttonStyle, buttonStyle]}
-          onPress={onPress}>
+          onPress={onPress}
+          {...props}>
           {lable}
         </Button>
       );
@@ -41,7 +43,8 @@ const SubmitButton = ({
           textColor={'black'}
           labelStyle={[styles.labelStyle, labelStyle]}
           style={[styles.buttonStyle, buttonStyle]}
-          onPress={onPress}>
+          onPress={onPress}
+          {...props}>
           {lable}
         </Button>
       );
@@ -55,7 +58,8 @@ const SubmitButton = ({
           textColor={textColor}
           labelStyle={[styles.labelStyle, labelStyle]}
           style={[styles.buttonStyle, buttonStyle]}
-          onPress={onPress}>
+          onPress={onPress}
+          {...props}>
           {lable}
         </Button>
       );
