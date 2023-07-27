@@ -81,3 +81,11 @@ export const send_Icon = require('../assets/images/send_Icon.png');
 export const BoostNowShade1 = require('../assets/images/BoostNowShade1.png');
 export const CoinBoostNow = require('../assets/images/CoinBoostNow.png');
 export const GroupIcon = require('../assets/images/GroupIcon.png');
+
+//Seller Profile by others 
+export const coverSellerProfile = require('../assets/images/coverSellerProfile.png');
+export const starimage = require('../assets/images/starimage.png');
+export const Seller_facebook = require('../assets/images/Seller_facebook.png');
+export const Seller_gmail = require('../assets/images/Seller_gmail.png');
+export const Seller_phone_call = require('../assets/images/Seller_phone-call.png');
+export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');
