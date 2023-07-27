@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   Text,
+  Touchable,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,7 +17,7 @@ import {useDispatch} from 'react-redux';
 import {logoutAction} from '@app/store/authSlice';
 import {useState} from 'react';
 
-const MyProfileScreen = () => {
+const MyProfileScreen = (props) => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const dispatch = useDispatch();
   const logout = async () => {
@@ -57,9 +58,13 @@ const MyProfileScreen = () => {
       style={{flex: 1, margin: 20, marginTop: 50}}
       showsVerticalScrollIndicator={false}>
       <View style={styles.ProfilePicture}>
+        <TouchableOpacity onPress={()=>{
+          props.navigation.navigate('Sellers Own Profile')
+        }}>
         <View>
           <Image source={IMAGES.UserProfile1} style={styles.ImageStyle} />
         </View>
+        </TouchableOpacity>
 
         {/* Parallel To Image Section  */}
 
@@ -156,6 +161,7 @@ const MyProfileScreen = () => {
           activeOpacity={1}
           onPress={() => {
             // Alert.alert('Pressed');
+            props.navigation.navigate("Coin History")
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>

@@ -8,6 +8,8 @@ import {
 
 import MainTabNavigator from './MainTabNavigator';
 import {RoutesName} from '@app/helper/strings';
+import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
+import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -20,6 +22,14 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
+      />
+      <Stack.Screen 
+       name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
+       component={SellersProfileViewByOwn}
+      />
+      <Stack.Screen 
+       name={RoutesName.COIN_HISTORY}
+       component={CoinHistory}
       />
       {/* <Stack.Screen
         name="FreshFind"
