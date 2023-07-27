@@ -95,3 +95,10 @@ export const gmail = require('../assets/images/gmail.png');
 export const CoinHistory = require('../assets/images/CoinHistory.png');
 export const RedTriangle = require('../assets/images/RedTriangle.png');
 export const GreenTriangle = require('../assets/images/GreenTriangle.png');
+//Seller Profile by others 
+export const coverSellerProfile = require('../assets/images/coverSellerProfile.png');
+export const starimage = require('../assets/images/starimage.png');
+export const Seller_facebook = require('../assets/images/Seller_facebook.png');
+export const Seller_gmail = require('../assets/images/Seller_gmail.png');
+export const Seller_phone_call = require('../assets/images/Seller_phone-call.png');
+export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');

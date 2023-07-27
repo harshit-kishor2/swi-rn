@@ -28,6 +28,7 @@ export const RoutesName = {
   PRODUCT_DETAILS: 'Product Details',
   SELLERSPROFILE_VIEWBYOWN:'Sellers Own Profile',
   COIN_HISTORY:'Coin History',
+  ITEM_COMPARISON: 'ItemComparison',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

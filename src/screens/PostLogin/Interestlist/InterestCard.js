@@ -37,21 +37,8 @@ const Item = ({ name, content, price, brand }) => {
                     </Text>
                     <View style={{ flexDirection: 'row', }}>
                         <Text
-                            style={{
-                                fontSize: 18,
-                                color: '#00958C',
-                                marginLeft: 10,
-                                marginTop: 5,
-                                fontWeight: 'bold'
-
-
-                            }}>{price} </Text>
-                        <Text style={{
-                            fontSize: 12,
-                            color: '#00958C',
-                            marginTop: 10,
-                            margin: 5
-                        }}>. {brand} </Text>
+                            style={style.txtprice}>{price} </Text>
+                        <Text style={style.brand}>. {brand} </Text>
                         <Image source={IMAGES.send_Icon} style={{ marginLeft: 160 }} />
                     </View>
                 </View>
@@ -166,12 +153,24 @@ const style = StyleSheet.create({
         height: SPACING.SCALE_114,
         borderRadius: 10,
         marginVertical: 7
-
-
-
     },
     Image1: {
         height: 30, width: 30,
         borderRadius: 25
+    },
+    txtprice: {
+        fontSize: 18,
+        color: '#00958C',
+        marginLeft: 10,
+        marginTop: 5,
+        fontWeight: 'bold'
+    },
+    brand: {
+        fontSize: 12,
+        color: '#00958C',
+        marginTop: 10,
+        margin: 5
     }
+
+
 })

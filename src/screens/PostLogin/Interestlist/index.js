@@ -40,7 +40,6 @@ export const InterestList = () => {
                         alignItems: 'center',
                         flex: 1,
                     }}>
-                    {/* <Spacer width={20} /> */}
                     <CustomInput
                         mode={'outlined'}
                         outlineColor="grey"

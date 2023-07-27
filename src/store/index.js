@@ -3,7 +3,9 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {addProductReducer} from './addProduct.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
-import exploreProductReducer from './exploreProductSlice';
+import exploreProductReducer, {
+  addToCompareReducer,
+} from './exploreProductSlice';
 import exploreReducer from './explore.slice';
 import {productReducer, productStateReducer} from './productSlice';
 
@@ -14,6 +16,7 @@ const combinedReducer = combineReducers({
   productReducer,
   productStateReducer,
   exploreReducer,
+  addToCompareReducer,
 });
 
 const rootReducers = (state, action) => {
