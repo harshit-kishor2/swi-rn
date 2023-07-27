@@ -5,7 +5,7 @@ import { Image } from 'react-native'
 import fonts from '@app/resources/fonts'
 import styles from './styles'
 import listings from './listings'
-import { CustomIcon, CustomInput, Custombutton2 } from '@app/components'
+import { CustomIcon, CustomInput, Custombutton2, NavigationBar } from '@app/components'
 import { ICON_TYPE } from '@app/components/CustomIcon'
 import { margin } from '@app/resources/mixins'
 
@@ -93,7 +93,7 @@ const Item = ({
           </Text>
         </View>
         <View>
-          
+
         </View>
       </View>
     </TouchableOpacity>
@@ -179,9 +179,37 @@ const SellersProfileViewByOwn = () => {
   }
   return (
     <View style={{
-      marginTop: 5,
-      flex:1
+     
+      flex: 1
     }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:10 }}>
+        <NavigationBar
+          leftSource={IMAGES.BACKARROW}
+          leftAction={() => {
+            // console.log('first');
+            props.navigation.navigate('CreateAccountScreen');
+          }}
+          flexDirection="row"
+
+        />
+        <View style={{ flexDirection: 'row', margin: 15 }}>
+          <View style={{ marginRight: 15 }}>
+            <CustomIcon
+              origin={ICON_TYPE.FEATHER_ICONS}
+              name={'edit-2'}
+              color={COLORS.BLACK}
+              size={24}
+            />
+          </View>
+          <CustomIcon
+            origin={ICON_TYPE.ANT_ICON}
+            name={'qrcode'}
+            color={COLORS.BLACK}
+
+          />
+        </View>
+      </View>
+     
       <View>
         <Image source={IMAGES.BackgroundImage} style={{ height: 130, width: '100%' }} />
         <View style={{ alignItems: 'center', position: 'absolute', justifyContent: 'center', width: '100%', height: '200%' }}>
@@ -211,11 +239,37 @@ const SellersProfileViewByOwn = () => {
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
         <Text style={{ fontFamily: 'Cabin-SemiBold', fontSize: 16 }}>Verified:</Text>
-        <View style={{ flexDirection: 'row', marginLeft: 5 }}>
-          <Image source={IMAGES.singpass} />
-          <Image source={IMAGES.gmail} style={styles.IconStyle} />
-          <Image source={IMAGES.phone} style={styles.IconStyle} />
-          <Image source={IMAGES.facebook} style={styles.IconStyle} />
+        <View style={{ flexDirection: 'row', marginHorizontal:5, justifyContent:'space-between' }}>
+        
+        <View style={{height:16, width:16 , borderRadius:8, backgroundColor:'#797979', justifyContent:'center', alignItems:'center'}}>
+            <CustomIcon
+              origin={ICON_TYPE.ANT_ICON}
+              name={'idcard'}
+              color={COLORS.WHITE}
+              size={8}
+            />
+            </View>
+            
+            <CustomIcon
+              origin={ICON_TYPE.ENTYPO}
+              name={'mail-with-circle'}
+              color={'#797979'}
+              size={16}
+            />
+            <View style={{height:16, width:16 , borderRadius:8, backgroundColor:'#797979', justifyContent:'center', alignItems:'center'}}>
+            <CustomIcon
+              origin={ICON_TYPE.FEATHER_ICONS}
+              name={'phone'}
+              color={COLORS.WHITE}
+              size={8}
+            />
+            </View>
+            <CustomIcon
+              origin={ICON_TYPE.ENTYPO}
+              name={'facebook-with-circle'}
+              color={'#797979'}
+              size={16}
+            />
         </View>
       </View>
 
@@ -320,10 +374,10 @@ const SellersProfileViewByOwn = () => {
       )}
 
       {selectedButton === 'About' && (
-     
-         <ScrollView horizontal={false}  contentContainerStyle={{flexGrow:1,}}
-       >
-        
+
+        <ScrollView horizontal={false} contentContainerStyle={{ flexGrow: 1, }}
+        >
+
           <View style={{
             backgroundColor: '#F0F2FA',
             height: 78,
@@ -353,57 +407,57 @@ const SellersProfileViewByOwn = () => {
             </View>
 
           </View>
-         
-         <View style={{margin:20}}>
-          <Text style={{fontFamily:'OpenSans-Bold', fontSize:15}}>About</Text>
-          
-         <Text style={{fontFamily:'OpenSans-Regular', fontSize:16,marginTop:10 }}>Suspendisse viverra luctus quam, sed fringilla nulla. Pellentesque quis massa tincidunt, iaculis ipsum sed pretium.</Text>
-         </View>
-         <View
-         style={{height:1, marginHorizontal:20,width:'90%',backgroundColor:'#000000'}}
-         />
 
-         <View style={{flexDirection:'column', marginHorizontal:20,  }}>
-          <View style={{ flexDirection:'row', justifyContent:'space-between',marginVertical:5}}>
-          <Text>Location</Text>
-          <Text style={{width:'50%'}}>Shop #2 Marina Bay San</Text>
+          <View style={{ margin: 20 }}>
+            <Text style={{ fontFamily: 'OpenSans-Bold', fontSize: 15 }}>About</Text>
+
+            <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 16, marginTop: 10 }}>Suspendisse viverra luctus quam, sed fringilla nulla. Pellentesque quis massa tincidunt, iaculis ipsum sed pretium.</Text>
           </View>
-          <View style={{ flexDirection:'row', justifyContent:'space-between',marginVertical:5}}>
-          <Text>Opening Hour</Text>
-          <Text style={{width:'50%'}}>Monday -Saturday
-(11:00am -9:00pm)</Text>
-          </View>
-          <View style={{ flexDirection:'row', justifyContent:'space-between',marginVertical:5 }}>
-          <Text>Contact</Text>
-          <Text style={{width:'50%'}}>+65 6549796565</Text>
+          <View
+            style={{ height: 1, marginHorizontal: 20, width: '90%', backgroundColor: '#000000' }}
+          />
 
-          </View>
-          <View style={{flexDirection:'row', justifyContent:'space-between',marginVertical:5 }}>
-          <Text>WebSite</Text>
-          <Text style={{width:'50%'}}>immyvan.com</Text>
+          <View style={{ flexDirection: 'column', marginHorizontal: 20, }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Location</Text>
+              <Text style={{ width: '50%' }}>Shop #2 Marina Bay San</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Opening Hour</Text>
+              <Text style={{ width: '50%' }}>Monday -Saturday
+                (11:00am -9:00pm)</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Contact</Text>
+              <Text style={{ width: '50%' }}>+65 6549796565</Text>
 
-
-          </View>
-          <View style={{flexDirection:'row', justifyContent:'space-between',marginVertical:5}}>
-          <Text>Socials</Text>
-          <Text style={{width:'50%'}}>facebook/immyvan</Text>
-
-          </View>
-          <View style={{flexDirection:'row', justifyContent:'space-between',marginVertical:5 }}>
-          <Text>Payment Mode</Text>
-          <Text style={{width:'50%'}}>Cash, Credit Card</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>WebSite</Text>
+              <Text style={{ width: '50%' }}>immyvan.com</Text>
 
 
-          </View>
-          <View style={{ flexDirection:'row', justifyContent:'space-between',marginVertical:5 }}>
-          <Text>Joined Since</Text>
-          <Text style={{width:'50%'}}>24 September 2021</Text>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Socials</Text>
+              <Text style={{ width: '50%' }}>facebook/immyvan</Text>
 
-          </View>
-          
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Payment Mode</Text>
+              <Text style={{ width: '50%' }}>Cash, Credit Card</Text>
+
+
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }}>
+              <Text>Joined Since</Text>
+              <Text style={{ width: '50%' }}>24 September 2021</Text>
+
+            </View>
+
           </View>
         </ScrollView>
-      
+
       )}
     </View>
   )
