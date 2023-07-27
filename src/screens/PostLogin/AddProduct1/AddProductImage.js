@@ -22,6 +22,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {Alert} from 'react-native';
 import {Platform} from 'react-native';
 import Video from 'react-native-video';
+import {LoadingStatus} from '@app/helper/strings';
 
 const AddProductImage = ({onNextClick, ...props}) => {
   const {
@@ -227,7 +228,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
         }
       } else {
         showAlert({
-          title: 'Please add a thumnail image.',
+          title: 'Please add thumbnail image.',
         });
       }
     }
@@ -342,7 +343,13 @@ const AddProductImage = ({onNextClick, ...props}) => {
         </Pressable>
       </ScrollView>
       <Spacer height={30} />
-      <SubmitButton onPress={onImageSubmit} lable="Next" />
+      <SubmitButton
+        onPress={onImageSubmit}
+        lable="Next"
+        disabled={
+          productReducer?.addProductImageLoadingStatus === LoadingStatus.LOADING
+        }
+      />
     </ScrollView>
   );
 };

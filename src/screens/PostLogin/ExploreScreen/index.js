@@ -110,8 +110,10 @@ const ExploreScreen = props => {
         }}
         data={topNotchWatch}
         ListHeaderComponent={HEADER}
+        windowSize={11}
         renderItem={renderItem}
         numColumns={2}
+        maxToRenderPerBatch={8}
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={{
           flex: 1,

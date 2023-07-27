@@ -58,5 +58,7 @@ export const HYPERLINK = '#00958C';
 
 export const PageBackground = '#F0F2FA';
 export const greyTextColor = '#636363';
+export const greyLineColor = '#D8D8D8';
 export const themeColor = '#00958C';
 export const borderBottomColor = '#7C7C7C';
+export const modalViewTextColor = '#5A616B';

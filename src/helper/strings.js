@@ -26,6 +26,7 @@ export const RoutesName = {
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
   PRODUCT_DETAILS: 'Product Details',
+  ITEM_COMPARISON: 'ItemComparison',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

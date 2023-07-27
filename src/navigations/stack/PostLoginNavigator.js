@@ -8,6 +8,7 @@ import {
 
 import MainTabNavigator from './MainTabNavigator';
 import {RoutesName} from '@app/helper/strings';
+import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -21,6 +22,11 @@ const PostLoginNavigator = () => {
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
       />
+      <Stack.Screen
+        name={RoutesName.ITEM_COMPARISON}
+        component={ItemComparison}
+      />
+
       {/* <Stack.Screen
         name="FreshFind"
         component={FreshFindScreen}
