@@ -9,31 +9,10 @@ import { Rating } from "react-native-ratings";
 
 export const RatingAndReviews = () => {
     const userRating = 3;
-    const data = [
-        {
-            id: 1,
-            name: 'star',
-            source: ICON_TYPE.EVIL_ICONS
-        },
-        {
-            id: 2,
-            name: 'star',
-            source: ICON_TYPE.EVIL_ICONS
-        },
-        {
-            id: 3,
-            name: 'star',
-            source: ICON_TYPE.EVIL_ICONS
-        },
-        {
-            id: 4,
-            name: 'star',
-            source: ICON_TYPE.EVIL_ICONS
-        }
-    ]
+
     return (
         <Container>
-            <View style={{ margin: 15 }}>
+            <View style={{ margin: 20 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <NavigationBar
                         leftSource={IMAGES.BACKARROW}
@@ -63,7 +42,7 @@ export const RatingAndReviews = () => {
                 </View>
                 <View style={{
                     alignItems: 'center',
-                    marginTop: 40
+                    marginTop: 30
                 }}>
                     <Image
                         source={IMAGES.Ellipse7}
@@ -109,30 +88,138 @@ export const RatingAndReviews = () => {
                     color: '#090909',
                     marginTop: 15
                 }}>Overall Rating</Text>
-                <View>
-                    <Text>4/5 </Text>
-                    <Rating
-                        type="star"
-                        ratingCount={5}
-                        startingValue={userRating}
-                        imageSize={16}
-                        readonly
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: "space-evenly",
-                            alignItems: "center"
-                        }}
-                    />
+                <View style={{
+                    flexDirection: 'row',
+                    // backgroundColor: 'red'
+                }}>
+                    <View >
+                        <Text style={{
+                            fontSize: 55,
+                            marginTop: 15,
+                            marginLeft: 25,
+                            color: COLORS.BLACK
+                        }}>4.0 <Text style={{
+                            fontSize: 37,
+                            marginTop: 15,
+                            marginLeft: 25,
+                            color: COLORS.BLACK
+                        }}>/5 </Text></Text>
+                    </View>
+                    <View style={{ marginTop: 30 }}>
+                        <Rating
+                            type="star"
+                            ratingCount={5}
+                            startingValue={userRating}
+                            imageSize={16}
+                            readonly
+                            style={{
+                                marginLeft: 20,
+                            }}
+                        />
+                        <Text style={{
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginLeft: 20,
+                            marginTop: 5
+
+                        }}>Base on 20 reviews</Text>
+                    </View>
                 </View>
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 20,
 
 
+                }}>
+                    <Text style={{
+                        fontSize: 18,
+                        fontFamily: 'Cabin Regular',
+                        color: '#090909',
 
+                    }}>Reviews</Text>
+                    <View style={{
+                        flexDirection: 'row',
+
+                    }}>
+                        <CustomIcon
+                            origin={ICON_TYPE.ANT_ICON}
+                            name={'filter'}
+                            size={16}
+                            color={'#00958C'}
+                            style={{
+                                marginTop: 3,
+                            }}
+
+                        />
+                        <Text style={{
+                            fontFamily: 'OpenSans',
+                            fontWeight: 'bold',
+                            fontSize: 16,
+                            color: '#00958C',
+                            marginLeft: 5,
+                            marginRight: 10
+                        }}
+                        >Filter</Text>
+                    </View>
+                </View>
+                <FlatList
+                    data={[1, 2]}
+                    renderItem={() => {
+                        return (
+                            <View>
+                                <View style={{ marginTop: 25 }} >
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }} >
+                                        <View style={{ flexDirection: 'row' }}>
+                                            <View style={{
+                                                height: 29,
+                                                width: 29,
+                                                borderRadius: 29 / 2,
+                                                backgroundColor: '#FF7575',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+
+                                            }}>
+                                                <Text style={{
+                                                    color: COLORS.WHITE,
+                                                    fontSize: 16
+                                                }}>SL</Text>
+
+                                            </View>
+                                            <Text style={{
+                                                marginLeft: 15,
+                                                fontSize: 16,
+                                                color: COLORS.BLACK
+
+                                            }}>Su Yan Lao</Text>
+                                        </View>
+                                        <View style={{
+                                            height: 19,
+                                            width: 39,
+                                            backgroundColor: '#028006',
+                                            alignItems: 'center'
+                                        }}><Text style={{ color: COLORS.WHITE }}>5.0</Text></View>
+                                    </View>
+
+                                </View>
+                                <View>
+                                    <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</Text>
+                                    <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 11, color: COLORS.HYPERLINK }}>30 Dec, 2020</Text>
+                                </View>
+                                <View style={{
+                                    height: 2,
+                                    backgroundColor: '#707070',
+                                    marginTop: 5
+                                }}></View>
+                            </View>
+                        )
+                    }}
+                />
 
             </View>
 
         </Container >
     )
-
 }
 
 const style = StyleSheet.create({
