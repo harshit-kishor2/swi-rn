@@ -1,12 +1,14 @@
 import { Container, CustomIcon, NavigationBar } from "@app/components";
 import { ICON_TYPE } from "@app/components/CustomIcon";
-import { IMAGES } from "@app/resources";
+import { COLORS, IMAGES } from "@app/resources";
 import React from "react";
 import { FlatList } from "react-native";
 import { StyleSheet } from "react-native";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Rating } from "react-native-ratings";
 
 export const RatingAndReviews = () => {
+    const userRating = 3;
     const data = [
         {
             id: 1,
@@ -71,40 +73,64 @@ export const RatingAndReviews = () => {
                             borderRadius: 10
                         }}
                     />
-                    <Text>Immy Vans</Text>
-                    {/* <CustomIcon 
-                        source={ICON_TYPE.EVIL_ICONS}
-                        name={'star'}
-                        color={'#FFBD3D'}
-                        size={14}
-                    /> */}
+                    <Text style={{
+                        fontSize: 24,
+                        fontFamily: 'OpenSans-Bold',
+                        color: '#000000',
+                        marginTop: 10
+                    }}>Immy Vans</Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: 15
+                    }}>
+                        <Rating
+                            type="star"
+                            ratingCount={5}
+                            startingValue={userRating}
+                            imageSize={16}
+                            readonly
+
+                        />
+                        <Text style={{
+                            fontSize: 13,
+                            fontFamily: 'OpenSans-SemiRegular',
+                            color: '#454545',
+                            marginLeft: 5
+                        }}>20 reviews</Text>
+
+                    </View>
                 </View>
-                <View >
-                    <FlatList
-                        data={data}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) =>
-                            <View >
-                                <CustomIcon
-                                    source={item.source}
-                                    name={item.name}
-                                    size={14}
-                                    color={'#FFBD3D'}
 
-                                />
-
-                            </View>
-
-
-                        }
-
-
+                <Text style={{
+                    fontSize: 18,
+                    fontFamily: 'Cabin Regular',
+                    color: '#090909',
+                    marginTop: 15
+                }}>Overall Rating</Text>
+                <View>
+                    <Text>4/5 </Text>
+                    <Rating
+                        type="star"
+                        ratingCount={5}
+                        startingValue={userRating}
+                        imageSize={16}
+                        readonly
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: "space-evenly",
+                            alignItems: "center"
+                        }}
                     />
                 </View>
 
 
+
+
             </View>
-        </Container>
+
+        </Container >
     )
 
 }
