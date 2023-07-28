@@ -21,16 +21,19 @@ export const SellerProfileViewByOther = () => {
     ]
 
     return (
-        <View style={{ flex: 1, marginTop: 5 }}>
-            <View>
-                <NavigationBar
-                    leftSource={IMAGES.BACKARROW}
-                    leftAction={() => {
-                        console.log('first');
-                        props.navigation.navigate('CreateAccountScreen');
-                    }}
-                    flexDirection="row"
-                />
+        <View style={{ flex: 1 }}>
+            <View >
+                <View style={{ marginLeft: 15 }}>
+
+                    <NavigationBar
+                        leftSource={IMAGES.BACKARROW}
+                        leftAction={() => {
+                            console.log('first');
+                            props.navigation.navigate('CreateAccountScreen');
+                        }}
+                        flexDirection="row"
+                    />
+                </View>
                 <View>
                     <Image source={IMAGES.coverSellerProfile}
                         style={{ width: 393, height: 125 }} />
