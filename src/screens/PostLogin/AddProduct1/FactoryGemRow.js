@@ -6,6 +6,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {TextInput} from 'react-native-paper';
 
 const FactoryGemRow = ({
+  isRequired,
   lable,
   description,
   onTitlePress,
@@ -30,7 +31,10 @@ const FactoryGemRow = ({
           paddingTop: 20,
           paddingRight: 40,
         }}>
-        <CustomText style={{color: '#7C7C7C'}}>{lable} </CustomText>
+        <CustomText style={{color: '#7C7C7C'}}>
+          {lable}{' '}
+          {isRequired ? <CustomText style={{color: 'red'}}>*</CustomText> : ''}
+        </CustomText>
         <View
           style={{
             flexDirection: 'row',

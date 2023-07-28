@@ -1,7 +1,7 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import NavigationService from '@app/navigations/NavigationService';
-import {CustomIcon, CustomText} from '@app/components';
+import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {FontsConst} from '@app/assets/assets';
 
@@ -47,14 +47,18 @@ const ProductHeader = ({goback, currentPage}) => {
         paddingVertical: 5,
       }}>
       <View style={styles.rowContainer}>
-        <Pressable onPress={goback}>
-          <CustomIcon
-            origin={ICON_TYPE.MATERIAL_ICONS}
-            name={'keyboard-backspace'}
-            color={'black'}
-            size={30}
-          />
-        </Pressable>
+        {currentPage !== 0 ? (
+          <Pressable onPress={goback}>
+            <CustomIcon
+              origin={ICON_TYPE.MATERIAL_ICONS}
+              name={'keyboard-backspace'}
+              color={'black'}
+              size={30}
+            />
+          </Pressable>
+        ) : (
+          <Spacer height={30} width={30} />
+        )}
         <CustomText
           style={{
             color: '#00958C',
