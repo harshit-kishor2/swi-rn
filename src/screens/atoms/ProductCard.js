@@ -1,17 +1,20 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import { Avatar, Card } from 'react-native-paper';
-import { CustomIcon, CustomText, Spacer } from '@app/components';
-import { FontsConst } from '@app/assets/assets';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { IMAGES } from '@app/resources';
-import { formatTimestamp } from '@app/helper/commonFunction';
+import {Avatar, Card} from 'react-native-paper';
+import {CustomIcon, CustomText, Spacer} from '@app/components';
+import {FontsConst} from '@app/assets/assets';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {IMAGES, SPACING} from '@app/resources';
+import {formatTimestamp} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
-import { RoutesName } from '@app/helper/strings';
+import {RoutesName} from '@app/helper/strings';
 
-const ProductCard = ({ item, onPress }) => {
+const ProductCard = ({item, onPress}) => {
   const maxLength = 10;
-  const truncatedText = item?.title.length > maxLength ? `${item?.title.substring(0, maxLength)}...` : item?.title;
+  const truncatedText =
+    item?.title.length > maxLength
+      ? `${item?.title.substring(0, maxLength)}...`
+      : item?.title;
 
   return (
     <Card style={styles.card_container}>
@@ -24,7 +27,7 @@ const ProductCard = ({ item, onPress }) => {
         <Card.Cover
           resizeMode="cover"
           style={styles.cover_style}
-          source={{ uri: item?.thumb_image }}
+          source={{uri: item?.thumb_image}}
         />
       </Pressable>
       <Card.Content>
@@ -43,7 +46,7 @@ const ProductCard = ({ item, onPress }) => {
             size={24}
             source={
               item?.user?.image && item?.user?.image !== ''
-                ? { uri: item?.user?.image }
+                ? {uri: item?.user?.image}
                 : IMAGES.Dollar
             }
           />
@@ -53,6 +56,7 @@ const ProductCard = ({ item, onPress }) => {
         <CustomText style={styles.duration}>
           {formatTimestamp(item?.created_at)}
         </CustomText>
+        <Spacer height={13} />
       </Card.Content>
       <View style={styles.bookmark}>
         <Pressable onPress={onPress}>
@@ -73,10 +77,10 @@ export default ProductCard;
 const styles = StyleSheet.create({
   card_container: {
     flex: 0.5,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#F6F6F6',
     elevation: 1,
     margin: 5,
-    width: 175
+    width: 175,
   },
   cover_style: {
     height: 150,
@@ -123,7 +127,8 @@ const styles = StyleSheet.create({
     color: '#868686',
   },
   bookmark: {
-    right: 5,
+    top: SPACING.SCALE_7,
+    right: SPACING.SCALE_7,
     position: 'absolute',
     height: 30,
     width: 30,
