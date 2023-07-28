@@ -14,7 +14,8 @@ import DropDownWithModel from './DropDownWithModel';
 import FactoryGemRow from './FactoryGemRow';
 import LocationModal from './LocationModal';
 import {showAlert} from '@app/helper/commonFunction';
-
+import {LoadingStatus} from '@app/helper/strings';
+const DIFF_MODEL = ['Rolex', 'Audemars Piguet', 'Patek Philippe'];
 const AddProductDetail = ({onNextClick, ...props}) => {
   const {
     productReducer,
@@ -23,7 +24,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     getAllProductModel,
     onAddProductDetail,
   } = props;
-
+  const [selectedBrand, setSelectedBrand] = useState(null);
   useEffect(() => {
     if (productState?.productDetails?.brand_id) {
       getAllProductModel({id: productState?.productDetails?.brand_id});
@@ -38,13 +39,13 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     if (!productState?.productDetails.brand_id) {
       errorObj = {
         status: true,
-        error: 'Please choose brand id.',
+        error: 'Please select brand.',
       };
       return errorObj;
     } else if (!productState?.productDetails.model_id) {
       errorObj = {
         status: true,
-        error: 'Please choose model id.',
+        error: 'Please select model.',
       };
       return errorObj;
     } else if (!productState?.productDetails.title) {
@@ -56,13 +57,13 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     } else if (!productState?.productDetails.dated) {
       errorObj = {
         status: true,
-        error: 'Please choose date.',
+        error: 'Please select date.',
       };
       return errorObj;
     } else if (!productState?.productDetails.accessories) {
       errorObj = {
         status: true,
-        error: 'Please enter accessories.',
+        error: 'Please select accessories.',
       };
       return errorObj;
     } else if (
@@ -71,7 +72,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     ) {
       errorObj = {
         status: true,
-        error: 'Please choose factory gem set.',
+        error: 'Please select factory gem set.',
       };
       return errorObj;
     } else if (
@@ -90,7 +91,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     ) {
       errorObj = {
         status: true,
-        error: 'Please choose custom.',
+        error: 'Please select custom.',
       };
       return errorObj;
     } else if (
@@ -101,6 +102,39 @@ const AddProductDetail = ({onNextClick, ...props}) => {
       errorObj = {
         status: true,
         error: "Please type what's custom.",
+      };
+      return errorObj;
+    } else if (
+      DIFF_MODEL.includes(selectedBrand) &&
+      !productState?.productDetails.dial
+    ) {
+      errorObj = {
+        status: true,
+        error: 'Please select dial.',
+      };
+      return errorObj;
+    } else if (
+      DIFF_MODEL.includes(selectedBrand) &&
+      !productState?.productDetails.bracelet
+    ) {
+      errorObj = {
+        status: true,
+        error: 'Please select bracelet.',
+      };
+      return errorObj;
+    } else if (
+      DIFF_MODEL.includes(selectedBrand) &&
+      productState?.productDetails.custom_gem_set === 'No'
+    ) {
+      errorObj = {
+        status: true,
+        error: 'Please select custom.',
+      };
+      return errorObj;
+    } else if (!productState?.productDetails.location) {
+      errorObj = {
+        status: true,
+        error: 'Please select location.',
       };
       return errorObj;
     } else {
@@ -151,6 +185,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
               key: 'new_model',
               value: false,
             });
+            setSelectedBrand(item?.name);
           }}
           data={productReducer?.getAllBrand}
           value={productState?.productDetails?.brand_id}
@@ -381,7 +416,11 @@ const AddProductDetail = ({onNextClick, ...props}) => {
       <Spacer height={10} />
       <>
         <CustomText style={{color: '#7C7C7C'}}>Gender</CustomText>
-        <View style={{flexDirection: 'row'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}>
           {[
             {id: 1, type: 'Male', icon: 'male'},
             {id: 2, type: 'Female', icon: 'female'},
@@ -400,7 +439,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
                   <CustomIcon
                     name={item?.icon}
                     origin={ICON_TYPE.ICONICONS}
-                    size={15}
+                    size={13}
                     color={
                       item.type !== productState?.productDetails?.gender_type
                         ? '#00958C'
@@ -427,10 +466,15 @@ const AddProductDetail = ({onNextClick, ...props}) => {
                 buttonStyle={{
                   borderRadius: 50,
                   height: 40,
+                  width: 100,
+
                   borderColor:
                     item.type === productState?.productDetails?.gender_type
                       ? 'white'
                       : '#00958C',
+                }}
+                labelStyle={{
+                  fontSize: 13,
                 }}
               />
             );
@@ -490,6 +534,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
             <DropDownWithModel
               backgroundColor="#fff"
               label={'Dial'}
+              isRequired={DIFF_MODEL.includes(selectedBrand)}
               // onClick={v => updateProductDetails({key: 'dial', value: v?.id})}
               onClick={(item, text) => {
                 updateProductDetails({
@@ -577,6 +622,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
             <DropDownWithModel
               backgroundColor="#fff"
               label={'Strap/Bracelet'}
+              isRequired={DIFF_MODEL.includes(selectedBrand)}
               // onClick={v =>
               //   updateProductDetails({key: 'bracelet', value: v?.id})
               // }
@@ -655,6 +701,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
           />
           <Spacer />
           <FactoryGemRow
+            isRequired={DIFF_MODEL.includes(selectedBrand)}
             lable={'Custom ?'}
             description={"If yes,tick what's custom ?"}
             descriptionData={
@@ -716,7 +763,18 @@ const AddProductDetail = ({onNextClick, ...props}) => {
         </View>
       </List.Accordion>
 
-      <SubmitButton onPress={onProductDetailSubmit} lable="Next" />
+      <SubmitButton
+        onPress={onProductDetailSubmit}
+        lable="Next"
+        disabled={
+          productReducer?.addProductDetailLoadingStatus ===
+          LoadingStatus.LOADING
+        }
+        loading={
+          productReducer?.addProductDetailLoadingStatus ===
+          LoadingStatus.LOADING
+        }
+      />
     </ScrollView>
   );
 };
