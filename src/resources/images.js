@@ -27,7 +27,7 @@ export const Sellicon = require('../assets/images/sellTab.png');
 
 //
 export const Rectangle91 = require('../assets/images/Rectangle91.png');
-export const Ellipse7 = require('../assets/images/Ellipse7.png');
+export const Ellipse7 = require('../assets/images/Ellipse7/Ellipse7.png');
 export const Vector1 = require('../assets/images/Vector1.png');
 export const search = require('../assets/images/search.png');
 export const bell = require('../assets/images/bell.png');
