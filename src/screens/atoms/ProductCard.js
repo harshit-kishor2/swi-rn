@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  Dimensions,
+} from 'react-native';
 import React from 'react';
 import {Avatar, Card} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
@@ -9,6 +16,7 @@ import {formatTimestamp} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
+const {width} = Dimensions.get('screen');
 const ProductCard = ({item, onPress}) => {
   const maxLength = 10;
   const truncatedText =
@@ -80,7 +88,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F6F6',
     elevation: 1,
     margin: 5,
-    width: 175,
+    width: width / 2 - 20,
   },
   cover_style: {
     height: 150,

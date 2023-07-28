@@ -5,7 +5,7 @@ import {FontsConst} from '@app/assets/assets';
 import {TextInput} from 'react-native-paper';
 import {showAlert} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
-import {RoutesName} from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 
 const AddProductPrice = ({onNextClick, ...props}) => {
   const {
@@ -121,7 +121,16 @@ const AddProductPrice = ({onNextClick, ...props}) => {
         Get your watch listed on top{' '}
         <CustomText style={{color: '#00958C'}}>Boost Now</CustomText>
       </CustomText>
-      <SubmitButton onPress={onButtonSubmit} lable="Post Now" />
+      <SubmitButton
+        onPress={onButtonSubmit}
+        lable="Post Now"
+        disabled={
+          productReducer?.addProductPriceLoadingStatus === LoadingStatus.LOADING
+        }
+        loading={
+          productReducer?.addProductPriceLoadingStatus === LoadingStatus.LOADING
+        }
+      />
       <Spacer />
     </ScrollView>
   );

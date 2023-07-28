@@ -1,4 +1,5 @@
-import {CustomIcon, CustomText} from '@app/components';
+import {FontsConst} from '@app/assets/assets';
+import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, Pressable, StyleSheet, View} from 'react-native';
@@ -48,13 +49,32 @@ const DropDownWithModel = ({
           onClick(item, null);
         }}
         style={{
-          justifyContent: 'center',
-          alignItems: 'center',
           paddingHorizontal: 10,
           height: 50,
           marginVertical: 5,
+          width: '100%',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexDirection: 'row',
         }}>
-        <CustomText>{item?.name}</CustomText>
+        <CustomText
+          style={{
+            width: '90%',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          {item?.name}
+        </CustomText>
+        <CustomIcon
+          origin={ICON_TYPE.MATERIAL_ICONS}
+          name={
+            selectedItem?.id === item?.id
+              ? 'radio-button-on'
+              : 'radio-button-off'
+          }
+          color={'#00958C'}
+          size={20}
+        />
       </Pressable>
     );
   };
@@ -80,6 +100,19 @@ const DropDownWithModel = ({
           value={searchQuery}
           placeholder="Search"
           onChangeText={v => setSearchQuery(v)}
+          left={
+            <TextInput.Icon
+              forceTextInputFocus={false}
+              icon={() => (
+                <CustomIcon
+                  origin={ICON_TYPE.MATERIAL_ICONS}
+                  name={'search'}
+                  size={25}
+                  color={'#00000040'}
+                />
+              )}
+            />
+          }
         />
       </View>
     );
@@ -157,28 +190,57 @@ const DropDownWithModel = ({
             height: '90%',
             backgroundColor: '#ffffff',
             bottom: 0,
-            paddingVertical: 20,
+            paddingVertical: 10,
           }}>
           <View
             style={{
               flex: 1,
-              justifyContent: 'center',
               alignItems: 'center',
             }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '90%',
+                paddingBottom: 20,
+              }}>
+              <Pressable onPress={() => setIsVisible(false)}>
+                <CustomIcon
+                  origin={ICON_TYPE.MATERIAL_ICONS}
+                  name={'close'}
+                  size={25}
+                  color={'black'}
+                />
+              </Pressable>
+              <CustomText
+                style={{
+                  fontFamily: FontsConst.Cabin_SemiBold,
+                  fontSize: 16,
+                }}>
+                {label}
+              </CustomText>
+              <Spacer />
+            </View>
             {headerComponent()}
             <FlatList
+              style={{
+                width: '90%',
+              }}
               keyboardShouldPersistTaps={'always'}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={true}
+              showsVerticalScrollIndicator={true}
               data={tempData}
               renderItem={renderItem}
               ListEmptyComponent={emptyComponent}
-              // ListHeaderComponent={() => headerComponent}
               contentContainerStyle={{
                 paddingBottom: 30,
                 flexGrow: 1,
                 backgroundColor: '#ffffff',
               }}
+              ItemSeparatorComponent={() => (
+                <View style={{backgroundColor: '#00000020', height: 1}} />
+              )}
             />
           </View>
         </View>
