@@ -9,6 +9,4 @@ import App from './src/App';
 import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 
 
-
-
-AppRegistry.registerComponent(appName, () => BoostNow);
+AppRegistry.registerComponent(appName, () => App);
