@@ -21,6 +21,7 @@ import {
   Custombutton,
   Custombutton2,
   ProductViewComponent,
+  Spacer,
 } from '@app/components';
 import {
   addEllipsis,
@@ -29,6 +30,8 @@ import {
   showAlert,
 } from '@app/helper/commonFunction';
 import ImageView from 'react-native-image-viewing';
+
+import ImageViewer from 'react-native-image-zoom-viewer';
 import {exploreProductDetail, productChart} from '@app/store/explore.slice';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import Chartdemo from './chartdemo';
@@ -37,6 +40,9 @@ import {RoutesName} from '@app/helper/strings';
 import {onAddToProductCompare} from '@app/store/exploreProductSlice';
 import Video from 'react-native-video';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import ProductCard from '@app/screens/atoms/ProductCard';
+import {FlatList} from 'react-native-gesture-handler';
+import ReadMore from '@app/components/ReadMore';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -113,35 +119,40 @@ const ProductDetails = props => {
   const ImageViewww = ({images}) => {
     const [selectedImage, setSelectedImage] = useState(0);
     console.log(images, 'dfshfshk');
-
-    const handleImagePress = index => {
-      setSelectedImage(index);
+    var index = 0;
+    const handleImagePress = indexx => {
+      setSelectedImage(indexx);
+      index = indexx;
     };
+    let fullImagesArray = images
+      .filter(item => item.type !== 'video')
+      .map(item => ({uri: item.file}));
 
     return (
       <View style={[styless.container]}>
-        <Modal
-          visible={fullImageModalVisible}
-          animationType="slide"
-          //transparent={true}
-        >
-          <View style={{flex: 1}}>
-            <Pressable
-              onPress={() => {
-                console.log('sdfghjk');
-                setfullImageModalVisible(false);
-              }}>
-              {images && (
-                <ImageView
-                  images={images}
-                  imageIndex={0}
-                  visible={fullImageModalVisible}
-                  onRequestClose={() => setfullImageModalVisible(false)}
-                />
-              )}
-            </Pressable>
-          </View>
-        </Modal>
+        {fullImageModalVisible && fullImagesArray != [] && (
+          <ImageView
+            images={fullImagesArray}
+            imageIndex={index}
+            doubleTapToZoomEnabled={true}
+            visible={fullImageModalVisible}
+            //presentationStyle="formSheet"
+            onRequestClose={() => setfullImageModalVisible(false)}
+            HeaderComponent={(item, index) => {
+              console.log(index, item);
+              return (
+                <Text
+                  style={{
+                    color: 'white',
+                    alignSelf: 'center',
+                    marginTop: SPACING.SCALE_20,
+                  }}>
+                  {`${item.imageIndex + 1}/${fullImagesArray.length}`}
+                </Text>
+              );
+            }}
+          />
+        )}
 
         <View style={styless.mainView}>
           {images[selectedImage]?.file ? (
@@ -173,8 +184,8 @@ const ProductDetails = props => {
             ) : (
               <Pressable
                 onPress={() => {
-                  console.log('asdfghjkl');
-                  console.log(fullImageModalVisible);
+                  console.log('asdfghjkl====>>>', selectedImage);
+
                   setfullImageModalVisible(true);
                 }}>
                 <Image
@@ -197,42 +208,46 @@ const ProductDetails = props => {
             </View>
           )}
         </View>
-        <View style={styless.thumbnailContainer}>
-          {images?.length != 0 &&
-            images.map((image, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styless.thumbnail,
-                  selectedImage === index && styless.selectedThumbnail,
-                ]}
-                onPress={() => handleImagePress(index)}>
-                {image?.file ? (
-                  <Image
-                    style={styless.thumbnailImage}
-                    source={{
-                      uri: image?.file?.includes('mp4')
-                        ? 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png'
-                        : image?.file,
-                    }}
-                  />
-                ) : (
-                  <Text>No image</Text>
-                )}
-              </TouchableOpacity>
-            ))}
-        </View>
-        <View style={styless.dotContainer}>
-          {images.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styless.dot,
-                selectedImage === index && styless.selectedDot,
-              ]}
-            />
-          ))}
-        </View>
+        {images?.length > 1 && (
+          <View>
+            <View style={styless.thumbnailContainer}>
+              {images?.length != 0 &&
+                images.map((image, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styless.thumbnail,
+                      selectedImage === index && styless.selectedThumbnail,
+                    ]}
+                    onPress={() => handleImagePress(index)}>
+                    {image?.file ? (
+                      <Image
+                        style={styless.thumbnailImage}
+                        source={{
+                          uri: image?.file?.includes('mp4')
+                            ? 'https://www.iconpacks.net/icons/1/free-video-icon-818-thumb.png'
+                            : image?.file,
+                        }}
+                      />
+                    ) : (
+                      <Text>No image</Text>
+                    )}
+                  </TouchableOpacity>
+                ))}
+            </View>
+            <View style={styless.dotContainer}>
+              {images.map((_, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styless.dot,
+                    selectedImage === index && styless.selectedDot,
+                  ]}
+                />
+              ))}
+            </View>
+          </View>
+        )}
       </View>
     );
   };
@@ -518,7 +533,7 @@ const ProductDetails = props => {
               alignItems: 'center',
               justifyContent: 'space-evenly',
               marginVertical: 5,
-              backgroundColor: 'red',
+              //backgroundColor: 'red',
               //maxWidth:SPACING.SCALE_00
             }}>
             {productDetailData?.data?.user?.image ? (
@@ -623,49 +638,71 @@ const ProductDetails = props => {
               paddingHorizontal: 20,
               marginTop: 20,
             }}>
-            <View style={{...styles.SpecifiactionView, marginTop: 3}}>
-              <Text style={styles.SpecifiactionText1}>Accessories</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.accessories}
-              </Text>
-            </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Dial</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.dial}
-              </Text>
-            </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Dial Markers</Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.dial_markers}
-              </Text>
-            </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Case Size </Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.case_size}
-              </Text>
-            </View>
-            <View style={styles.SpecifiactionView}>
-              <Text style={styles.SpecifiactionText1}>Movement </Text>
-              <Text style={styles.SpecifiactionText2}>
-                {productDetailData?.data?.movement}
-              </Text>
-            </View>
+            {productDetailData?.data?.accessories && (
+              <View
+                style={{
+                  ...styles.SpecifiactionView,
+                  marginTop: 3,
+                  //backgroundColor: 'red',
+                }}>
+                <Text style={styles.SpecifiactionText1}>Accessories</Text>
+                <Text style={styles.SpecifiactionText2}>
+                  {productDetailData?.data?.accessories}
+                </Text>
+              </View>
+            )}
+            {productDetailData?.data?.dial && (
+              <View style={styles.SpecifiactionView}>
+                <Text style={styles.SpecifiactionText1}>Dial</Text>
+                <Text style={styles.SpecifiactionText2}>
+                  {productDetailData?.data?.dial}
+                </Text>
+              </View>
+            )}
+            {productDetailData?.data?.dial_markers && (
+              <View style={styles.SpecifiactionView}>
+                <Text style={styles.SpecifiactionText1}>Dial Markers</Text>
+                <Text style={styles.SpecifiactionText2}>
+                  {productDetailData?.data?.dial_markers}
+                </Text>
+              </View>
+            )}
+            {productDetailData?.data?.case_size && (
+              <View style={styles.SpecifiactionView}>
+                <Text style={styles.SpecifiactionText1}>Case Size </Text>
+                <Text style={styles.SpecifiactionText2}>
+                  {productDetailData?.data?.case_size}
+                </Text>
+              </View>
+            )}
+            {productDetailData?.data?.movement && (
+              <View style={styles.SpecifiactionView}>
+                <Text style={styles.SpecifiactionText1}>Movement </Text>
+                <Text style={styles.SpecifiactionText2}>
+                  {productDetailData?.data?.movement}
+                </Text>
+              </View>
+            )}
           </View>
 
           {/* ReadMore Text */}
 
-          <View style={{alignSelf: 'center', width: '90%', marginTop: 30}}>
-            <Text
+          <View
+            style={{
+              alignSelf: 'center',
+              width: '90%',
+              marginTop: 30,
+              //backgroundColor: 'red',
+            }}>
+            <ReadMore content={productDetailData?.data?.description} />
+            {/* <Text
               onTextLayout={onTextLayout}
               numberOfLines={textShown ? undefined : 1}
               style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
               {productDetailData?.data?.description}{' '}
-            </Text>
+            </Text> */}
 
-            {true ? (
+            {/* {textShown ? (
               <Text
                 onPress={toggleNumberOfLines}
                 style={{
@@ -675,7 +712,7 @@ const ProductDetails = props => {
                 }}>
                 {textShown ? 'Read less' : 'Read more'}
               </Text>
-            ) : null}
+            ) : null} */}
           </View>
 
           <View
@@ -691,7 +728,12 @@ const ProductDetails = props => {
 
           {/* Price Chart */}
 
-          <View style={{marginTop: 25, position: 'relative'}}>
+          <View
+            style={{
+              marginTop: 25,
+              position: 'relative',
+              //backgroundColor: 'red',
+            }}>
             <View
               style={{
                 flexDirection: 'row',
@@ -699,7 +741,14 @@ const ProductDetails = props => {
                 marginHorizontal: 16,
                 zIndex: 1,
               }}>
-              <Text style={{fontFamily: 'OpenSans-Bold'}}>Price Chart</Text>
+              <Text
+                style={{
+                  fontFamily: 'OpenSans-Bold',
+                  fontSize: SPACING.SCALE_13,
+                  color: '#454545',
+                }}>
+                Price Chart
+              </Text>
               <TouchableOpacity
                 onPress={() => setIsChartDropDown(!isChartDropDown)}
                 activeOpacity={0.7}
@@ -711,9 +760,10 @@ const ProductDetails = props => {
                 <Text
                   style={{
                     fontFamily: 'OpenSans-Regular',
-                    fontSize: 16,
+                    fontSize: SPACING.SCALE_13,
                     color: '#868686',
                     fontWeight: '600',
+                    marginBottom: SPACING.SCALE_10,
                   }}>
                   {selectFilteredValue.name}{' '}
                 </Text>
@@ -724,6 +774,7 @@ const ProductDetails = props => {
                     height: SPACING.SCALE_10,
                     width: SPACING.SCALE_10,
                     marginTop: SPACING.SCALE_1,
+                    marginBottom: SPACING.SCALE_10,
                   }}
                 />
               </TouchableOpacity>
@@ -758,6 +809,7 @@ const ProductDetails = props => {
                           style={{
                             marginHorizontal: SPACING.SCALE_15,
                             marginVertical: SPACING.SCALE_10,
+                            fontSize: SPACING.SCALE_13,
                           }}>
                           {item.name}
                         </Text>
@@ -773,14 +825,32 @@ const ProductDetails = props => {
           </View>
 
           {/* horizontal watcehs */}
-          <View style={{marginTop: 40, zIndex: -2}}>
-            <Text style={{marginLeft: 20}}>Suggested watches for you</Text>
+          <View style={{marginTop: SPACING.SCALE_25, zIndex: -2}}>
+            <Text
+              style={{
+                marginLeft: SPACING.SCALE_20,
+                fontSize: SPACING.SCALE_20,
+                color: COLORS.BLACK,
+                fontWeight: 'bold',
+              }}>
+              Suggested watches for you
+            </Text>
+            <Spacer height={SPACING.SCALE_13} />
 
             {productDetailData?.data?.suggested_data?.length != 0 ? (
-              <ProductViewComponent
-                data={productDetailData?.data?.suggested_data}
-              />
+              <View style={{marginLeft: SPACING.SCALE_14}}>
+                <FlatList
+                  data={productDetailData?.data?.suggested_data}
+                  renderItem={({item, index}) => {
+                    console.log('Product_item======>>>>>>', item);
+                    return <ProductCard item={item} />;
+                  }}
+                />
+              </View>
             ) : (
+              // <ProductViewComponent
+              //   data={productDetailData?.data?.suggested_data}
+              // />
               <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Text>No Suggested watches</Text>
               </View>
