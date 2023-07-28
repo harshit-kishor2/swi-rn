@@ -4,6 +4,8 @@ import {
   ActivityIndicator,
   Alert,
   Image,
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,6 +17,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect, useDispatch, useSelector} from 'react-redux';
 
 import {
+  CustomIcon,
   Custombutton,
   Custombutton2,
   ProductViewComponent,
@@ -25,6 +28,7 @@ import {
   formatTimestamp,
   showAlert,
 } from '@app/helper/commonFunction';
+import ImageView from 'react-native-image-viewing';
 import {exploreProductDetail, productChart} from '@app/store/explore.slice';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import Chartdemo from './chartdemo';
@@ -32,6 +36,7 @@ import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
 import {onAddToProductCompare} from '@app/store/exploreProductSlice';
 import Video from 'react-native-video';
+import {ICON_TYPE} from '@app/components/CustomIcon';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -41,6 +46,7 @@ const selectKey = [
 ];
 
 const ProductDetails = props => {
+  const [fullImageModalVisible, setfullImageModalVisible] = useState(false);
   const {onAddToProductCompare, addToCompareReducer} = props;
   console.log(addToCompareReducer, '--->');
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -104,7 +110,7 @@ const ProductDetails = props => {
 
   // Image view logic =======================
 
-  const ImageView = ({images}) => {
+  const ImageViewww = ({images}) => {
     const [selectedImage, setSelectedImage] = useState(0);
     console.log(images, 'dfshfshk');
 
@@ -114,6 +120,29 @@ const ProductDetails = props => {
 
     return (
       <View style={[styless.container]}>
+        <Modal
+          visible={fullImageModalVisible}
+          animationType="slide"
+          //transparent={true}
+        >
+          <View style={{flex: 1}}>
+            <Pressable
+              onPress={() => {
+                console.log('sdfghjk');
+                setfullImageModalVisible(false);
+              }}>
+              {images && (
+                <ImageView
+                  images={images}
+                  imageIndex={0}
+                  visible={fullImageModalVisible}
+                  onRequestClose={() => setfullImageModalVisible(false)}
+                />
+              )}
+            </Pressable>
+          </View>
+        </Modal>
+
         <View style={styless.mainView}>
           {images[selectedImage]?.file ? (
             images[selectedImage]?.file?.includes('mp4') ? (
@@ -142,12 +171,19 @@ const ProductDetails = props => {
                 </>
               ))
             ) : (
-              <Image
-                style={styless.mainImage}
-                source={{
-                  uri: images[selectedImage]?.file,
-                }}
-              />
+              <Pressable
+                onPress={() => {
+                  console.log('asdfghjkl');
+                  console.log(fullImageModalVisible);
+                  setfullImageModalVisible(true);
+                }}>
+                <Image
+                  style={styless.mainImage}
+                  source={{
+                    uri: images[selectedImage]?.file,
+                  }}
+                />
+              </Pressable>
             )
           ) : (
             <View
@@ -340,7 +376,7 @@ const ProductDetails = props => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       {productDetailLoading === false ? (
         <ScrollView showsVerticalScrollIndicator={false}>
           {
@@ -372,15 +408,17 @@ const ProductDetails = props => {
                 />
               </TouchableOpacity>
               <TouchableOpacity>
-                <Image
-                  style={{height: SPACING.SCALE_24, width: SPACING.SCALE_19}}
-                  source={IMAGES.Favorite}
+                <CustomIcon
+                  size={30}
+                  color={'#000000'}
+                  origin={ICON_TYPE.MATERIAL_ICONS}
+                  name="bookmark-outline"
                 />
               </TouchableOpacity>
             </View>
           </View>
           {productDetailData?.data?.files ? (
-            <ImageView images={productDetailData.data.files} />
+            <ImageViewww images={productDetailData.data.files} />
           ) : null}
           {/* Main Image */}
           {/* <View style={styles.ImageSizeStyle}>
@@ -476,30 +514,36 @@ const ProductDetails = props => {
 
           <View
             style={{
-              //backgroundColor: 'red',
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-evenly',
               marginVertical: 5,
+              backgroundColor: 'red',
+              //maxWidth:SPACING.SCALE_00
             }}>
             {productDetailData?.data?.user?.image ? (
               <Image
                 source={{uri: productDetailData?.data?.user?.image}}
-                style={{height: 45, width: 45, borderRadius: 45 / 2}}
+                style={{
+                  height: 45,
+                  width: 45,
+                  borderRadius: 45 / 2,
+                  marginLeft: 10,
+                }}
               />
             ) : (
               <Image
-                source={IMAGES.Ellipse7}
+                source={IMAGES.userProfile}
                 style={{height: 45, width: 45, borderRadius: 45 / 2}}
               />
             )}
 
-            <View style={{flexDirection: 'column'}}>
+            <View style={{width: SPACING.SCALE_285}}>
               <View
                 style={{
                   flexDirection: 'row',
                   alignContent: 'center',
-                  justifyContent: 'space-evenly',
+                  justifyContent: 'space-between',
                 }}>
                 <Text
                   style={{
@@ -535,11 +579,11 @@ const ProductDetails = props => {
                     justifyContent: 'center',
                     marginTop: 6,
                   }}>
-                  {productDetailData?.data?.location && (
+                  {productDetailData?.data?.location ? (
                     <>
                       <Image
                         style={{height: 14.6, width: 12, marginRight: 6}}
-                        source={IMAGES.LocationImage}
+                        source={IMAGES.locationIcon}
                       />
                       <View style={{maxWidth: 200}}>
                         <Text
@@ -551,6 +595,8 @@ const ProductDetails = props => {
                         </Text>
                       </View>
                     </>
+                  ) : (
+                    <Text>No address</Text>
                   )}
                 </View>
               </View>

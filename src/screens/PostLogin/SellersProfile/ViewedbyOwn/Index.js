@@ -8,6 +8,7 @@ import listings from './listings'
 import { CustomIcon, CustomInput, Custombutton2, NavigationBar } from '@app/components'
 import { ICON_TYPE } from '@app/components/CustomIcon'
 import { margin } from '@app/resources/mixins'
+import { Rating } from 'react-native-ratings'
 
 
 
@@ -177,6 +178,7 @@ const SellersProfileViewByOwn = () => {
   const handleButtonPress = (buttonName) => {
     setSelectedButton(buttonName);
   }
+  const userRating=4
   return (
     <View style={{
      
@@ -228,11 +230,7 @@ const SellersProfileViewByOwn = () => {
 
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-        <Image source={IMAGES.Star} />
-        <Image source={IMAGES.Star} />
-        <Image source={IMAGES.Star} />
-        <Image source={IMAGES.Star} />
-        <Image source={IMAGES.Star} />
+      {/* <Rating/> */}
         <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 16, marginLeft: 10, textDecorationLine: 'underline', color: 'black' }}>20 reviews</Text>
       </View>
 

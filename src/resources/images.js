@@ -27,7 +27,7 @@ export const Sellicon = require('../assets/images/sellTab.png');
 
 //
 export const Rectangle91 = require('../assets/images/Rectangle91.png');
-export const Ellipse7 = require('../assets/images/Ellipse7.png');
+export const Ellipse7 = require('../assets/images/Ellipse7/Ellipse7.png');
 export const Vector1 = require('../assets/images/Vector1.png');
 export const search = require('../assets/images/search.png');
 export const bell = require('../assets/images/bell.png');
@@ -38,7 +38,7 @@ export const Mask1 = require('../assets/images/Mask 1.png');
 export const imageAdd = require('../assets/images/Vector.png');
 export const rightArrow = require('../assets/images/Group12.png');
 export const filter = require('../assets/images/filter.png');
-export const LocationImage = require('../assets/images/LocationImage.png');
+//export const LocationImage = require('../assets/images/LocationImage.png');
 export const priceChartImage = require('../assets/images/priceChartImage.png');
 export const CompareImage = require('../assets/images/CompareImage.png');
 
@@ -50,7 +50,7 @@ export const maleIcon = require('../assets/images/maleIcon.png');
 export const femaleIcon = require('../assets/images/femaleIcon.png');
 export const unisexIcon = require('../assets/images/unisexIcon.png');
 export const tickIcon = require('../assets/images/tickIcon.png');
-export const locationIcon = require('../assets/images/locationIcon.png');
+export const locationIcon = require('../assets/images/locationIcon/addressIcon.png');
 
 /// User Profile Screen Images
 
@@ -73,15 +73,14 @@ export const visibility_off = require('../assets/images/visibility_off.png');
 export const recapchass = require('../assets/images/recapchass.png');
 export const downArrow = require('../assets/images/downArrow8.png');
 
-
-
-// InterestList 
+// InterestList
 export const send_Icon = require('../assets/images/send_Icon.png');
 // Boost Now Pages
 export const BoostNowShade1 = require('../assets/images/BoostNowShade1.png');
 export const CoinBoostNow = require('../assets/images/CoinBoostNow.png');
 export const GroupIcon = require('../assets/images/GroupIcon.png');
 
+//Seller Profile by others
 //Sellers Profile
 export const BackgroundImage = require('../assets/images/BackgroundImage.png');
 export const Star = require('../assets/images/Star.png');
@@ -107,3 +106,5 @@ export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');
 // Boost Now Screen
 
 export const sandWatch = require('../assets/images/sandWatch/sandWatch.png')
+export const cancel = require('../assets/images/cancel.png');
+export const userProfile = require('../assets/images/userProfile/userProfile.png');

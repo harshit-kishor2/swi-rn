@@ -36,6 +36,9 @@ export const RoutesName = {
   SELL_SCREEN3: 'Sell Screen3',
   SUCCESS_SCREEN: 'Success Screen',
   BOOST_SCREEN: 'Boost Screen',
+
+  // myprofile
+  MY_FAVOURITES:'My Favourites'
 };
 
 export const Messages = {

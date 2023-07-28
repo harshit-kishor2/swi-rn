@@ -125,7 +125,7 @@ const MyProfileScreen = (props) => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
-            //Alert.alert('Pressed');
+            props.navigation.navigate('My Favourites')
           }}>
           <View style={styles.NavigationView}>
             <View style={styles.NavigationViewInner}>
