@@ -38,21 +38,3 @@ export const capitalizeFirstLetter = str => {
 
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-
-//   actions: [
-//     {
-//       text: 'Close',
-//       style: 'cancel',
-//     },
-//     {
-//       text: 'Approve',
-//       onPress: (data) => console.log(data), // It is an object that holds fields data
-//     },
-//   ],
-// // fields
-// fields: [
-//   {
-//     name: 'username',
-//     placeholder: 'Enter username',
-//   },
-// ],
