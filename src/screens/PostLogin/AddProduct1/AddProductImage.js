@@ -349,6 +349,9 @@ const AddProductImage = ({onNextClick, ...props}) => {
         disabled={
           productReducer?.addProductImageLoadingStatus === LoadingStatus.LOADING
         }
+        loading={
+          productReducer?.addProductImageLoadingStatus === LoadingStatus.LOADING
+        }
       />
     </ScrollView>
   );

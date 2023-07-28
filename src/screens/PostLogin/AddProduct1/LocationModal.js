@@ -11,7 +11,8 @@ const LocationModal = ({updateProductDetails, lable}) => {
     <>
       <Pressable onPress={() => setIsVisible(true)}>
         <CustomText style={{color: '#7C7C7C'}}>
-          What is the location of this product?
+          What is the location of this product?{' '}
+          <CustomText style={{color: 'red'}}>*</CustomText>
         </CustomText>
         <View style={{flexDirection: 'row', paddingTop: 10}}>
           <View
