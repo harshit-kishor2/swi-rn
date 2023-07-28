@@ -80,9 +80,7 @@ export const BoostNowShade1 = require('../assets/images/BoostNowShade1.png');
 export const CoinBoostNow = require('../assets/images/CoinBoostNow.png');
 export const GroupIcon = require('../assets/images/GroupIcon.png');
 
-<<<<<<< HEAD
 //Seller Profile by others
-=======
 //Sellers Profile
 export const BackgroundImage = require('../assets/images/BackgroundImage.png');
 export const Star = require('../assets/images/Star.png');
@@ -97,7 +95,6 @@ export const CoinHistory = require('../assets/images/CoinHistory.png');
 export const RedTriangle = require('../assets/images/RedTriangle.png');
 export const GreenTriangle = require('../assets/images/GreenTriangle.png');
 //Seller Profile by others 
->>>>>>> e482257f703c19ab0b55eaecfb402823610eb6a9
 export const coverSellerProfile = require('../assets/images/coverSellerProfile.png');
 export const starimage = require('../assets/images/starimage.png');
 export const Seller_facebook = require('../assets/images/Seller_facebook.png');
