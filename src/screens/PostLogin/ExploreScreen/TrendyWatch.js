@@ -19,6 +19,8 @@ const TrendyWatch = props => {
         horizontal
         // ref={flatlistRef}
         data={exploreProduct?.trendyWatches}
+        windowSize={11}
+        maxToRenderPerBatch={8}
         renderItem={renderItem}
         keyExtractor={(item, index) => index?.toString()}
         showsHorizontalScrollIndicator={false}

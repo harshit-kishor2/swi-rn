@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import branch, {BranchEvent} from 'react-native-branch';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch, useSelector} from 'react-redux';
-import Video from 'react-native-video';
+import {connect, useDispatch, useSelector} from 'react-redux';
+
 import {
   Custombutton,
   Custombutton2,
@@ -23,11 +23,15 @@ import {
   addEllipsis,
   capitalizeFirstLetter,
   formatTimestamp,
+  showAlert,
 } from '@app/helper/commonFunction';
 import {exploreProductDetail, productChart} from '@app/store/explore.slice';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import Chartdemo from './chartdemo';
 import styles from './styles';
+import {RoutesName} from '@app/helper/strings';
+import {onAddToProductCompare} from '@app/store/exploreProductSlice';
+import Video from 'react-native-video';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -37,7 +41,8 @@ const selectKey = [
 ];
 
 const ProductDetails = props => {
-  console.log(props, '--->');
+  const {onAddToProductCompare, addToCompareReducer} = props;
+  console.log(addToCompareReducer, '--->');
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
   const [lengthMore, setLengthMore] = useState(false); //to show the "Read more & Less Line"
   const [isChartDropDown, setIsChartDropDown] = useState(false);
@@ -112,22 +117,30 @@ const ProductDetails = props => {
         <View style={styless.mainView}>
           {images[selectedImage]?.file ? (
             images[selectedImage]?.file?.includes('mp4') ? (
-              <>
-                <View style={{width: 239, height: 239}}>
-                  <Video
-                    source={{
-                      uri: images[selectedImage]?.file,
-                    }}
-                    ref={ref => {
-                      this.player = ref;
-                    }}
-                    resizeMode="cover"
-                    onBuffer={this.onBuffer}
-                    onError={this.videoError}
-                    style={{width: 239, height: 239}}
-                  />
-                </View>
-              </>
+              (console.log(
+                images[selectedImage]?.file,
+                '====jhgjhgghjghjgjhgjgjh====',
+              ),
+              (
+                <>
+                  <View style={{width: 239, height: 239}}>
+                    <Video
+                      source={{
+                        uri: images[selectedImage]?.file,
+                      }}
+                      ref={ref => {
+                        this.player = ref;
+                      }}
+                      resizeMode="cover"
+                      lo
+                      //controls={true}
+                      onBuffer={this.onBuffer}
+                      onError={this.videoError}
+                      style={{width: 239, height: 239}}
+                    />
+                  </View>
+                </>
+              ))
             ) : (
               <Image
                 style={styless.mainImage}
@@ -769,13 +782,57 @@ const ProductDetails = props => {
             }}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              <Image source={IMAGES.CompareImage} />
-              <TouchableOpacity
-                onPress={() => {
-                  // Alert.alert('Compare');
-                }}>
-                <Text style={{marginLeft: 10}}>Compare</Text>
-              </TouchableOpacity>
+              {console.log(
+                'Test===',
+                addToCompareReducer?.productCompareList?.some(
+                  item => item.id == props.route.params.product_id,
+                ),
+              )}
+              {!addToCompareReducer?.productCompareList?.some(
+                item => item.id == props.route.params.product_id,
+              ) ? (
+                <>
+                  <Image source={IMAGES.CompareImage} />
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (addToCompareReducer.productCompareList.length >= 4) {
+                        showAlert({
+                          title: 'Alert',
+                          message: 'You can not add more than four products.',
+                        });
+                        navigation.navigate(RoutesName.ITEM_COMPARISON, {
+                          product_id: props.route.params.product_id,
+                        });
+                      } else {
+                        if (
+                          props.route.params.product_id &&
+                          productDetailData?.data
+                        ) {
+                          if (
+                            addToCompareReducer.productCompareList.length >= 1
+                          ) {
+                            onAddToProductCompare(productDetailData?.data);
+                            navigation.navigate(RoutesName.ITEM_COMPARISON, {
+                              product_id: props.route.params.product_id,
+                            });
+                          } else {
+                            onAddToProductCompare(productDetailData?.data);
+                            showAlert({
+                              title: 'Alert',
+                              message: 'Add more products to compare.',
+                            });
+                          }
+                        }
+                      }
+                    }}>
+                    <Text style={{marginLeft: 10}}>Add to compare</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <Text style={{color: 'green'}}>
+                  Product Added{'\n'} in compare list
+                </Text>
+              )}
             </View>
             <View
               style={{
@@ -810,4 +867,15 @@ const ProductDetails = props => {
   );
 };
 
-export default ProductDetails;
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+    addToCompareReducer: state?.addToCompareReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  onAddToProductCompare: params => dispatch(onAddToProductCompare(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
