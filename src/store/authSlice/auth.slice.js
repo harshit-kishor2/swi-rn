@@ -4,11 +4,13 @@ import {
   forgotPasswordAction,
   logoutAction,
   stayLoginAction,
+  updateProfileAction,
   userProfile,
   userSigninAction,
   userSignupAction,
 } from './auth.actions';
-import {LoadingStatus} from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
 
 // =============================== Redux : Auth Slice ==================================
 
@@ -40,6 +42,9 @@ const initialState = entityAdapter.getInitialState({
   userProfileLoadingStatus: LoadingStatus.NOT_LOADED,
   userProfileError: null,
   userProfileDetails: null,
+
+  updateProfileLoadingStatus: LoadingStatus.NOT_LOADED,
+  updateProfileError: null,
 });
 
 /**
@@ -71,7 +76,7 @@ const reduxSlice = createSlice({
       })
       .addCase(userSignupAction.fulfilled, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.LOADED;
-        state.userDetails = action.payload?.data;
+        // state.userProfileDetails = action.payload?.data;
       })
       .addCase(userSignupAction.rejected, (state, action) => {
         state.signupLoadingStatus = LoadingStatus.FAILED;
@@ -83,9 +88,13 @@ const reduxSlice = createSlice({
       })
       .addCase(userSigninAction.fulfilled, (state, action) => {
         state.signinLoadingStatus = LoadingStatus.LOADED;
-
-        state.userProfileDetails = action.payload.data;
-        state.isAuthenticate = true;
+        if (action.payload?.data?.isProfileCompleted === 'no') {
+          state.userProfileDetails = action.payload.data;
+          state.isAuthenticate = false;
+        } else {
+          state.userProfileDetails = action.payload.data;
+          state.isAuthenticate = true;
+        }
       })
       .addCase(userSigninAction.rejected, (state, action) => {
         state.signinLoadingStatus = LoadingStatus.FAILED;
@@ -102,7 +111,7 @@ const reduxSlice = createSlice({
         state.forgotPasswordLoadingStatus = LoadingStatus.FAILED;
         state.forgotPasswordError = action.payload;
       })
-      // Forgot password Action
+      // logout  Action
       .addCase(logoutAction.pending, (state, action) => {
         state.logoutLoadingStatus = LoadingStatus.LOADING;
       })
@@ -124,6 +133,18 @@ const reduxSlice = createSlice({
       .addCase(userProfile.rejected, (state, action) => {
         state.userProfileLoadingStatus = LoadingStatus.FAILED;
         state.userProfileError = action.payload;
+      })
+      .addCase(updateProfileAction.pending, (state, action) => {
+        state.updateProfileLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(updateProfileAction.fulfilled, (state, action) => {
+        state.updateProfileLoadingStatus = LoadingStatus.LOADED;
+        state.userProfileDetails = action.payload.data;
+        state.isAuthenticate = true;
+      })
+      .addCase(updateProfileAction.rejected, (state, action) => {
+        state.updateProfileLoadingStatus = LoadingStatus.FAILED;
+        state.updateProfileError = action.payload;
       });
   },
 });

@@ -1,5 +1,6 @@
 const assetsConst = {
   SPLASH_IMAGE: require('./images/swi_logo.png'),
+  AVATAR: require('./images/avatar.png'),
 };
 
 const fontsConst = {

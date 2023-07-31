@@ -63,6 +63,9 @@ const LoginOptions = props => {
       onUserLogin(params).then(res => {
         if (res?.type.includes('fulfilled')) {
           setButtonDisabled(false);
+          if (res.payload?.data?.isProfileCompleted === 'no') {
+            NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+          }
         }
         if (res?.type.includes('rejected')) {
           setButtonDisabled(false);
@@ -109,13 +112,18 @@ const LoginOptions = props => {
                     email: result?.email,
                     device_type: Platform.OS,
                     device_token: 'fcmToken',
-                    login_type: 'google',
+                    login_type: 'facebook',
                     name: result?.name,
                     facebook_id: result?.id,
                   };
                   onUserLogin(params).then(res => {
                     if (res?.type.includes('fulfilled')) {
                       setButtonDisabled(false);
+                      if (res.payload?.data?.isProfileCompleted === 'no') {
+                        NavigationService.navigate(
+                          RoutesName.PENDING_PROFILE_SCREEN,
+                        );
+                      }
                     }
                     if (res?.type.includes('rejected')) {
                       setButtonDisabled(false);
@@ -159,6 +167,9 @@ const LoginOptions = props => {
         onUserLogin(params).then(res => {
           if (res?.type.includes('fulfilled')) {
             setButtonDisabled(false);
+            if (res.payload?.data?.isProfileCompleted === 'no') {
+              NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+            }
           }
           if (res?.type.includes('rejected')) {
             setButtonDisabled(false);
