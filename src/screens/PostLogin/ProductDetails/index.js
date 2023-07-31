@@ -11,9 +11,10 @@ import {
   Text,
   TouchableOpacity,
   View,
+  SafeAreaView,
+  Platform,
 } from 'react-native';
 import branch, {BranchEvent} from 'react-native-branch';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {connect, useDispatch, useSelector} from 'react-redux';
 
 import {
@@ -136,16 +137,19 @@ const ProductDetails = props => {
             imageIndex={index}
             doubleTapToZoomEnabled={true}
             visible={fullImageModalVisible}
-            //presentationStyle="formSheet"
+            presentationStyle="fullScreen"
             onRequestClose={() => setfullImageModalVisible(false)}
-            HeaderComponent={(item, index) => {
+            FooterComponent={(item, index) => {
               console.log(index, item);
               return (
                 <Text
                   style={{
                     color: 'white',
                     alignSelf: 'center',
-                    marginTop: SPACING.SCALE_20,
+                    marginBottom:
+                      Platform.OS === 'ios'
+                        ? SPACING.SCALE_40
+                        : SPACING.SCALE_20,
                   }}>
                   {`${item.imageIndex + 1}/${fullImagesArray.length}`}
                 </Text>
@@ -173,10 +177,12 @@ const ProductDetails = props => {
                       }}
                       resizeMode="cover"
                       lo
-                      //controls={true}
                       onBuffer={this.onBuffer}
                       onError={this.videoError}
-                      style={{width: 239, height: 239}}
+                      style={{
+                        width: SPACING.SCALE_239,
+                        height: SPACING.SCALE_239,
+                      }}
                     />
                   </View>
                 </>
@@ -687,33 +693,17 @@ const ProductDetails = props => {
 
           {/* ReadMore Text */}
 
-          <View
-            style={{
-              alignSelf: 'center',
-              width: '90%',
-              marginTop: 30,
-              //backgroundColor: 'red',
-            }}>
-            <ReadMore content={productDetailData?.data?.description} />
-            {/* <Text
-              onTextLayout={onTextLayout}
-              numberOfLines={textShown ? undefined : 1}
-              style={{fontFamily: 'OpenSans-Regular', fontSize: 16}}>
-              {productDetailData?.data?.description}{' '}
-            </Text> */}
-
-            {/* {textShown ? (
-              <Text
-                onPress={toggleNumberOfLines}
-                style={{
-                  fontFamily: 'OpenSans-Regular',
-                  color: COLORS.HYPERLINK,
-                  textDecorationLine: 'underline',
-                }}>
-                {textShown ? 'Read less' : 'Read more'}
-              </Text>
-            ) : null} */}
-          </View>
+          {productDetailData?.data?.description?.length >= 1 && (
+            <View
+              style={{
+                alignSelf: 'center',
+                width: '90%',
+                marginTop: 30,
+                //backgroundColor: 'red',
+              }}>
+              <ReadMore content={productDetailData?.data?.description} />
+            </View>
+          )}
 
           <View
             style={{

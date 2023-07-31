@@ -30,6 +30,7 @@ export const RoutesName = {
   SELLERSPROFILE_VIEWBYOWN: 'Sellers Own Profile',
   COIN_HISTORY: 'Coin History',
   ITEM_COMPARISON: 'ItemComparison',
+  SEARCH_SCREEN: 'SearchScreen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

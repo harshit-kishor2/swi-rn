@@ -5,10 +5,12 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
+import SocialLoginButton from '@app/components/SocialLogin';
 import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
+import {IMAGES, SPACING} from '@app/resources';
 import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
 import Seprator from '@app/screens/atoms/Seprator';
@@ -195,11 +197,16 @@ const CreateAccountScreen = props => {
         style={{
           paddingHorizontal: '15%',
           alignSelf: 'center',
+          justifyContent: 'center',
           flex: 1,
+          marginTop: SPACING.SCALE__30,
+          // backgroundColor: 'red',
         }}>
         <View
           style={{
             flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
           }}>
           <LoginHeader
             title={'Hello there!'}
@@ -223,23 +230,40 @@ const CreateAccountScreen = props => {
           </View>
           <Seprator />
           <View>
-            {Platform.OS === 'ios' ?? (
-              <SubmitButton
-                type="outlined"
-                lable="Sign up with Apple ID"
+            {Platform.OS === 'ios' && (
+              // <SubmitButton
+              //   type="outlined"
+              //   lable="Sign up with Apple ID"
+              //   onPress={_onAppleSignup}
+              // />
+
+              <SocialLoginButton
+                iconImage={IMAGES.applelogo}
+                socialName="Continue with Apple"
                 onPress={_onAppleSignup}
               />
             )}
 
-            <SubmitButton
+            {/* <SubmitButton
               type="outlined"
               lable="Sign up with Google"
               onPress={_onGoogleSignup}
+            /> */}
+            <SocialLoginButton
+              iconImage={IMAGES.google}
+              socialName="Continue with Google"
+              onPress={_onGoogleSignup}
             />
 
-            <SubmitButton
+            {/* <SubmitButton
               type="outlined"
               lable="Sign up with Facebook"
+              onPress={_onFacebookSignUp}
+            /> */}
+
+            <SocialLoginButton
+              iconImage={IMAGES.facebook2}
+              socialName="Continue with Facebook"
               onPress={_onFacebookSignUp}
             />
           </View>
