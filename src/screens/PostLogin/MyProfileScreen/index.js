@@ -5,6 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
   Image,
+  Platform,
+  SafeAreaView,
   ScrollView,
   Text,
   Touchable,
@@ -55,7 +57,7 @@ const MyProfileScreen = props => {
     // Add your logout logic here
   };
   return (
-    <Container>
+    <Container useSafeAreaView={Platform.OS === 'ios' ? true : false}>
       <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
         <View
           style={{

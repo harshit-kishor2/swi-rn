@@ -4,7 +4,7 @@ import {Searchbar} from 'react-native-paper';
 import {CustomIcon, CustomInput, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 
-const SearchHeader = ({onChangeSearch, searchQuery}) => {
+const SearchHeader = ({onChangeSearch, searchQuery, showBell}) => {
   return (
     <View
       style={{
@@ -24,7 +24,7 @@ const SearchHeader = ({onChangeSearch, searchQuery}) => {
           outlineColor="grey"
           onChangeText={onChangeSearch}
           style={{
-            flex: 0.85,
+            flex: showBell ? 0.85 : 1,
           }}
           outlineStyle={{
             borderRadius: 10,
@@ -43,15 +43,17 @@ const SearchHeader = ({onChangeSearch, searchQuery}) => {
           }
           placeholder={'Search by product/brand/model'}
         />
-        <CustomIcon
-          style={{
-            flex: 0.15,
-          }}
-          origin={ICON_TYPE.FEATHER_ICONS}
-          name={'bell'}
-          color={'#000000'}
-          size={30}
-        />
+        {showBell && (
+          <CustomIcon
+            style={{
+              flex: 0.15,
+            }}
+            origin={ICON_TYPE.FEATHER_ICONS}
+            name={'bell'}
+            color={'#000000'}
+            size={30}
+          />
+        )}
       </View>
     </View>
   );
