@@ -47,11 +47,11 @@ const PostLoginNavigator = () => {
         component={FreshFindScreen}
         options={{headerShown: false}}
       /> */}
-      {/* <Stack.Screen
+      <Stack.Screen
         name={RoutesName.NOTIFICATION_SCREEN}
         component={NotificationScreen}
         options={{headerShown: false}}
-      /> */}
+      />
       {/* <Stack.Screen
         name="ProductDetails"
         component={ProductDetails}

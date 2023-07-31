@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Searchbar} from 'react-native-paper';
 import {CustomIcon, CustomInput, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 
-const SearchHeader = ({onChangeSearch, searchQuery}) => {
+const SearchHeader = ({onChangeSearch, searchQuery, onPress}) => {
   return (
     <View
       style={{
@@ -43,15 +43,17 @@ const SearchHeader = ({onChangeSearch, searchQuery}) => {
           }
           placeholder={'Search by product/brand/model'}
         />
-        <CustomIcon
+        <TouchableOpacity style={{flex:0.15 , }} onPress={onPress}>
+          <CustomIcon
           style={{
-            flex: 0.15,
+            // flex: 0.15,
           }}
           origin={ICON_TYPE.FEATHER_ICONS}
           name={'bell'}
           color={'#000000'}
           size={30}
         />
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -20,7 +20,7 @@ const {width} = Dimensions.get('screen');
 const ProductCard = ({item, onPress}) => {
   const maxLength = 10;
   const truncatedText =
-    item?.title.length > maxLength
+    item?.title?.length > maxLength
       ? `${item?.title.substring(0, maxLength)}...`
       : item?.title;
 

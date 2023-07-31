@@ -29,7 +29,7 @@ const ExploreScreen = props => {
     onAddWishList,
     getAllBrands,
   } = props;
-
+// console.log(props.navigation,"props navigation")
   const [searchQuery, onChangeSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -102,7 +102,7 @@ const ExploreScreen = props => {
 
   return (
     <Container useSafeAreaView={true} loading={isLoading}>
-      <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} />
+      <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} onPress={()=>{props.navigation.navigate("NotificationScreen")}} />
       <FlatList
         contentContainerStyle={{
           flexGrow: 1,

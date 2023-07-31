@@ -14,7 +14,7 @@ const FreshFindScreen = props => {
   const { exploreProduct, onFreshFinds } = props;
   const [searchQuery, onChangeSearch] = useState('');
   const query = useDebounce(searchQuery, 1000);
-
+console.log(props)
   useEffect(() => {
     onFreshFinds({ keyWord: query });
   }, [query]);
@@ -25,7 +25,7 @@ const FreshFindScreen = props => {
   console.log('exploreProduct.freshFindLoadingStatus ', searchQuery);
   return (
     <Container useSafeAreaView={true}>
-      <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} />
+      <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} onPress={()=>{props.navigation.navigate('NotificationScreen')}} />
       <PageTitle title={'Fresh Finds'} />
       {exploreProduct.freshFindLoadingStatus !== LoadingStatus.LOADING ? (
         <FlatList

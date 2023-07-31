@@ -8,6 +8,7 @@ import exploreProductReducer, {
 } from './exploreProductSlice';
 import exploreReducer from './explore.slice';
 import {productReducer, productStateReducer} from './productSlice';
+import sellersProfileReducer from './sellersProfileSclice'
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -17,6 +18,7 @@ const combinedReducer = combineReducers({
   productStateReducer,
   exploreReducer,
   addToCompareReducer,
+  sellersProfileReducer
 });
 
 const rootReducers = (state, action) => {
