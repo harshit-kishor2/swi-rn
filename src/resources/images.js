@@ -40,7 +40,7 @@ export const rightArrow = require('../assets/images/Group12.png');
 export const filter = require('../assets/images/filter.png');
 //export const LocationImage = require('../assets/images/LocationImage.png');
 export const priceChartImage = require('../assets/images/priceChartImage.png');
-export const CompareImage = require('../assets/images/CompareImage.png');
+export const CompareImage = require('../assets/images/CompareImage/CompareImage.png');
 
 export const DropDownImage = require('../assets/images/DropDownImage.png');
 export const blackDropIcon = require('../assets/images/blackDropIcon.png');
@@ -54,18 +54,18 @@ export const locationIcon = require('../assets/images/locationIcon/addressIcon.p
 
 /// User Profile Screen Images
 
-export const ProfileBadge = require('../assets/images/ProfileBadge.png');
-export const check = require('../assets/images/check.png');
-export const cross = require('../assets/images/cross.png');
-export const coin = require('../assets/images/coin.png');
-export const about = require('../assets/images/about.png');
-export const settings = require('../assets/images/settings.png');
-export const Dollar = require('../assets/images/Dollar.png');
-export const userPic = require('../assets/images/userPic.png');
-export const Favorite = require('../assets/images/Favorite.png');
-export const Arrow = require('../assets/images/Vector8.png');
-export const logout = require('../assets/images/logout.png');
-export const UserProfile1 = require('../assets/images/UserProfile1.png');
+export const ProfileBadge = require('../assets/images/ProfileBadge/ProfileBadge.png');
+export const check = require('../assets/images/check/check.png');
+export const cross = require('../assets/images/cross/cross.png');
+export const coin = require('../assets/images/coin/coin.png');
+export const about = require('../assets/images/about/about.png');
+export const settings = require('../assets/images/settings/settings.png');
+export const Dollar = require('../assets/images/Dollar/Dollar.png');
+export const userPic = require('../assets/images/userPic/userPic.png');
+export const Favorite = require('../assets/images/Favorite/Favorite.png');
+export const Arrow = require('../assets/images/Arrow/Arrow.png');
+export const logout = require('../assets/images/logout/logout.png');
+export const UserProfile1 = require('../assets/images/UserProfile1/UserProfile1.png');
 export const tick = require('../assets/images/tick.png');
 export const share = require('../assets/images/share-2.png');
 export const visibility_on = require('../assets/images/visibility_on.png');
@@ -80,7 +80,6 @@ export const BoostNowShade1 = require('../assets/images/BoostNowShade1.png');
 export const CoinBoostNow = require('../assets/images/CoinBoostNow.png');
 export const GroupIcon = require('../assets/images/GroupIcon.png');
 
-//Seller Profile by others
 //Sellers Profile
 export const BackgroundImage = require('../assets/images/BackgroundImage.png');
 export const Star = require('../assets/images/Star.png');
@@ -94,7 +93,7 @@ export const gmail = require('../assets/images/gmail.png');
 export const CoinHistory = require('../assets/images/CoinHistory.png');
 export const RedTriangle = require('../assets/images/RedTriangle.png');
 export const GreenTriangle = require('../assets/images/GreenTriangle.png');
-//Seller Profile by others 
+//Seller Profile by others
 export const coverSellerProfile = require('../assets/images/coverSellerProfile.png');
 export const starimage = require('../assets/images/starimage.png');
 export const Seller_facebook = require('../assets/images/Seller_facebook.png');
