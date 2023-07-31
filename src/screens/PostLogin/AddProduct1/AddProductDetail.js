@@ -6,7 +6,6 @@ import {
   SubmitButton,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import moment from 'moment';
 import {useEffect, useState} from 'react';
 import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
 import {List, TextInput} from 'react-native-paper';
@@ -15,6 +14,7 @@ import FactoryGemRow from './FactoryGemRow';
 import LocationModal from './LocationModal';
 import {showAlert} from '@app/helper/commonFunction';
 import {LoadingStatus} from '@app/helper/strings';
+import MonthYearPicker from '@app/components/MonthYearPicker';
 const DIFF_MODEL = ['Rolex', 'Audemars Piguet', 'Patek Philippe'];
 const AddProductDetail = ({onNextClick, ...props}) => {
   const {
@@ -304,41 +304,14 @@ const AddProductDetail = ({onNextClick, ...props}) => {
           Dated <CustomText style={{color: 'red'}}>*</CustomText>
         </CustomText>
         <View style={{flexDirection: 'row'}}>
-          <DatePicker
-            children={
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  width: '70%',
-                  borderBottomWidth: 1,
-                }}>
-                <CustomText>
-                  {productState?.productDetails?.dated
-                    ? moment(productState?.productDetails?.dated).format(
-                        'MMM, YYYY',
-                      )
-                    : 'MMM, YYYY'}
-                </CustomText>
-                <CustomIcon
-                  name={'calendar'}
-                  origin={ICON_TYPE.ICONICONS}
-                  style={{
-                    paddingRight: 10,
-                    color: '#00000080',
-                  }}
-                  size={20}
-                />
-              </View>
-            }
-            maximumDate={new Date()}
-            onChangeDate={e => {
+          <MonthYearPicker
+            onChange={e => {
               updateProductDetails({
                 key: 'dated',
                 value: e,
               });
             }}
+            value={productState?.productDetails?.dated}
           />
           <View
             style={{

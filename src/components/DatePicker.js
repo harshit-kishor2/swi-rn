@@ -1,14 +1,14 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Modal,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import { COLORS, SPACING, TYPOGRAPHY } from '../resources';
+import {COLORS, SPACING, TYPOGRAPHY} from '../resources';
 
 const DatePicker = ({
   marginTop,
@@ -47,8 +47,8 @@ const DatePicker = ({
           onRequestClose={() => {
             setShow(false);
           }}>
-          <View style={{ flex: 1, backgroundColor: '#0000004d' }} />
-          <View style={{ backgroundColor: 'white', width: '100%' }}>
+          <View style={{flex: 1, backgroundColor: '#0000004d'}} />
+          <View style={{backgroundColor: 'white', width: '100%'}}>
             <View style={styles.iosBtn}>
               <Text style={styles.iosActionBtn} onPress={() => setShow(false)}>
                 {' '}
