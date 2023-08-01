@@ -387,74 +387,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
         /> */}
       </>
       <Spacer height={10} />
-      <>
-        <CustomText style={{color: '#7C7C7C'}}>Gender</CustomText>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
-          {[
-            {id: 1, type: 'Male', icon: 'male'},
-            {id: 2, type: 'Female', icon: 'female'},
-            {id: 3, type: 'Unisex', icon: 'male-female'},
-          ].map(item => {
-            return (
-              <SubmitButton
-                key={item.id}
-                onPress={() =>
-                  updateProductDetails({
-                    key: 'gender_type',
-                    value: item?.type,
-                  })
-                }
-                icon={({size, color}) => (
-                  <CustomIcon
-                    name={item?.icon}
-                    origin={ICON_TYPE.ICONICONS}
-                    size={13}
-                    color={
-                      item.type !== productState?.productDetails?.gender_type
-                        ? '#00958C'
-                        : '#fff'
-                    }
-                  />
-                )}
-                lable={item?.type}
-                mode={
-                  item.type === productState?.productDetails?.gender_type
-                    ? 'contained'
-                    : 'outlined'
-                }
-                buttonColor={
-                  item.type === productState?.productDetails?.gender_type
-                    ? '#00958C'
-                    : 'transparent'
-                }
-                textColor={
-                  item.type === productState?.productDetails?.gender_type
-                    ? 'white'
-                    : '#00958C'
-                }
-                buttonStyle={{
-                  borderRadius: 50,
-                  height: 40,
-                  width: 100,
 
-                  borderColor:
-                    item.type === productState?.productDetails?.gender_type
-                      ? 'white'
-                      : '#00958C',
-                }}
-                labelStyle={{
-                  fontSize: 13,
-                }}
-              />
-            );
-          })}
-        </View>
-      </>
-      <Spacer height={30} />
       <List.Accordion title="Fill in additional information">
         <View
           style={{
@@ -498,6 +431,76 @@ const AddProductDetail = ({onNextClick, ...props}) => {
               </CustomText>
             </View>
           </View>
+          <Spacer height={10} />
+          <>
+            <CustomText style={{color: '#7C7C7C'}}>Gender</CustomText>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+              }}>
+              {[
+                {id: 1, type: 'Male', icon: 'male'},
+                {id: 2, type: 'Female', icon: 'female'},
+                {id: 3, type: 'Unisex', icon: 'male-female'},
+              ].map(item => {
+                return (
+                  <SubmitButton
+                    key={item.id}
+                    onPress={() =>
+                      updateProductDetails({
+                        key: 'gender_type',
+                        value: item?.type,
+                      })
+                    }
+                    icon={({size, color}) => (
+                      <CustomIcon
+                        name={item?.icon}
+                        origin={ICON_TYPE.ICONICONS}
+                        size={13}
+                        color={
+                          item.type !==
+                          productState?.productDetails?.gender_type
+                            ? '#00958C'
+                            : '#fff'
+                        }
+                      />
+                    )}
+                    lable={item?.type}
+                    mode={
+                      item.type === productState?.productDetails?.gender_type
+                        ? 'contained'
+                        : 'outlined'
+                    }
+                    buttonColor={
+                      item.type === productState?.productDetails?.gender_type
+                        ? '#00958C'
+                        : 'transparent'
+                    }
+                    textColor={
+                      item.type === productState?.productDetails?.gender_type
+                        ? 'white'
+                        : '#00958C'
+                    }
+                    buttonStyle={{
+                      borderRadius: 50,
+                      height: 40,
+                      width: 100,
+
+                      borderColor:
+                        item.type === productState?.productDetails?.gender_type
+                          ? 'white'
+                          : '#00958C',
+                    }}
+                    labelStyle={{
+                      fontSize: 13,
+                    }}
+                  />
+                );
+              })}
+            </View>
+          </>
+          <Spacer height={10} />
           <View
             style={{
               flexDirection: 'row',
@@ -735,7 +738,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
           <Spacer height={30} />
         </View>
       </List.Accordion>
-
+      <Spacer height={30} />
       <SubmitButton
         onPress={onProductDetailSubmit}
         lable="Next"
