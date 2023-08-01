@@ -9,7 +9,7 @@ const SearchHeader = ({onChangeSearch, searchQuery, showBell}) => {
     <View
       style={{
         height: 80,
-        width: '100%',
+        width: '90%',
       }}>
       <View
         style={{
@@ -18,7 +18,7 @@ const SearchHeader = ({onChangeSearch, searchQuery, showBell}) => {
           alignItems: 'center',
           flex: 1,
         }}>
-        <Spacer width={20} />
+        <Spacer width={10} />
         <CustomInput
           mode={'outlined'}
           outlineColor="grey"
