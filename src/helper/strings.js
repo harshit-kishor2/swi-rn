@@ -14,6 +14,7 @@ export const RoutesName = {
   LOGIN_SCREEN: 'LoginScreen',
   FORGOT_PASSWORD_SCREEN: 'ForgetPassword',
   TERM_AND_CONDITION_SCREEN: 'TermAndConditions',
+  PENDING_PROFILE_SCREEN: 'PendingProfileScreen',
 
   // Tab
   EXPLORE_TAB: 'Explore',
@@ -26,9 +27,10 @@ export const RoutesName = {
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
   PRODUCT_DETAILS: 'Product Details',
-  SELLERSPROFILE_VIEWBYOWN:'Sellers Own Profile',
-  COIN_HISTORY:'Coin History',
+  SELLERSPROFILE_VIEWBYOWN: 'Sellers Own Profile',
+  COIN_HISTORY: 'Coin History',
   ITEM_COMPARISON: 'ItemComparison',
+  SEARCH_SCREEN: 'SearchScreen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

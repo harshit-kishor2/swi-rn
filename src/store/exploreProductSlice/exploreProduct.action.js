@@ -27,6 +27,28 @@ export const freshFindsAction = createAsyncThunk(
 /**
  * Api Action
  */
+export const freshFindsSearchingAction = createAsyncThunk(
+  `exploreProduct/freshFindsSearchingAction`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/products-list-fresh`,
+        method: 'GET',
+        params: params,
+      });
+      console.log('FREASH FINDS SEARCHING');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+
+/**
+ * Api Action
+ */
 export const getBannerAction = createAsyncThunk(
   `exploreProduct/getBannerAction`,
   async (params, thunkAPI) => {
@@ -143,6 +165,30 @@ export const getTopNotchWatchAction = createAsyncThunk(
       });
       return response;
     } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+
+/**
+ * Api Action
+ */
+export const getTopNotchWatchSearchingAction = createAsyncThunk(
+  `exploreProduct/getTopNotchWatchSearchingAction`,
+  async (params, thunkAPI) => {
+    console.log('dfghjkdfgh888jklkllll');
+    try {
+      const response = await axiosRequest({
+        url: `/products-list`,
+        method: 'GET',
+        params: params,
+      });
+      console.log('=======>>>>>>', response);
+      return response;
+    } catch (error) {
+      console.log('sdfghjk', error);
       return thunkAPI.rejectWithValue(
         error?.response ? error.response?.data : error?.message,
       );

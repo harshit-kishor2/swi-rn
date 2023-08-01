@@ -1,9 +1,11 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {BackHeader, Container, Spacer, SubmitButton} from '@app/components';
+import SocialLoginButton from '@app/components/SocialLogin';
 import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
+import {IMAGES, SPACING} from '@app/resources';
 import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
 import Seprator from '@app/screens/atoms/Seprator';
@@ -15,7 +17,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import jwt_decode from 'jwt-decode';
 import {useEffect, useState} from 'react';
-import {Platform, View} from 'react-native';
+import {Alert, Platform, View} from 'react-native';
 import {
   AccessToken,
   GraphRequest,
@@ -23,6 +25,7 @@ import {
   LoginManager,
 } from 'react-native-fbsdk-next';
 import {connect} from 'react-redux';
+import {GoogleLoginButton} from 'react-social-login-buttons';
 
 const LoginOptions = props => {
   const {authReducer, onUserLogin} = props;
@@ -63,6 +66,9 @@ const LoginOptions = props => {
       onUserLogin(params).then(res => {
         if (res?.type.includes('fulfilled')) {
           setButtonDisabled(false);
+          if (res.payload?.data?.isProfileCompleted === 'no') {
+            NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+          }
         }
         if (res?.type.includes('rejected')) {
           setButtonDisabled(false);
@@ -109,13 +115,18 @@ const LoginOptions = props => {
                     email: result?.email,
                     device_type: Platform.OS,
                     device_token: 'fcmToken',
-                    login_type: 'google',
+                    login_type: 'facebook',
                     name: result?.name,
                     facebook_id: result?.id,
                   };
                   onUserLogin(params).then(res => {
                     if (res?.type.includes('fulfilled')) {
                       setButtonDisabled(false);
+                      if (res.payload?.data?.isProfileCompleted === 'no') {
+                        NavigationService.navigate(
+                          RoutesName.PENDING_PROFILE_SCREEN,
+                        );
+                      }
                     }
                     if (res?.type.includes('rejected')) {
                       setButtonDisabled(false);
@@ -159,6 +170,9 @@ const LoginOptions = props => {
         onUserLogin(params).then(res => {
           if (res?.type.includes('fulfilled')) {
             setButtonDisabled(false);
+            if (res.payload?.data?.isProfileCompleted === 'no') {
+              NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+            }
           }
           if (res?.type.includes('rejected')) {
             setButtonDisabled(false);
@@ -184,17 +198,22 @@ const LoginOptions = props => {
       useSafeAreaView={true}
       loading={authReducer?.signinLoadingStatus === LoadingStatus.LOADING}>
       {/* <BackHeader /> */}
-      <Spacer height={50} />
+      <Spacer height={SPACING.SCALE_50} />
       <View
         style={{
           paddingHorizontal: '15%',
           alignSelf: 'center',
+          justifyContent: 'center',
           flex: 1,
-          marginTop: 60,
+          marginTop: SPACING.SCALE__30,
+          //marginTop: SPACING.SCALE_60,
+          // backgroundColor: 'red',
         }}>
         <View
           style={{
             flex: 1,
+            alignSelf: 'center',
+            justifyContent: 'center',
           }}>
           <LoginHeader
             title={'Hello there!'}
@@ -219,22 +238,38 @@ const LoginOptions = props => {
           <Seprator />
           <View>
             {Platform.OS === 'ios' && (
-              <SubmitButton
-                type="outlined"
-                lable="Log in with Apple ID"
+              // <SubmitButton
+              //   type="outlined"
+              //   lable="Log in with Apple ID"
+              //   onPress={_onAppleLogin}
+              // />
+
+              <SocialLoginButton
+                iconImage={IMAGES.applelogo}
+                socialName="Continue with Apple"
                 onPress={_onAppleLogin}
               />
             )}
 
-            <SubmitButton
+            {/* <SubmitButton
               type="outlined"
               lable="Log in with Google"
               onPress={_onGoogleLogin}
+            /> */}
+            <SocialLoginButton
+              iconImage={IMAGES.google}
+              socialName="Continue with Google"
+              onPress={_onGoogleLogin}
             />
 
-            <SubmitButton
+            {/* <SubmitButton
               type="outlined"
               lable="Log in with Facebook"
+              onPress={_onFacebookLogin}
+            /> */}
+            <SocialLoginButton
+              iconImage={IMAGES.facebook2}
+              socialName="Continue with Facebook"
               onPress={_onFacebookLogin}
             />
           </View>
@@ -247,7 +282,7 @@ const LoginOptions = props => {
             NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
           }
         />
-        <Spacer height={30} />
+        <Spacer height={SPACING.SCALE_30} />
       </View>
     </Container>
   );

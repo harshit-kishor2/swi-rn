@@ -42,6 +42,7 @@ const ProductCard = ({item, onPress}) => {
         <CustomText style={styles.title}>{truncatedText}</CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
+          <Spacer width={SPACING.SCALE_3} />
           <View style={styles.seprator} />
           <CustomText style={styles.category}>
             {item?.watch_condition === 'pre_owned' ? 'Pre Owned' : 'Brand New'}
@@ -97,11 +98,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: FontsConst.Cabin_Bold,
+    marginTop: SPACING.SCALE_5,
   },
   price_container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     paddingVertical: 5,
   },
   price: {
@@ -110,15 +112,16 @@ const styles = StyleSheet.create({
     fontFamily: FontsConst.Cabin_Bold,
   },
   seprator: {
-    height: 5,
-    width: 5,
-    borderRadius: 3,
+    height: 3,
+    width: 3,
+    borderRadius: 3 / 2,
     backgroundColor: '#00958C',
   },
   category: {
     color: '#00958C',
     fontSize: 12,
     fontFamily: FontsConst.Cabin_Regular,
+    marginLeft: SPACING.SCALE_2,
   },
   user_image: {
     flexDirection: 'row',

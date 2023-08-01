@@ -11,6 +11,7 @@ import {RoutesName} from '@app/helper/strings';
 import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
 import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
+import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -24,18 +25,16 @@ const PostLoginNavigator = () => {
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
       />
-      <Stack.Screen 
-       name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
-       component={SellersProfileViewByOwn}
+      <Stack.Screen
+        name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
+        component={SellersProfileViewByOwn}
       />
-      <Stack.Screen 
-       name={RoutesName.COIN_HISTORY}
-       component={CoinHistory}
-      />
+      <Stack.Screen name={RoutesName.COIN_HISTORY} component={CoinHistory} />
       <Stack.Screen
         name={RoutesName.ITEM_COMPARISON}
         component={ItemComparison}
       />
+      <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
 
       {/* <Stack.Screen
         name="FreshFind"

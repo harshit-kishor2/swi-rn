@@ -17,6 +17,7 @@ import MyProfileScreen from './PostLogin/MyProfileScreen';
 import NotificationScreen from './PostLogin/NotificationScreen';
 import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
+import PendingProfileScreen from './PreLogin/PendingProfileScreen';
 
 export {
   // PreLogin
@@ -28,6 +29,7 @@ export {
   SignupScreen,
   ForgetPassword,
   CreateAccountScreen,
+  PendingProfileScreen,
 
   // PostLogin
   SellScreen,
