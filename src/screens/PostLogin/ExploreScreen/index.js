@@ -28,6 +28,7 @@ import useLocation from '@app/hooks/useLocation';
 import SearchBarComponent from '@app/components/SearchBarComponent';
 import NotificationIndicator from '@app/components/NotificationIndicator';
 import {IMAGES, SPACING} from '@app/resources';
+import {AssestsConst} from '@app/assets/assets';
 
 const ExploreScreen = props => {
   const {

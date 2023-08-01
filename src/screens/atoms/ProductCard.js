@@ -60,7 +60,9 @@ const ProductCard = ({item, onPress}) => {
             }
           />
           <Spacer width={5} />
-          <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          <View style={{maxWidth: SPACING.SCALE_115}}>
+            <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          </View>
         </View>
         <CustomText style={styles.duration}>
           {formatTimestamp(item?.created_at)}
