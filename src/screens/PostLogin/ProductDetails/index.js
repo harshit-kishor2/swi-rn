@@ -173,16 +173,16 @@ const ProductDetails = props => {
                       source={{
                         uri: images[selectedImage]?.file,
                       }}
-                      ref={ref => {
-                        this.player = ref;
-                      }}
+                      // ref={ref => {
+                      //   this.player = ref;
+                      // }}
                       resizeMode="cover"
-                      lo
-                      onBuffer={this.onBuffer}
-                      onError={this.videoError}
+                      // lo
+                      // onBuffer={this.onBuffer}
+                      // onError={this.videoError}
                       style={{
-                        width: SPACING.SCALE_239,
-                        height: SPACING.SCALE_239,
+                        width: 230,
+                        height: 230,
                       }}
                     />
                   </View>

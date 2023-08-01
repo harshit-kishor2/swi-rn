@@ -176,10 +176,8 @@ const AddProductImage = ({onNextClick, ...props}) => {
       const formData = new FormData();
       let thumbImage = false;
       productState?.productImage?.forEach((image, index) => {
-        console.log('==video==', image);
         const d = image?.path?.split('/');
         const name = d[d.length - 1];
-        console.log('Name', name);
 
         //Set images in key
         formData.append(`product_file[${index}]`, {
@@ -210,7 +208,6 @@ const AddProductImage = ({onNextClick, ...props}) => {
         // onNextClick();
         if (!productState?.productDetails?.productID) {
           onAddProductImage(formData).then(res => {
-            console.log('Res=====', res);
             if (res?.type.includes('fulfilled')) {
               updateProductDetails({
                 key: 'productID',
@@ -239,14 +236,17 @@ const AddProductImage = ({onNextClick, ...props}) => {
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scroll_container}>
-      <CustomText>
+      <CustomText
+        style={{
+          fontFamily: FontsConst.OpenSans_Bold,
+        }}>
         Upload watch images<CustomText style={{color: 'red'}}>*</CustomText>
       </CustomText>
       <Spacer />
       <CustomText
         style={{
           fontFamily: FontsConst.OpenSans_Regular,
-          fontSize: 10,
+          fontSize: 12,
         }}>
         Please upload Image of max 10mb
       </CustomText>
@@ -294,7 +294,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
       <CustomText
         style={{
           paddingVertical: 10,
-          fontFamily: FontsConst.OpenSans_Regular,
+          fontFamily: FontsConst.OpenSans_Bold,
         }}>
         Selected images/videos
       </CustomText>
@@ -318,7 +318,8 @@ const AddProductImage = ({onNextClick, ...props}) => {
                 borderWidth: 2,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderColor: selected?.path === item?.path ? '#00958C' : '#fff',
+                borderColor:
+                  selected?.path === item?.path ? '#00958C' : '#F0F2FA',
               }}
               onPress={() => setSelected(item)}>
               <Image
@@ -327,7 +328,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
                 style={{
                   height: 70,
                   width: 70,
-                  borderRadius: 10,
+                  borderRadius: 8,
                 }}
               />
             </Pressable>
