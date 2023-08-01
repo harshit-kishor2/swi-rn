@@ -21,6 +21,7 @@ import {
   CustomIcon,
   Custombutton,
   Custombutton2,
+  Loader,
   ProductViewComponent,
   Spacer,
 } from '@app/components';
@@ -980,9 +981,10 @@ const ProductDetails = props => {
           </View>
         </ScrollView>
       ) : (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size={30} color={COLORS.APPGREEN} />
-        </View>
+        <Loader size={20} />
+        // <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        //   <ActivityIndicator size={30} color={COLORS.APPGREEN} />
+        // </View>
       )}
     </SafeAreaView>
   );
