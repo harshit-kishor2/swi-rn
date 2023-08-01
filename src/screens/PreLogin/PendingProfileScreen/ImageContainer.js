@@ -92,6 +92,7 @@ const ImageContainer = ({handleChange, value}) => {
       </Pressable>
 
       <Pressable
+        onPress={openPicker}
         style={{
           position: 'absolute',
         }}>

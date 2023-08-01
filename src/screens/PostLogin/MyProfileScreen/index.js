@@ -6,6 +6,7 @@ import {
   Alert,
   Image,
   Platform,
+  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
@@ -15,13 +16,20 @@ import {
 } from 'react-native';
 import styles from './styles';
 import {SharedPreference} from '@app/helper';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logoutAction} from '@app/store/authSlice';
 import {useState} from 'react';
 import {Container, Spacer} from '@app/components';
+import {Avatar} from 'react-native-paper';
+import {AssestsConst} from '@app/assets/assets';
 
 const MyProfileScreen = props => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const profileData = useSelector(
+    state => state.authReducer?.userProfileDetails,
+  );
+  console.log('Profiledata===', profileData);
   const dispatch = useDispatch();
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
@@ -68,18 +76,28 @@ const MyProfileScreen = props => {
             justifyContent: 'center',
           }}>
           <View style={styles.ProfilePicture}>
-            <TouchableOpacity
+            <Pressable
               onPress={() => {
-                props.navigation.navigate('Sellers Own Profile');
+                // props.navigation.navigate('Sellers Own Profile');
               }}>
               <View
                 style={{
                   //marginLeft: SPACING.SCALE_10,
                   marginTop: SPACING.SCALE_25,
                 }}>
-                <Image source={IMAGES.UserProfile1} style={styles.ImageStyle} />
+                {/* <Image source={IMAGES.UserProfile1} style={styles.ImageStyle} /> */}
+                {profileData?.image ? (
+                  <Avatar.Image
+                    size={90}
+                    source={{
+                      uri: profileData?.image,
+                    }}
+                  />
+                ) : (
+                  <Avatar.Image size={90} source={AssestsConst.AVATAR} />
+                )}
               </View>
-            </TouchableOpacity>
+            </Pressable>
             <Spacer width={20} />
 
             {/* Parallel To Image Section  */}
@@ -91,13 +109,15 @@ const MyProfileScreen = props => {
                 marginTop: SPACING.SCALE_10,
               }}>
               <View style={styles.NameBadgeStyle}>
-                <Text style={styles.NameStyle}>Immy Van</Text>
+                <Text style={styles.NameStyle}>{profileData?.name}</Text>
                 <Spacer width={SPACING.SCALE_8} />
                 <View style={styles.BadgeStyle}>
-                  <Text>
-                    {' '}
-                    {<Image source={IMAGES.ProfileBadge} />} Premium Dealer
-                  </Text>
+                  {profileData?.premium_user === 'yes' ? (
+                    <Text>
+                      {' '}
+                      {<Image source={IMAGES.ProfileBadge} />} Premium Dealer
+                    </Text>
+                  ) : null}
                 </View>
               </View>
               <View style={styles.NameBadgeLineStyle} />
