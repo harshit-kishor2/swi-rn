@@ -69,28 +69,29 @@ const ImageContainer = ({handleChange, value}) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      {value ? (
-        <Avatar.Image
-          style={{
-            opacity: 0.2,
-          }}
-          size={120}
-          source={{
-            uri: value,
-          }}
-        />
-      ) : (
-        <Avatar.Image
-          style={{
-            opacity: 0.2,
-          }}
-          size={120}
-          source={AssestsConst.AVATAR}
-        />
-      )}
+      <Pressable onPress={openPicker}>
+        {value ? (
+          <Avatar.Image
+            style={{
+              opacity: 0.8,
+            }}
+            size={120}
+            source={{
+              uri: value,
+            }}
+          />
+        ) : (
+          <Avatar.Image
+            style={{
+              opacity: 0.4,
+            }}
+            size={120}
+            source={AssestsConst.AVATAR}
+          />
+        )}
+      </Pressable>
 
       <Pressable
-        onPress={openPicker}
         style={{
           position: 'absolute',
         }}>
