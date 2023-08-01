@@ -12,7 +12,7 @@ export const sellerProductListingAction = createAsyncThunk(
             const result = await axiosRequest({
               url: '/seller-products/{id}',
               method: 'GET',
-              data: params,
+              params: params,
             })
             return response
         } catch (error) {

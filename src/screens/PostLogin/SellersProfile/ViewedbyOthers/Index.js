@@ -7,11 +7,12 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList, Image, Text, View } from "react-native";
 
-export const SellerProfileViewByOther = () => {
+export const SellerProfileViewByOther = (props) => {
     const [sellerListing, setSellerListing] = useState('Listing');
     const handleButton = (data) => {
         setSellerListing(data);
     }
+    console.log(props, "View By others Design")
     const Data = [
         {
             id: 1,
@@ -23,17 +24,29 @@ export const SellerProfileViewByOther = () => {
     return (
         <View style={{ flex: 1 }}>
             <View >
-                <View style={{ marginLeft: 15 }}>
+            <View style={ {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal:10,
+        marginVertical:20
 
-                    <NavigationBar
-                        leftSource={IMAGES.BACKARROW}
-                        leftAction={() => {
-                            console.log('first');
-                            props.navigation.navigate('CreateAccountScreen');
-                        }}
-                        flexDirection="row"
-                    />
-                </View>
+      } }>
+        <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}>
+              <Image
+                style={{
+                  height: SPACING.SCALE_24,
+                  width: SPACING.SCALE_24,
+                  resizeMode: 'cover',
+                }}
+                source={IMAGES.BACKARROW}
+              />
+            </TouchableOpacity>
+     
+      </View>
                 <View>
                     <Image source={IMAGES.coverSellerProfile}
                         style={{ width: 393, height: 125 }} />
@@ -359,3 +372,12 @@ const style = StyleSheet.create({
 
 })
 
+const mapStateToProps = state =>{
+    return {
+        authReducer: state.authReducer,
+        sellersProfileReducer: state.sellersProfileReducer
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    getProductList: params => dispatch(sellerProductListingAction(params))
+});

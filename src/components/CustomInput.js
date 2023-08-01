@@ -31,6 +31,8 @@ const CustomInput = forwardRef(
       <>
         {label ? <Text style={[lableStyle]}>{label}</Text> : null}
         <TextInput
+          clearButtonMode="unless-editing"
+          autoCapitalize="none"
           ref={ref}
           secureTextEntry={secureTextEntry && !showPass}
           style={[styles.containerStyle, style]}

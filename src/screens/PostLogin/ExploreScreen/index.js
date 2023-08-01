@@ -1,7 +1,14 @@
-import {Container, CustomText} from '@app/components';
+import {Container, CustomIcon, CustomText} from '@app/components';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  View,
+  Image,
+} from 'react-native';
 import Banner from './Banner';
 import TrendyWatch from './TrendyWatch';
 import {connect} from 'react-redux';
@@ -14,10 +21,13 @@ import {
   getTrendyWatchAction,
 } from '@app/store/exploreProductSlice';
 import {useEffect, useRef, useState} from 'react';
-import {LoadingStatus} from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import Filter from './Filter';
 import useLocation from '@app/hooks/useLocation';
+import SearchBarComponent from '@app/components/SearchBarComponent';
+import NotificationIndicator from '@app/components/NotificationIndicator';
+import {IMAGES, SPACING} from '@app/resources';
 
 const ExploreScreen = props => {
   const {
@@ -102,7 +112,31 @@ const ExploreScreen = props => {
 
   return (
     <Container useSafeAreaView={true} loading={isLoading}>
-      <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} onPress={()=>{props.navigation.navigate("NotificationScreen")}} />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: 10,
+          marginTop: 10,
+        }}>
+        <SearchBarComponent
+          onPress={() => {
+            props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
+              from: 'explore',
+            });
+          }}
+        />
+        <Pressable
+          onPress={() => {
+            Alert.alert('Bell clicked');
+          }}
+          style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
+          <Image source={IMAGES.notificationBell} />
+        </Pressable>
+      </View>
+
+      {/* <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} /> */}
       <FlatList
         contentContainerStyle={{
           flexGrow: 1,

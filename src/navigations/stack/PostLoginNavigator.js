@@ -12,6 +12,8 @@ import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/Viewe
 import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import MyFavourites from '@app/screens/PostLogin/MyFavourites.js/Index';
+import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
+import { SellerProfileViewByOther } from '@app/screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -25,14 +27,15 @@ const PostLoginNavigator = () => {
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
       />
-      <Stack.Screen 
-       name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
-       component={SellersProfileViewByOwn}
+      <Stack.Screen
+        name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
+        component={SellersProfileViewByOwn}
       />
-      <Stack.Screen 
-       name={RoutesName.COIN_HISTORY}
-       component={CoinHistory}
+      <Stack.Screen
+        name={RoutesName.SELLERSPROFILE_VIEWBYOTHERS}
+        component={SellerProfileViewByOther}
       />
+      <Stack.Screen name={RoutesName.COIN_HISTORY} component={CoinHistory} />
       <Stack.Screen
         name={RoutesName.ITEM_COMPARISON}
         component={ItemComparison}
@@ -41,6 +44,7 @@ const PostLoginNavigator = () => {
         name={RoutesName.MY_FAVOURITES}
         component={MyFavourites}
       />
+      <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
 
       {/* <Stack.Screen
         name="FreshFind"

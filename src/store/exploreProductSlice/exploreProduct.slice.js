@@ -4,11 +4,13 @@ import {LoadingStatus} from '@app/helper/strings';
 import {
   addWishListAction,
   freshFindsAction,
+  freshFindsSearchingAction,
   getBannerAction,
   getBrandListingAction,
   getProductChartAction,
   getProductDetailsAction,
   getTopNotchWatchAction,
+  getTopNotchWatchSearchingAction,
   getTrendyWatchAction,
 } from './exploreProduct.action';
 
@@ -25,6 +27,10 @@ const initialState = entityAdapter.getInitialState({
   freshFinds: [],
   freshFindsError: null,
 
+  freshFindSearchingLoadingStatus: LoadingStatus.NOT_LOADED,
+  freshFindsSearching: [],
+  freshFindsSearchingError: null,
+
   bannerListLoadingStatus: LoadingStatus.NOT_LOADED,
   bannerList: [],
   bannerListError: null,
@@ -37,6 +43,11 @@ const initialState = entityAdapter.getInitialState({
   topNotchWatch: [],
   isLoadMore: false,
   topNotchWatchError: null,
+
+  topNotchWatchSearchingLoadingStatus: LoadingStatus.NOT_LOADED,
+  topNotchWatchSearching: [],
+
+  topNotchWatchSearchingError: null,
 
   productDetailsLoadingStatus: LoadingStatus.NOT_LOADED,
   productDetails: null,
@@ -64,6 +75,18 @@ const reduxSlice = createSlice({
     resetSliceState: (state, action) => {
       return {
         ...initialState,
+      };
+    },
+    resetserachstate: (state, action) => {
+      return {
+        ...state,
+        topNotchWatchSearching: [],
+      };
+    },
+    resetfreshFindsState: (state, action) => {
+      return {
+        ...state,
+        freshFindsSearching: [],
       };
     },
   },
@@ -170,6 +193,30 @@ const reduxSlice = createSlice({
       .addCase(getBrandListingAction.rejected, (state, action) => {
         state.brandListLoadingStatus = LoadingStatus.FAILED;
         state.brandListError = action.payload;
+      })
+      .addCase(getTopNotchWatchSearchingAction.pending, state => {
+        state.topNotchWatchSearchingLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getTopNotchWatchSearchingAction.fulfilled, (state, action) => {
+        state.topNotchWatchSearchingLoadingStatus = LoadingStatus.LOADED;
+        console.log(action?.payload?.data?.data, 'dfghjkhhn');
+        state.topNotchWatchSearching = action?.payload?.data?.data;
+      })
+      .addCase(getTopNotchWatchSearchingAction.rejected, (state, action) => {
+        state.topNotchWatchSearchingError = LoadingStatus.FAILED;
+        state.topNotchWatchError = action.payload;
+      })
+      .addCase(freshFindsSearchingAction.pending, state => {
+        state.freshFindSearchingLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(freshFindsSearchingAction.fulfilled, (state, action) => {
+        (state.freshFindSearchingLoadingStatus = LoadingStatus.LOADED),
+          console.log(action.payload.data, '^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+        state.freshFindsSearching = action.payload.data;
+      })
+      .addCase(freshFindsSearchingAction.rejected, (state, action) => {
+        state.freshFindSearchingLoadingStatus = LoadingStatus.FAILED;
+        state.freshFindsSearchingError = action.payload;
       });
   },
 });
@@ -178,6 +225,7 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const {resetSliceState, resetserachstate, resetfreshFindsState} =
+  reduxSlice.actions;
 
 export const exploreProductReducer = reduxSlice.reducer;

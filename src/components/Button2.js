@@ -14,6 +14,8 @@ const Custombutton2 = ({
   backgroundColor,
   title,
   disabled,
+  fontFamily,
+  fontSize
 }) => {
   return (
     <Pressable
@@ -37,7 +39,11 @@ const Custombutton2 = ({
             
           },
         ]}>
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={{ fontSize: fontSize ?? 16,
+    color: 'black',
+    fontFamily:fontFamily ?? 'Cabin-Bold',
+    
+    textAlign: 'center',}}>{title}</Text>
       </View>
     </Pressable>
   );
@@ -50,12 +56,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth:1,
   },
-  buttonText: {
-    fontSize: 16,
-    color: 'black',
-    fontFamily:'Cabin-Bold',
+  // buttonText: {
+  //   fontSize: fontSize ?? 16,
+  //   color: 'black',
+  //   fontFamily:fontFamily ?? 'Cabin-Bold',
     
-    textAlign: 'center',
-  },
+  //   textAlign: 'center',
+  // },
 });
 export default Custombutton2;

@@ -5,10 +5,11 @@ import { Image } from 'react-native'
 import fonts from '@app/resources/fonts'
 import styles from './styles'
 import listings from './listings'
-import { CustomIcon, CustomInput, Custombutton2, NavigationBar } from '@app/components'
+import { CustomIcon, CustomInput, Custombutton, Custombutton2, NavigationBar } from '@app/components'
 import { ICON_TYPE } from '@app/components/CustomIcon'
 import { margin } from '@app/resources/mixins'
 import { Rating } from 'react-native-ratings'
+import { WHITE } from '@app/resources/colors'
 
 
 
@@ -21,9 +22,17 @@ const Item = ({
   seller_name,
   posting_day,
   onPress,
-  wishListPress,
+
 }) => {
+  const wishListPress = () => {
+    return (
+      <>
+
+      </>
+    )
+  }
   return (
+
     <TouchableOpacity onPress={onPress}>
       <View style={styles.outer}>
         <View style={styles.inner}>
@@ -32,11 +41,17 @@ const Item = ({
             onPress={wishListPress}
             style={{
               position: 'absolute',
-              right: 12,
-              height: SPACING.SCALE_20,
-              width: SPACING.SCALE_20,
+              right: -10,
+              height: SPACING.SCALE_30,
+              width: SPACING.SCALE_30,
+              flexDirection: 'column',
+              justifyContent: 'space-between'
             }}>
-            <Image source={IMAGES.cut} />
+            <View>
+              <View style={{ height: 4, width: 4, borderRadius: 2, backgroundColor: COLORS.WHITE }} />
+              <View style={{ height: 4, width: 4, borderRadius: 2, backgroundColor: COLORS.WHITE, marginVertical: 2 }} />
+              <View style={{ height: 4, width: 4, borderRadius: 2, backgroundColor: COLORS.WHITE }} />
+            </View>
           </TouchableOpacity>
         </View>
         <View>
@@ -92,11 +107,28 @@ const Item = ({
             }}>
             {posting_day}
           </Text>
+          <View style={{ marginLeft: -8 }}>
+            <Custombutton2
+              title="Boost Product"
+              marginTop={10}
+              height={50}
+              width={170}
+              marginHorizontal={20}
+              backgroundColor={'#F6F6F6'}
+              fontFamily={'Cabin-Regular'}
+              fontSize={18}
+
+            />
+          </View>
         </View>
         <View>
 
+
         </View>
+
+
       </View>
+
     </TouchableOpacity>
   );
 };
@@ -158,8 +190,8 @@ const DATA = [
 
 ];
 
-const SellersProfileViewByOwn = () => {
-  console.log("skdjflsdkfn")
+const SellersProfileViewByOwn = (props) => {
+  
   const [selectedButton, setSelectedButton] = useState('Listing');
 
 
@@ -178,40 +210,36 @@ const SellersProfileViewByOwn = () => {
   const handleButtonPress = (buttonName) => {
     setSelectedButton(buttonName);
   }
-  const userRating=4
+  const userRating = 4
   return (
     <View style={{
-     
+
       flex: 1
     }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal:10 }}>
-        <NavigationBar
-          leftSource={IMAGES.BACKARROW}
-          leftAction={() => {
-            // console.log('first');
-            props.navigation.navigate('CreateAccountScreen');
-          }}
-          flexDirection="row"
+      <View style={ {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal:10,
+        marginVertical:20
 
-        />
-        <View style={{ flexDirection: 'row', margin: 15 }}>
-          <View style={{ marginRight: 15 }}>
-            <CustomIcon
-              origin={ICON_TYPE.FEATHER_ICONS}
-              name={'edit-2'}
-              color={COLORS.BLACK}
-              size={24}
-            />
-          </View>
-          <CustomIcon
-            origin={ICON_TYPE.ANT_ICON}
-            name={'qrcode'}
-            color={COLORS.BLACK}
-
-          />
-        </View>
-      </View>
+      } }>
+        <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}>
+              <Image
+                style={{
+                  height: SPACING.SCALE_24,
+                  width: SPACING.SCALE_24,
+                  resizeMode: 'cover',
+                }}
+                source={IMAGES.BACKARROW}
+              />
+            </TouchableOpacity>
      
+      </View>
+
       <View>
         <Image source={IMAGES.BackgroundImage} style={{ height: 130, width: '100%' }} />
         <View style={{ alignItems: 'center', position: 'absolute', justifyContent: 'center', width: '100%', height: '200%' }}>
@@ -230,44 +258,44 @@ const SellersProfileViewByOwn = () => {
 
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-      {/* <Rating/> */}
+        {/* <Rating/> */}
         <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 16, marginLeft: 10, textDecorationLine: 'underline', color: 'black' }}>20 reviews</Text>
       </View>
 
 
       <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
         <Text style={{ fontFamily: 'Cabin-SemiBold', fontSize: 16 }}>Verified:</Text>
-        <View style={{ flexDirection: 'row', marginHorizontal:5, justifyContent:'space-between' }}>
-        
-        <View style={{height:16, width:16 , borderRadius:8, backgroundColor:'#797979', justifyContent:'center', alignItems:'center'}}>
+        <View style={{ flexDirection: 'row', marginHorizontal: 5, justifyContent: 'space-between' }}>
+
+          <View style={{ height: 16, width: 16, borderRadius: 8, backgroundColor: '#797979', justifyContent: 'center', alignItems: 'center' }}>
             <CustomIcon
               origin={ICON_TYPE.ANT_ICON}
               name={'idcard'}
               color={COLORS.WHITE}
               size={8}
             />
-            </View>
-            
-            <CustomIcon
-              origin={ICON_TYPE.ENTYPO}
-              name={'mail-with-circle'}
-              color={'#797979'}
-              size={16}
-            />
-            <View style={{height:16, width:16 , borderRadius:8, backgroundColor:'#797979', justifyContent:'center', alignItems:'center'}}>
+          </View>
+
+          <CustomIcon
+            origin={ICON_TYPE.ENTYPO}
+            name={'mail-with-circle'}
+            color={'#797979'}
+            size={16}
+          />
+          <View style={{ height: 16, width: 16, borderRadius: 8, backgroundColor: '#797979', justifyContent: 'center', alignItems: 'center' }}>
             <CustomIcon
               origin={ICON_TYPE.FEATHER_ICONS}
               name={'phone'}
               color={COLORS.WHITE}
               size={8}
             />
-            </View>
-            <CustomIcon
-              origin={ICON_TYPE.ENTYPO}
-              name={'facebook-with-circle'}
-              color={'#797979'}
-              size={16}
-            />
+          </View>
+          <CustomIcon
+            origin={ICON_TYPE.ENTYPO}
+            name={'facebook-with-circle'}
+            color={'#797979'}
+            size={16}
+          />
         </View>
       </View>
 
@@ -461,5 +489,9 @@ const SellersProfileViewByOwn = () => {
   )
 }
 
+
+const mapStateToProps = dispatch => ({
+  onSel
+})
 export default SellersProfileViewByOwn
 

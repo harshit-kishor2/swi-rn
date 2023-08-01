@@ -41,8 +41,8 @@ const ProductCard = ({item, onPress}) => {
       <Card.Content>
         <CustomText style={styles.title}>{truncatedText}</CustomText>
         <View style={styles.price_container}>
-          <CustomText style={styles.price}>${item?.price}</CustomText>
-          <View style={styles.seprator} />
+          <CustomText style={styles.price}>${item?.price}.</CustomText>
+          {/* <View style={styles.seprator} /> */}
           <CustomText style={styles.category}>
             {item?.watch_condition === 'pre_owned' ? 'Pre Owned' : 'Brand New'}
           </CustomText>
@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
   price_container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     paddingVertical: 5,
   },
   price: {
     color: '#00958C',
     fontSize: 12,
-    fontFamily: FontsConst.Cabin_Bold,
+    fontFamily: FontsConst.Cabin_Bold,marginHorizontal:5
   },
   seprator: {
     height: 5,
