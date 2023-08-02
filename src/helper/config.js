@@ -5,7 +5,7 @@ export const AppConst = {
 
 export const API = {
   // BASE_URL: 'https://php8.singsys.net/swi/backend/public/api/',
-  BASE_URL: 'https://swi.singsys.net/api/',
+  BASE_URL: 'https://swi.singsys.net/api',
 };
 
 export const Config = {
