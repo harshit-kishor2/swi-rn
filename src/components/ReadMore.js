@@ -12,25 +12,25 @@ import Spacer from './Spacer';
 const ReadMore = ({content, maxCharacters = 50}) => {
   const [showFullContent, setShowFullContent] = useState(false);
 
+  var dots = content?.length > maxCharacters ? '...' : '';
+
   const toggleShowContent = () => {
     setShowFullContent(!showFullContent);
   };
 
   const truncatedContent = content?.substring(0, maxCharacters);
-  const displayContent = showFullContent ? content : truncatedContent + '...';
+  const displayContent = showFullContent ? content : truncatedContent + dots;
 
   return (
     <View style={{width: '98%'}}>
-      <Text style={styles.contentText}>
-        {displayContent}
-        {content?.length > maxCharacters && (
-          <TouchableOpacity onPress={toggleShowContent}>
-            <Text style={styles.readMoreText}>
-              {showFullContent ? 'Read Less' : 'Read More'}
-            </Text>
-          </TouchableOpacity>
-        )}
-      </Text>
+      <Text style={styles.contentText}>{displayContent}</Text>
+      {content?.length > maxCharacters && (
+        <TouchableOpacity onPress={toggleShowContent}>
+          <Text style={styles.readMoreText}>
+            {showFullContent ? 'Read Less' : 'Read More'}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -38,11 +38,11 @@ const ReadMore = ({content, maxCharacters = 50}) => {
 const styles = StyleSheet.create({
   contentText: {
     fontSize: 15,
-    lineHeight: 16,
+    lineHeight: 21,
   },
   readMoreText: {
     color: COLORS.APPGREEN,
-    // marginTop: SPACING.SCALE_10,
+    //marginTop: SPACING.SCALE_5,
     textDecorationLine: 'underline',
     fontSize: 15,
     //position: 'absolute',
