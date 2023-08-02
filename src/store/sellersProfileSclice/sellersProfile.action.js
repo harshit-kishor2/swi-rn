@@ -1,3 +1,4 @@
+import axiosRequest from '@app/helper/axiosRequest'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
 //! ======================== Redux : Async Thunk Actions ============================
@@ -9,13 +10,16 @@ export const sellerProductListingAction = createAsyncThunk(
     'sellersProfile/sellerProductListingAction',
     async (params, thunkAPI) => {
         try {
+            console.log(params,"at action====>>>>")
             const result = await axiosRequest({
-              url: '/seller-products/{id}',
+              url: `/seller-products/${params.id}`,
               method: 'GET',
               params: params,
             })
-            return response
+            console.log(result,'asdfghjklkjhgfdsdfghjklkjhgfdfghjk')
+            return result
         } catch (error) {
+            console.log(error,'=========>>>>>')
             return thunkAPI.rejectWithValue(
                 error.response ? error.response?.data : error.data
             )

@@ -66,6 +66,11 @@ const CreateAccountScreen = props => {
         //social_id:sdasdasd
       };
       onUserLogin(params).then(res => {
+        if (res?.type.includes('fulfilled')) {
+          if (res.payload?.data?.isProfileCompleted === 'no') {
+            NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+          }
+        }
         if (res?.type.includes('rejected')) {
           showAlert({
             title: 'Error',
@@ -110,11 +115,18 @@ const CreateAccountScreen = props => {
                     email: result?.email,
                     device_type: Platform.OS,
                     device_token: 'fcmToken',
-                    login_type: 'google',
+                    login_type: 'facebook',
                     name: result?.name,
                     facebook_id: result?.id,
                   };
                   onUserLogin(params).then(res => {
+                    if (res?.type.includes('fulfilled')) {
+                      if (res.payload?.data?.isProfileCompleted === 'no') {
+                        NavigationService.navigate(
+                          RoutesName.PENDING_PROFILE_SCREEN,
+                        );
+                      }
+                    }
                     if (res?.type.includes('rejected')) {
                       showAlert({
                         title: 'Error',
@@ -154,6 +166,11 @@ const CreateAccountScreen = props => {
           google_id: userInfo?.user?.id,
         };
         onUserLogin(params).then(res => {
+          if (res?.type.includes('fulfilled')) {
+            if (res.payload?.data?.isProfileCompleted === 'no') {
+              NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+            }
+          }
           if (res?.type.includes('rejected')) {
             showAlert({
               title: 'Error',

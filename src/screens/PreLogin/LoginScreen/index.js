@@ -84,10 +84,9 @@ const LoginScreen = props => {
             if (res?.type.includes('fulfilled')) {
               resetForm();
               setButtonDisabled(false);
-              // showAlert({
-              //   title: 'Success',
-              //   message: res?.payload?.message ?? 'Success!',
-              // });
+              if (res.payload?.data?.isProfileCompleted === 'no') {
+                NavigationService.navigate(RoutesName.PENDING_PROFILE_SCREEN);
+              }
             }
             if (res?.type.includes('rejected')) {
               setButtonDisabled(false);

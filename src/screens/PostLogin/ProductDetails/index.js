@@ -21,6 +21,7 @@ import {
   CustomIcon,
   Custombutton,
   Custombutton2,
+  Loader,
   ProductViewComponent,
   Spacer,
 } from '@app/components';
@@ -44,6 +45,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {FlatList} from 'react-native-gesture-handler';
 import ReadMore from '@app/components/ReadMore';
+import NavigationService from '@app/navigations/NavigationService';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -172,13 +174,13 @@ const ProductDetails = props => {
                       source={{
                         uri: images[selectedImage]?.file,
                       }}
-                      ref={ref => {
-                        this.player = ref;
-                      }}
+                      // ref={ref => {
+                      //   this.player = ref;
+                      // }}
                       resizeMode="cover"
-                      lo
-                      onBuffer={this.onBuffer}
-                      onError={this.videoError}
+                      // lo
+                      // onBuffer={this.onBuffer}
+                      // onError={this.videoError}
                       style={{
                         width: SPACING.SCALE_239,
                         height: SPACING.SCALE_239,
@@ -275,7 +277,9 @@ const ProductDetails = props => {
     },
     thumbnailContainer: {
       flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      justifyContent: 'center',
+      //justifyContent: 'space-evenly',
+      //backgroundColor: 'red',
       alignItems: 'center',
       marginTop: 15,
       paddingHorizontal: 10,
@@ -287,6 +291,7 @@ const ProductDetails = props => {
       borderRadius: 10,
       borderWidth: 2,
       borderColor: '#ccc',
+      marginHorizontal: 5,
     },
     selectedThumbnail: {
       borderColor: '#000',
@@ -526,7 +531,7 @@ const ProductDetails = props => {
               width: '100%',
               marginVertical: 5,
             }}>
-            <Text style={{fontFamily: 'OpenSans-Regular'}}>
+            <Text style={{fontFamily: 'OpenSans-SemiBold', color: '#454545'}}>
               {capitalizeFirstLetter(productDetailData?.data?.product_status)}
             </Text>
           </View>
@@ -534,33 +539,37 @@ const ProductDetails = props => {
           {/* Seller Details */}
 
          <TouchableOpacity onPress={()=>{
-          props.navigation.navigate("Sellers View By Others Profile",{UserId:productDetailData?.data?.user_id})
+
+          NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOTHERS,{id:productDetailData?.data?.user_id})
        }}>
          <View
             style={{
               flexDirection: 'row',
-              alignItems: 'center',
+              //alignItems: 'center',
               justifyContent: 'space-evenly',
-              marginVertical: 5,
-              //backgroundColor: 'red',
+              marginVertical: SPACING.SCALE_5,
+              marginHorizontal: SPACING.SCALE_13,
+              // backgroundColor: 'red',
               //maxWidth:SPACING.SCALE_00
             }}>
-            {productDetailData?.data?.user?.image ? (
-              <Image
-                source={{uri: productDetailData?.data?.user?.image}}
-                style={{
-                  height: 45,
-                  width: 45,
-                  borderRadius: 45 / 2,
-                  marginLeft: 10,
-                }}
-              />
-            ) : (
-              <Image
-                source={IMAGES.userProfile}
-                style={{height: 45, width: 45, borderRadius: 45 / 2}}
-              />
-            )}
+            <View style={{marginTop: SPACING.SCALE_3}}>
+              {productDetailData?.data?.user?.image ? (
+                <Image
+                  source={{uri: productDetailData?.data?.user?.image}}
+                  style={{
+                    height: 45,
+                    width: 45,
+                    borderRadius: 45 / 2,
+                    marginLeft: 10,
+                  }}
+                />
+              ) : (
+                <Image
+                  source={IMAGES.userProfile}
+                  style={{height: 45, width: 45, borderRadius: 45 / 2}}
+                />
+              )}
+            </View>
 
             <View style={{width: SPACING.SCALE_285}}>
               <View
@@ -568,17 +577,21 @@ const ProductDetails = props => {
                   flexDirection: 'row',
                   alignContent: 'center',
                   justifyContent: 'space-between',
+                  // backgroundColor: 'blue',
+                  maxWidth: SPACING.SCALE_285,
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'OpenSans-Regular',
-                    fontSize: 14,
-                    margin: 4,
-                  }}>
-                  {productDetailData?.data?.user?.name?.length > 8
-                    ? addEllipsis(productDetailData?.data?.user?.name, 8)
-                    : productDetailData?.data?.user?.name?.length}
-                </Text>
+                <View style={{maxWidth: SPACING.SCALE_100}}>
+                  <Text
+                    style={{
+                      fontFamily: 'OpenSans-Regular',
+                      fontSize: 14,
+                      margin: 3,
+                    }}>
+                    {productDetailData?.data?.user?.name?.length > 8
+                      ? addEllipsis(productDetailData?.data?.user?.name, 8)
+                      : productDetailData?.data?.user?.name?.length}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     fontFamily: 'OpenSans-Regular',
@@ -599,26 +612,31 @@ const ProductDetails = props => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: 6,
+                    // alignItems: 'center',
+                    // justifyContent: 'center',
+                    //marginTop: 6,
                   }}>
                   {productDetailData?.data?.location ? (
-                    <>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
                       <Image
-                        style={{height: 14.6, width: 12, marginRight: 6}}
+                        style={{height: 18, width: 14.5, marginRight: 6}}
                         source={IMAGES.locationIcon}
                       />
                       <View style={{maxWidth: 200}}>
                         <Text
                           style={{
                             fontFamily: 'OpenSans-Regular',
-                            fontSize: 15,
+                            fontSize: 13.5,
                           }}>
                           {productDetailData?.data?.location}
                         </Text>
                       </View>
-                    </>
+                    </View>
                   ) : (
                     <Text>No address</Text>
                   )}
@@ -969,9 +987,10 @@ const ProductDetails = props => {
           </View>
         </ScrollView>
       ) : (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size={30} color={COLORS.APPGREEN} />
-        </View>
+        <Loader size={20} />
+        // <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        //   <ActivityIndicator size={30} color={COLORS.APPGREEN} />
+        // </View>
       )}
     </SafeAreaView>
   );

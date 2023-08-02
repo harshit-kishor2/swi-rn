@@ -41,8 +41,9 @@ const ProductCard = ({item, onPress}) => {
       <Card.Content>
         <CustomText style={styles.title}>{truncatedText}</CustomText>
         <View style={styles.price_container}>
-          <CustomText style={styles.price}>${item?.price}.</CustomText>
-          {/* <View style={styles.seprator} /> */}
+          <CustomText style={styles.price}>${item?.price}</CustomText>
+          <Spacer width={SPACING.SCALE_3} />
+          <View style={styles.seprator} />
           <CustomText style={styles.category}>
             {item?.watch_condition === 'pre_owned' ? 'Pre Owned' : 'Brand New'}
           </CustomText>
@@ -59,7 +60,9 @@ const ProductCard = ({item, onPress}) => {
             }
           />
           <Spacer width={5} />
-          <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          <View style={{maxWidth: SPACING.SCALE_115}}>
+            <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          </View>
         </View>
         <CustomText style={styles.duration}>
           {formatTimestamp(item?.created_at)}
@@ -97,6 +100,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontFamily: FontsConst.Cabin_Bold,
+    marginTop: SPACING.SCALE_5,
   },
   price_container: {
     flexDirection: 'row',
@@ -110,15 +114,16 @@ const styles = StyleSheet.create({
     fontFamily: FontsConst.Cabin_Bold,marginHorizontal:5
   },
   seprator: {
-    height: 5,
-    width: 5,
-    borderRadius: 3,
+    height: 3,
+    width: 3,
+    borderRadius: 3 / 2,
     backgroundColor: '#00958C',
   },
   category: {
     color: '#00958C',
     fontSize: 12,
     fontFamily: FontsConst.Cabin_Regular,
+    marginLeft: SPACING.SCALE_2,
   },
   user_image: {
     flexDirection: 'row',

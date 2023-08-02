@@ -14,6 +14,7 @@ export const RoutesName = {
   LOGIN_SCREEN: 'LoginScreen',
   FORGOT_PASSWORD_SCREEN: 'ForgetPassword',
   TERM_AND_CONDITION_SCREEN: 'TermAndConditions',
+  PENDING_PROFILE_SCREEN: 'PendingProfileScreen',
 
   // Tab
   EXPLORE_TAB: 'Explore',

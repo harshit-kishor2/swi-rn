@@ -36,11 +36,14 @@ export const userSigninAction = createAsyncThunk(
         method: 'POST',
         data: params,
       });
-      SharedPreference.setItem(SharedPreference.keys.IS_AUTHENTICATE, 'true');
       SharedPreference.setItem(
         SharedPreference.keys.TOKEN,
         response?.data?.token,
       );
+
+      if (response.data?.isProfileCompleted !== 'no') {
+        SharedPreference.setItem(SharedPreference.keys.IS_AUTHENTICATE, 'true');
+      }
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -130,6 +133,31 @@ export const userProfile = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);
+
+/**
+ * Api Action
+ */
+export const updateProfileAction = createAsyncThunk(
+  `auth/updateProfileAction`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `update-profile`,
+        method: 'POST',
+        data: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      SharedPreference.setItem(SharedPreference.keys.IS_AUTHENTICATE, 'true');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
       );
     }
   },

@@ -13,7 +13,7 @@ import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import MyFavourites from '@app/screens/PostLogin/MyFavourites.js/Index';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
-import { SellerProfileViewByOther } from '@app/screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
+import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index'
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {

@@ -5,6 +5,7 @@ import {
   ForgetPassword,
   LoginOptions,
   LoginScreen,
+  PendingProfileScreen,
   SignupScreen,
   TermsandcondtionScreen,
   WalkThroughScreen,
@@ -42,6 +43,10 @@ const PreLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.FORGOT_PASSWORD_SCREEN}
         component={ForgetPassword}
+      />
+      <Stack.Screen
+        name={RoutesName.PENDING_PROFILE_SCREEN}
+        component={PendingProfileScreen}
       />
     </Stack.Navigator>
   );

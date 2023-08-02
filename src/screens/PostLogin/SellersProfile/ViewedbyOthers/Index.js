@@ -3,16 +3,23 @@ import { ICON_TYPE } from "@app/components/CustomIcon";
 import { COLORS, IMAGES, SPACING } from "@app/resources";
 import { margin } from "@app/resources/mixins";
 import ProductCard from "@app/screens/atoms/ProductCard";
-import React, { useState } from "react";
+import { sellerProductListingAction } from "@app/store/sellersProfileSclice";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList, Image, Text, View } from "react-native";
+import { connect, useSelector } from "react-redux";
 
-export const SellerProfileViewByOther = (props) => {
+const SellerProfileViewByOther = (props) => {
+
+    const{getProductList, sellersProfileReducer}=props
     const [sellerListing, setSellerListing] = useState('Listing');
     const handleButton = (data) => {
         setSellerListing(data);
     }
     console.log(props, "View By others Design")
+    const item = sellersProfileReducer?.sellerProductListingAction?.data;
+    console.log(item, "Reducer response data")
+
     const Data = [
         {
             id: 1,
@@ -20,33 +27,46 @@ export const SellerProfileViewByOther = (props) => {
 
         }
     ]
+    
 
+    useEffect(
+        () => {
+            if(props.route.params){
+            getProductList(props.route.params)
+            }
+
+        }, []
+    )
+    const renderItem = ({item, index}) => {
+    
+        return <ProductCard key={index} item={item} />;
+      };
     return (
         <View style={{ flex: 1 }}>
             <View >
-            <View style={ {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginHorizontal:10,
-        marginVertical:20
+                <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 10,
+                    marginVertical: 20
 
-      } }>
-        <TouchableOpacity
-              onPress={() => {
-                props.navigation.goBack();
-              }}>
-              <Image
-                style={{
-                  height: SPACING.SCALE_24,
-                  width: SPACING.SCALE_24,
-                  resizeMode: 'cover',
-                }}
-                source={IMAGES.BACKARROW}
-              />
-            </TouchableOpacity>
-     
-      </View>
+                }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.navigation.goBack();
+                        }}>
+                        <Image
+                            style={{
+                                height: SPACING.SCALE_24,
+                                width: SPACING.SCALE_24,
+                                resizeMode: 'cover',
+                            }}
+                            source={IMAGES.BACKARROW}
+                        />
+                    </TouchableOpacity>
+
+                </View>
                 <View>
                     <Image source={IMAGES.coverSellerProfile}
                         style={{ width: 393, height: 125 }} />
@@ -86,7 +106,7 @@ export const SellerProfileViewByOther = (props) => {
                     <Image source={IMAGES.ProfileBadge} />
                     <Text style={{
                         fontSize: 16,
-                        color: ' #737373', marginLeft: 5
+                        color: '#737373', marginLeft: 5
                     }}>Premium Seller</Text>
                 </View>
                 <View style={{
@@ -189,9 +209,14 @@ export const SellerProfileViewByOther = (props) => {
                     marginBottom: 10
 
                 }}>Watches posted by Immy</Text>
-                <ScrollView>
-                    <ProductCard />
-                </ScrollView>
+               <View>
+               <FlatList
+               data={item}
+                renderItem={renderItem}
+                numColumns={2}
+                
+                />
+                </View>
 
             </View>
 
@@ -372,7 +397,7 @@ const style = StyleSheet.create({
 
 })
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
         authReducer: state.authReducer,
         sellersProfileReducer: state.sellersProfileReducer
@@ -381,3 +406,5 @@ const mapStateToProps = state =>{
 const mapDispatchToProps = dispatch => ({
     getProductList: params => dispatch(sellerProductListingAction(params))
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellerProfileViewByOther);

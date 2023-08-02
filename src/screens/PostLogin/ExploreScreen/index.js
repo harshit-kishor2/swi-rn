@@ -28,6 +28,7 @@ import useLocation from '@app/hooks/useLocation';
 import SearchBarComponent from '@app/components/SearchBarComponent';
 import NotificationIndicator from '@app/components/NotificationIndicator';
 import {IMAGES, SPACING} from '@app/resources';
+import {AssestsConst} from '@app/assets/assets';
 
 const ExploreScreen = props => {
   const {
@@ -54,7 +55,7 @@ const ExploreScreen = props => {
     getTrendyWatch();
     getAllBrands();
   }, []);
-
+  console.log(topNotchWatch,"Top Notch watch data details=====")
   const onLoadMore = () => {
     if (exploreProduct?.isLoadMore) {
       getTopNotchWatch({page: page, keyWord: query});
@@ -98,6 +99,7 @@ const ExploreScreen = props => {
   }, [exploreProduct]);
 
   const renderItem = ({item, index}) => {
+    
     return <ProductCard key={index} item={item} />;
   };
 
@@ -129,7 +131,7 @@ const ExploreScreen = props => {
         />
         <Pressable
           onPress={() => {
-            Alert.alert('Bell clicked');
+            //Alert.alert('Bell clicked');
           }}
           style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
           <Image source={IMAGES.notificationBell} />

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, FlatList, SafeAreaView, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { COLORS, IMAGES, SPACING } from '@app/resources'
 import { Image } from 'react-native'
 import fonts from '@app/resources/fonts'
@@ -10,6 +10,9 @@ import { ICON_TYPE } from '@app/components/CustomIcon'
 import { margin } from '@app/resources/mixins'
 import { Rating } from 'react-native-ratings'
 import { WHITE } from '@app/resources/colors'
+import { connect } from 'react-redux'
+import ProductCard from '@app/screens/atoms/ProductCard'
+import { sellerProductListingAction } from '@app/store/sellersProfileSclice'
 
 
 
@@ -191,22 +194,37 @@ const DATA = [
 ];
 
 const SellersProfileViewByOwn = (props) => {
-  
+  const{getProductList, sellersProfileReducer}=props
+  console.log(props   , "View by own product detail")
+  const item= sellersProfileReducer?.sellerProductListingAction?.data  ;
+  // const item= ''  ;
   const [selectedButton, setSelectedButton] = useState('Listing');
 
+  useEffect(
+    () => {
+        if(props.route.params){
+        getProductList(props.route.params)
+        }
 
-  const renderItem = ({ item, index }) => (
-    <Item
-      product_image={item.product_image}
-      product_name={item.product_name}
-      price={item.price}
-      condition={item.condition}
-      seller_image={item.seller_image}
-      seller_name={item.seller_name}
-      posting_day={item.posting_day}
-      index={index}
-    />
-  );
+    }, []
+)
+
+  // const renderItem = ({ item, index }) => (
+  //   <Item
+  //     product_image={item.product_image}
+  //     product_name={item.product_name}
+  //     price={item.price}
+  //     condition={item.condition}
+  //     seller_image={item.seller_image}
+  //     seller_name={item.seller_name}
+  //     posting_day={item.posting_day}
+  //     index={index}
+  //   />
+  // );
+  const renderItem = ({item, index}) => {
+    
+    return <ProductCard key={index} item={item} />;
+  };
   const handleButtonPress = (buttonName) => {
     setSelectedButton(buttonName);
   }
@@ -389,7 +407,7 @@ const SellersProfileViewByOwn = (props) => {
 
           <View>
             <FlatList
-              data={DATA}
+              data={item}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               numColumns={2}
@@ -490,8 +508,16 @@ const SellersProfileViewByOwn = (props) => {
 }
 
 
-const mapStateToProps = dispatch => ({
-  onSel
-})
-export default SellersProfileViewByOwn
+const mapStateToProps = state => {
+    return {
+        authReducer: state.authReducer,
+        sellersProfileReducer: state.sellersProfileReducer
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    getProductList: params => dispatch(sellerProductListingAction
+      (params))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellersProfileViewByOwn);
 
