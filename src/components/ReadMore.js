@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Pressable,
 } from 'react-native';
+import Spacer from './Spacer';
 
 const ReadMore = ({content, maxCharacters = 50}) => {
   const [showFullContent, setShowFullContent] = useState(false);
@@ -36,14 +37,15 @@ const ReadMore = ({content, maxCharacters = 50}) => {
 
 const styles = StyleSheet.create({
   contentText: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 15,
+    lineHeight: 16,
   },
   readMoreText: {
     color: COLORS.APPGREEN,
-    marginTop: SPACING.SCALE_10,
+    // marginTop: SPACING.SCALE_10,
     textDecorationLine: 'underline',
-    fontSize: SPACING.SCALE_15,
+    fontSize: 15,
+    //position: 'absolute',
   },
 });
 

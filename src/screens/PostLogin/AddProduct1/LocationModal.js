@@ -31,7 +31,7 @@ const LocationModal = ({updateProductDetails, lable}) => {
                 paddingRight: 10,
                 color: '#00000080',
               }}
-              size={20}
+              size={25}
             />
           </View>
         </View>

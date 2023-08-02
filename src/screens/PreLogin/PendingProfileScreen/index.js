@@ -35,9 +35,7 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .required('Name is required.')
     .max(30, 'Name cannot exceed more than 30 characters.'),
-  phone: Yup.number()
-    .typeError('Mobile should be number')
-    .required('Mobile is required.'),
+  phone: Yup.string().matches(/^[0-9]{8,14}$/, 'Enter valid phone number.'),
 });
 
 const PendingProfileScreen = props => {
@@ -210,7 +208,7 @@ const PendingProfileScreen = props => {
               onChangeText={handleChange('phone')}
               onBlur={handleBlur('phone')}
               value={values.phone}
-              maxLength={12}
+              //maxLength={12}
               error={errors?.phone && touched?.phone}
               errorText={errors?.phone}
               style={{

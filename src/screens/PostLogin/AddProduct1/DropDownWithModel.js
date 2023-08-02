@@ -137,7 +137,15 @@ const DropDownWithModel = ({
             marginBottom: 10,
           }}
           multiline={true}
-          numberOfLines={selectedItem?.name.length > 12 ? 3 : 1}
+          numberOfLines={
+            selectedItem?.name.length > 30
+              ? 4
+              : selectedItem?.name.length > 20
+              ? 3
+              : selectedItem?.name.length > 10
+              ? 2
+              : 1
+          }
           contentStyle={{
             color: '#000',
           }}
@@ -164,11 +172,12 @@ const DropDownWithModel = ({
       {selectedItem?.name === 'Others' ? (
         <TextInput
           style={{
-            backgroundColor: '#fff',
+            backgroundColor: '#F0F2FA',
             minWidth: '45%',
+            paddingHorizontal: 0,
           }}
           value={otherText}
-          placeholder="Type..."
+          placeholder="Enter..."
           onChangeText={v => {
             setOtherText(v);
             onClick(selectedItem, v);
