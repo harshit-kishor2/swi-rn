@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   ProfilePicture: {
     flexDirection: 'row',
+    marginLeft: 16,
     //backgroundColor: 'red',
 
     // justifyContent: 'space-between',
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   VerificationViewStyle1: {
     flexDirection: 'row',
     marginTop: SPACING.SCALE_40,
-    marginLeft: SPACING.SCALE_20,
+    marginLeft: SPACING.SCALE_28,
   },
   TextStyle1: {
     fontFamily: 'OpenSans-Bold',

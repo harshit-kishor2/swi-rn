@@ -27,7 +27,7 @@ const CustomsellButton = ({children, onPress, accessibilityState}) => {
     <Pressable
       onPress={onPress}
       style={{
-        top: keyboardVisible ? 0 : Platform.OS === 'ios' ? -6 : -16,
+        top: keyboardVisible ? 0 : Platform.OS === 'ios' ? -12 : -16,
         justifyContent: 'center',
         alignItems: 'center',
       }}>

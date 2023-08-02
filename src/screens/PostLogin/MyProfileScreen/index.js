@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
 import {IMAGES, SPACING} from '@app/resources';
 import store from '@app/store';
 // import {logoutAction} from '@app/store/authSlice/auth.slice';
@@ -72,8 +74,10 @@ const MyProfileScreen = props => {
             width: '100%',
             height: SPACING.SCALE_145,
             backgroundColor: '#F6F6F6',
-            alignItems: 'center',
+            //marginLeft: 15,
+            //alignItems: 'center',
             justifyContent: 'center',
+            //backgroundColor: 'red',
           }}>
           <View style={styles.ProfilePicture}>
             <Pressable
