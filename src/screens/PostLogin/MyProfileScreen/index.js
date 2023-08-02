@@ -82,6 +82,7 @@ const MyProfileScreen = props => {
               }}>
               <View
                 style={{
+                  //backgroundColor: 'green',
                   //marginLeft: SPACING.SCALE_10,
                   marginTop: SPACING.SCALE_25,
                 }}>

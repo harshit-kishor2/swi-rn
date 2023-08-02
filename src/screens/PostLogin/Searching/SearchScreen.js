@@ -1,11 +1,11 @@
-import {View, Text, FlatList, Pressable} from 'react-native';
+import {View, Text, FlatList, Pressable, Image} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Container, CustomIcon, Spacer} from '@app/components';
 import SearchBarComponent from '@app/components/SearchBarComponent';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
 import useDebounce from '@app/hooks/useDebounce';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {COLORS, SPACING} from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
 import {
   freshFindsSearchingAction,
   getTopNotchWatchSearchingAction,
@@ -71,16 +71,18 @@ const SearchScreen = props => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
+        <Spacer width={10} />
         <Pressable
           onPress={() => {
             props?.navigation?.goBack();
           }}>
-          <CustomIcon
-            origin={ICON_TYPE.ICONICONS}
-            name={'arrow-back-outline'}
-            size={35}
-            paddingLeft={10}
-            color={COLORS.BLACK}
+          <Image
+            style={{
+              height: SPACING.SCALE_24,
+              width: SPACING.SCALE_24,
+              resizeMode: 'cover',
+            }}
+            source={IMAGES.BACKARROW}
           />
         </Pressable>
 

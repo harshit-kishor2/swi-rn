@@ -35,6 +35,7 @@ const CustomInput = forwardRef(
           ref={ref}
           secureTextEntry={secureTextEntry && !showPass}
           style={[styles.containerStyle, style]}
+          contentStyle={{paddingHorizontal: 0}}
           mode={mode}
           label={''}
           placeholder={placeholder}
@@ -104,5 +105,6 @@ const useStyles = multiline =>
       // height: multiline ? null : 40,
       paddingHorizontal: 0,
       textAlignVertical: multiline ? 'top' : 'center',
+      // fontSize: 14,
     },
   });

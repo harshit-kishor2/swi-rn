@@ -1,6 +1,12 @@
 import {COLORS, SPACING} from '@app/resources';
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 
 const ReadMore = ({content, maxCharacters = 50}) => {
   const [showFullContent, setShowFullContent] = useState(false);
@@ -13,15 +19,17 @@ const ReadMore = ({content, maxCharacters = 50}) => {
   const displayContent = showFullContent ? content : truncatedContent + '...';
 
   return (
-    <View>
-      <Text style={styles.contentText}>{displayContent}</Text>
-      {content?.length > maxCharacters && (
-        <TouchableOpacity onPress={toggleShowContent}>
-          <Text style={styles.readMoreText}>
-            {showFullContent ? 'Read Less' : 'Read More'}
-          </Text>
-        </TouchableOpacity>
-      )}
+    <View style={{width: '98%'}}>
+      <Text style={styles.contentText}>
+        {displayContent}
+        {content?.length > maxCharacters && (
+          <TouchableOpacity onPress={toggleShowContent}>
+            <Text style={styles.readMoreText}>
+              {showFullContent ? 'Read Less' : 'Read More'}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </Text>
     </View>
   );
 };
@@ -33,7 +41,7 @@ const styles = StyleSheet.create({
   },
   readMoreText: {
     color: COLORS.APPGREEN,
-    marginTop: SPACING.SCALE_5,
+    marginTop: SPACING.SCALE_10,
     textDecorationLine: 'underline',
     fontSize: SPACING.SCALE_15,
   },

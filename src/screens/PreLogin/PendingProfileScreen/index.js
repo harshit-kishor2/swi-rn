@@ -24,6 +24,8 @@ import * as Yup from 'yup';
 import {useFormik} from 'formik';
 import {showAlert} from '@app/helper/commonFunction';
 import {updateProfileAction} from '@app/store/authSlice';
+import {COLORS} from '@app/resources';
+import {LoadingStatus} from '@app/helper/strings';
 
 //Validation Schema for formik
 const validationSchema = Yup.object({
@@ -32,12 +34,10 @@ const validationSchema = Yup.object({
     .email('Please enter a valid email.'),
   name: Yup.string()
     .required('Name is required.')
-    .max(26, 'Name should be less than 25 characters.'),
-  phone: Yup.string()
+    .max(30, 'Name cannot exceed more than 30 characters.'),
+  phone: Yup.number()
     .typeError('Mobile should be number')
-    .required('Mobile is required.')
-    .min(8, 'Enter valid mobile number')
-    .max(15, 'Enter valid mobile number'),
+    .required('Mobile is required.'),
 });
 
 const PendingProfileScreen = props => {
@@ -104,6 +104,10 @@ const PendingProfileScreen = props => {
           // };
           onUpdateProfile(formData).then(res => {
             if (res?.type.includes('fulfilled')) {
+              showAlert({
+                title: 'Success',
+                message: 'Login succesfully.',
+              });
               resetForm();
             }
             if (res?.type.includes('rejected')) {
@@ -199,12 +203,14 @@ const PendingProfileScreen = props => {
             }}>
             <Text style={{}}>Phone Number</Text>
             <TextInput
+              textColor="#000000"
               placeholder="Enter phone number"
               keyboardType="phone-pad"
               returnKeyType="next"
               onChangeText={handleChange('phone')}
               onBlur={handleBlur('phone')}
               value={values.phone}
+              maxLength={12}
               error={errors?.phone && touched?.phone}
               errorText={errors?.phone}
               style={{
@@ -214,7 +220,14 @@ const PendingProfileScreen = props => {
               left={
                 <TextInput.Icon
                   icon={() => (
-                    <CustomText style={{paddingRight: 10}}>+65</CustomText>
+                    <CustomText
+                      style={{
+                        paddingRight: 10,
+                        fontSize: 15,
+                        color: '#000000',
+                      }}>
+                      +65
+                    </CustomText>
                   )}
                 />
               }
@@ -237,8 +250,12 @@ const PendingProfileScreen = props => {
             maxLength={500}
           />
           <SubmitButton
-            // loading={}
-            // disabled={}
+            loading={
+              authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+            }
+            disabled={
+              authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+            }
             lable="Save Changes"
             onPress={handleSubmit}
           />
