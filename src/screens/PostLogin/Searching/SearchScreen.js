@@ -1,11 +1,11 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, Pressable} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {Container, Spacer} from '@app/components';
+import {Container, CustomIcon, Spacer} from '@app/components';
 import SearchBarComponent from '@app/components/SearchBarComponent';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
 import useDebounce from '@app/hooks/useDebounce';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {SPACING} from '@app/resources';
+import {COLORS, SPACING} from '@app/resources';
 import {
   freshFindsSearchingAction,
   getTopNotchWatchSearchingAction,
@@ -15,6 +15,8 @@ import {
   resetfreshFindsState,
   resetserachstate,
 } from '@app/store/exploreProductSlice/exploreProduct.slice';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {TEXT} from '@app/resources/colors';
 
 const SearchScreen = props => {
   console.log('props', props?.route?.params);
@@ -61,8 +63,38 @@ const SearchScreen = props => {
     <Container
       loading={exploreProduct.topNotchWatchSearchingLoadingStatus === 'loading'}
       useSafeAreaView={true}>
-      <SearchHeader searchQuery={searchQuery} onChangeSearch={onChangeSearch} />
-      <View style={{marginHorizontal: SPACING.SCALE_10}}>
+      <View
+        style={{
+          //flex: 1,
+          flexDirection: 'row',
+          // backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Pressable
+          onPress={() => {
+            props?.navigation?.goBack();
+          }}>
+          <CustomIcon
+            origin={ICON_TYPE.ICONICONS}
+            name={'arrow-back-outline'}
+            size={35}
+            paddingLeft={10}
+            color={COLORS.BLACK}
+          />
+        </Pressable>
+
+        <SearchHeader
+          searchQuery={searchQuery}
+          onChangeSearch={onChangeSearch}
+        />
+      </View>
+
+      <View
+        style={{
+          flex: 1,
+          marginHorizontal: SPACING.SCALE_10,
+        }}>
         <FlatList
           data={
             props?.route?.params?.from === 'explore'
@@ -72,6 +104,18 @@ const SearchScreen = props => {
           numColumns={2}
           renderItem={({item, index}) => {
             return <ProductCard item={item} />;
+          }}
+          ListEmptyComponent={() => {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text>No Record Found</Text>
+              </View>
+            );
           }}
         />
         <Spacer height={SPACING.SCALE_60} />

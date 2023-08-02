@@ -130,7 +130,7 @@ const ExploreScreen = props => {
         />
         <Pressable
           onPress={() => {
-            Alert.alert('Bell clicked');
+            //Alert.alert('Bell clicked');
           }}
           style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
           <Image source={IMAGES.notificationBell} />

@@ -4,7 +4,7 @@ import {CustomIcon, CustomText} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {RoutesName} from '@app/helper/strings';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Pressable, View} from 'react-native';
+import {Platform, Pressable, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {
   ChatScreen,
@@ -27,7 +27,7 @@ const CustomsellButton = ({children, onPress, accessibilityState}) => {
     <Pressable
       onPress={onPress}
       style={{
-        top: keyboardVisible ? 0 : -20,
+        top: keyboardVisible ? 0 : Platform.OS === 'ios' ? -6 : -16,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
