@@ -1,6 +1,7 @@
 import {FontsConst} from '@app/assets/assets';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {addEllipsis} from '@app/helper/commonFunction';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
@@ -130,12 +131,13 @@ const DropDownWithModel = ({
         </CustomText>
         <TextInput
           style={{
+            paddingHorizontal: 0,
             backgroundColor: backgroundColor ?? '#F0F2FA',
             width: '100%',
             marginBottom: 10,
           }}
           multiline={true}
-          numberOfLines={selectedItem?.name.length > 12 ? 2 : 1}
+          numberOfLines={selectedItem?.name.length > 12 ? 3 : 1}
           contentStyle={{
             color: '#000',
           }}

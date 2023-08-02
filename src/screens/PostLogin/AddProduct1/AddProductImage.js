@@ -23,6 +23,7 @@ import {Alert} from 'react-native';
 import {Platform} from 'react-native';
 import Video from 'react-native-video';
 import {LoadingStatus} from '@app/helper/strings';
+import {COLORS} from '@app/resources';
 
 const AddProductImage = ({onNextClick, ...props}) => {
   const {
@@ -190,7 +191,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
         });
 
         //Set thumbnail in key
-        if (image?.mime === 'image/jpeg') {
+        if (image?.mime === 'image/jpeg' && !thumbImage) {
           thumbImage = true;
           formData.append('thumb_image', {
             name: name,
@@ -260,7 +261,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
         <View style={styles.selected_container}>
           {selected ? (
             selected.mime === 'video/mp4' ? (
-              <Pressable onPress={() => setPause(!pause)}>
+              <Pressable style={{}} onPress={() => setPause(!pause)}>
                 <Video
                   controls={false}
                   source={{uri: selected?.path}}
@@ -268,10 +269,32 @@ const AddProductImage = ({onNextClick, ...props}) => {
                   style={{
                     height: 250,
                     width: 250,
+                    borderWidth: 2,
+                    borderRadius: 16,
+                    borderColor: COLORS.APPGREEN,
                   }}
                   paused={pause}
                   repeat={true}
                 />
+                {pause ? (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <CustomIcon
+                      origin={ICON_TYPE.ICONICONS}
+                      name={'play-circle-outline'}
+                      color={COLORS.BLACK}
+                      size={40}
+                    />
+                  </View>
+                ) : null}
               </Pressable>
             ) : (
               <Image

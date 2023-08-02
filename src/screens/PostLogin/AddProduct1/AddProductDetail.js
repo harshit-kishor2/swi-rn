@@ -224,9 +224,10 @@ const AddProductDetail = ({onNextClick, ...props}) => {
             backgroundColor: '#F0F2FA',
             minWidth: '45%',
             marginBottom: 10,
+            paddingHorizontal: 0,
           }}
           value={productState?.productDetails?.title}
-          placeholder="Type..."
+          placeholder="Enter your title..."
           onChangeText={v => updateProductDetails({key: 'title', value: v})}
         />
       </>
@@ -407,12 +408,13 @@ const AddProductDetail = ({onNextClick, ...props}) => {
                 minWidth: '45%',
                 textAlignVertical: 'top',
                 paddingBottom: 10,
+                paddingHorizontal: 0,
               }}
               maxLength={250}
               multiline={true}
               numberOfLines={3}
               value={productState?.productDetails?.description}
-              placeholder="Type..."
+              placeholder="Enter description..."
               onChangeText={v =>
                 updateProductDetails({
                   key: 'description',
