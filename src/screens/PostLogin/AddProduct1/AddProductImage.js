@@ -269,9 +269,9 @@ const AddProductImage = ({onNextClick, ...props}) => {
                   style={{
                     height: 250,
                     width: 250,
-                    borderWidth: 2,
-                    borderRadius: 16,
-                    borderColor: COLORS.APPGREEN,
+                    // borderWidth: 2,
+                    // borderRadius: 16,
+                    // borderColor: COLORS.APPGREEN,
                   }}
                   paused={pause}
                   repeat={true}
@@ -345,7 +345,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
                   selected?.path === item?.path ? '#00958C' : '#F0F2FA',
               }}
               onPress={() => setSelected(item)}>
-              {item.mime === 'video/mp4' ? (
+              {item.mime === 'video/mp4' && Platform.OS === 'ios' ? (
                 <Video
                   controls={false}
                   source={{uri: item?.path}}

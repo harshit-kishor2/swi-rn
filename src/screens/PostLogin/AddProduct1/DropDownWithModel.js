@@ -172,7 +172,7 @@ const DropDownWithModel = ({
       {selectedItem?.name === 'Others' ? (
         <TextInput
           style={{
-            backgroundColor: '#F0F2FA',
+            backgroundColor: backgroundColor ?? '#F0F2FA',
             minWidth: '45%',
             paddingHorizontal: 0,
           }}
