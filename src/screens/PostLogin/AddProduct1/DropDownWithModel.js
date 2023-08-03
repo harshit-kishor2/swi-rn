@@ -137,19 +137,11 @@ const DropDownWithModel = ({
             marginBottom: 10,
           }}
           multiline={true}
-          numberOfLines={
-            selectedItem?.name.length > 30
-              ? 4
-              : selectedItem?.name.length > 20
-              ? 3
-              : selectedItem?.name.length > 10
-              ? 2
-              : 1
-          }
+          numberOfLines={selectedItem?.name.length > 15 ? 2 : 1}
           contentStyle={{
             color: '#000',
           }}
-          value={selectedItem?.name}
+          value={addEllipsis(selectedItem?.name, 25)}
           placeholder="Search"
           disabled={true}
           right={
