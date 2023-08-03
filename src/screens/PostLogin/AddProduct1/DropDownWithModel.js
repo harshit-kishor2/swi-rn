@@ -141,7 +141,7 @@ const DropDownWithModel = ({
           contentStyle={{
             color: '#000',
           }}
-          value={addEllipsis(selectedItem?.name, 25)}
+          value={addEllipsis(selectedItem?.name, 15)}
           placeholder="Search"
           disabled={true}
           right={
