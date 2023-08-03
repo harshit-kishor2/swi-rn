@@ -40,6 +40,7 @@ const MonthYearPicker = ({onChange, value, children}) => {
         origin={ICON_TYPE.FEATHER_ICONS}
         style={{
           paddingRight: 10,
+          marginBottom: 5,
           color: COLORS.BLACK,
         }}
         size={20}

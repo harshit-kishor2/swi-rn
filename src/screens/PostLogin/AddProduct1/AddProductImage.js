@@ -160,7 +160,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
       width: 300,
     }).then(video => {
       if (video?.size <= 10485760) {
-        updateProductImage(image);
+        updateProductImage(video);
       } else {
         Alert.alert('video length exceed 10MB');
       }
@@ -345,15 +345,30 @@ const AddProductImage = ({onNextClick, ...props}) => {
                   selected?.path === item?.path ? '#00958C' : '#F0F2FA',
               }}
               onPress={() => setSelected(item)}>
-              <Image
-                source={{uri: item?.path}}
-                resizeMode="stretch"
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 8,
-                }}
-              />
+              {item.mime === 'video/mp4' ? (
+                <Video
+                  controls={false}
+                  source={{uri: item?.path}}
+                  resizeMode="cover"
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 8,
+                  }}
+                  paused={true}
+                  // repeat={true}
+                />
+              ) : (
+                <Image
+                  source={{uri: item?.path}}
+                  resizeMode="stretch"
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 8,
+                  }}
+                />
+              )}
             </Pressable>
           );
         })}
