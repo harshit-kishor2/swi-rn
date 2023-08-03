@@ -45,6 +45,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {FlatList} from 'react-native-gesture-handler';
 import ReadMore from '@app/components/ReadMore';
+import ProductImageDetail from './ProductImageDetail';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -270,9 +271,10 @@ const ProductDetails = props => {
     },
     mainImage: {
       width: 239,
-      height: 239,
+      height: 300,
       borderRadius: 10,
-      resizeMode: 'cover',
+      // resizeMode: 'contain',
+      // aspectRatio: 4 / 3,
     },
     thumbnailContainer: {
       flexDirection: 'row',
@@ -299,7 +301,7 @@ const ProductDetails = props => {
       width: '100%',
       height: '100%',
       borderRadius: 10,
-      resizeMode: 'cover',
+      resizeMode: 'contain',
     },
     dotContainer: {
       flexDirection: 'row',
@@ -445,6 +447,8 @@ const ProductDetails = props => {
           {productDetailData?.data?.files ? (
             <ImageViewww images={productDetailData.data.files} />
           ) : null}
+          {/* <ProductImageDetail bannerData={productDetailData.data.files} /> */}
+
           {/* Main Image */}
           {/* <View style={styles.ImageSizeStyle}>
  <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />

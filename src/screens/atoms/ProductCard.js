@@ -33,7 +33,7 @@ const ProductCard = ({item, onPress}) => {
           });
         }}>
         <Card.Cover
-          resizeMode="cover"
+          resizeMode="contain"
           style={styles.cover_style}
           source={{uri: item?.thumb_image}}
         />

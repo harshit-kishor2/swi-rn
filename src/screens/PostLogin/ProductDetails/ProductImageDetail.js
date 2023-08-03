@@ -8,10 +8,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import Pagination from '../ExploreScreen/Pagination';
+import Pagination from './Pagination';
+import {Spacer} from '@app/components';
 const {height, width} = Dimensions.get('window');
 
 const ProductImageDetail = ({bannerData = [1, 2]}) => {
+  console.log('Data===', bannerData);
   const [currentPage, setCurrentPage] = React.useState(0);
   const flatlistRef = useRef();
   const handleScroll = event => {
@@ -31,19 +33,18 @@ const ProductImageDetail = ({bannerData = [1, 2]}) => {
         <View
           style={{
             width: '80%',
-            height: 150,
+            height: 240,
             alignItems: 'center',
-            backgroundColor: 'grey',
           }}>
           <Image
             style={{
-              height: 250,
-              width: '100%',
+              height: 240,
+              width: 240,
               borderRadius: 10,
               borderWidth: 0.5,
             }}
             resizeMode="cover"
-            source={{uri: item?.image}}
+            source={{uri: item?.file}}
           />
         </View>
       </View>
@@ -72,28 +73,14 @@ const ProductImageDetail = ({bannerData = [1, 2]}) => {
           flexGrow: 1,
         }}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-        }}>
-        {[1, 2, 3].map((item, index) => {
-          return (
-            <View
-              style={{
-                height: 50,
-                width: 50,
-                borderWidth: 1,
-                borderRadius: 10,
-              }}></View>
-          );
-        })}
-      </View>
-      <View
-        style={{
-          bottom: 20,
-        }}>
-        <Pagination data={bannerData} currentPage={currentPage} />
-      </View>
+      <Pagination
+        data={bannerData}
+        currentPage={currentPage}
+        handleImageClick={res => {
+          flatlistRef?.current?.scrollToIndex({index: res});
+        }}
+      />
+      <Spacer />
     </View>
   );
 };

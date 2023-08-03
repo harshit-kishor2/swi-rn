@@ -33,7 +33,7 @@ const Banner = ({bannerData}) => {
         }}>
         <Pressable
           onPress={() => {
-            Linking.openURL(item?.link);
+            item?.link ? Linking.openURL(item?.link) : null;
           }}>
           <View
             style={{
