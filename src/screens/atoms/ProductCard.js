@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     width: width / 2 - 20,
   },
   cover_style: {
-    height: 150,
+    height: 200,
+    backgroundColor: '#fff',
     // width: 100,
   },
   title: {

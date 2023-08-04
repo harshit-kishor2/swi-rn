@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -273,7 +276,9 @@ const ProductDetails = props => {
       width: 239,
       height: 300,
       borderRadius: 10,
-      // resizeMode: 'contain',
+      resizeMode: 'contain',
+      borderWidth: 1,
+      borderColor: '#00000030',
       // aspectRatio: 4 / 3,
     },
     thumbnailContainer: {
