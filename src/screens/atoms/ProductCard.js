@@ -12,7 +12,7 @@ import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
-import {formatTimestamp} from '@app/helper/commonFunction';
+import {addEllipsis, formatTimestamp} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
@@ -60,8 +60,12 @@ const ProductCard = ({item, onPress}) => {
             }
           />
           <Spacer width={5} />
-          <View style={{maxWidth: SPACING.SCALE_115}}>
-            <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          <View style={{}}>
+            <CustomText style={styles.name}>
+              {item?.user?.name.length > 13
+                ? addEllipsis(item?.user?.name, 13)
+                : item?.user?.name}
+            </CustomText>
           </View>
         </View>
         <CustomText style={styles.duration}>
@@ -88,20 +92,23 @@ export default ProductCard;
 const styles = StyleSheet.create({
   card_container: {
     flex: 0.5,
+    //backgroundColor: 'red',
     backgroundColor: '#F6F6F6',
-    elevation: 1,
+    //elevation: 1,
     margin: 5,
     width: width / 2 - 20,
   },
   cover_style: {
     height: 200,
     backgroundColor: '#fff',
+    //backgroundColor: 'yellow',
     // width: 100,
   },
   title: {
     fontSize: 18,
     fontFamily: FontsConst.Cabin_Bold,
     marginTop: SPACING.SCALE_5,
+    // backgroundColor: 'blue',
   },
   price_container: {
     flexDirection: 'row',
@@ -132,6 +139,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   name: {
+    //backgroundColor: 'green',
     fontSize: 12,
     fontFamily: FontsConst.OpenSans_SemiBold,
   },

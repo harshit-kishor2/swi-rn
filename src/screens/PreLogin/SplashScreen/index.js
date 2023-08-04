@@ -5,14 +5,17 @@ import {stayLoginAction, userProfile} from '@app/store/authSlice';
 import SplashView from './SplashView';
 import {SharedPreference} from '@app/helper';
 import WalkThroughScreen from '../WalkThroughScreen';
+import {getFCMToken} from '@app/services/firebaseServices';
+import {requestUserPermission} from '@app/services/notificationService';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser,getUserProfile} = props;
+  const {checkIsLoggedInUser, getUserProfile} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
 
   useEffect(() => {
+    requestUserPermission();
     SharedPreference.getItem(
       SharedPreference.keys.WALKTHROUGH_DISABLE,
       'false',

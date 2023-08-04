@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
 import {FontsConst} from '@app/assets/assets';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
@@ -132,6 +134,7 @@ const DropDownWithModel = ({
         <TextInput
           style={{
             paddingHorizontal: 0,
+            //backgroundColor: 'red',
             backgroundColor: backgroundColor ?? '#F0F2FA',
             width: '100%',
             marginBottom: 10,
