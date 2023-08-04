@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import CustomIcon, {ICON_TYPE} from './CustomIcon';
@@ -10,7 +11,14 @@ const BackHeader = ({titleComponent, rightComponent}) => {
   };
   return (
     <View style={styles.rowContainer}>
-      <Pressable onPress={_goBack}>
+      <Pressable
+        style={{
+          height: 50,
+          width: 50,
+          //backgroundColor: 'red',
+          justifyContent: 'center',
+        }}
+        onPress={_goBack}>
         <CustomIcon
           origin={ICON_TYPE.MATERIAL_ICONS}
           name={'keyboard-backspace'}

@@ -805,6 +805,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
       </ScrollView>
       {show && (
         <MonthPicker
+          mode="short"
           onChange={(event, newDate) => {
             setShow(false);
             updateProductDetails({

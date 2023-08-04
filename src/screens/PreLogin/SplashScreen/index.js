@@ -15,7 +15,8 @@ const SplashScreen = props => {
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
 
   useEffect(() => {
-    requestUserPermission();
+    // requestUserPermission();
+    getFCMToken();
     SharedPreference.getItem(
       SharedPreference.keys.WALKTHROUGH_DISABLE,
       'false',

@@ -130,8 +130,13 @@ const PendingProfileScreen = props => {
   return (
     <Container useSafeAreaView={true}>
       <KeyboardAvoidingView
-        style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}
-        behavior="padding"
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          //backgroundColor: 'red',
+        }}
+        behavior={Platform.OS == 'ios' ? 'padding' : null}
         enabled
         //keyboardVerticalOffset={100}
       >
