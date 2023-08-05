@@ -15,10 +15,12 @@ async function getFCMToken() {
       SharedPreference.keys.DEVICE_TOKEN,
       '',
     );
+    console.log(fcmToken, '<<<<====OLD fcmToken');
     if (fcmToken !== undefined && fcmToken !== null && fcmToken !== '') {
       return fcmToken;
     } else {
       fcmToken = await messaging().getToken();
+      console.log('FCM Token=====>>>> ', fcmToken);
       SharedPreference.setItem(SharedPreference.keys.DEVICE_TOKEN, fcmToken);
       return fcmToken;
     }

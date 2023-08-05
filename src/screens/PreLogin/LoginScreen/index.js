@@ -70,7 +70,7 @@ const LoginScreen = props => {
           setButtonDisabled(true);
           const deviceToken = await SharedPreference.getItem(
             SharedPreference.keys.DEVICE_TOKEN,
-            '',
+            'abc',
           );
           console.log('device token==', deviceToken);
           let params = {
