@@ -7,7 +7,7 @@ import {
   Title,
 } from 'react-native-paper';
 
-const CustomText = ({type, style, children}) => {
+const CustomText = ({type, style, children, ...props}) => {
   return (
     <>
       {type === 'caption' ? (
@@ -21,7 +21,9 @@ const CustomText = ({type, style, children}) => {
       ) : type === 'headline' ? (
         <Headline style={[styles.text, style]}>{children}</Headline>
       ) : (
-        <Text style={[styles.text, style]}>{children}</Text>
+        <Text style={[styles.text, style]} {...props}>
+          {children}
+        </Text>
       )}
     </>
   );
