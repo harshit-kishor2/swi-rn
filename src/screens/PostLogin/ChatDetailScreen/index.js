@@ -32,7 +32,7 @@ const ChatDetailScreen = ({navigation, route}) => {
     return (
       <View
         style={{
-          height: 80,
+          height: 70,
           width: '100%',
           backgroundColor: '#F4F4F4',
           borderRadius: 10,
@@ -42,8 +42,8 @@ const ChatDetailScreen = ({navigation, route}) => {
         }}>
         <Image
           style={{
-            height: 50,
-            width: 50,
+            height: 40,
+            width: 40,
             borderRadius: 10,
             backgroundColor: '#D9D9D9',
           }}
@@ -51,7 +51,7 @@ const ChatDetailScreen = ({navigation, route}) => {
         />
         <View
           style={{
-            paddingLeft: 10,
+            paddingLeft: 15,
           }}>
           <CustomText
             style={{color: '#000000', fontFamily: FontsConst.Cabin_Bold}}>
