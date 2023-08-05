@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
 import NavigationService from '@app/navigations/NavigationService';
@@ -15,56 +15,120 @@ const Header = () => {
     NavigationService.goBack();
   };
   return (
-    <View style={styles.rowContainer}>
-      <Pressable
-        style={{
-          height: 40,
-          width: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={_goBack}>
-        <CustomIcon
-          origin={ICON_TYPE.MATERIAL_ICONS}
-          name={'keyboard-backspace'}
-          color={'black'}
-          size={30}
-        />
-      </Pressable>
+    <>
+      <View style={styles.rowContainer}>
+        <Pressable
+          style={{
+            height: 40,
+            width: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={_goBack}>
+          <CustomIcon
+            origin={ICON_TYPE.MATERIAL_ICONS}
+            name={'keyboard-backspace'}
+            color={'black'}
+            size={30}
+          />
+        </Pressable>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}>
+          <Avatar.Image size={35} source={IMAGE} />
+          <Spacer width={10} />
+          <CustomText
+            style={{
+              color: '#00958C',
+              fontFamily: FontsConst.Cabin_SemiBold,
+              fontSize: 18,
+            }}>
+            Name
+          </CustomText>
+        </View>
+        <Pressable
+          style={{
+            height: 40,
+            width: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPress={_goBack}>
+          <CustomIcon
+            origin={ICON_TYPE.FEATHER_ICONS}
+            name={'user-plus'}
+            color={'black'}
+            size={25}
+          />
+        </Pressable>
+      </View>
       <View
         style={{
-          flex: 1,
+          height: 70,
+          width: '100%',
+          backgroundColor: '#F4F4F4',
+          borderRadius: 10,
+          paddingHorizontal: 20,
+          alignItems: 'center',
           flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
         }}>
-        <Avatar.Image size={35} source={IMAGE} />
-        <Spacer width={10} />
-        <CustomText
+        <Image
           style={{
-            color: '#00958C',
-            fontFamily: FontsConst.Cabin_SemiBold,
-            fontSize: 18,
-          }}>
-          Name
-        </CustomText>
-      </View>
-      <Pressable
-        style={{
-          height: 40,
-          width: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={_goBack}>
-        <CustomIcon
-          origin={ICON_TYPE.FEATHER_ICONS}
-          name={'user-plus'}
-          color={'black'}
-          size={25}
+            height: 40,
+            width: 40,
+            borderRadius: 10,
+            backgroundColor: '#D9D9D9',
+          }}
+          source={IMAGE}
         />
-      </Pressable>
-    </View>
+        <View
+          style={{
+            paddingLeft: 15,
+          }}>
+          <CustomText
+            style={{color: '#000000', fontFamily: FontsConst.Cabin_Bold}}>
+            2020 Fossil Analog Watch
+          </CustomText>
+          <View
+            style={{
+              flexDirection: 'row',
+              // justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <CustomText
+              style={{
+                color: '#00958C',
+                fontFamily: FontsConst.Cabin_Bold,
+                fontSize: 15,
+              }}>
+              $12500{' '}
+            </CustomText>
+            <View
+              style={{
+                height: 4,
+                width: 4,
+                borderRadius: 2,
+                backgroundColor: '#00958C',
+                marginHorizontal: 2,
+              }}
+            />
+            <CustomText
+              style={{
+                color: '#00958C',
+                fontFamily: FontsConst.Cabin_Regular,
+                fontSize: 12,
+              }}>
+              {' '}
+              Brand New{' '}
+            </CustomText>
+          </View>
+        </View>
+      </View>
+    </>
   );
 };
 

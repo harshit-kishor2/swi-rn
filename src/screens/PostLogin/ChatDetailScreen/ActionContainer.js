@@ -1,29 +1,34 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 
 import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import {CustomText} from '@app/components';
+import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 
-const ActionContainer = () => {
+const ActionContainer = ({message, setMessage, sendMessage}) => {
+  const isKeyboardVisible = useKeyboardVisible();
+
   return (
     <>
-      <View style={styles.offer_row}>
-        <View style={styles.dollor_container}>
-          <CustomIcon
-            name={'attach-money'}
-            origin={ICON_TYPE.MATERIAL_ICONS}
-            size={30}
-            color={'#ffffff'}
-          />
-        </View>
-        <View style={styles.offer_container}>
-          <View style={styles.offer_text}>
-            <CustomText>Make an offer</CustomText>
+      {!isKeyboardVisible ? (
+        <View style={styles.offer_row}>
+          <View style={styles.dollor_container}>
+            <CustomIcon
+              name={'attach-money'}
+              origin={ICON_TYPE.MATERIAL_ICONS}
+              size={30}
+              color={'#ffffff'}
+            />
           </View>
-          <View style={styles.triangle} />
+          <View style={styles.offer_container}>
+            <View style={styles.offer_text}>
+              <CustomText>Make an offer</CustomText>
+            </View>
+            <View style={styles.triangle} />
+          </View>
         </View>
-      </View>
+      ) : null}
       <View style={styles.rowContainer}>
         <Pressable style={styles.image} onPress={() => {}}>
           <CustomIcon
@@ -36,10 +41,13 @@ const ActionContainer = () => {
         <TextInput
           style={styles.input_container}
           outlineColor="grey"
-          onChangeText={v => {}}
+          value={message}
+          onChangeText={v => {
+            setMessage(v);
+          }}
           placeholder={'Start typing here...'}
         />
-        <Pressable style={styles.sendButton} onPress={() => {}}>
+        <Pressable style={styles.sendButton} onPress={sendMessage}>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
             name={'send'}
@@ -67,6 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     justifyContent: 'flex-start',
+    paddingTop: 10,
   },
   dollor_container: {
     height: 50,
