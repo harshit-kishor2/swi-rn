@@ -15,13 +15,12 @@ export const RoutesName = {
   FORGOT_PASSWORD_SCREEN: 'ForgetPassword',
   TERM_AND_CONDITION_SCREEN: 'TermAndConditions',
   PENDING_PROFILE_SCREEN: 'PendingProfileScreen',
-  INTERESTLIST_SCREEN:'InterestListScreen',
+  INTERESTLIST_SCREEN: 'InterestListScreen',
 
   // Tab
   EXPLORE_TAB: 'Explore',
   FRESH_FINDS_TAB: 'Fresh Finds',
   SELL_TAB: 'Sell',
-  CHAT_TAB: 'Chat',
   PROFILE_TAB: 'Profile',
 
   //    Post Login
@@ -42,7 +41,11 @@ export const RoutesName = {
   BOOST_SCREEN: 'Boost Screen',
 
   // myprofile
-  MY_FAVOURITES:'My Favourites'
+  MY_FAVOURITES: 'My Favourites',
+  // Chat Tab
+  CHAT_TAB: 'Chat',
+  CHAT_DETAIL_SCREEN: 'Chat Detail Screen',
+  CHAT_LIST_SCREEN: 'Chat List Screen',
 };
 
 export const Messages = {

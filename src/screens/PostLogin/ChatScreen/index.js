@@ -6,6 +6,7 @@ import {IMAGES, SPACING} from '@app/resources';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {Avatar} from 'react-native-paper';
 import {FontsConst} from '@app/assets/assets';
+import {RoutesName} from '@app/helper/strings';
 
 const DATA = [
   {
@@ -74,10 +75,14 @@ const DATA = [
   },
 ];
 
-const ChatScreen = () => {
+const ChatScreen = ({navigation}) => {
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.render_container}>
+      <Pressable
+        style={styles.render_container}
+        onPress={() => {
+          navigation?.navigate(RoutesName.CHAT_DETAIL_SCREEN, {id: '1'});
+        }}>
         <Avatar.Image
           style={{marginHorizontal: 5}}
           source={{
@@ -127,7 +132,7 @@ const ChatScreen = () => {
             {item?.description}
           </CustomText>
         </View>
-      </View>
+      </Pressable>
     );
   };
   const emptyList = () => (
