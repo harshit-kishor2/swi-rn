@@ -100,6 +100,11 @@ export const Seller_facebook = require('../assets/images/Seller_facebook.png');
 export const Seller_gmail = require('../assets/images/Seller_gmail.png');
 export const Seller_phone_call = require('../assets/images/Seller_phone-call.png');
 export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');
+
+
+// Boost Now Screen
+
+export const sandWatch = require('../assets/images/sandWatch/sandWatch.png')
 export const cancel = require('../assets/images/cancel.png');
 export const userProfile = require('../assets/images/userProfile/userProfile.png');
 export const playVideo = require('../assets/images/playVideo.png');

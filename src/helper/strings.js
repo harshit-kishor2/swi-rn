@@ -15,12 +15,12 @@ export const RoutesName = {
   FORGOT_PASSWORD_SCREEN: 'ForgetPassword',
   TERM_AND_CONDITION_SCREEN: 'TermAndConditions',
   PENDING_PROFILE_SCREEN: 'PendingProfileScreen',
+  INTERESTLIST_SCREEN: 'InterestListScreen',
 
   // Tab
   EXPLORE_TAB: 'Explore',
   FRESH_FINDS_TAB: 'Fresh Finds',
   SELL_TAB: 'Sell',
-  CHAT_TAB: 'Chat',
   PROFILE_TAB: 'Profile',
 
   //    Post Login
@@ -28,6 +28,7 @@ export const RoutesName = {
   NOTIFICATION_SCREEN: 'NotificationScreen',
   PRODUCT_DETAILS: 'Product Details',
   SELLERSPROFILE_VIEWBYOWN: 'Sellers Own Profile',
+  SELLERSPROFILE_VIEWBYOTHERS: 'Sellers View By Others Profile',
   COIN_HISTORY: 'Coin History',
   ITEM_COMPARISON: 'ItemComparison',
   SEARCH_SCREEN: 'SearchScreen',
@@ -38,6 +39,13 @@ export const RoutesName = {
   SELL_SCREEN3: 'Sell Screen3',
   SUCCESS_SCREEN: 'Success Screen',
   BOOST_SCREEN: 'Boost Screen',
+
+  // myprofile
+  MY_FAVOURITES: 'My Favourites',
+  // Chat Tab
+  CHAT_TAB: 'Chat',
+  CHAT_DETAIL_SCREEN: 'Chat Detail Screen',
+  CHAT_LIST_SCREEN: 'Chat List Screen',
 };
 
 export const Messages = {

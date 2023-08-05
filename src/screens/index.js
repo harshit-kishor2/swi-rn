@@ -18,6 +18,7 @@ import NotificationScreen from './PostLogin/NotificationScreen';
 import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
 import PendingProfileScreen from './PreLogin/PendingProfileScreen';
+import ChatDetailScreen from './PostLogin/ChatDetailScreen';
 
 export {
   // PreLogin
@@ -34,6 +35,7 @@ export {
   // PostLogin
   SellScreen,
   ChatScreen,
+  ChatDetailScreen,
   ExploreScreen,
   FreshFindScreen,
   MyProfileScreen,

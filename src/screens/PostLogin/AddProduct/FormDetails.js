@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 import {useFocusEffect} from '@react-navigation/native';
 import {Formik} from 'formik';
 import moment from 'moment';

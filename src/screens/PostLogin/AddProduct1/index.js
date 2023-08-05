@@ -22,7 +22,12 @@ import ProductHeader from './ProductHeader';
 const {height, width} = Dimensions.get('window');
 
 const AddProduct = props => {
-  const {productReducer, getAllBrand, getAllProductDropdown} = props;
+  const {
+    productReducer,
+    getAllBrand,
+    getAllProductDropdown,
+    resetProductState,
+  } = props;
   const [currentPage, setCurrentPage] = React.useState(0);
   const [isVisible, setIsVisible] = React.useState(true);
   const flatlistRef = useRef();
@@ -30,6 +35,9 @@ const AddProduct = props => {
   useEffect(() => {
     getAllBrand();
     getAllProductDropdown();
+    return () => {
+      resetProductState();
+    };
   }, []);
 
   const onPageNext = () => {

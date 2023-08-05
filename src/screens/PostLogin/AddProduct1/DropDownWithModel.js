@@ -1,6 +1,9 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
 import {FontsConst} from '@app/assets/assets';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {addEllipsis} from '@app/helper/commonFunction';
 import React, {useEffect, useState} from 'react';
 import {FlatList, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
@@ -130,16 +133,19 @@ const DropDownWithModel = ({
         </CustomText>
         <TextInput
           style={{
+            paddingHorizontal: 0,
+            //backgroundColor: 'red',
             backgroundColor: backgroundColor ?? '#F0F2FA',
             width: '100%',
             marginBottom: 10,
           }}
           multiline={true}
-          numberOfLines={selectedItem?.name.length > 12 ? 2 : 1}
+          numberOfLines={selectedItem?.name.length > 15 ? 2 : 1}
           contentStyle={{
             color: '#000',
           }}
-          value={selectedItem?.name}
+          value={addEllipsis(selectedItem?.name, 15)}
+          //value="sdfghjdfghjdfghjdfghjdfghjdfghjfghjdfghjdfghdfghfghdfghv"
           placeholder="Search"
           disabled={true}
           right={
@@ -162,11 +168,12 @@ const DropDownWithModel = ({
       {selectedItem?.name === 'Others' ? (
         <TextInput
           style={{
-            backgroundColor: '#fff',
+            backgroundColor: backgroundColor ?? '#F0F2FA',
             minWidth: '45%',
+            paddingHorizontal: 0,
           }}
           value={otherText}
-          placeholder="Type..."
+          placeholder="Enter..."
           onChangeText={v => {
             setOtherText(v);
             onClick(selectedItem, v);

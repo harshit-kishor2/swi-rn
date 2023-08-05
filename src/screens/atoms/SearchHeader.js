@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Searchbar} from 'react-native-paper';
 import {CustomIcon, CustomInput, Spacer} from '@app/components';

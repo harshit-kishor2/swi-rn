@@ -1,57 +1,72 @@
 import React from 'react'
 import {
   FlatList, Image,
-  Pressable, ScrollView, StyleSheet, Text, View
+  Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View
 } from 'react-native'
-import { NavigationBar, StoryScreen } from '@app/components/NavigationBar'
+
 import { COLORS, IMAGES, SPACING } from '@app/resources'
+import { NavigationBar } from '@app/components'
+import NotificationCard from '@app/screens/atoms/NotificationCard'
 
-const Item = (
-  { id,
-    userId,
-    post_Title,
-    postImage,
-    city,
-    username,
-    notification,
-    Date,
-    day,
 
-    status }
-) => {
-  return (
-    <View style={ { backgroundColor: status == 'unread' ? '#F0F2FA' : 'white' } }>
-      {/* <Text>{id}</Text>
-      <Text>{post_Title}</Text>
-      <View>
-        <Image source={postImage} style={{height:100, width:100, borderRadius:50}}/>
-      </View>
-      <Text>{city}</Text>
-      <Text>{username}</Text>
-      <Text>{notification}</Text>
-      <Text>{Date}</Text> */}
+// const NotificationScreen = props => {
 
-      <View style={ [ styles.container,
-      {
-        width: '90%',
-        height: 90,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
-      }, ] }>
-        <View style={ { flex: 1 } }>
-          <Image source={ postImage } style={ { height: 40, width: 40, borderRadius: 20, } } />
-        </View>
-        <View style={ { flex: 3 } }>
-          <Text style={ { fontFamily: 'OpenSans-Regular', color: 'black', fontSize: 14 } }>{ username ? username : post_Title } { notification }</Text>
-          <Text style={ { marginTop: 15, fontFamily: 'OpenSans-Regular', fontSize: 11 } }>{ day }</Text>
-        </View>
-      </View>
-    </View>
-  )
+//   return (
+//     <StoryScreen>
+//       <View style={ {
+//         flexDirection: 'row',
+//         alignItems: 'center',
+//         justifyContent: 'space-between',
 
-}
-const NotificationScreen = props => {
+//       } }>
+//         <NavigationBar
+//           leftSource={ IMAGES.BACKARROW }
+//           leftAction={ () => {
+//             console.log('first');
+//             props.navigation.navigate('CreateAccountScreen');
+//           } }
+//           flexDirection="row"
+//         />
+//         <Pressable
+//           onPress={ () => {
+//             Alert.alert('pressed');
+//           } }>
+//           <Image source={ IMAGES.bell } style={ { marginLeft: SPACING.SCALE_10 } } />
+//         </Pressable>
+//       </View>
+//       <View>
+//         <Text style={ { fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK } }>
+//           Notifications
+//         </Text>
+
+//       </View>
+//       <ScrollView showsVerticalScrollIndicator={ false }>
+//         <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>Today</Text>
+
+//         <View>
+//           <FlatList data={ Data }
+//             renderItem={ renderItem }
+//             nestedScrollEnabled />
+//         </View>
+//         <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>This Week</Text>
+//         <View>
+//           <FlatList data={ Data }
+//             renderItem={ renderItem }
+//           />
+//         </View>
+//       </ScrollView>
+//     </StoryScreen>
+//   )
+// }
+
+// export default NotificationScreen
+
+// const styles = StyleSheet.create({
+
+
+
+
+const NotificationScreen = (props) => {
   const Data = [
     {
       id: 2,
@@ -60,7 +75,7 @@ const NotificationScreen = props => {
       postImage: IMAGES.Ellipse7,
       city: "Lucknow",
       username: 'Radhesh',
-      notification: 'Liked Your Post',
+      notification: 'Liked Your Post jladskfhksajdfkjadsnfknasdfkjaslkdnfkdsjfkdsmdfnsdfjf this is my toen yousldkjgsjdbgkjdsfajdsgkdfkb',
       Date: "Today",
       status: 'unread',
       day: '30 min ago'
@@ -114,72 +129,75 @@ const NotificationScreen = props => {
       day: 'Saturday'
     },
   ]
+console.log(props,"notifiaction props=====>>>>>")
 
-  const renderItem = ({ item, index }) => (
-    <Item
-      id={ item.id }
-      userId={ item.userId }
-      post_Title={ item.post_Title }
-      postImage={ item.postImage }
-      city={ item.city }
-      username={ item.username }
-      notification={ item.notification }
-      Date={ item.Date }
-      status={ item.status }
-      day={ item.day }
-      index={ index }
-    />
-  );
   return (
-    <StoryScreen>
-      <View style={ {
+    <View style={{backgroundColor:COLORS.WHITE, }}>
+       
+       <View style={ {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginHorizontal:"3%",
+        marginVertical:20
 
       } }>
-        <NavigationBar
-          leftSource={ IMAGES.BACKARROW }
-          leftAction={ () => {
-            console.log('first');
-            props.navigation.navigate('CreateAccountScreen');
-          } }
-          flexDirection="row"
-        />
-        <Pressable
-          onPress={ () => {
-            Alert.alert('pressed');
-          } }>
-          <Image source={ IMAGES.bell } style={ { marginLeft: SPACING.SCALE_10 } } />
-        </Pressable>
+        <TouchableOpacity
+              onPress={() => {
+                props.navigation.goBack();
+              }}>
+              <Image
+                style={{
+                  height: SPACING.SCALE_24,
+                  width: SPACING.SCALE_24,
+                  resizeMode: 'cover',
+                }}
+                source={IMAGES.BACKARROW}
+              />
+            </TouchableOpacity>
+     
       </View>
+      {/* <View>
+        <Text>
+          {Data.map((item)=>{
+            return(
+              <Text>{item.id}</Text>
+            )
+          })}
+        </Text>
+      </View> */}
+     
       <View>
-        <Text style={ { fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK } }>
+        <Text style={ { fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK, marginHorizontal:"5%" } }>
           Notifications
         </Text>
+        <View>
+          <View style={{height:4, width:'10%',backgroundColor:COLORS.HYPERLINK, marginHorizontal:20, borderRadius:10, marginVertical:20}}/>
+        </View>
 
       </View>
       <ScrollView showsVerticalScrollIndicator={ false }>
-        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>Today</Text>
+        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black' ,marginHorizontal:"5%", marginTop:'2%'} }>Today</Text>
 
         <View>
-          <FlatList data={ Data }
+          {/* <FlatList data={ Data }
             renderItem={ renderItem }
-            nestedScrollEnabled />
+            nestedScrollEnabled /> */}
+            <NotificationCard data={Data}/>
         </View>
-        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>This Week</Text>
+        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black',   marginHorizontal:"5%", marginTop:'5%' } }>This Week</Text>
         <View>
-          <FlatList data={ Data }
+          {/* <FlatList data={ Data }
             renderItem={ renderItem }
-          />
+          /> */}
+          <NotificationCard data={Data}/>
         </View>
       </ScrollView>
-    </StoryScreen>
+    </View>
   )
 }
 
 export default NotificationScreen
-
 const styles = StyleSheet.create({
 
   container: {

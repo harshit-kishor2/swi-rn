@@ -5,14 +5,24 @@ import {stayLoginAction, userProfile} from '@app/store/authSlice';
 import SplashView from './SplashView';
 import {SharedPreference} from '@app/helper';
 import WalkThroughScreen from '../WalkThroughScreen';
+import {getFCMToken} from '@app/services/firebaseServices';
+import {
+  notificationListner,
+  requestUserPermission,
+} from '@app/services/notificationService';
+
+import {Alert} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser,getUserProfile} = props;
+  const {checkIsLoggedInUser, getUserProfile} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
 
   useEffect(() => {
+    requestUserPermission();
+    notificationListner();
     SharedPreference.getItem(
       SharedPreference.keys.WALKTHROUGH_DISABLE,
       'false',
@@ -21,6 +31,14 @@ const SplashScreen = props => {
       setWalkthroughDisable(val);
     });
   }, [walkthroughDisable]);
+
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
 
   useEffect(() => {
     setTimeout(() => {

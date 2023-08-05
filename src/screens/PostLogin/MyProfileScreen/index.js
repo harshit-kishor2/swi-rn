@@ -1,6 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/react-in-jsx-scope */
 import {IMAGES, SPACING} from '@app/resources';
 import store from '@app/store';
 // import {logoutAction} from '@app/store/authSlice/auth.slice';
+import {RoutesName} from '@app/helper/strings'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
@@ -22,6 +25,7 @@ import {useState} from 'react';
 import {Container, Spacer} from '@app/components';
 import {Avatar} from 'react-native-paper';
 import {AssestsConst} from '@app/assets/assets';
+import NavigationService from '@app/navigations/NavigationService';
 
 const MyProfileScreen = props => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -31,6 +35,7 @@ const MyProfileScreen = props => {
   );
   console.log('Profiledata===', profileData);
   const dispatch = useDispatch();
+  
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
     SharedPreference.multiRemove([
@@ -72,16 +77,19 @@ const MyProfileScreen = props => {
             width: '100%',
             height: SPACING.SCALE_145,
             backgroundColor: '#F6F6F6',
-            alignItems: 'center',
+            //marginLeft: 15,
+            //alignItems: 'center',
             justifyContent: 'center',
+            //backgroundColor: 'red',
           }}>
           <View style={styles.ProfilePicture}>
             <Pressable
               onPress={() => {
-                // props.navigation.navigate('Sellers Own Profile');
+                NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOWN,{id:profileData.id})
               }}>
               <View
                 style={{
+                  //backgroundColor: 'green',
                   //marginLeft: SPACING.SCALE_10,
                   marginTop: SPACING.SCALE_25,
                 }}>
@@ -145,7 +153,7 @@ const MyProfileScreen = props => {
         </View>
         <View style={{}}>
           <Text style={styles.TextStyle1}>
-            You have {<Image source={IMAGES.coin} />} 50 coins with you now
+            You have {<Image source={IMAGES.coin} />} { profileData.coins ? profileData.coins : '0' } coins with you now
           </Text>
         </View>
         <View
@@ -160,7 +168,7 @@ const MyProfileScreen = props => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              //Alert.alert('Pressed');
+              props.navigation.navigate(RoutesName.MY_FAVOURITES)
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
@@ -178,6 +186,7 @@ const MyProfileScreen = props => {
             activeOpacity={1}
             onPress={() => {
               // Alert.alert('Pressed');
+              props.navigation.navigate(RoutesName.INTERESTLIST_SCREEN)
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>

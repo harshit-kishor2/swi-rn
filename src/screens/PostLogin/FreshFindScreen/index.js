@@ -16,7 +16,7 @@ const FreshFindScreen = props => {
   const {exploreProduct, onFreshFinds} = props;
   const [searchQuery, onChangeSearch] = useState('');
   const query = useDebounce(searchQuery, 1000);
-
+console.log(props)
   useEffect(() => {
     onFreshFinds({keyWord: query});
   }, [query]);
@@ -65,7 +65,7 @@ const FreshFindScreen = props => {
           columnWrapperStyle={{
             flex: 1,
             justifyContent: 'flex-start',
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
             paddingBottom: 10,
           }}
           ListEmptyComponent={() => (

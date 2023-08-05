@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Image,
   Keyboard,
@@ -5,6 +6,8 @@ import {
   Text,
   View,
   ScrollView,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -24,6 +27,8 @@ import * as Yup from 'yup';
 import {useFormik} from 'formik';
 import {showAlert} from '@app/helper/commonFunction';
 import {updateProfileAction} from '@app/store/authSlice';
+import {COLORS} from '@app/resources';
+import {LoadingStatus} from '@app/helper/strings';
 
 //Validation Schema for formik
 const validationSchema = Yup.object({
@@ -32,12 +37,10 @@ const validationSchema = Yup.object({
     .email('Please enter a valid email.'),
   name: Yup.string()
     .required('Name is required.')
-    .max(26, 'Name should be less than 25 characters.'),
+    .max(30, 'Name cannot exceed more than 30 characters.'),
   phone: Yup.string()
-    .typeError('Mobile should be number')
-    .required('Mobile is required.')
-    .min(8, 'Enter valid mobile number')
-    .max(15, 'Enter valid mobile number'),
+    .required('Phone number is required.')
+    .matches(/^[0-9]{8,14}$/, 'Enter valid phone number.'),
 });
 
 const PendingProfileScreen = props => {
@@ -83,8 +86,8 @@ const PendingProfileScreen = props => {
           if (values?.image) {
             const d = values.image?.path?.split('/');
             const name = d[d.length - 1];
-            formData.append(`image`, {
-              name: name ?? 'Image' + index + '.jpg',
+            formData.append('image', {
+              name: name ?? 'Image' + 'index' + '.jpg',
               type: values.image?.mime,
               uri:
                 Platform.OS === 'ios'
@@ -104,6 +107,10 @@ const PendingProfileScreen = props => {
           // };
           onUpdateProfile(formData).then(res => {
             if (res?.type.includes('fulfilled')) {
+              showAlert({
+                title: 'Success',
+                message: 'Login succesfully.',
+              });
               resetForm();
             }
             if (res?.type.includes('rejected')) {
@@ -122,45 +129,56 @@ const PendingProfileScreen = props => {
   });
   return (
     <Container useSafeAreaView={true}>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingVertical: 50,
-          paddingHorizontal: 25,
-        }}>
-        <ImageContainer handleChange={setFieldValue} value={values.path} />
-        <View
-          style={{
-            paddingTop: 50,
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          //backgroundColor: 'red',
+        }}
+        behavior={Platform.OS == 'ios' ? 'padding' : null}
+        enabled
+        //keyboardVerticalOffset={100}
+      >
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingVertical: 50,
+            paddingHorizontal: 25,
           }}>
-          <CustomInput
-            label="Name"
-            placeholder="Enter name"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('name')}
-            onBlur={handleBlur('name')}
-            value={values.name}
-            error={errors?.name && touched?.name}
-            errorText={errors?.name}
-          />
-          <CustomInput
-            label="Email"
-            placeholder="Enter email address"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
-            error={errors?.email && touched?.email}
-            errorText={errors?.email}
-            editable={false}
-            disabled={true}
-          />
-          {/* <View
+          <ImageContainer handleChange={setFieldValue} value={values.path} />
+          <View
+            style={{
+              paddingTop: 50,
+            }}>
+            <CustomInput
+              label="Name"
+              placeholder="Enter name"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              error={errors?.name && touched?.name}
+              errorText={errors?.name}
+            />
+            <CustomInput
+              label="Email"
+              placeholder="Enter email address"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              error={errors?.email && touched?.email}
+              errorText={errors?.email}
+              editable={false}
+              disabled={true}
+            />
+            {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -192,58 +210,72 @@ const PendingProfileScreen = props => {
             />
           </View> */}
 
-          <View
-            style={{
-              paddingBottom: 10,
-              width: '100%',
-            }}>
-            <Text style={{}}>Phone Number</Text>
-            <TextInput
-              placeholder="Enter phone number"
-              keyboardType="phone-pad"
-              returnKeyType="next"
-              onChangeText={handleChange('phone')}
-              onBlur={handleBlur('phone')}
-              value={values.phone}
-              error={errors?.phone && touched?.phone}
-              errorText={errors?.phone}
+            <View
               style={{
-                backgroundColor: '#fff',
-                paddingHorizontal: 0,
-              }}
-              left={
-                <TextInput.Icon
-                  icon={() => (
-                    <CustomText style={{paddingRight: 10}}>+65</CustomText>
-                  )}
-                />
-              }
+                paddingBottom: 10,
+                width: '100%',
+              }}>
+              <Text style={{}}>Phone Number</Text>
+              <TextInput
+                textColor="#000000"
+                placeholder="Enter phone number"
+                keyboardType="phone-pad"
+                returnKeyType="next"
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+                //maxLength={12}
+                error={errors?.phone && touched?.phone}
+                errorText={errors?.phone}
+                style={{
+                  backgroundColor: '#fff',
+                  paddingHorizontal: 0,
+                }}
+                left={
+                  <TextInput.Icon
+                    icon={() => (
+                      <CustomText
+                        style={{
+                          paddingRight: 10,
+                          fontSize: 15,
+                          color: '#000000',
+                        }}>
+                        +65
+                      </CustomText>
+                    )}
+                  />
+                }
+              />
+              <HelperText type="error" visible={errors.phone && touched?.phone}>
+                {errors.phone}
+              </HelperText>
+            </View>
+            <CustomInput
+              label="About (Max 500 words)"
+              placeholder="Enter about"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('about')}
+              onBlur={handleBlur('about')}
+              value={values.about}
+              error={errors?.about && touched?.about}
+              errorText={errors?.about}
+              multiline={true}
+              maxLength={500}
             />
-            <HelperText type="error" visible={errors.phone && touched?.phone}>
-              {errors.phone}
-            </HelperText>
+            <SubmitButton
+              loading={
+                authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+              }
+              disabled={
+                authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+              }
+              lable="Save Changes"
+              onPress={handleSubmit}
+            />
           </View>
-          <CustomInput
-            label="About (Max 500 words)"
-            placeholder="Enter about"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('about')}
-            onBlur={handleBlur('about')}
-            value={values.about}
-            error={errors?.about && touched?.about}
-            errorText={errors?.about}
-            multiline={true}
-            maxLength={500}
-          />
-          <SubmitButton
-            // loading={}
-            // disabled={}
-            lable="Save Changes"
-            onPress={handleSubmit}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 };
@@ -255,7 +287,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onUserLogin: params => dispatch(userSigninAction(params)),
   onUpdateProfile: params => dispatch(updateProfileAction(params)),
 });
 export default connect(

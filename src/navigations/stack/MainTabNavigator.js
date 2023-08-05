@@ -22,12 +22,11 @@ const Tab = createBottomTabNavigator();
 
 const CustomsellButton = ({children, onPress, accessibilityState}) => {
   const keyboardVisible = useKeyboardVisible();
-  console.log('keyboardVisible', keyboardVisible);
   return (
     <Pressable
       onPress={onPress}
       style={{
-        top: keyboardVisible ? 0 : Platform.OS === 'ios' ? -6 : -16,
+        top: keyboardVisible ? 0 : Platform.OS === 'ios' ? -5 : -16,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
@@ -156,7 +155,7 @@ const MainTabNavigator = () => {
         listeners={{
           tabPress: e => {
             // Prevent default action
-            e.preventDefault();
+            // e.preventDefault();
           },
         }}
       />

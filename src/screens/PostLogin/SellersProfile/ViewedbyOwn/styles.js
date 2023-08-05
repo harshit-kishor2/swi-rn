@@ -29,9 +29,9 @@ export default styles = StyleSheet.create({
 
  outer: {
    backgroundColor: '#F6F6F6',
-   // backgroundColor:'red',
+  //  backgroundColor:'red',
    width: 160,
-   height: 279,
+   height: 312,
    borderRadius: 10,
    // alignSelf:'center',
    // justifyContent:'center',

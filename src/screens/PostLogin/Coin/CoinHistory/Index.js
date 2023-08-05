@@ -1,11 +1,61 @@
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, Image, Alert, FlatList } from 'react-native'
+import React, { useEffect } from 'react'
 import { CustomIcon, Custombutton, NavigationBar } from '@app/components'
 import { ICON_TYPE } from '@app/components/CustomIcon'
 import { IMAGES } from '@app/resources'
 import styles from './styles'
+import { CoinHistoryAction } from '@app/store/sellersProfileSclice'
+import { connect, useSelector } from 'react-redux'
 
+
+const Item = ({ description, coins_value, type, created_at_dis}) => {
+    console.log(type,'dfghjkl')
+   
+    return (
+        <View>
+             <View style={{marginHorizontal:20}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 15, fontFamily: 'OpenSans-SemiBold', color: 'black' }}>{description}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                        <Image source={IMAGES.coin} />
+                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>{type == "debit" ? coins_value: coins_value}</Text>
+                        { type == "credit" && <Image source={IMAGES.GreenTriangle} style={{ marginTop: 5 }} />  }
+                        { type == "debit" && <Image source={IMAGES.RedTriangle} style={{ marginTop: 5 }} />  }
+                         
+                    </View>
+                </View>
+                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10 }}>{created_at_dis}</Text>
+            </View>
+          
+            <View style={styles.lineColor} />
+        </View >
+
+    )
+}
 const CoinHistory = (props) => {
+    console.log(props,"props value by coin history====>>>>")
+    const {getCoinHistory,sellersProfileReducer} = props;
+
+   const Data = sellersProfileReducer?.CoinHistoryAction?.data?.history;
+   const Coins = sellersProfileReducer?.CoinHistoryAction?.data?.total_coins;
+   console.log(Data,'===========================================')
+
+
+    useEffect(
+        () => {
+            getCoinHistory()
+        }, []
+      )
+    const renderItem = ({ item, index }) => (
+        <Item
+            id={item.id}
+            description={item.description}
+            coins_value={item.coins_value}
+            created_at_dis={item.created_at_dis}
+            type={item.type}
+          
+        />
+    )
     return (
         <View style={{ margin: 20 }}>
 
@@ -24,10 +74,10 @@ const CoinHistory = (props) => {
                         source={IMAGES.CoinHistory} style={{ height: 72, width: 92 }} />
                 </View>
                 <View style={{}}>
-                    <Text style={{ fontSize: 38, fontFamily: 'OpenSans-SemiBold', color: 'black' }}> 50</Text>
+                    <Text style={{ fontSize: 38, fontFamily: 'OpenSans-SemiBold', color: 'black' }}> {Coins}</Text>
                     <View style={{ height: 100, width: 200 }}>
                         <Text style={styles.TextStyle1}>
-                            You have {<Image source={IMAGES.coin} />} 50 coins with you now
+                            You have {<Image source={IMAGES.coin} />} {Coins} coins with you now
                         </Text>
                     </View>
                 </View>
@@ -56,42 +106,15 @@ const CoinHistory = (props) => {
             <Text style={{ fontSize: 20, fontFamily: 'Cabin-Bold', color: 'black', marginLeft: 20, marginTop:20 }}>History</Text>
 
            <View style={{marginTop:20, }}>
-           <View style={{marginHorizontal:20}}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'OpenSans-SemiBold', color: 'black' }}>Boosted Rolex men watch</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                        <Image source={IMAGES.coin} />
-                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>20</Text>
-                        <Image source={IMAGES.RedTriangle} style={{ marginTop: 5 }} />
-                    </View>
-                </View>
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10 }}>25 Jul, 2023</Text>
-            </View>
-            <View style={styles.lineColor} />
             
-            <View style={{marginHorizontal:20}}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'OpenSans-SemiBold', color: 'black' }}>Purchased Coin</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                        <Image source={IMAGES.coin} />
-                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>80</Text>
-                        <Image source={IMAGES.GreenTriangle} style={{ marginTop: 5 }} />
-                    </View>
-                </View>
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10 }}>25 Jul, 2023</Text>
-            </View>
-            <View style={styles.lineColor} />
-            <View style={{marginHorizontal:20}}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'OpenSans-SemiBold', color: 'black' }}>Boosted Rolex men watch</Text>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                        <Image source={IMAGES.coin} />
-                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>20</Text>
-                        <Image source={IMAGES.RedTriangle} style={{ marginTop: 5 }} />
-                    </View>
-                </View>
-                <Text style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10 }}>25 Jul, 2023</Text>
-            </View>
+            <FlatList
+            data={Data}
+            renderItem={renderItem}
+            style={{height:500}}
+            />
+          
+            
+            
            </View>
             
 
@@ -99,4 +122,14 @@ const CoinHistory = (props) => {
     )
 }
 
-export default CoinHistory
+const mapStateToProps = state => {
+    return {
+        authReducer: state.authReducer,
+        sellersProfileReducer: state.sellersProfileReducer
+    }
+}
+const mapDispatchToProps = dispatch => ({
+    getCoinHistory: params => dispatch(CoinHistoryAction())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoinHistory);
