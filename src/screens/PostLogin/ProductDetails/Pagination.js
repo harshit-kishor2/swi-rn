@@ -1,7 +1,6 @@
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {Spacer} from '@app/components';
-import Video from 'react-native-video';
+import {CustomIcon, Spacer} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 
 const Pagination = ({data, currentPage, handleImageClick}) => {
   return (
@@ -26,23 +25,17 @@ const Pagination = ({data, currentPage, handleImageClick}) => {
                 borderColor: index === currentPage ? '#00958C' : '#F0F2FA',
               }}
               onPress={() => handleImageClick(index)}>
-              {item.type === 'video' && Platform.OS === 'ios' ? (
-                <Video
-                  controls={false}
-                  source={{uri: item.file}}
-                  resizeMode="cover"
-                  style={{
-                    height: 45,
-                    width: 45,
-                    borderRadius: 8,
-                  }}
-                  paused={true}
-                  // repeat={true}
+              {item.type === 'video' ? (
+                <CustomIcon
+                  name={'video'}
+                  origin={ICON_TYPE.OCTICONS}
+                  size={35}
+                  color={'black'}
                 />
               ) : (
                 <Image
                   source={{uri: item.file}}
-                  resizeMode="stretch"
+                  resizeMode="cover"
                   style={{
                     height: 45,
                     width: 45,
@@ -57,16 +50,31 @@ const Pagination = ({data, currentPage, handleImageClick}) => {
       <Spacer />
       <View style={styles.dotContainer}>
         {data.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              height: index === currentPage ? 8 : 6,
-              width: index === currentPage ? 8 : 6,
-              borderRadius: index === currentPage ? 4 : 3,
-              margin: 5,
-              backgroundColor: index === currentPage ? '#000000' : '#D9D9D9',
-            }}
-          />
+          <>
+            {item.type === 'image' ? (
+              <View
+                key={index}
+                style={{
+                  height: index === currentPage ? 8 : 6,
+                  width: index === currentPage ? 8 : 6,
+                  borderRadius: index === currentPage ? 4 : 3,
+                  margin: 5,
+                  backgroundColor:
+                    index === currentPage ? '#000000' : '#D9D9D9',
+                }}
+              />
+            ) : (
+              <CustomIcon
+                style={{
+                  margin: 4,
+                }}
+                name={index === currentPage ? 'video' : 'video-outline'}
+                origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                size={10}
+                color={index === currentPage ? '#000000' : '#D9D9D9'}
+              />
+            )}
+          </>
         ))}
       </View>
     </>
