@@ -14,6 +14,7 @@ import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import MyFavourites from '@app/screens/PostLogin/MyFavourites.js/Index';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index'
+import { InterestList } from '@app/screens/PostLogin/Interestlist';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -22,6 +23,10 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.MAIN_TAB_NAVIGATOR}
         component={MainTabNavigator}
+      />
+      <Stack.Screen
+        name={RoutesName.INTERESTLIST_SCREEN}
+        component={InterestList}
       />
       <Stack.Screen
         name={RoutesName.PRODUCT_DETAILS}

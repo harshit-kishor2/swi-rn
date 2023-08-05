@@ -26,3 +26,23 @@ export const sellerProductListingAction = createAsyncThunk(
         }
     }
 )
+export const CoinHistoryAction = createAsyncThunk(
+    'sellersProfile/CoinHistoryAction',
+    async (params, thunkAPI) => {
+        try {
+            console.log(params,"at Coin action====>>>>")
+            const result = await axiosRequest({
+              url: `/coins-history`,
+              method: 'GET',
+              params: params,
+            })
+            console.log(result,'Coin===== asdfghjklkjhgfdsdfghjklkjhgfdfghjk')
+            return result
+        } catch (error) {
+            console.log(error,'Coin=========>>>>>')
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response?.data : error.data
+            )
+        }
+    }
+)

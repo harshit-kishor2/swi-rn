@@ -148,7 +148,7 @@ const MyProfileScreen = props => {
         </View>
         <View style={{}}>
           <Text style={styles.TextStyle1}>
-            You have {<Image source={IMAGES.coin} />} 50 coins with you now
+            You have {<Image source={IMAGES.coin} />} { profileData.coins ? profileData.coins : '0' } coins with you now
           </Text>
         </View>
         <View
@@ -181,6 +181,7 @@ const MyProfileScreen = props => {
             activeOpacity={1}
             onPress={() => {
               // Alert.alert('Pressed');
+              props.navigation.navigate(RoutesName.INTERESTLIST_SCREEN)
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>

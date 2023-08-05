@@ -13,6 +13,7 @@ import { WHITE } from '@app/resources/colors'
 import { connect } from 'react-redux'
 import ProductCard from '@app/screens/atoms/ProductCard'
 import { sellerProductListingAction } from '@app/store/sellersProfileSclice'
+import ProductCardBoost from '@app/screens/atoms/ProductCardBoost'
 
 
 
@@ -223,7 +224,7 @@ const SellersProfileViewByOwn = (props) => {
   // );
   const renderItem = ({item, index}) => {
     
-    return <ProductCard key={index} item={item} />;
+    return <ProductCardBoost key={index} item={item} />;
   };
   const handleButtonPress = (buttonName) => {
     setSelectedButton(buttonName);
@@ -367,7 +368,7 @@ const SellersProfileViewByOwn = (props) => {
         />
       </View>
       {selectedButton === 'Listing' && (
-        <ScrollView style={{}}>
+        <ScrollView style={{backgroundColor:'white', }}>
 
           <View>
             <View

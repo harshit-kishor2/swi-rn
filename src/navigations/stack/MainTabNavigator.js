@@ -156,7 +156,7 @@ const MainTabNavigator = () => {
         listeners={{
           tabPress: e => {
             // Prevent default action
-            e.preventDefault();
+            // e.preventDefault();
           },
         }}
       />

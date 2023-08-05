@@ -17,21 +17,24 @@ const Item = ({ name, content, price, brand }) => {
                     style={{
                         flexDirection: 'row',
                         marginLeft: 10,
-                        marginTop: 10
+                        marginTop: 20
                     }}>
                     <Image
                         source={IMAGES.Ellipse7}
                         style={style.Image1} />
                     <Text style={{
                         fontSize: 20,
+
                         justifyContent: 'center',
-                        color: '#232323'
+                        color: '#232323',
+                        fontFamily:'Cabin-SemiBold'
                     }}> {name}</Text>
                 </View>
                 <View style={{ margin: 5 }}>
                     <Text style={{
                         fontSize: 16,
-                        marginLeft: 10
+                        marginLeft: 10,
+                        fontFamily:'OpenSans-Regular'
                     }}>
                         {content}
                     </Text>
@@ -39,7 +42,10 @@ const Item = ({ name, content, price, brand }) => {
                         <Text
                             style={style.txtprice}>{price} </Text>
                         <Text style={style.brand}>. {brand} </Text>
-                        <Image source={IMAGES.send_Icon} style={{ marginLeft: 160 }} />
+                    <View style={{marginTop:-10}}>
+                    <Image source={IMAGES.send_Icon} style={{ marginLeft: 160 }} />
+
+                    </View>
                     </View>
                 </View>
             </View>
@@ -136,7 +142,7 @@ export const InterestCard = () => {
         />
     )
     return (
-        <View>
+        <View >
             <FlatList
                 style={{ margin: 5 }}
                 data={Data}
@@ -152,7 +158,7 @@ const style = StyleSheet.create({
         width: SPACING.SCALE_332,
         height: SPACING.SCALE_114,
         borderRadius: 10,
-        marginVertical: 7
+        marginVertical: 7,
     },
     Image1: {
         height: 30, width: 30,
@@ -163,13 +169,14 @@ const style = StyleSheet.create({
         color: '#00958C',
         marginLeft: 10,
         marginTop: 5,
-        fontWeight: 'bold'
+        fontFamily:'Cabin-Bold'
     },
     brand: {
         fontSize: 12,
         color: '#00958C',
         marginTop: 10,
-        margin: 5
+        margin: 5,
+        fontFamily:'Cabin-Regular'
     }
 
 

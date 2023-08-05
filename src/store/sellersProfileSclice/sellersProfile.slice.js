@@ -1,7 +1,7 @@
 import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {apiAction} from './actions';
 import {LoadingStatus} from '../../helper/strings';
-import { sellerProductListingAction} from "../sellersProfileSclice/sellersProfile.action"
+import { CoinHistoryAction, sellerProductListingAction} from "../sellersProfileSclice/sellersProfile.action"
 
 // =============================== Redux : Test Slice ==================================
 
@@ -20,7 +20,7 @@ const initialState = entityAdapter.getInitialState({
 /**
  * Slice for all reducres
  */
-const reduxSlice = createSlice({
+const sellerSlice = createSlice({
   name: SLICE_FEATURE_KEY,
   initialState: initialState,
   reducers: {
@@ -44,6 +44,17 @@ const reduxSlice = createSlice({
       .addCase(sellerProductListingAction.rejected, (state, action) => {
         state.sellerProductListingAction = LoadingStatus.FAILED;
         state.sellerProductListingActionError= action.payload;
+      })
+    //Coin History
+      .addCase(CoinHistoryAction.pending, state => {
+        state.CoinHistoryActionLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(CoinHistoryAction.fulfilled, (state, action) => {
+        state.CoinHistoryActionLoadingStatus = LoadingStatus.LOADED;
+        state.CoinHistoryAction = action.payload;
+      })
+      .addCase(CoinHistoryAction.rejected, (state, action) => {
+        state.CoinHistoryActionError= action.payload;
       });
   },
 });
@@ -52,6 +63,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const {resetSliceState} = sellerSlice.actions;
 
-export const sellersProfileReducer = reduxSlice.reducer;
+export const sellersProfileReducer = sellerSlice.reducer;

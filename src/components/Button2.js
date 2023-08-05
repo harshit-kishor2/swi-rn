@@ -15,7 +15,8 @@ const Custombutton2 = ({
   title,
   disabled,
   fontFamily,
-  fontSize
+  fontSize,
+  borderColor
 }) => {
   return (
     <Pressable
@@ -36,6 +37,8 @@ const Custombutton2 = ({
             height: height ?? 50,
             marginHorizontal: marginHorizontal,
             backgroundColor: backgroundColor ?? 'white',
+            borderColor: borderColor ?? 'black'
+            
             
           },
         ]}>

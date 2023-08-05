@@ -11,14 +11,11 @@ import ProductCardFav from '@app/screens/atoms/ProductCardFav'
 
 const MyFavourites = (props) => {
   const { getProductList, wishlistReducer } = props;
-console.log(props?.wishlistReducer?.wishlistAction?.data,"my fevorite props================================")
+console.log(props?.wishlistReducer,"my fevorite props================================")
 const item= props?.wishlistReducer?.wishlistAction?.data;
 useEffect(
   () => {
-    
-     
-    getProductList()
-
+       getProductList()
   }, []
 )
 const renderItem = ({item, index}) => {
