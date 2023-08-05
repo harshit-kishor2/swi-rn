@@ -9,6 +9,7 @@ import {
   ACTION_DISMISSED,
   ACTION_NEUTRAL,
 } from 'react-native-month-year-picker';
+import {COLORS} from '@app/resources';
 
 const MonthYearPicker = ({onChange, value, children}) => {
   const [show, setShow] = useState(false);
@@ -36,10 +37,11 @@ const MonthYearPicker = ({onChange, value, children}) => {
       </CustomText>
       <CustomIcon
         name={'calendar'}
-        origin={ICON_TYPE.ICONICONS}
+        origin={ICON_TYPE.FEATHER_ICONS}
         style={{
           paddingRight: 10,
-          color: '#00000080',
+          marginBottom: 5,
+          color: COLORS.BLACK,
         }}
         size={20}
       />

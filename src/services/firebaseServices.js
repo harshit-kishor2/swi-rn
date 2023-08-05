@@ -2,18 +2,8 @@ import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import notifee from '@notifee/react-native';
 import {IMAGES} from '../resources';
+import {SharedPreference} from '@app/helper';
 // import {IMAGES} from '../Resources';
-
-const requestUserPermission = async () => {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  if (enabled) {
-    console.log('Authorization status:', authStatus);
-  }
-};
 
 async function registerAppWithFCM() {
   await messaging().registerDeviceForRemoteMessages();
@@ -21,14 +11,17 @@ async function registerAppWithFCM() {
 
 async function getFCMToken() {
   try {
-    let fcmToken = await AsyncStorage.getItem('fcm-token');
+    let fcmToken = await SharedPreference.getItem(
+      SharedPreference.keys.DEVICE_TOKEN,
+      '',
+    );
+    console.log(fcmToken, '<<<<====OLD fcmToken');
     if (fcmToken !== undefined && fcmToken !== null && fcmToken !== '') {
       return fcmToken;
     } else {
       fcmToken = await messaging().getToken();
-
-      console.log('fcm-token', fcmToken);
-      AsyncStorage.setItem('fcm-token', fcmToken);
+      console.log('FCM Token=====>>>> ', fcmToken);
+      SharedPreference.setItem(SharedPreference.keys.DEVICE_TOKEN, fcmToken);
       return fcmToken;
     }
   } catch (error) {
@@ -59,9 +52,4 @@ const onDisplayNotification = async (title, body, data) => {
   // });
 };
 
-export {
-  requestUserPermission,
-  registerAppWithFCM,
-  getFCMToken,
-  onDisplayNotification,
-};
+export {registerAppWithFCM, getFCMToken, onDisplayNotification};

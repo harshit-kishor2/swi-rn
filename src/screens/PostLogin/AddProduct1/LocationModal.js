@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {CustomIcon, CustomText} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import React from 'react';
@@ -23,7 +24,7 @@ const LocationModal = ({updateProductDetails, lable}) => {
               width: '90%',
               borderBottomWidth: 1,
             }}>
-            <CustomText>{lable}</CustomText>
+            <CustomText style={{width: '90%'}}>{lable}</CustomText>
             <CustomIcon
               name={'location-outline'}
               origin={ICON_TYPE.ICONICONS}
@@ -31,7 +32,7 @@ const LocationModal = ({updateProductDetails, lable}) => {
                 paddingRight: 10,
                 color: '#00000080',
               }}
-              size={20}
+              size={25}
             />
           </View>
         </View>

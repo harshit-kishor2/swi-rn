@@ -65,7 +65,7 @@ console.log(props)
           columnWrapperStyle={{
             flex: 1,
             justifyContent: 'flex-start',
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
             paddingBottom: 10,
           }}
           ListEmptyComponent={() => (

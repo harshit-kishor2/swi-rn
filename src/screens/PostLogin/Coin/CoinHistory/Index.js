@@ -18,7 +18,7 @@ const Item = ({ description, coins_value, type, created_at_dis}) => {
                     <Text style={{ fontSize: 15, fontFamily: 'OpenSans-SemiBold', color: 'black' }}>{description}</Text>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                         <Image source={IMAGES.coin} />
-                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>{type == "debit" &&coins_value}</Text>
+                        <Text style={{ marginHorizontal: 10, fontFamily: 'OpenSans-SemiBold', fontSize: 15, color: 'black' }}>{type == "debit" ? coins_value: coins_value}</Text>
                         { type == "credit" && <Image source={IMAGES.GreenTriangle} style={{ marginTop: 5 }} />  }
                         { type == "debit" && <Image source={IMAGES.RedTriangle} style={{ marginTop: 5 }} />  }
                          

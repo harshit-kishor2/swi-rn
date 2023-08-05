@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   Dimensions,
+  Image,
 } from 'react-native';
 import React from 'react';
 import {Avatar, Card} from 'react-native-paper';
@@ -12,7 +13,7 @@ import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
-import {formatTimestamp} from '@app/helper/commonFunction';
+import {addEllipsis, formatTimestamp} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
@@ -32,14 +33,16 @@ const ProductCard = ({item, onPress}) => {
             product_id: item.id,
           });
         }}>
-        <Card.Cover
-          resizeMode="cover"
+        <Image
+          resizeMode="contain"
           style={styles.cover_style}
           source={{uri: item?.thumb_image}}
         />
       </Pressable>
       <Card.Content>
-        <CustomText style={styles.title}>{truncatedText}</CustomText>
+        <CustomText style={styles.title}>
+          {item?.title.length > 12 ? addEllipsis(item?.title, 12) : item?.title}
+        </CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
           <Spacer width={SPACING.SCALE_3} />
@@ -60,8 +63,12 @@ const ProductCard = ({item, onPress}) => {
             }
           />
           <Spacer width={5} />
-          <View style={{maxWidth: SPACING.SCALE_115}}>
-            <CustomText style={styles.name}>{item?.user?.name}</CustomText>
+          <View style={{}}>
+            <CustomText style={styles.name}>
+              {item?.user?.name.length > 13
+                ? addEllipsis(item?.user?.name, 13)
+                : item?.user?.name}
+            </CustomText>
           </View>
         </View>
         <CustomText style={styles.duration}>
@@ -94,7 +101,8 @@ const styles = StyleSheet.create({
     width: width / 2 - 20,
   },
   cover_style: {
-    height: 150,
+    height: 160,
+    backgroundColor: '#fff',
     // width: 100,
   },
   title: {

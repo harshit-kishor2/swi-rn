@@ -23,6 +23,7 @@ import {Alert} from 'react-native';
 import {Platform} from 'react-native';
 import Video from 'react-native-video';
 import {LoadingStatus} from '@app/helper/strings';
+import {COLORS} from '@app/resources';
 
 const AddProductImage = ({onNextClick, ...props}) => {
   const {
@@ -159,7 +160,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
       width: 300,
     }).then(video => {
       if (video?.size <= 10485760) {
-        updateProductImage(image);
+        updateProductImage(video);
       } else {
         Alert.alert('video length exceed 10MB');
       }
@@ -176,10 +177,8 @@ const AddProductImage = ({onNextClick, ...props}) => {
       const formData = new FormData();
       let thumbImage = false;
       productState?.productImage?.forEach((image, index) => {
-        console.log('==video==', image);
         const d = image?.path?.split('/');
         const name = d[d.length - 1];
-        console.log('Name', name);
 
         //Set images in key
         formData.append(`product_file[${index}]`, {
@@ -192,7 +191,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
         });
 
         //Set thumbnail in key
-        if (image?.mime === 'image/jpeg') {
+        if (image?.mime === 'image/jpeg' && !thumbImage) {
           thumbImage = true;
           formData.append('thumb_image', {
             name: name,
@@ -210,7 +209,6 @@ const AddProductImage = ({onNextClick, ...props}) => {
         // onNextClick();
         if (!productState?.productDetails?.productID) {
           onAddProductImage(formData).then(res => {
-            console.log('Res=====', res);
             if (res?.type.includes('fulfilled')) {
               updateProductDetails({
                 key: 'productID',
@@ -239,14 +237,17 @@ const AddProductImage = ({onNextClick, ...props}) => {
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.scroll_container}>
-      <CustomText>
+      <CustomText
+        style={{
+          fontFamily: FontsConst.OpenSans_Bold,
+        }}>
         Upload watch images<CustomText style={{color: 'red'}}>*</CustomText>
       </CustomText>
       <Spacer />
       <CustomText
         style={{
           fontFamily: FontsConst.OpenSans_Regular,
-          fontSize: 10,
+          fontSize: 12,
         }}>
         Please upload Image of max 10mb
       </CustomText>
@@ -260,7 +261,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
         <View style={styles.selected_container}>
           {selected ? (
             selected.mime === 'video/mp4' ? (
-              <Pressable onPress={() => setPause(!pause)}>
+              <Pressable style={{}} onPress={() => setPause(!pause)}>
                 <Video
                   controls={false}
                   source={{uri: selected?.path}}
@@ -268,10 +269,32 @@ const AddProductImage = ({onNextClick, ...props}) => {
                   style={{
                     height: 250,
                     width: 250,
+                    // borderWidth: 2,
+                    // borderRadius: 16,
+                    // borderColor: COLORS.APPGREEN,
                   }}
                   paused={pause}
                   repeat={true}
                 />
+                {pause ? (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <CustomIcon
+                      origin={ICON_TYPE.ICONICONS}
+                      name={'play-circle-outline'}
+                      color={COLORS.BLACK}
+                      size={40}
+                    />
+                  </View>
+                ) : null}
               </Pressable>
             ) : (
               <Image
@@ -294,7 +317,7 @@ const AddProductImage = ({onNextClick, ...props}) => {
       <CustomText
         style={{
           paddingVertical: 10,
-          fontFamily: FontsConst.OpenSans_Regular,
+          fontFamily: FontsConst.OpenSans_Bold,
         }}>
         Selected images/videos
       </CustomText>
@@ -318,18 +341,34 @@ const AddProductImage = ({onNextClick, ...props}) => {
                 borderWidth: 2,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderColor: selected?.path === item?.path ? '#00958C' : '#fff',
+                borderColor:
+                  selected?.path === item?.path ? '#00958C' : '#F0F2FA',
               }}
               onPress={() => setSelected(item)}>
-              <Image
-                source={{uri: item?.path}}
-                resizeMode="stretch"
-                style={{
-                  height: 70,
-                  width: 70,
-                  borderRadius: 10,
-                }}
-              />
+              {item.mime === 'video/mp4' && Platform.OS === 'ios' ? (
+                <Video
+                  controls={false}
+                  source={{uri: item?.path}}
+                  resizeMode="cover"
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 8,
+                  }}
+                  paused={true}
+                  // repeat={true}
+                />
+              ) : (
+                <Image
+                  source={{uri: item?.path}}
+                  resizeMode="stretch"
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 8,
+                  }}
+                />
+              )}
             </Pressable>
           );
         })}

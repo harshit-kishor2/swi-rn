@@ -64,6 +64,7 @@ const FactoryGemRow = ({
                     size={20}
                   />
                 </Pressable>
+                <Spacer width={10} />
                 <CustomText>{item}</CustomText>
               </View>
             );

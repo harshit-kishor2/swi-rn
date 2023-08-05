@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/native';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
@@ -46,6 +49,7 @@ import ProductCard from '@app/screens/atoms/ProductCard';
 import {FlatList} from 'react-native-gesture-handler';
 import ReadMore from '@app/components/ReadMore';
 import NavigationService from '@app/navigations/NavigationService';
+import ProductImageDetail from './ProductImageDetail';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -182,8 +186,8 @@ const ProductDetails = props => {
                       // onBuffer={this.onBuffer}
                       // onError={this.videoError}
                       style={{
-                        width: SPACING.SCALE_239,
-                        height: SPACING.SCALE_239,
+                        width: 230,
+                        height: 230,
                       }}
                     />
                   </View>
@@ -271,9 +275,12 @@ const ProductDetails = props => {
     },
     mainImage: {
       width: 239,
-      height: 239,
+      height: 300,
       borderRadius: 10,
-      resizeMode: 'cover',
+      resizeMode: 'contain',
+      borderWidth: 1,
+      borderColor: '#00000030',
+      // aspectRatio: 4 / 3,
     },
     thumbnailContainer: {
       flexDirection: 'row',
@@ -300,7 +307,7 @@ const ProductDetails = props => {
       width: '100%',
       height: '100%',
       borderRadius: 10,
-      resizeMode: 'cover',
+      resizeMode: 'center',
     },
     dotContainer: {
       flexDirection: 'row',
@@ -446,6 +453,8 @@ const ProductDetails = props => {
           {productDetailData?.data?.files ? (
             <ImageViewww images={productDetailData.data.files} />
           ) : null}
+          {/* <ProductImageDetail bannerData={productDetailData.data.files} /> */}
+
           {/* Main Image */}
           {/* <View style={styles.ImageSizeStyle}>
  <Image source={IMAGES.Rectangle1} style={styles.imageStyle} />
@@ -589,7 +598,7 @@ const ProductDetails = props => {
                     }}>
                     {productDetailData?.data?.user?.name?.length > 8
                       ? addEllipsis(productDetailData?.data?.user?.name, 8)
-                      : productDetailData?.data?.user?.name?.length}
+                      : productDetailData?.data?.user?.name}
                   </Text>
                 </View>
                 <Text

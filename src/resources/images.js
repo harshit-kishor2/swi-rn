@@ -112,3 +112,7 @@ export const google = require('../assets/images/google.png');
 export const facebook2 = require('../assets/images/facebook2.png');
 export const applelogo = require('../assets/images/applelogo.png');
 export const notificationBell = require('../assets/images/notificationBell/bell.png');
+
+
+//SellerProfileOR Badge
+export const badge = require('../assets/images/badge/badge.png');

@@ -67,7 +67,7 @@ const ProductHeader = ({goback, currentPage}) => {
           }}>
           Post your watch
         </CustomText>
-        <View></View>
+        <Spacer height={30} width={30} />
       </View>
       <View style={styles.rowContainer}>
         <CustomText

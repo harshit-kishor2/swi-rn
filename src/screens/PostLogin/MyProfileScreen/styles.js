@@ -13,6 +13,8 @@ const styles = StyleSheet.create({
   NameStyle: {
     fontFamily: 'Cabin-Regular',
     fontSize: SPACING.SCALE_20,
+    maxWidth: SPACING.SCALE_239,
+    textAlign: 'left',
   },
   BadgeStyle: {
     // flexDirection:'row',
@@ -21,12 +23,13 @@ const styles = StyleSheet.create({
   },
   NameBadgeStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    //justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   ProfilePicture: {
     flexDirection: 'row',
-    backgroundColor: '#F6F6F6',
+    marginLeft: 16,
+    //backgroundColor: 'red',
 
     // justifyContent: 'space-between',
     alignItems: 'center',
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
   VerificationViewStyle1: {
     flexDirection: 'row',
     marginTop: SPACING.SCALE_40,
-    marginLeft: SPACING.SCALE_20,
+    marginLeft: SPACING.SCALE_28,
   },
   TextStyle1: {
     fontFamily: 'OpenSans-Bold',
