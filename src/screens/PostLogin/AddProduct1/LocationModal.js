@@ -24,7 +24,7 @@ const LocationModal = ({updateProductDetails, lable}) => {
               width: '90%',
               borderBottomWidth: 1,
             }}>
-            <CustomText style={{maxWidth: 300}}>{lable}</CustomText>
+            <CustomText style={{width: '90%'}}>{lable}</CustomText>
             <CustomIcon
               name={'location-outline'}
               origin={ICON_TYPE.ICONICONS}

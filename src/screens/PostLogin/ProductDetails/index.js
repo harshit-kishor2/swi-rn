@@ -306,7 +306,7 @@ const ProductDetails = props => {
       width: '100%',
       height: '100%',
       borderRadius: 10,
-      resizeMode: 'contain',
+      resizeMode: 'center',
     },
     dotContainer: {
       flexDirection: 'row',
@@ -593,7 +593,7 @@ const ProductDetails = props => {
                     }}>
                     {productDetailData?.data?.user?.name?.length > 8
                       ? addEllipsis(productDetailData?.data?.user?.name, 8)
-                      : productDetailData?.data?.user?.name?.length}
+                      : productDetailData?.data?.user?.name}
                   </Text>
                 </View>
                 <Text

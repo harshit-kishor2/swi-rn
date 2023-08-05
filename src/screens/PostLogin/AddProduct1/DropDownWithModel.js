@@ -145,6 +145,7 @@ const DropDownWithModel = ({
             color: '#000',
           }}
           value={addEllipsis(selectedItem?.name, 15)}
+          //value="sdfghjdfghjdfghjdfghjdfghjdfghjfghjdfghjdfghdfghfghdfghv"
           placeholder="Search"
           disabled={true}
           right={

@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   Dimensions,
+  Image,
 } from 'react-native';
 import React from 'react';
 import {Avatar, Card} from 'react-native-paper';
@@ -32,14 +33,16 @@ const ProductCard = ({item, onPress}) => {
             product_id: item.id,
           });
         }}>
-        <Card.Cover
+        <Image
           resizeMode="contain"
           style={styles.cover_style}
           source={{uri: item?.thumb_image}}
         />
       </Pressable>
       <Card.Content>
-        <CustomText style={styles.title}>{truncatedText}</CustomText>
+        <CustomText style={styles.title}>
+          {item?.title.length > 12 ? addEllipsis(item?.title, 12) : item?.title}
+        </CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
           <Spacer width={SPACING.SCALE_3} />
@@ -92,23 +95,20 @@ export default ProductCard;
 const styles = StyleSheet.create({
   card_container: {
     flex: 0.5,
-    //backgroundColor: 'red',
     backgroundColor: '#F6F6F6',
-    //elevation: 1,
+    elevation: 1,
     margin: 5,
     width: width / 2 - 20,
   },
   cover_style: {
-    height: 200,
+    height: 160,
     backgroundColor: '#fff',
-    //backgroundColor: 'yellow',
     // width: 100,
   },
   title: {
     fontSize: 18,
     fontFamily: FontsConst.Cabin_Bold,
     marginTop: SPACING.SCALE_5,
-    // backgroundColor: 'blue',
   },
   price_container: {
     flexDirection: 'row',
@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   name: {
-    //backgroundColor: 'green',
     fontSize: 12,
     fontFamily: FontsConst.OpenSans_SemiBold,
   },
