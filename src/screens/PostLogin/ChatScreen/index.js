@@ -1,12 +1,10 @@
-import {View, Text, Pressable, Image, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
-import {Container, CustomText} from '@app/components';
-import SearchBarComponent from '@app/components/SearchBarComponent';
-import {IMAGES, SPACING} from '@app/resources';
+import {Container} from '@app/components';
+import {IMAGES} from '@app/resources';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {Avatar} from 'react-native-paper';
-import {FontsConst} from '@app/assets/assets';
-import {RoutesName} from '@app/helper/strings';
+import {useEffect, useState} from 'react';
+import {FlatList, StyleSheet} from 'react-native';
+import Header from './Header';
+import {EmptyList, FooterList, RenderItem, Seprator} from './commn';
 
 const DATA = [
   {
@@ -76,101 +74,31 @@ const DATA = [
 ];
 
 const ChatScreen = ({navigation}) => {
-  const renderItem = ({item, index}) => {
-    return (
-      <Pressable
-        style={styles.render_container}
-        onPress={() => {
-          navigation?.navigate(RoutesName.CHAT_DETAIL_SCREEN, {id: '1'});
-        }}>
-        <Avatar.Image
-          style={{marginHorizontal: 5}}
-          source={{
-            uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-          }}
-          size={35}
-        />
-        <View style={{flex: 1, paddingLeft: 5}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <CustomText
-              style={{
-                color: '#00958C',
-                fontFamily: FontsConst.Cabin_SemiBold,
-                fontSize: 15,
-              }}>
-              {item?.username}
-            </CustomText>
-            <CustomText
-              style={{
-                color: '#8F959E',
-                fontFamily: FontsConst.OpenSans_Regular,
-                fontSize: 10,
-              }}>
-              {item?.date}
-            </CustomText>
-          </View>
-          <CustomText
-            style={{
-              color: '#8F959E',
-              fontFamily: FontsConst.OpenSans_Bold,
-              fontSize: 12,
-            }}>
-            {item?.brand}
-          </CustomText>
-          <CustomText
-            numberOfLines={2}
-            style={{
-              color: '#8F959E',
-              fontFamily: FontsConst.OpenSans_Regular,
-              fontSize: 12,
-            }}>
-            {item?.description}
-          </CustomText>
-        </View>
-      </Pressable>
-    );
-  };
-  const emptyList = () => (
-    <View style={styles.empty_container}>
-      <CustomText>No record(s)</CustomText>
-    </View>
-  );
+  const [conversations, setConversations] = useState([]);
 
-  const seprator = () => <View style={styles.seprator} />;
+  useEffect(() => {
+    setConversations(DATA);
+  }, []);
+
+  const onLoadMore = () => {
+    console.log('Load More');
+    setConversations([...conversations, ...DATA]);
+  };
+
   return (
     <Container useSafeAreaView={true}>
-      <View style={styles.search_container}>
-        <SearchBarComponent
-          placeholder={'Search by keyword'}
-          onPress={() => {
-            // props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
-            //   from: 'explore',
-            // });
-          }}
-        />
-        <Pressable
-          onPress={() => {
-            //Alert.alert('Bell clicked');
-          }}
-          style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
-          <Image source={IMAGES.notificationBell} />
-        </Pressable>
-      </View>
+      <Header />
       <PageTitle title={'Chats'} />
       <FlatList
-        data={DATA}
+        data={conversations}
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-        ListEmptyComponent={emptyList}
-        onEndReachedThreshold={30}
-        // onEndReached={onLoadMore}
-        ItemSeparatorComponent={seprator}
+        renderItem={RenderItem}
+        ListEmptyComponent={EmptyList}
+        onEndReachedThreshold={0.2}
+        onEndReached={onLoadMore}
+        ItemSeparatorComponent={Seprator}
+        ListFooterComponent={FooterList}
       />
     </Container>
   );
@@ -183,27 +111,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     paddingHorizontal: 10,
     paddingBottom: 50,
-  },
-  seprator: {
-    borderWidth: 0.5,
-    borderColor: '#00000020',
-    paddingHorizontal: 10,
-  },
-  search_container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  empty_container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 200,
-  },
-  render_container: {
-    height: 80,
-    margin: 10,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
   },
 });

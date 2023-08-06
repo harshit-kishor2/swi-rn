@@ -1,18 +1,13 @@
-import {
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {BackHeader, Container, CustomText, Spacer} from '@app/components';
-import {Avatar} from 'react-native-paper';
-import Header from './Header';
-import {FontsConst} from '@app/assets/assets';
+import {Container, CustomText, Spacer} from '@app/components';
+import {useEffect, useRef, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 import ActionContainer from './ActionContainer';
-import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
+import Header from './Header';
+import ImageModal from './ImageModal';
+import {AndroidCameraPermission} from '../../../../androidcamerapermission';
+import {showAlert} from '@app/helper/commonFunction';
+import {EmptyList, FooterList, RenderItem} from './common';
+import MakeOfferModal from './MakeOfferModal';
 const data = [
   {
     id: 1,
@@ -56,74 +51,45 @@ const data = [
 
 const ChatDetailScreen = ({navigation, route}) => {
   const flatRef = useRef();
-  const [message, setMessage] = useState('');
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
+
   const [allMessage, setAllMessage] = useState([]);
   const {id} = route.params;
-  console.log('Id==', id);
 
+  // Retrive mwessages
   useEffect(() => {
     setAllMessage(data);
   }, []);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (allMessage.length) {
-  //       flatRef.current?.scrollToEnd();
-  //     }
-  //   }, 50);
-  // }, [allMessage]);
+  const loadMore = () => {
+    console.log('Load more==');
+    setAllMessage([...data, ...allMessage]);
+  };
 
-  const sendMessage = () => {
+  //  Send text message
+  const sendMessage = message => {
     console.log('send');
     setAllMessage([...allMessage, {id: 1, sender: false, message: message}]);
-    setMessage('');
+    if (allMessage.length) {
+      flatRef.current?.scrollToIndex({animated: true, index: 0});
+    }
   };
-  console.log('Mesaa', allMessage);
-  const emptyList = () => (
-    <View style={styles.empty_container}>
-      <CustomText>
-        Say{' '}
-        <CustomText style={{fontWeight: 'bold', color: '#00958C'}}>
-          Hi!
-        </CustomText>{' '}
-        to start the conversation.
-      </CustomText>
-    </View>
-  );
 
-  const renderItem = ({item, index}) => {
-    return (
-      <>
-        <View
-          style={{
-            backgroundColor: item.sender ? '#00000010' : '#00958C',
-            flexDirection: 'row',
-            alignSelf: item.sender ? 'flex-start' : 'flex-end',
-            borderTopRightRadius: item.sender ? 30 : 0,
-            borderBottomLeftRadius: item.sender ? 0 : 30,
-            borderBottomRightRadius: 30,
-            borderTopLeftRadius: 30,
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-            maxWidth: '90%',
-          }}>
-          <CustomText>{item?.message}</CustomText>
-        </View>
-        <View
-          style={{
-            alignSelf: item.sender ? 'flex-start' : 'flex-end',
-          }}>
-          <CustomText
-            style={{
-              color: '#97ADB6',
-              fontSize: 10,
-            }}>
-            {'12:30 PM'}
-          </CustomText>
-        </View>
-      </>
-    );
+  // Open attachment modal if permission
+  const sendAttachment = async () => {
+    const permissionStatus = await AndroidCameraPermission();
+    if (permissionStatus) {
+      setImageModalVisible(!imageModalVisible);
+    } else {
+      showAlert({
+        title: 'Error!',
+        message: 'Permission denied',
+      });
+    }
   };
+
+  const reversedData = allMessage.slice().reverse();
 
   return (
     <Container
@@ -133,24 +99,33 @@ const ChatDetailScreen = ({navigation, route}) => {
       useSafeAreaView={true}>
       <Header />
       <FlatList
-        // inverted={true}
+        inverted={reversedData.length ? true : false}
         ref={flatRef}
-        data={allMessage}
+        data={reversedData}
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
-        onContentSizeChange={() => flatRef.current?.scrollToEnd()}
-        onLayout={() => flatRef.current?.scrollToEnd({animated: true})}
-        // ListFooterComponent={header}
-        renderItem={renderItem}
-        ListEmptyComponent={emptyList}
-        onEndReachedThreshold={30}
-        // onEndReached={onLoadMore}
+        renderItem={RenderItem}
+        ListEmptyComponent={EmptyList}
+        ListFooterComponent={FooterList}
         ItemSeparatorComponent={<Spacer />}
+        onEndReachedThreshold={0.5}
+        onEndReached={loadMore}
       />
       <ActionContainer
-        message={message}
-        setMessage={setMessage}
-        sendMessage={sendMessage}
+        onAttachmentClick={sendAttachment}
+        onSendMessageClick={sendMessage}
+        onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
+      />
+
+      {/* Image Modal */}
+      <ImageModal
+        modalVisible={imageModalVisible}
+        setModalVisible={setImageModalVisible}
+      />
+      {/* Make Offer Modal */}
+      <MakeOfferModal
+        modalVisible={offerModalVisible}
+        setModalVisible={setOfferModalVisible}
       />
     </Container>
   );
@@ -163,23 +138,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     marginHorizontal: 20,
     paddingVertical: 10,
-  },
-
-  search_container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  empty_container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 200,
-  },
-  render_container: {
-    height: 80,
-    margin: 10,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
   },
 });

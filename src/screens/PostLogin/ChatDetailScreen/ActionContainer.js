@@ -1,26 +1,31 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useState} from 'react';
+import {useState} from 'react';
+import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 
-import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import {CustomText} from '@app/components';
+import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 
-const ActionContainer = ({message, setMessage, sendMessage}) => {
+const ActionContainer = ({
+  onSendMessageClick,
+  onAttachmentClick,
+  onMakeOfferClick,
+}) => {
   const isKeyboardVisible = useKeyboardVisible();
+  const [message, setMessage] = useState('');
 
   return (
     <>
       {!isKeyboardVisible ? (
         <View style={styles.offer_row}>
-          <View style={styles.dollor_container}>
+          <Pressable onPress={onMakeOfferClick} style={styles.dollor_container}>
             <CustomIcon
               name={'attach-money'}
               origin={ICON_TYPE.MATERIAL_ICONS}
               size={30}
               color={'#ffffff'}
             />
-          </View>
+          </Pressable>
           <View style={styles.offer_container}>
             <View style={styles.offer_text}>
               <CustomText>Make an offer</CustomText>
@@ -30,7 +35,7 @@ const ActionContainer = ({message, setMessage, sendMessage}) => {
         </View>
       ) : null}
       <View style={styles.rowContainer}>
-        <Pressable style={styles.image} onPress={() => {}}>
+        <Pressable style={styles.image} onPress={onAttachmentClick}>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
             name={'image'}
@@ -47,7 +52,16 @@ const ActionContainer = ({message, setMessage, sendMessage}) => {
           }}
           placeholder={'Start typing here...'}
         />
-        <Pressable style={styles.sendButton} onPress={sendMessage}>
+        <Pressable
+          style={styles.sendButton}
+          onPress={
+            message.length
+              ? () => {
+                  onSendMessageClick(message);
+                  setMessage('');
+                }
+              : null
+          }>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
             name={'send'}
@@ -59,6 +73,7 @@ const ActionContainer = ({message, setMessage, sendMessage}) => {
     </>
   );
 };
+export default ActionContainer;
 
 const styles = StyleSheet.create({
   rowContainer: {
@@ -67,7 +82,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     backgroundColor: '#ffffff',
   },
   offer_row: {
@@ -132,5 +147,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
-
-export default ActionContainer;
