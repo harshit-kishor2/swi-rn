@@ -9,6 +9,36 @@ import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList, Image, Text, View } from "react-native";
 import { connect, useSelector } from "react-redux";
 
+import RNBranch from 'react-native-branch';
+
+const generateDeepLink = async () => {
+  const branchUniversalObject = await RNBranch.createBranchUniversalObject({
+    title: 'My Deep Link',
+    contentDescription: 'Description of your content',
+    contentImageUrl: 'https://example.com/image.jpg', // Optional
+    contentMetadata: {
+      customKey: 'customValue',
+    },
+  });
+
+  const linkProperties = {
+    feature: 'share',
+    channel: 'QR Code',
+  };
+
+  const controlParams = {
+    $desktop_url: 'https://example.com', // Fallback URL
+  };
+
+  const { url } = await branchUniversalObject.generateShortUrl(linkProperties, controlParams);
+  console.log('Generated deep link:', url);
+  return url;
+};
+
+const QRCode = ()=>{
+    
+}
+
 const SellerProfileViewByOther = (props) => {
 
     const{getProductList, sellersProfileReducer}=props
@@ -18,7 +48,7 @@ const SellerProfileViewByOther = (props) => {
     }
     console.log(props, "View By others Design")
     const item = sellersProfileReducer?.sellerProductListingAction?.data;
-    console.log(item, "Reducer response data")
+    console.log(props.sellersProfileReducer, "Reducer response data===============>>>>>>>>>>>>>>")
 
     const Data = [
         {

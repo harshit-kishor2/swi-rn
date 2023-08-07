@@ -549,7 +549,7 @@ const ProductDetails = props => {
 
          <TouchableOpacity onPress={()=>{
 
-          NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOTHERS,{id:productDetailData?.data?.user_id})
+          NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOTHERS,{userId:productDetailData?.data?.user_id})
        }}>
          <View
             style={{
