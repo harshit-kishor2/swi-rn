@@ -5,6 +5,7 @@ import {
   NotificationScreen,
   PostedSuccessfully,
   ProductDetails,
+  SellerProfileQR,
 } from '@app/screens';
 
 import MainTabNavigator from './MainTabNavigator';
@@ -52,22 +53,15 @@ const PostLoginNavigator = () => {
       />
       <Stack.Screen name={RoutesName.MY_FAVOURITES} component={MyFavourites} />
       <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
-
-      {/* <Stack.Screen
-        name="FreshFind"
-        component={FreshFindScreen}
-        options={{headerShown: false}}
-      /> */}
+      <Stack.Screen
+        name={RoutesName.PROFILE_QR_SCREEN}
+        component={SellerProfileQR}
+      />
       <Stack.Screen
         name={RoutesName.NOTIFICATION_SCREEN}
         component={NotificationScreen}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetails}
-        options={{headerShown: false}}
-      /> */}
 
       {/* <Stack.Screen name="PostedSuccessfully" component={PostedSuccessfully} /> */}
     </Stack.Navigator>

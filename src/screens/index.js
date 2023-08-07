@@ -19,6 +19,7 @@ import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
 import PendingProfileScreen from './PreLogin/PendingProfileScreen';
 import ChatDetailScreen from './PostLogin/ChatDetailScreen';
+import {SellerProfileQR} from './PostLogin/SellersProfile/SellerProfileQR/Index';
 
 export {
   // PreLogin
@@ -42,4 +43,5 @@ export {
   NotificationScreen,
   ProductDetails,
   PostedSuccessfully,
+  SellerProfileQR,
 };
