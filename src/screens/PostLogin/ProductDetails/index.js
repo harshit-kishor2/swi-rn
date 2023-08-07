@@ -584,6 +584,7 @@ const ProductDetails = props => {
               <View style={{marginLeft: SPACING.SCALE_14}}>
                 <FlatList
                   data={productDetailData?.data?.suggested_data}
+                  horizontal={true}
                   renderItem={({item, index}) => {
                     console.log('Product_item======>>>>>>', item);
                     return <ProductCard item={item} />;

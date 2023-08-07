@@ -7,7 +7,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import ClearableSearch from '../../atoms/ClearableSearch';
 import {EmptyList, FooterList, RenderItem} from './common';
 
-export const InterestList = props => {
+const InterestList = props => {
   const [search, setSearch] = useState('');
 
   const onLoadMore = () => {};
@@ -34,6 +34,7 @@ export const InterestList = props => {
   );
 };
 
+export default InterestList;
 const styles = StyleSheet.create({
   input: {
     alignSelf: 'center',

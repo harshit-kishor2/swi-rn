@@ -33,6 +33,7 @@ export const RoutesName = {
   ITEM_COMPARISON: 'ItemComparison',
   SEARCH_SCREEN: 'SearchScreen',
   PROFILE_QR_SCREEN: 'Profile QR Screen',
+  ACCOUNT_SETTING_SCREEN: 'Account Setting Screen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',
