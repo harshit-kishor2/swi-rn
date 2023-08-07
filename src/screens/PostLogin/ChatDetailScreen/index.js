@@ -8,6 +8,7 @@ import {AndroidCameraPermission} from '../../../../androidcamerapermission';
 import {showAlert} from '@app/helper/commonFunction';
 import {EmptyList, FooterList, RenderItem} from './common';
 import MakeOfferModal from './MakeOfferModal';
+import InterestModal from './InterestModal';
 const data = [
   {
     id: 1,
@@ -53,6 +54,7 @@ const ChatDetailScreen = ({navigation, route}) => {
   const flatRef = useRef();
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
+  const [interestModalVisible, setInterestModalVisible] = useState(false);
 
   const [allMessage, setAllMessage] = useState([]);
   const {id} = route.params;
@@ -97,7 +99,9 @@ const ChatDetailScreen = ({navigation, route}) => {
         backgroundColor: '#FFFFFF90',
       }}
       useSafeAreaView={true}>
-      <Header />
+      <Header
+        onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
+      />
       <FlatList
         inverted={reversedData.length ? true : false}
         ref={flatRef}
@@ -126,6 +130,11 @@ const ChatDetailScreen = ({navigation, route}) => {
       <MakeOfferModal
         modalVisible={offerModalVisible}
         setModalVisible={setOfferModalVisible}
+      />
+      {/* Interest List Modal */}
+      <InterestModal
+        modalVisible={interestModalVisible}
+        setModalVisible={setInterestModalVisible}
       />
     </Container>
   );

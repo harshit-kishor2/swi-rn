@@ -8,8 +8,9 @@ import exploreProductReducer, {
 } from './exploreProductSlice';
 import exploreReducer from './explore.slice';
 import {productReducer, productStateReducer} from './productSlice';
-import sellersProfileReducer from './sellersProfileSclice'
+import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
+import chatReducer from './chatSlice';
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -18,10 +19,11 @@ const combinedReducer = combineReducers({
   productReducer,
   productStateReducer,
   exploreReducer,
-  
+
   addToCompareReducer,
   sellersProfileReducer,
   wishlistReducer,
+  chatReducer,
 });
 
 const rootReducers = (state, action) => {

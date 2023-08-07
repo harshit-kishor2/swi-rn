@@ -10,7 +10,7 @@ import {Avatar} from 'react-native-paper';
 const IMAGE = {
   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
 };
-const Header = () => {
+const Header = ({onInterestClick}) => {
   const isKeyboardVisible = useKeyboardVisible();
 
   const _goBack = () => {
@@ -42,7 +42,7 @@ const Header = () => {
         </Pressable>
       </View>
       {!isKeyboardVisible ? (
-        <View style={styles.product}>
+        <Pressable onPress={onInterestClick} style={styles.product}>
           <Image style={styles.avatar} source={IMAGE} />
           <View
             style={{
@@ -57,7 +57,7 @@ const Header = () => {
               <CustomText style={styles.condition}>Brand New</CustomText>
             </View>
           </View>
-        </View>
+        </Pressable>
       ) : null}
     </>
   );
