@@ -8,6 +8,7 @@ import { RoutesName } from '@app/helper/strings'
 import { wishlistAction } from '@app/store/wishlistSlice/wishlist.action'
 import { connect } from 'react-redux'
 import ProductCardFav from '@app/screens/atoms/ProductCardFav'
+import { EmptyList } from '../ChatScreen/commn'
 
 const MyFavourites = (props) => {
   const { getProductList, wishlistReducer } = props;
@@ -45,6 +46,7 @@ const renderItem = ({item, index}) => {
     data={item}
     numColumns={2}
     renderItem={renderItem}
+    ListEmptyComponent={EmptyList}
     
     
     />

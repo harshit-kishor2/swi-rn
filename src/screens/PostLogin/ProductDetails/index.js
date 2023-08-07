@@ -256,12 +256,19 @@ const ProductDetails = props => {
 
           {/* Seller Details */}
 
-          <Pressable
-            onPress={() => {
-              NavigationService.navigate(
-                RoutesName.SELLERSPROFILE_VIEWBYOTHERS,
-                {id: productDetailData?.data?.user_id},
-              );
+         <TouchableOpacity onPress={()=>{
+
+          NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOTHERS,{userId:productDetailData?.data?.user_id})
+       }}>
+         <View
+            style={{
+              flexDirection: 'row',
+              //alignItems: 'center',
+              justifyContent: 'space-evenly',
+              marginVertical: SPACING.SCALE_5,
+              marginHorizontal: SPACING.SCALE_13,
+              // backgroundColor: 'red',
+              //maxWidth:SPACING.SCALE_00
             }}>
             <View
               style={{
@@ -365,7 +372,8 @@ const ProductDetails = props => {
                 </View>
               </View>
             </View>
-          </Pressable>
+          </View>
+          </TouchableOpacity>
           <View
             style={{
               flex: 1,

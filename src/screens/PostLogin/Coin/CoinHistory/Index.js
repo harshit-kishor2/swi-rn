@@ -6,6 +6,7 @@ import { IMAGES } from '@app/resources'
 import styles from './styles'
 import { CoinHistoryAction } from '@app/store/sellersProfileSclice'
 import { connect, useSelector } from 'react-redux'
+import { EmptyList } from '../../ChatScreen/commn'
 
 
 const Item = ({ description, coins_value, type, created_at_dis}) => {
@@ -40,7 +41,7 @@ const CoinHistory = (props) => {
    const Coins = sellersProfileReducer?.CoinHistoryAction?.data?.total_coins;
    console.log(Data,'===========================================')
 
-
+   const coinValue=  Coins ? Coins : '0';
     useEffect(
         () => {
             getCoinHistory()
@@ -74,10 +75,10 @@ const CoinHistory = (props) => {
                         source={IMAGES.CoinHistory} style={{ height: 72, width: 92 }} />
                 </View>
                 <View style={{}}>
-                    <Text style={{ fontSize: 38, fontFamily: 'OpenSans-SemiBold', color: 'black' }}> {Coins}</Text>
+                    <Text style={{ fontSize: 38, fontFamily: 'OpenSans-SemiBold', color: 'black' }}> {coinValue}</Text>
                     <View style={{ height: 100, width: 200 }}>
                         <Text style={styles.TextStyle1}>
-                            You have {<Image source={IMAGES.coin} />} {Coins} coins with you now
+                            You have {<Image source={IMAGES.coin} />} {coinValue} coins with you now
                         </Text>
                     </View>
                 </View>
@@ -111,6 +112,7 @@ const CoinHistory = (props) => {
             data={Data}
             renderItem={renderItem}
             style={{height:500}}
+            ListEmptyComponent={EmptyList}
             />
           
             

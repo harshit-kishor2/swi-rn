@@ -10,10 +10,11 @@ import { ICON_TYPE } from '@app/components/CustomIcon'
 import { margin } from '@app/resources/mixins'
 import { Rating } from 'react-native-ratings'
 import { WHITE } from '@app/resources/colors'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import ProductCard from '@app/screens/atoms/ProductCard'
 import { sellerProductListingAction } from '@app/store/sellersProfileSclice'
 import ProductCardBoost from '@app/screens/atoms/ProductCardBoost'
+import { EmptyList } from '../../ChatScreen/commn'
 
 
 
@@ -209,7 +210,11 @@ const SellersProfileViewByOwn = (props) => {
 
     }, []
 )
+const profileData = useSelector(
+  state => state.authReducer?.userProfileDetails,
+);
 
+console.log(profileData,"profileData====================")
   // const renderItem = ({ item, index }) => (
   //   <Item
   //     product_image={item.product_image}
@@ -256,6 +261,37 @@ const SellersProfileViewByOwn = (props) => {
                 source={IMAGES.BACKARROW}
               />
             </TouchableOpacity>
+
+            <View style={{flexDirection:'row', }}>
+
+          <TouchableOpacity>
+          <CustomIcon
+              style={{
+                alignSelf: 'center',
+                paddingTop: 5,
+                marginHorizontal:10
+              }}
+              origin={ICON_TYPE.OCTICONS}
+              name={'pencil'}
+              color={'black'}
+              size={26}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{}}>
+          <CustomIcon
+              style={{
+                alignSelf: 'center',
+                paddingTop: 5,
+                marginHorizontal:10
+              }}
+              origin={ICON_TYPE.MATERIAL_COMMUNITY}
+              name={'qrcode-scan'}
+              color={'black'}
+              size={26}
+            />
+          </TouchableOpacity>
+
+            </View>
      
       </View>
 
@@ -268,11 +304,11 @@ const SellersProfileViewByOwn = (props) => {
 
 
       <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 50 }}>
-        <Text style={{ fontFamily: 'Cabin-SemiBold', fontSize: 24, color: COLORS.BLACK }}>Immy Van</Text>
-        <View style={{ flexDirection: 'row' }}>
+        <Text style={{ fontFamily: 'Cabin-SemiBold', fontSize: 24, color: COLORS.BLACK }}>{profileData.name}</Text>
+   {   profileData.premium_user == "yes" &&  <View style={{ flexDirection: 'row' }}>
           <Image source={IMAGES.ProfileBadge} style={{ marginTop: 5, marginRight: 5 }} />
-          <Text style={{ fontFamily: 'Cabin-SemiBold' }}>Premium Seller</Text>
-        </View>
+       <Text style={{ fontFamily: 'Cabin-SemiBold' }}> Premium Seller </Text>
+        </View>}
       </View>
 
 
@@ -412,6 +448,7 @@ const SellersProfileViewByOwn = (props) => {
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               numColumns={2}
+              ListEmptyComponent={EmptyList}
             />
 
           </View>
