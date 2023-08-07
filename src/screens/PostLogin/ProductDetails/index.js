@@ -256,19 +256,12 @@ const ProductDetails = props => {
 
           {/* Seller Details */}
 
-         <TouchableOpacity onPress={()=>{
-
-          NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOTHERS,{userId:productDetailData?.data?.user_id})
-       }}>
-         <View
-            style={{
-              flexDirection: 'row',
-              //alignItems: 'center',
-              justifyContent: 'space-evenly',
-              marginVertical: SPACING.SCALE_5,
-              marginHorizontal: SPACING.SCALE_13,
-              // backgroundColor: 'red',
-              //maxWidth:SPACING.SCALE_00
+          <TouchableOpacity
+            onPress={() => {
+              NavigationService.navigate(
+                RoutesName.SELLERSPROFILE_VIEWBYOTHERS,
+                {userId: productDetailData?.data?.user_id},
+              );
             }}>
             <View
               style={{
@@ -280,99 +273,109 @@ const ProductDetails = props => {
                 // backgroundColor: 'red',
                 //maxWidth:SPACING.SCALE_00
               }}>
-              <View style={{marginTop: SPACING.SCALE_3}}>
-                {productDetailData?.data?.user?.image ? (
-                  <Image
-                    source={{uri: productDetailData?.data?.user?.image}}
-                    style={{
-                      height: 45,
-                      width: 45,
-                      borderRadius: 45 / 2,
-                      marginLeft: 10,
-                    }}
-                  />
-                ) : (
-                  <Image
-                    source={IMAGES.userProfile}
-                    style={{height: 45, width: 45, borderRadius: 45 / 2}}
-                  />
-                )}
-              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  //alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  marginVertical: SPACING.SCALE_5,
+                  marginHorizontal: SPACING.SCALE_13,
+                  // backgroundColor: 'red',
+                  //maxWidth:SPACING.SCALE_00
+                }}>
+                <View style={{marginTop: SPACING.SCALE_3}}>
+                  {productDetailData?.data?.user?.image ? (
+                    <Image
+                      source={{uri: productDetailData?.data?.user?.image}}
+                      style={{
+                        height: 45,
+                        width: 45,
+                        borderRadius: 45 / 2,
+                        marginLeft: 10,
+                      }}
+                    />
+                  ) : (
+                    <Image
+                      source={IMAGES.userProfile}
+                      style={{height: 45, width: 45, borderRadius: 45 / 2}}
+                    />
+                  )}
+                </View>
 
-              <View style={{width: SPACING.SCALE_285}}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignContent: 'center',
-                    justifyContent: 'space-between',
-                    // backgroundColor: 'blue',
-                    maxWidth: SPACING.SCALE_285,
-                  }}>
-                  <View style={{maxWidth: SPACING.SCALE_100}}>
+                <View style={{width: SPACING.SCALE_285}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignContent: 'center',
+                      justifyContent: 'space-between',
+                      // backgroundColor: 'blue',
+                      maxWidth: SPACING.SCALE_285,
+                    }}>
+                    <View style={{maxWidth: SPACING.SCALE_100}}>
+                      <Text
+                        style={{
+                          fontFamily: 'OpenSans-Regular',
+                          fontSize: 14,
+                          margin: 3,
+                        }}>
+                        {productDetailData?.data?.user?.name?.length > 8
+                          ? addEllipsis(productDetailData?.data?.user?.name, 8)
+                          : productDetailData?.data?.user?.name}
+                      </Text>
+                    </View>
                     <Text
                       style={{
                         fontFamily: 'OpenSans-Regular',
-                        fontSize: 14,
-                        margin: 3,
+                        fontSize: 12,
+                        margin: 5,
                       }}>
-                      {productDetailData?.data?.user?.name?.length > 8
-                        ? addEllipsis(productDetailData?.data?.user?.name, 8)
-                        : productDetailData?.data?.user?.name}
+                      {formatTimestamp(productDetailData?.data?.created_at)}
                     </Text>
                   </View>
-                  <Text
-                    style={{
-                      fontFamily: 'OpenSans-Regular',
-                      fontSize: 12,
-                      margin: 5,
-                    }}>
-                    {formatTimestamp(productDetailData?.data?.created_at)}
-                  </Text>
-                </View>
-                <View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  />
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      // alignItems: 'center',
-                      // justifyContent: 'center',
-                      //marginTop: 6,
-                    }}>
-                    {productDetailData?.data?.location ? (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                        <Image
-                          style={{height: 18, width: 14.5, marginRight: 6}}
-                          source={IMAGES.locationIcon}
-                        />
-                        <View style={{maxWidth: 200}}>
-                          <Text
-                            style={{
-                              fontFamily: 'OpenSans-Regular',
-                              fontSize: 13.5,
-                            }}>
-                            {productDetailData?.data?.location}
-                          </Text>
+                  <View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    />
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        // alignItems: 'center',
+                        // justifyContent: 'center',
+                        //marginTop: 6,
+                      }}>
+                      {productDetailData?.data?.location ? (
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                          <Image
+                            style={{height: 18, width: 14.5, marginRight: 6}}
+                            source={IMAGES.locationIcon}
+                          />
+                          <View style={{maxWidth: 200}}>
+                            <Text
+                              style={{
+                                fontFamily: 'OpenSans-Regular',
+                                fontSize: 13.5,
+                              }}>
+                              {productDetailData?.data?.location}
+                            </Text>
+                          </View>
                         </View>
-                      </View>
-                    ) : (
-                      <Text>No address</Text>
-                    )}
+                      ) : (
+                        <Text>No address</Text>
+                      )}
+                    </View>
                   </View>
                 </View>
               </View>
             </View>
-          </View>
           </TouchableOpacity>
           <View
             style={{
