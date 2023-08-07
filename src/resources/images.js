@@ -116,3 +116,6 @@ export const notificationBell = require('../assets/images/notificationBell/bell.
 
 //SellerProfileOR Badge
 export const badge = require('../assets/images/badge/badge.png');
+
+// BuyCoin
+export const bag = require('../assets/images/buyCoin/bag.png'); 
