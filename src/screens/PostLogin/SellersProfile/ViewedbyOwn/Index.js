@@ -14,6 +14,7 @@ import { connect, useSelector } from 'react-redux'
 import ProductCard from '@app/screens/atoms/ProductCard'
 import { sellerProductListingAction } from '@app/store/sellersProfileSclice'
 import ProductCardBoost from '@app/screens/atoms/ProductCardBoost'
+import { EmptyList } from '../../ChatScreen/commn'
 
 
 
@@ -447,6 +448,7 @@ console.log(profileData,"profileData====================")
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
               numColumns={2}
+              ListEmptyComponent={EmptyList}
             />
 
           </View>

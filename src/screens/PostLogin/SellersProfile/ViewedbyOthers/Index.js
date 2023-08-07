@@ -10,6 +10,8 @@ import { FlatList, Image, Text, View } from "react-native";
 import { connect, useSelector } from "react-redux";
 
 import RNBranch from 'react-native-branch';
+import ProductCardFav from "@app/screens/atoms/ProductCardFav";
+import { EmptyList } from "../../ChatScreen/commn";
 
 const generateDeepLink = async () => {
   const branchUniversalObject = await RNBranch.createBranchUniversalObject({
@@ -244,6 +246,8 @@ const SellerProfileViewByOther = (props) => {
                data={item}
                 renderItem={renderItem}
                 numColumns={2}
+                ListEmptyComponent={EmptyList}
+                
                 
                 />
                 </View>
@@ -435,6 +439,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => ({
     getProductList: params => dispatch(sellerProductListingAction(params))
+    
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SellerProfileViewByOther);

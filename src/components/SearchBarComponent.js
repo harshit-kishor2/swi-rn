@@ -3,7 +3,7 @@ import React from 'react';
 import {SPACING} from '@app/resources';
 import CustomIcon, {ICON_TYPE} from './CustomIcon';
 
-const SearchBarComponent = ({onPress}) => {
+const SearchBarComponent = ({onPress, placeholder}) => {
   return (
     <Pressable
       style={{marginTop: SPACING.SCALE_10, marginLeft: SPACING.SCALE_1}}
@@ -23,7 +23,7 @@ const SearchBarComponent = ({onPress}) => {
           size={20}
         />
         <Text style={{marginLeft: SPACING.SCALE_10}}>
-          Search by product/brand/model
+          {placeholder ?? 'Search by product/brand/model'}
         </Text>
       </View>
     </Pressable>

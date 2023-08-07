@@ -40,7 +40,7 @@ const ExploreScreen = props => {
     onAddWishList,
     getAllBrands,
   } = props;
-// console.log(props.navigation,"props navigation")
+  // console.log(props.navigation,"props navigation")
   const [searchQuery, onChangeSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -55,7 +55,7 @@ const ExploreScreen = props => {
     getTrendyWatch();
     getAllBrands();
   }, []);
-  console.log(topNotchWatch,"Top Notch watch data details=====")
+  console.log(topNotchWatch, 'Top Notch watch data details=====');
   const onLoadMore = () => {
     if (exploreProduct?.isLoadMore) {
       getTopNotchWatch({page: page, keyWord: query});
@@ -99,7 +99,6 @@ const ExploreScreen = props => {
   }, [exploreProduct]);
 
   const renderItem = ({item, index}) => {
-    
     return <ProductCard key={index} item={item} />;
   };
 
@@ -157,7 +156,7 @@ const ExploreScreen = props => {
           paddingHorizontal: 10,
           paddingBottom: 10,
         }}
-        onEndReachedThreshold={30}
+        onEndReachedThreshold={0.3}
         onEndReached={onLoadMore}
         ListEmptyComponent={() => (
           <View style={{justifyContent: 'center', alignItems: 'center'}}>

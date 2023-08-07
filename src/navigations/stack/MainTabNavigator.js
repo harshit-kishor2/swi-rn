@@ -22,7 +22,6 @@ const Tab = createBottomTabNavigator();
 
 const CustomsellButton = ({children, onPress, accessibilityState}) => {
   const keyboardVisible = useKeyboardVisible();
-  console.log('keyboardVisible', keyboardVisible);
   return (
     <Pressable
       onPress={onPress}

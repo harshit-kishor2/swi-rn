@@ -1,5 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  ChatDetailScreen,
   FreshFindScreen,
   NotificationScreen,
   PostedSuccessfully,
@@ -13,8 +14,8 @@ import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import MyFavourites from '@app/screens/PostLogin/MyFavourites.js/Index';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
-import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index'
-import { InterestList } from '@app/screens/PostLogin/Interestlist';
+import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
+import {InterestList} from '@app/screens/PostLogin/Interestlist';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -23,6 +24,10 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.MAIN_TAB_NAVIGATOR}
         component={MainTabNavigator}
+      />
+      <Stack.Screen
+        name={RoutesName.CHAT_DETAIL_SCREEN}
+        component={ChatDetailScreen}
       />
       <Stack.Screen
         name={RoutesName.INTERESTLIST_SCREEN}
@@ -45,10 +50,7 @@ const PostLoginNavigator = () => {
         name={RoutesName.ITEM_COMPARISON}
         component={ItemComparison}
       />
-      <Stack.Screen
-        name={RoutesName.MY_FAVOURITES}
-        component={MyFavourites}
-      />
+      <Stack.Screen name={RoutesName.MY_FAVOURITES} component={MyFavourites} />
       <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
 
       {/* <Stack.Screen
