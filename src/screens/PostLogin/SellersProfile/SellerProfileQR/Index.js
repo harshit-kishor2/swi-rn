@@ -5,7 +5,7 @@ import React, {useEffect, useRef} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import branch, {BranchEvent} from 'react-native-branch';
 
-export const SellerProfileQR = props => {
+const SellerProfileQR = props => {
   const {navigation, route} = props;
   const userID = route?.params?.user_id;
   const buoRef = useRef();
@@ -180,3 +180,5 @@ export const SellerProfileQR = props => {
     </Container>
   );
 };
+
+export default SellerProfileQR;

@@ -19,7 +19,10 @@ import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
 import PendingProfileScreen from './PreLogin/PendingProfileScreen';
 import ChatDetailScreen from './PostLogin/ChatDetailScreen';
-import {SellerProfileQR} from './PostLogin/SellersProfile/SellerProfileQR/Index';
+import InterestList from './PostLogin/Interestlist';
+import MyFavourites from './PostLogin/MyFavourites/Index';
+import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
+import AccountSetting from './PostLogin/AccountSetting/index';
 
 export {
   // PreLogin
@@ -44,4 +47,7 @@ export {
   ProductDetails,
   PostedSuccessfully,
   SellerProfileQR,
+  InterestList,
+  MyFavourites,
+  AccountSetting,
 };
