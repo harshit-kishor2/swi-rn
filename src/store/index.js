@@ -11,6 +11,7 @@ import {productReducer, productStateReducer} from './productSlice';
 import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
+import {updateSellerProfileReducer} from './testSellerEditProfile';
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -24,6 +25,7 @@ const combinedReducer = combineReducers({
   sellersProfileReducer,
   wishlistReducer,
   chatReducer,
+  updateSellerProfileReducer,
 });
 
 const rootReducers = (state, action) => {

@@ -1,5 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {
   Modal,
   Platform,
