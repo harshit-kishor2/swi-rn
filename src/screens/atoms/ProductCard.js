@@ -18,7 +18,15 @@ import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
 const {width} = Dimensions.get('screen');
-const ProductCard = ({item, onPress, isSelf = false}) => {
+const ProductCard = ({
+  item,
+  onPress,
+  isSelf = false,
+  onSoldClick,
+  onReservedClick,
+  onDeleteClick,
+  onWishlistClick,
+}) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -71,7 +79,13 @@ const ProductCard = ({item, onPress, isSelf = false}) => {
         </CustomText>
         <Spacer height={13} />
         {isSelf ? (
-          <Pressable style={styles.boostButton} onPress={() => {}}>
+          <Pressable
+            style={styles.boostButton}
+            onPress={() => {
+              // NavigationService.navigate(RoutesName.B, {
+              //   product_id: item.id,
+              // });
+            }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>
         ) : null}
@@ -96,11 +110,41 @@ const ProductCard = ({item, onPress, isSelf = false}) => {
             }>
             <Menu.Item onPress={() => {}} title="Edit Details" />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Mark as sold" />
+            <Menu.Item
+              onPress={
+                onSoldClick
+                  ? () => {
+                      setVisible(false);
+                      onSoldClick();
+                    }
+                  : null
+              }
+              title="Mark as sold"
+            />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Mark as Reserved" />
+            <Menu.Item
+              onPress={
+                onReservedClick
+                  ? () => {
+                      setVisible(false);
+                      onReservedClick();
+                    }
+                  : null
+              }
+              title="Mark as Reserved"
+            />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Delete" />
+            <Menu.Item
+              onPress={
+                onDeleteClick
+                  ? () => {
+                      setVisible(false);
+                      onDeleteClick();
+                    }
+                  : null
+              }
+              title="Delete"
+            />
           </Menu>
         ) : (
           <Pressable onPress={onPress}>

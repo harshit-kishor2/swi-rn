@@ -13,18 +13,92 @@ import PageTitle from '@app/screens/atoms/PageTitle';
 import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {RoutesName} from '@app/helper/strings';
+import {showAlert} from '@app/helper/commonFunction';
 const IMAGE = {
   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
 };
 const SellerProfile = props => {
-  const {route, navigation, profileSectionReducer, isSelf} = props;
+  const {
+    route,
+    navigation,
+    profileSectionReducer,
+    isSelf,
+    onChangeProductStatus,
+    getProfileListing,
+  } = props;
   const [activeTab, setActiveTab] = useState('Listings');
   const [search, setSearch] = useState('');
   const userDetail = profileSectionReducer?.profileAbout;
 
   const getListings = () => {
     const renderItem = ({item, index}) => {
-      return <ProductCard key={index} item={item} isSelf={isSelf} />;
+      return (
+        <ProductCard
+          key={index}
+          item={item}
+          isSelf={isSelf}
+          onSoldClick={() => {
+            console.log('Sold', item.id);
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'sold_out',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as sold.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+          onReservedClick={() => {
+            console.log('Reserced', item.id);
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'reserved',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as reserved.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+          onDeleteClick={() => {
+            console.log('Delete', item.id);
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'deleted',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as deleted.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+          onWishlistClick={() => {
+            console.log('Wishlist');
+          }}
+        />
+      );
     };
     return (
       <View
@@ -35,12 +109,14 @@ const SellerProfile = props => {
         <ClearableSearch search={search} setSearch={setSearch} />
         <PageTitle title={`Watch Posted by ${userDetail?.name}`} />
         <FlatList
+          scrollEnabled={false}
           contentContainerStyle={{
             flexGrow: 1,
             paddingBottom: 40,
           }}
           data={profileSectionReducer?.sellerProductListing}
           renderItem={renderItem}
+          keyExtractor={item => item.id}
           numColumns={2}
           columnWrapperStyle={{
             flex: 1,

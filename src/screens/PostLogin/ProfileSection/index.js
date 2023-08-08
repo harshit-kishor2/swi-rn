@@ -7,6 +7,7 @@ import NormalProfile from './NormalProfile';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import {
+  changeProductStatusAction,
   profileAboutAction,
   sellerProductListingAction,
 } from '@app/store/profileSectionSlice';
@@ -20,12 +21,14 @@ const ProfileSection = props => {
     getProfileAbout,
     getProfileListing,
   } = props;
+
   const userId = route.params?.userId;
   const isSelf = userId === authReducer?.userProfileDetails?.id ?? false;
   const isSeller =
     profileSectionReducer?.profileAbout?.role === 'seller' ? true : false;
-  console.log('profileSection', profileSectionReducer);
+
   const useDetail = profileSectionReducer?.profileAbout;
+
   useEffect(() => {
     getProfileAbout({userId: userId});
     getProfileListing({userId: userId});
@@ -36,7 +39,7 @@ const ProfileSection = props => {
       useSafeAreaView={true}
       loading={
         profileSectionReducer?.profileAboutLoadingStatus ===
-          LoadingStatus.LOADING ||
+          LoadingStatus.LOADING &&
         profileSectionReducer?.sellerProductListingLoadingStatus ===
           LoadingStatus.LOADING
       }>
@@ -108,6 +111,7 @@ const mapDispatchToProps = dispatch => ({
   //   getBannerList: params => dispatch(getBannerAction(params)),
   getProfileAbout: params => dispatch(profileAboutAction(params)),
   getProfileListing: params => dispatch(sellerProductListingAction(params)),
+  onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);
