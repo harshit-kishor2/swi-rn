@@ -1,6 +1,5 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 // import {AuthReducer} from './auth.slice';
-import {addProductReducer} from './addProduct.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
 import exploreProductReducer, {
@@ -11,13 +10,12 @@ import {productReducer, productStateReducer} from './productSlice';
 import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
-import profileSectionReducer from './profileSectionSlice/index';
+import profileSectionReducer from './profileSectionSlice';
 import {updateSellerProfileReducer} from './testSellerEditProfile';
 
 const combinedReducer = combineReducers({
   authReducer,
   exploreProductReducer,
-  addProductReducer,
   productReducer,
   productStateReducer,
   exploreReducer,
