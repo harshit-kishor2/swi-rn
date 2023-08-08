@@ -5,6 +5,7 @@ import {
   MyFavourites,
   NotificationScreen,
   ProductDetails,
+  ProfileSection,
   SellerProfileQR,
 } from '@app/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -64,6 +65,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.ACCOUNT_SETTING_SCREEN}
         component={AccountSetting}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.PROFILE_SECTION_SCREEN}
+        component={ProfileSection}
         options={{headerShown: false}}
       />
 

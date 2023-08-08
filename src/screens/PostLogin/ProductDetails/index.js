@@ -258,10 +258,9 @@ const ProductDetails = props => {
 
           <TouchableOpacity
             onPress={() => {
-              NavigationService.navigate(
-                RoutesName.SELLERSPROFILE_VIEWBYOTHERS,
-                {userId: productDetailData?.data?.user_id},
-              );
+              NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+                userId: productDetailData?.data?.user_id,
+              });
             }}>
             <View
               style={{
