@@ -7,14 +7,12 @@ import {
   NavigationBar,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import {showAlert} from '@app/helper/commonFunction';
 import {COLORS, IMAGES} from '@app/resources';
-import {initialState} from '@app/store/addProduct.slice';
-import {addWishListAction} from '@app/store/exploreProductSlice';
 import CheckBox from '@react-native-community/checkbox';
-import {AndroidCameraPermission} from 'androidcamerapermission';
-import {Field, Formik, useFormik} from 'formik';
-import React, {useState} from 'react';
+import {useFormik} from 'formik';
+import moment from 'moment';
+import {getSellerProfile} from '@app/store/testSellerEditProfile/sellerProfileEdit.action';
+import {useEffect, useState} from 'react';
 // import { CheckBox } from 'react-native-elements';
 import {
   FlatList,
@@ -28,15 +26,25 @@ import {
 } from 'react-native';
 
 import ToggleSwitch from 'toggle-switch-react-native';
-import {date} from 'yup';
 
 // type ValuePiece = Date | string | null;
 
 // type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export const EditSellerProfile = () => {
+export const EditSellerProfile = props => {
+  const {sellerProfile, getSellerProfileReducer} = props;
+  console.log(props, 'Props');
+  const item = getSellerProfileReducer?.getSellerProfile?.data;
+
+  useEffect(() => {
+    if (props.route.params) {
+      getProductList(props.route.params);
+    }
+  }, []);
+
   const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const [switchOn, setSwitchOn] = useState(false);
   const [paymentMode, setPaymentMode] = useState([
     {
@@ -118,7 +126,57 @@ export const EditSellerProfile = () => {
     phoneNumber: '',
     about: '',
     location: '',
-    week: [],
+    week: [
+      {
+        id: 1,
+        day: 'Monday',
+        // onOff: "off"
+        timing: '10:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 2,
+        day: 'Tuesday',
+        // onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 3,
+        day: 'Wednesday',
+        //onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 4,
+        day: 'Thursday',
+        // onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 5,
+        day: 'Friday',
+        // onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 6,
+        day: 'Saturday',
+        //// onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+      {
+        id: 7,
+        day: 'Sunday',
+        //onOff: "on",
+        timing: '9:00 am - 5:00 pm',
+        onOff: false,
+      },
+    ],
     website: '',
     socialMedia: [],
     paymentMode: [],
@@ -136,34 +194,10 @@ export const EditSellerProfile = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      console.log(values);
+      // console.log(values);
     },
   });
-  console.log('=>>>>>>>>', values);
-
-  const showPicker = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const {action, year, month, day} = await DatePickerAndroid.open({
-          date,
-        });
-        if (action !== DatePickerAndroid.dismissedAction) {
-          const selectedDate = new Date(year, month, day);
-          setDate(selectedDate);
-        }
-      } catch ({code, message}) {
-        console.warn('Cannot open date picker', message);
-      }
-    } else {
-      setShow(true);
-    }
-  };
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-  };
+  // console.log('=>>>>>>>>', values);
 
   return (
     <Container useSafeAreaView={true}>
@@ -294,7 +328,7 @@ export const EditSellerProfile = () => {
 
             <View>
               <FlatList
-                data={weekData}
+                data={values.week}
                 keyExtractor={item => item.id}
                 renderItem={({item, index}) => {
                   // console.log(item)
@@ -317,6 +351,7 @@ export const EditSellerProfile = () => {
                             });
 
                             setWeekData(temp);
+                            setFieldValue('week', temp);
                           }}
                           // onToggle={}
                           onColor={'#00958C'}
@@ -339,6 +374,7 @@ export const EditSellerProfile = () => {
                               }
                             });
                             setWeekData(temp);
+                            setFieldValue('week', temp);
                           }}
                         />
                       </View>
@@ -462,20 +498,27 @@ export const EditSellerProfile = () => {
                 />
               </View>
               <Text>Announcement ends on </Text>
-              <View onPress={showPicker}>
-                {/* <Button title="Show Date Picker" onPress={showPicker} /> */}
-                <CustomInput>{date.toDateString()}</CustomInput>
-                {show && (
-                  <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="date"
-                    display="default"
-                    onChange={onChange}
-                  />
-                )}
+              <View onPress={() => setOpen(true)} style={{marginBottom: 5}}>
+                <DatePicker
+                  Value={date}
+                  children={
+                    <CustomText>
+                      {date
+                        ? moment(date).format('DD MMM YYYY')
+                        : 'DD MMM YYYY'}
+                    </CustomText>
+                  }
+                  onChangeDate={d => setDate(d)}
+                />
               </View>
+              <View
+                style={{
+                  height: 2,
+                  width: '100%',
+                  backgroundColor: '#000000',
 
+                  marginBottom: 20,
+                }}></View>
               <View
                 style={{
                   alignSelf: 'center',

@@ -1,10 +1,10 @@
-export * from './SellerProfileState.slice'
+export * from './sellerProfile.slice';
 
 import {
-    resetSliceState, editSellerProfile
-
+  resetSliceState,
+  updateSellerProfileReducer,
 } from './sellerProfile.slice';
 
-export {
-    resetSliceState
-}; 
+export {resetSliceState};
+
+export default updateSellerProfileReducer;
