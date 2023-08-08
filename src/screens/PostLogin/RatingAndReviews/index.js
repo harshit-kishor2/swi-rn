@@ -4,20 +4,37 @@ import {
   CustomIcon,
   NavigationBar,
 } from '@app/components';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {COLORS, IMAGES} from '@app/resources';
-import {margin} from '@app/resources/mixins';
-import React, {useState} from 'react';
-import {Alert, FlatList, ScrollView} from 'react-native';
-import {StyleSheet} from 'react-native';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
-import {Rating} from 'react-native-ratings';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { COLORS, IMAGES } from '@app/resources';
+import { margin } from '@app/resources/mixins';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { Rating } from 'react-native-ratings';
 import styles from '../ItemComparison/styles';
+import { connect } from 'react-redux';
+import { ratingReviewAction } from '@app/store/ratingReviewSlice';
+import { RenderItem } from './RenderList';
 
 const RatingAndReviews = props => {
-  const {route, navigation} = props;
-  console.log('UserID', route.params.userID);
-  const userRating = 3;
+
+
+  const { route, navigation, ratingReviewReducer, getRatingReview } = props;
+  console.log('UserID@#$%^&*(*&^%$', props?.ratingReviewReducer?.ratingReviewAction?.data);
+
+  //Data
+  const item = props?.ratingReviewReducer?.ratingReviewAction?.data;
+  const average = item?.average;
+  const count = item?.count;
+  const userPic = item?.rated_user?.image;
+  const userName = item?.rated_user?.name;
+  const ratingList = item?.list;
+
+  console.log("ratinglist===========", ratingList)
+
+
+  const ratingCount = 5;
   const [selected, setSelected] = useState('seller');
   const handlePress = button => {
     setSelected(button);
@@ -26,9 +43,16 @@ const RatingAndReviews = props => {
   const handleBuyerPress = button => {
     setSelected(button);
   };
+
+  useEffect(() => {
+    if (props?.authReducer?.userProfileDetails?.additional_info?.user_id) {
+      getRatingReview({ type: "user", user_id: props?.authReducer?.userProfileDetails?.additional_info?.user_id })
+    }
+  }, [])
+
   return (
     <Container useSafeAreaView={true}>
-      <View style={{margin: 20, flex: 1}}>
+      <View style={{ margin: 20, flex: 1 }}>
         <BackHeader />
         <View
           style={{
@@ -39,17 +63,25 @@ const RatingAndReviews = props => {
             onPress={() => {
               handlePress('seller');
             }}>
-            <Text style={style.btnText}>As A Seller</Text>
+            <Text style={[style.btnText, selected === "seller" && {
+              fontSize: 17,
+              fontFamily: 'OpenSans-SemiBold',
+              color: "#00958C"
+            }]}>As a Seller</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => {
               handleBuyerPress('buyer');
             }}>
-            <Text style={style.btnText}>As A Buyer</Text>
+            <Text style={[style.btnText, selected === "buyer" && {
+              fontSize: 17,
+              fontFamily: 'OpenSans-SemiBold',
+              color: '#00958C',
+            }]}>As a Buyer</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <View
             style={[
               style.lineStyle,
@@ -71,56 +103,62 @@ const RatingAndReviews = props => {
             ]}
           />
         </View>
+        <View
+          style={{
+            alignItems: 'center',
+            marginTop: 30,
+
+          }}>
+          <Image
+            source={{ uri: userPic }}
+            style={{
+              width: 90,
+              height: 90,
+              borderRadius: 45,
+            }}
+          />
+          <Text
+            style={{
+              fontSize: 24,
+              fontFamily: 'OpenSans-Bold',
+              color: '#000000',
+              marginTop: 10,
+            }}>
+            {userName}
+          </Text>
+
+
+
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: 15,
+            }}>
+            <Rating
+              type="star"
+              ratingCount={ratingCount}
+              startingValue={average}
+              imageSize={16}
+              readonly
+
+            />
+            <Text
+              style={{
+                fontSize: 13,
+                fontFamily: 'OpenSans-SemiRegular',
+                color: '#454545',
+                marginLeft: 5,
+              }}>
+              {item?.count} reviews
+            </Text>
+          </View>
+        </View>
 
         {selected === 'seller' && (
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                alignItems: 'center',
-                marginTop: 30,
-              }}>
-              <Image
-                source={IMAGES.Ellipse7}
-                style={{
-                  width: 90,
-                  height: 90,
-                  borderRadius: 10,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  fontFamily: 'OpenSans-Bold',
-                  color: '#000000',
-                  marginTop: 10,
-                }}>
-                Immy Vans
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: 15,
-                }}>
-                <Rating
-                  type="star"
-                  ratingCount={5}
-                  startingValue={userRating}
-                  imageSize={16}
-                  readonly
-                />
-                <Text
-                  style={{
-                    fontSize: 13,
-                    fontFamily: 'OpenSans-SemiRegular',
-                    color: '#454545',
-                    marginLeft: 5,
-                  }}>
-                  20 reviews
-                </Text>
-              </View>
-            </View>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+
 
             <Text
               style={{
@@ -141,30 +179,30 @@ const RatingAndReviews = props => {
                   style={{
                     fontSize: 55,
                     marginTop: 15,
-                    marginLeft: 25,
+                    // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
-                  4.0{' '}
+                  {average}
                   <Text
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-                      marginLeft: 25,
+
                       color: COLORS.BLACK,
                     }}>
-                    /5{' '}
+                    /{ratingCount}{' '}
                   </Text>
                 </Text>
               </View>
-              <View style={{marginTop: 30}}>
+              <View style={{ marginTop: 30 }}>
                 <Rating
                   type="star"
-                  ratingCount={5}
-                  startingValue={userRating}
+                  ratingCount={ratingCount}
+                  startingValue={average}
                   imageSize={16}
                   readonly
                   style={{
-                    marginLeft: 20,
+                    // marginLeft: 20,
                   }}
                 />
                 <Text
@@ -174,7 +212,7 @@ const RatingAndReviews = props => {
                     marginLeft: 20,
                     marginTop: 5,
                   }}>
-                  Base on 20 reviews
+                  Base on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -218,157 +256,21 @@ const RatingAndReviews = props => {
                 </Text>
               </View>
             </View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
-                  data={[1, 2]}
-                  renderItem={() => {
-                    return (
-                      <View>
-                        <View style={{marginTop: 25}}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                            }}>
-                            <View style={{flexDirection: 'row'}}>
-                              <View
-                                style={{
-                                  height: 29,
-                                  width: 29,
-                                  borderRadius: 29 / 2,
-                                  backgroundColor: '#FF7575',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}>
-                                <Text
-                                  style={{
-                                    color: COLORS.WHITE,
-                                    fontSize: 16,
-                                  }}>
-                                  SL
-                                </Text>
-                              </View>
-                              <Text
-                                style={{
-                                  marginLeft: 15,
-                                  fontSize: 16,
-                                  color: COLORS.BLACK,
-                                }}>
-                                Su Yan Lao
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                height: 19,
-                                width: 39,
-                                backgroundColor: '#028006',
-                                alignItems: 'center',
-                              }}>
-                              <Text style={{color: COLORS.WHITE}}>5.0</Text>
-                            </View>
-                          </View>
-                        </View>
-                        <View>
-                          <Text
-                            style={{
-                              fontFamily: 'OpenSans-Regular',
-                              fontSize: 12,
-                            }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam.
-                          </Text>
-                          <Text
-                            style={{
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 11,
-                              color: COLORS.HYPERLINK,
-                            }}>
-                            30 Dec, 2020
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            height: 2,
-                            backgroundColor: '#707070',
-                            opacity: 0.25,
-                            marginTop: 5,
-                          }}></View>
-                      </View>
-                    );
-                  }}
+                  data={ratingList}
+                  renderItem={RenderItem}
                 />
-                <View
-                  style={{
-                    alignItems: 'center',
-                  }}>
-                  <TouchableOpacity>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: 'Cabin',
-                        color: '#00958C',
-                        marginTop: 5,
-                      }}>
-                      See all reviews
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+
               </ScrollView>
             </View>
-          </View>
+          </ScrollView>
         )}
 
         {selected === 'buyer' && (
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                alignItems: 'center',
-                marginTop: 30,
-              }}>
-              <Image
-                source={IMAGES.Ellipse7}
-                style={{
-                  width: 90,
-                  height: 90,
-                  borderRadius: 10,
-                }}
-              />
-              <Text
-                style={{
-                  fontSize: 24,
-                  fontFamily: 'OpenSans-Bold',
-                  color: '#000000',
-                  marginTop: 10,
-                }}>
-                Immy Vans
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: 15,
-                }}>
-                <Rating
-                  type="star"
-                  ratingCount={5}
-                  startingValue={userRating}
-                  imageSize={16}
-                  readonly
-                />
-                <Text
-                  style={{
-                    fontSize: 13,
-                    fontFamily: 'OpenSans-SemiRegular',
-                    color: '#454545',
-                    marginLeft: 5,
-                  }}>
-                  20 reviews
-                </Text>
-              </View>
-            </View>
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+
 
             <Text
               style={{
@@ -389,30 +291,30 @@ const RatingAndReviews = props => {
                   style={{
                     fontSize: 55,
                     marginTop: 15,
-                    marginLeft: 25,
+                    // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
-                  4.0{' '}
+                  {average}
                   <Text
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-                      marginLeft: 25,
+
                       color: COLORS.BLACK,
                     }}>
-                    /5{' '}
+                    /{ratingCount}{' '}
                   </Text>
                 </Text>
               </View>
-              <View style={{marginTop: 30}}>
+              <View style={{ marginTop: 30 }}>
                 <Rating
                   type="star"
-                  ratingCount={5}
-                  startingValue={userRating}
+                  ratingCount={ratingCount}
+                  startingValue={average}
                   imageSize={16}
                   readonly
                   style={{
-                    marginLeft: 20,
+                    // marginLeft: 20,
                   }}
                 />
                 <Text
@@ -422,7 +324,7 @@ const RatingAndReviews = props => {
                     marginLeft: 20,
                     marginTop: 5,
                   }}>
-                  Base on 20 reviews
+                  Base on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -466,118 +368,44 @@ const RatingAndReviews = props => {
                 </Text>
               </View>
             </View>
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
-                  data={[1, 2]}
-                  renderItem={() => {
-                    return (
-                      <View>
-                        <View style={{marginTop: 25}}>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                            }}>
-                            <View style={{flexDirection: 'row'}}>
-                              <View
-                                style={{
-                                  height: 29,
-                                  width: 29,
-                                  borderRadius: 29 / 2,
-                                  backgroundColor: '#FF7575',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                }}>
-                                <Text
-                                  style={{
-                                    color: COLORS.WHITE,
-                                    fontSize: 16,
-                                  }}>
-                                  SL
-                                </Text>
-                              </View>
-                              <Text
-                                style={{
-                                  marginLeft: 15,
-                                  fontSize: 16,
-                                  color: COLORS.BLACK,
-                                }}>
-                                Su Yan Lao
-                              </Text>
-                            </View>
-                            <View
-                              style={{
-                                height: 19,
-                                width: 39,
-                                backgroundColor: '#028006',
-                                alignItems: 'center',
-                              }}>
-                              <Text style={{color: COLORS.WHITE}}>5.0</Text>
-                            </View>
-                          </View>
-                        </View>
-                        <View>
-                          <Text
-                            style={{
-                              fontFamily: 'OpenSans-Regular',
-                              fontSize: 12,
-                            }}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam.
-                          </Text>
-                          <Text
-                            style={{
-                              fontFamily: 'OpenSans-SemiBold',
-                              fontSize: 11,
-                              color: COLORS.HYPERLINK,
-                            }}>
-                            30 Dec, 2020
-                          </Text>
-                        </View>
-                        <View
-                          style={{
-                            height: 2,
-                            backgroundColor: '#707070',
-                            opacity: 0.25,
-                            marginTop: 5,
-                          }}></View>
-                      </View>
-                    );
-                  }}
+                  data={ratingList}
+                  renderItem={RenderItem}
                 />
-                <View
-                  style={{
-                    alignItems: 'center',
-                  }}>
-                  <TouchableOpacity>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        fontFamily: 'Cabin',
-                        color: '#00958C',
-                        marginTop: 5,
-                      }}>
-                      See all reviews
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+
               </ScrollView>
             </View>
-          </View>
+          </ScrollView>
         )}
+        <View
+          style={{
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 16,
+                fontFamily: 'Cabin',
+                color: '#00958C',
+                marginTop: 5,
+              }}>
+              See all reviews
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </Container>
   );
 };
 
-export default RatingAndReviews;
+
 const style = StyleSheet.create({
   btnText: {
     fontSize: 17,
-    fontFamily: 'OpenSans-SemiRegular',
-    color: '#00958C',
+    fontFamily: 'OpenSans-Regular',
+    color: '#868686',
   },
   lineStyle: {
     height: 4,
@@ -590,3 +418,15 @@ const style = StyleSheet.create({
     backgroundColor: '#00958C',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+    ratingReviewReducer: state.ratingReviewReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getRatingReview: params => dispatch(ratingReviewAction(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RatingAndReviews);

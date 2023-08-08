@@ -1,4 +1,4 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 // import {AuthReducer} from './auth.slice';
 import SharedPreference from '../helper/SharedPreference';
 import authReducer from './authSlice';
@@ -6,12 +6,13 @@ import exploreProductReducer, {
   addToCompareReducer,
 } from './exploreProductSlice';
 import exploreReducer from './explore.slice';
-import {productReducer, productStateReducer} from './productSlice';
+import { productReducer, productStateReducer } from './productSlice';
 import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
 import profileSectionReducer from './profileSectionSlice';
-import {updateSellerProfileReducer} from './testSellerEditProfile';
+import { updateSellerProfileReducer } from './testSellerEditProfile';
+import ratingReviewReducer from './ratingReviewSlice';
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -26,6 +27,8 @@ const combinedReducer = combineReducers({
   wishlistReducer,
   chatReducer,
   updateSellerProfileReducer,
+  ratingReviewReducer
+
 });
 
 const rootReducers = (state, action) => {
