@@ -7,6 +7,7 @@ import store from './store';
 import {StatusBar} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
+import {PaperProvider} from 'react-native-paper';
 
 const App = () => {
   // useEffect(() => {
@@ -15,14 +16,16 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
-        <StatusBar
-          barStyle="light-content"
-          // backgroundColor={'#00958C'}
-        />
-        <CustomSplash />
-        <AlertBox />
-      </Provider>
+      <PaperProvider>
+        <Provider store={store}>
+          <StatusBar
+            barStyle="light-content"
+            // backgroundColor={'#00958C'}
+          />
+          <CustomSplash />
+          <AlertBox />
+        </Provider>
+      </PaperProvider>
     </GestureHandlerRootView>
   );
 };

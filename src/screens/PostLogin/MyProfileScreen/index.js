@@ -85,10 +85,9 @@ const MyProfileScreen = props => {
           <View style={styles.ProfilePicture}>
             <Pressable
               onPress={() => {
-                NavigationService.navigate(
-                  RoutesName.SELLERSPROFILE_VIEWBYOWN,
-                  {userId: profileData.id},
-                );
+                NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+                  userId: profileData.id,
+                });
               }}>
               <View
                 style={{

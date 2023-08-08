@@ -7,9 +7,9 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import React from 'react';
-import {Avatar, Card} from 'react-native-paper';
-import {CustomIcon, CustomText, Spacer} from '@app/components';
+import React, {useState} from 'react';
+import {Avatar, Button, Card, Divider, Menu} from 'react-native-paper';
+import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
@@ -18,12 +18,8 @@ import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
 const {width} = Dimensions.get('screen');
-const ProductCard = ({item, onPress}) => {
-  const maxLength = 10;
-  const truncatedText =
-    item?.title?.length > maxLength
-      ? `${item?.title.substring(0, maxLength)}...`
-      : item?.title;
+const ProductCard = ({item, onPress, isSelf = false}) => {
+  const [visible, setVisible] = useState(false);
 
   return (
     <Card style={styles.card_container}>
@@ -41,11 +37,10 @@ const ProductCard = ({item, onPress}) => {
       </Pressable>
       <Card.Content>
         <CustomText style={styles.title}>
-          {item?.title.length > 12 ? addEllipsis(item?.title, 12) : item?.title}
+          {addEllipsis(item?.title, 12)}
         </CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
-          <Spacer width={SPACING.SCALE_3} />
           <View style={styles.seprator} />
           <CustomText style={styles.category}>
             {item?.watch_condition === 'pre_owned' ? 'Pre Owned' : 'Brand New'}
@@ -75,16 +70,48 @@ const ProductCard = ({item, onPress}) => {
           {formatTimestamp(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
+        {isSelf ? (
+          <Pressable style={styles.boostButton} onPress={() => {}}>
+            <CustomText>Boost Product</CustomText>
+          </Pressable>
+        ) : null}
       </Card.Content>
       <View style={styles.bookmark}>
-        <Pressable onPress={onPress}>
-          <CustomIcon
-            size={30}
-            color={'#000000'}
-            origin={ICON_TYPE.MATERIAL_ICONS}
-            name="bookmark-outline"
-          />
-        </Pressable>
+        {isSelf ? (
+          <Menu
+            style={{
+              backgroundColor: '#fff',
+            }}
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            anchor={
+              <Pressable onPress={() => setVisible(true)}>
+                <CustomIcon
+                  size={20}
+                  color={'#000000'}
+                  origin={ICON_TYPE.ENTYPO}
+                  name="dots-three-vertical"
+                />
+              </Pressable>
+            }>
+            <Menu.Item onPress={() => {}} title="Edit Details" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Mark as sold" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Mark as Reserved" />
+            <Divider />
+            <Menu.Item onPress={() => {}} title="Delete" />
+          </Menu>
+        ) : (
+          <Pressable onPress={onPress}>
+            <CustomIcon
+              size={30}
+              color={'#000000'}
+              origin={ICON_TYPE.MATERIAL_ICONS}
+              name="bookmark-outline"
+            />
+          </Pressable>
+        )}
       </View>
     </Card>
   );
@@ -119,19 +146,19 @@ const styles = StyleSheet.create({
   price: {
     color: '#00958C',
     fontSize: 12,
-    fontFamily: FontsConst.Cabin_Bold,marginHorizontal:5
+    fontFamily: FontsConst.Cabin_Bold,
   },
   seprator: {
     height: 3,
     width: 3,
     borderRadius: 3 / 2,
     backgroundColor: '#00958C',
+    marginHorizontal: 5,
   },
   category: {
     color: '#00958C',
     fontSize: 12,
     fontFamily: FontsConst.Cabin_Regular,
-    marginLeft: SPACING.SCALE_2,
   },
   user_image: {
     flexDirection: 'row',
@@ -155,5 +182,13 @@ const styles = StyleSheet.create({
     width: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  boostButton: {
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 10,
+    marginVertical: 10,
   },
 });

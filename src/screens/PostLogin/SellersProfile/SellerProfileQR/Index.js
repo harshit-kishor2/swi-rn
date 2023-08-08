@@ -4,16 +4,18 @@ import {COLORS, IMAGES} from '@app/resources';
 import React, {useEffect, useRef} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import branch, {BranchEvent} from 'react-native-branch';
+import {Avatar} from 'react-native-paper';
 
 const SellerProfileQR = props => {
   const {navigation, route} = props;
-  const userID = route?.params?.user_id;
+  const userDetail = route?.params?.userDetail;
+  console.log('Userdetail==', userDetail);
   const buoRef = useRef();
 
   let linkProperties = {
     feature: 'share',
     channel: 'RNApp',
-    campaign: `User ID - ${userID}`,
+    campaign: `User ID - ${userDetail?.id}`,
   };
   let shareOptions = {
     messageHeader: 'Visit my profile',
@@ -28,7 +30,7 @@ const SellerProfileQR = props => {
     canonicalUrl: '',
     contentMetadata: {
       customMetadata: {
-        userID: `${userID}`,
+        userID: `${userDetail?.id}`,
       },
     },
   };
@@ -46,7 +48,7 @@ const SellerProfileQR = props => {
     const generateQrAndURL = async () => {
       try {
         buoRef.current = await branch.createBranchUniversalObject(
-          `user/${userID}`,
+          `user/${userDetail?.id}`,
           buoOptions,
         );
         var result = await branch.getBranchQRCode(
@@ -95,7 +97,7 @@ const SellerProfileQR = props => {
             // justifyContent: 'center',
             alignSelf: 'center',
           }}>
-          <Image source={IMAGES.Ellipse7} />
+          <Avatar.Image source={{uri: userDetail?.image}} size={100} />
         </View>
         <View
           style={{
@@ -109,27 +111,29 @@ const SellerProfileQR = props => {
               color: COLORS.BLACK,
               marginTop: 20,
             }}>
-            Immy van
+            {userDetail?.name}
           </Text>
         </View>
-        <View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-            marginTop: 3,
-          }}>
-          <Image source={IMAGES.badge} style={{height: 15, width: 10}} />
-          <Text
+        {userDetail?.premium_user === 'yes' ? (
+          <View
             style={{
-              fontFamily: 'Cabin-Regular',
-              fontSize: 14,
-              color: '#737373',
-              marginLeft: 5,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              marginTop: 3,
             }}>
-            Premium Seller
-          </Text>
-        </View>
+            <Image source={IMAGES.badge} style={{height: 15, width: 10}} />
+            <Text
+              style={{
+                fontFamily: 'Cabin-Regular',
+                fontSize: 14,
+                color: '#737373',
+                marginLeft: 5,
+              }}>
+              Premium Seller
+            </Text>
+          </View>
+        ) : null}
         <View
           style={{
             alignItems: 'center',

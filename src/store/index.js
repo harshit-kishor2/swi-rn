@@ -11,6 +11,7 @@ import {productReducer, productStateReducer} from './productSlice';
 import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
+import profileSectionReducer from './profileSectionSlice/index';
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -19,6 +20,7 @@ const combinedReducer = combineReducers({
   productReducer,
   productStateReducer,
   exploreReducer,
+  profileSectionReducer,
 
   addToCompareReducer,
   sellersProfileReducer,

@@ -34,6 +34,7 @@ export const RoutesName = {
   SEARCH_SCREEN: 'SearchScreen',
   PROFILE_QR_SCREEN: 'Profile QR Screen',
   ACCOUNT_SETTING_SCREEN: 'Account Setting Screen',
+  PROFILE_SECTION_SCREEN: 'Profile Section Screen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',
