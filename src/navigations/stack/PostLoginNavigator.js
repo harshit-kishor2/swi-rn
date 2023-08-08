@@ -14,8 +14,7 @@ import {RoutesName} from '@app/helper/strings';
 import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
-import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
-import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
+
 import MainTabNavigator from './MainTabNavigator';
 import {ChangePassword} from '@app/screens/PostLogin/ChangePassword';
 import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
@@ -39,14 +38,6 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
-      />
-      <Stack.Screen
-        name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
-        component={SellersProfileViewByOwn}
-      />
-      <Stack.Screen
-        name={RoutesName.SELLERSPROFILE_VIEWBYOTHERS}
-        component={SellerProfileViewByOther}
       />
       <Stack.Screen name={RoutesName.COIN_HISTORY} component={CoinHistory} />
       <Stack.Screen
