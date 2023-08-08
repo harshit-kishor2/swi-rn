@@ -9,6 +9,9 @@ import {
   View,
   Image,
   ScrollView,
+  Text,
+  SectionList,
+  RefreshControl,
 } from 'react-native';
 import Banner from './Banner';
 import TrendyWatch from './TrendyWatch';
@@ -30,6 +33,7 @@ import SearchBarComponent from '@app/components/SearchBarComponent';
 import NotificationIndicator from '@app/components/NotificationIndicator';
 import {IMAGES, SPACING} from '@app/resources';
 import {AssestsConst} from '@app/assets/assets';
+import {mergeArrays} from '@app/helper/commonFunction';
 
 const ExploreScreen = props => {
   const {
@@ -44,6 +48,8 @@ const ExploreScreen = props => {
   // console.log(props.navigation,"props navigation")
   const [searchQuery, onChangeSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
   const [page, setPage] = useState(1);
   const [topNotchWatch, setTopNotchWatch] = useState([]);
   const [isFilter, setIsFilter] = useState(false);
@@ -56,12 +62,28 @@ const ExploreScreen = props => {
     getTrendyWatch();
     getAllBrands();
   }, []);
+
+  useEffect(() => {
+    if (refreshing) {
+      setPage(1);
+      Promise.all([
+        getBannerList(),
+        getTrendyWatch(),
+        getAllBrands(),
+        getTopNotchWatch({page: 1, keyWord: query}),
+      ]).then(val => {
+        setRefreshing(false);
+      });
+    }
+  }, [refreshing]);
+
   const onLoadMore = () => {
     if (exploreProduct?.isLoadMore) {
       getTopNotchWatch({page: page, keyWord: query});
       setPage(page + 1);
     }
   };
+
   useEffect(() => {
     if (query.length > 0) {
       setPage(1);
@@ -81,19 +103,24 @@ const ExploreScreen = props => {
       setIsLoading(false);
     }
     if (exploreProduct?.topNotchWatchLoadingStatus === LoadingStatus.LOADED) {
-      if (query.length > 0) {
+      if (query.length > 0 || page === 1) {
         setTopNotchWatch(exploreProduct?.topNotchWatch);
       } else {
-        const result = [
-          ...topNotchWatch,
-          ...exploreProduct?.topNotchWatch,
-        ].reduce((res, data) => {
-          if (!res.some(item => item.id === data.id)) {
-            res.push(data);
-          }
-          return res;
-        }, []);
-        setTopNotchWatch(result);
+        // const result = [
+        //   ...topNotchWatch,
+        //   ...exploreProduct?.topNotchWatch,
+        // ].reduce((res, data) => {
+        //   if (!res.some(item => item.id === data.id)) {
+        //     res.push(data);
+        //   }
+        //   return res;
+        // }, []);
+        const mergedData = mergeArrays(
+          topNotchWatch,
+          exploreProduct?.topNotchWatch,
+        );
+        console.log('Merge==', mergedData);
+        setTopNotchWatch(mergedData);
       }
     }
   }, [exploreProduct]);
@@ -102,56 +129,53 @@ const ExploreScreen = props => {
     return <ProductCard key={index} item={item} />;
   };
 
-  // const HEADER = () => {
-  //   return (
-  //     <>
+  const renderItemm = ({section}) => {
+    if (section.horizontal) {
+      return (
+        <>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 10,
+              marginTop: 10,
+            }}>
+            <SearchBarComponent
+              onPress={() => {
+                props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
+                  from: 'explore',
+                });
+              }}
+            />
+            <Pressable
+              onPress={() => {}}
+              style={{
+                marginLeft: SPACING.SCALE_10,
+                marginTop: SPACING.SCALE_8,
+              }}>
+              <Image source={IMAGES.notificationBell} />
+            </Pressable>
+          </View>
 
-  //     </>
-  //   );
-  // };
-
-  return (
-    <Container useSafeAreaView={true} loading={isLoading}>
-      <ScrollView>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 10,
-            marginTop: 10,
-          }}>
-          <SearchBarComponent
-            onPress={() => {
-              props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
-                from: 'explore',
-              });
-            }}
+          <Banner bannerData={exploreProduct?.bannerList} />
+          <TrendyWatch
+            setIsFilter={setIsFilter}
+            refreshing={refreshing}
+            {...props}
           />
-          <Pressable
-            onPress={() => {
-              //Alert.alert('Bell clicked');
-            }}
-            style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
-            <Image source={IMAGES.notificationBell} />
-          </Pressable>
-        </View>
-
-        <Banner bannerData={exploreProduct?.bannerList} />
-        <TrendyWatch setIsFilter={setIsFilter} {...props} />
-
-        {/* <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} /> */}
+        </>
+      );
+    } else {
+      return (
         <FlatList
           contentContainerStyle={{
             flexGrow: 1,
             paddingBottom: 40,
           }}
           data={topNotchWatch}
-          // ListHeaderComponent={HEADER}
-          windowSize={11}
           renderItem={renderItem}
           numColumns={2}
-          maxToRenderPerBatch={8}
           showsVerticalScrollIndicator={false}
           columnWrapperStyle={{
             flex: 1,
@@ -166,8 +190,36 @@ const ExploreScreen = props => {
               <CustomText>No Data Found</CustomText>
             </View>
           )}
+          extraData={refreshing}
         />
-      </ScrollView>
+      );
+    }
+  };
+
+  return (
+    <Container useSafeAreaView={true} loading={isLoading}>
+      <SectionList
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+          />
+        }
+        sections={[
+          {
+            title: 'Horizontal List',
+            horizontal: true,
+            data: ['Item 1'],
+          },
+          {
+            title: 'Vertical List',
+            horizontal: false,
+            data: ['Item 4'],
+          },
+        ]}
+        renderItem={renderItemm}
+        keyExtractor={(item, index) => index.toString()}
+      />
       <Filter
         isFilter={isFilter}
         setIsFilter={setIsFilter}
