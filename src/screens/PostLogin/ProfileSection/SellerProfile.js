@@ -195,7 +195,7 @@ const SellerProfile = props => {
           <AirbnbRating
             count={5}
             showRating={false}
-            defaultRating={4}
+            defaultRating={useDetail?.averageRating}
             isDisabled
             size={15}
             style={{marginHorizontal: 10}}
@@ -213,7 +213,7 @@ const SellerProfile = props => {
               color: '#454545',
               fontSize: 14,
             }}>
-            20 reviews
+            {useDetail?.count} reviews
           </CustomText>
         </View>
         <View
