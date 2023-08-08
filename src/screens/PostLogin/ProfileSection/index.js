@@ -49,12 +49,7 @@ const ProfileSection = props => {
                 alignItems: 'center',
               }}>
               <Pressable
-                style={{
-                  height: 50,
-                  width: 50,
-                  //backgroundColor: 'red',
-                  justifyContent: 'center',
-                }}
+                style={styles.button}
                 onPress={() => {
                   navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE);
                 }}>
@@ -66,12 +61,7 @@ const ProfileSection = props => {
                 />
               </Pressable>
               <Pressable
-                style={{
-                  height: 50,
-                  width: 50,
-                  //backgroundColor: 'red',
-                  justifyContent: 'center',
-                }}
+                style={styles.button}
                 onPress={() => {
                   navigation?.navigate(RoutesName.PROFILE_QR_SCREEN, {
                     userDetail: useDetail,
@@ -86,14 +76,7 @@ const ProfileSection = props => {
               </Pressable>
             </View>
           ) : isSeller ? null : (
-            <Pressable
-              style={{
-                height: 50,
-                width: 50,
-                //backgroundColor: 'red',
-                justifyContent: 'center',
-              }}
-              onPress={() => {}}>
+            <Pressable style={styles.button} onPress={() => {}}>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'share-2'}
@@ -129,4 +112,10 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    height: 50,
+    width: 50,
+    justifyContent: 'center',
+  },
+});
