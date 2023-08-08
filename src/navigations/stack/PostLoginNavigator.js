@@ -6,6 +6,7 @@ import {
   NotificationScreen,
   ProductDetails,
   ProfileSection,
+  RatingAndReviews,
   SellerProfileQR,
 } from '@app/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -73,6 +74,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.EDIT_SELLER_PROFILE}
         component={SellerProfileEdit}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.REVIEW_RATING_SCREEN}
+        component={RatingAndReviews}
         options={{headerShown: false}}
       />
 

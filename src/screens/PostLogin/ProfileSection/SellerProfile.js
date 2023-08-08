@@ -12,18 +12,87 @@ import ClearableSearch from '@app/screens/atoms/ClearableSearch';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
+import {RoutesName} from '@app/helper/strings';
+import {showAlert} from '@app/helper/commonFunction';
 const IMAGE = {
   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
 };
 const SellerProfile = props => {
-  const {route, navigation, profileSectionReducer, isSelf} = props;
+  const {
+    route,
+    navigation,
+    profileSectionReducer,
+    isSelf,
+    onChangeProductStatus,
+    getProfileListing,
+    onWishlistClick,
+  } = props;
   const [activeTab, setActiveTab] = useState('Listings');
   const [search, setSearch] = useState('');
-  const useDetail = profileSectionReducer?.profileAbout;
+  const userDetail = profileSectionReducer?.profileAbout;
 
   const getListings = () => {
     const renderItem = ({item, index}) => {
-      return <ProductCard key={index} item={item} isSelf={isSelf} />;
+      return (
+        <ProductCard
+          key={index}
+          item={item}
+          onSoldClick={() => {
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'sold_out',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as sold.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+          onReservedClick={() => {
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'reserved',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as reserved.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+          onDeleteClick={() => {
+            onChangeProductStatus({
+              product_id: item.id,
+              product_status: 'deleted',
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: 'Product status changed as deleted.',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
+          }}
+        />
+      );
     };
     return (
       <View
@@ -32,14 +101,16 @@ const SellerProfile = props => {
           paddingHorizontal: 20,
         }}>
         <ClearableSearch search={search} setSearch={setSearch} />
-        <PageTitle title={'Watch Posted by Harshit'} />
+        <PageTitle title={`Watch Posted by ${userDetail?.name}`} />
         <FlatList
+          scrollEnabled={false}
           contentContainerStyle={{
             flexGrow: 1,
             paddingBottom: 40,
           }}
           data={profileSectionReducer?.sellerProductListing}
           renderItem={renderItem}
+          keyExtractor={item => item.id}
           numColumns={2}
           columnWrapperStyle={{
             flex: 1,
@@ -61,32 +132,20 @@ const SellerProfile = props => {
           width: '100%',
         }}>
         <Spacer />
-        <PostFollowVisitor post={5} follow={120} visitor={324} />
+        <PostFollowVisitor
+          post={userDetail?.total_posts}
+          follow={userDetail?.total_followers}
+          visitor={userDetail?.visit_count}
+        />
         {!isSelf ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingHorizontal: 20,
-            }}>
+          <View style={styles.button_container}>
             <View
               style={{
                 width: '80%',
               }}>
               <SubmitButton lable="+ Follow" onPress={() => {}} />
             </View>
-            <Pressable
-              style={{
-                width: '20%',
-                height: 50,
-                backgroundColor: '#F5F5F5',
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 10,
-              }}
-              onPress={() => {}}>
+            <Pressable style={styles.sharebutton} onPress={() => {}}>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'share-2'}
@@ -96,26 +155,46 @@ const SellerProfile = props => {
             </Pressable>
           </View>
         ) : null}
-        <GetAboutRow
-          value={`{Suspendisse viverra luctus quam, sed fringilla nulla. Pellentesque
-      quis massa tincidunt, iaculis ipsum sed, pretium purus. Suspendisse
-      viverra luctus quam, sed fringilla nulla.}`}
-        />
-        <Divider
-          style={{
-            width: '90%',
-            alignSelf: 'center',
-            height: 2,
-          }}
-        />
+        <GetAboutRow value={`${userDetail?.bio ?? '-'}`} />
+        <Divider style={styles.divider} />
         <Spacer height={20} />
-        <AboutRow title={'Location'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Opening Hours'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Contact'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Website'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Socials'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Payment Mode'} value={'Lucknow, Uttar Pradesh'} />
-        <AboutRow title={'Joined since'} value={'Lucknow, Uttar Pradesh'} />
+        <AboutRow
+          title={'Location'}
+          value={`${userDetail?.additional_info?.location ?? '-'}`}
+        />
+        <AboutRow
+          title={'Opening Hours'}
+          value={
+            <View>
+              {userDetail?.additional_info?.opening_hours?.map(
+                (item, index) => {
+                  return item.onOff === 'on' ? (
+                    <CustomText>
+                      {item?.day} - {item?.timing}
+                    </CustomText>
+                  ) : null;
+                },
+              )}
+            </View>
+          }
+        />
+        <AboutRow title={'Contact'} value={`${userDetail?.mobile ?? '-'}`} />
+        <AboutRow
+          title={'Website'}
+          value={`${userDetail?.additional_info?.location ?? '-'}`}
+        />
+        <AboutRow
+          title={'Socials'}
+          value={`${userDetail?.additional_info?.location ?? '-'}`}
+        />
+        <AboutRow
+          title={'Payment Mode'}
+          value={`${userDetail?.additional_info?.location ?? '-'}`}
+        />
+        <AboutRow
+          title={'Joined since'}
+          value={`${userDetail?.additional_info?.location ?? '-'}`}
+        />
       </View>
     );
   };
@@ -143,18 +222,8 @@ const SellerProfile = props => {
             }}
           />
         </View>
-        <View
-          style={{
-            position: 'absolute',
-            top: 100,
-            backgroundColor: '#fff',
-            height: 104,
-            width: 104,
-            borderRadius: 52,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Avatar.Image source={{uri: useDetail?.image}} size={100} />
+        <View style={styles.profile_container}>
+          <Avatar.Image source={{uri: userDetail?.image}} size={100} />
         </View>
         <Spacer height={50} />
         <CustomText
@@ -163,7 +232,7 @@ const SellerProfile = props => {
             color: '#000000',
             fontSize: 20,
           }}>
-          {useDetail?.name}
+          {userDetail?.name}
         </CustomText>
         <View
           style={{
@@ -184,52 +253,33 @@ const SellerProfile = props => {
             Premium Seller
           </CustomText>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 5,
-            width: '80%',
-          }}>
+        <Pressable
+          onPress={() =>
+            navigation?.navigate(RoutesName.REVIEW_RATING_SCREEN, {
+              userID: userDetail?.id,
+            })
+          }
+          style={styles.ratingcontainer}>
           <AirbnbRating
             count={5}
             showRating={false}
-            defaultRating={useDetail?.averageRating}
+            defaultRating={userDetail?.averageRating}
             isDisabled
             size={15}
             style={{marginHorizontal: 10}}
             ratingContainerStyle={{marginHorizontal: 10}}
             starContainerStyle={{
               paddingVertical: 10,
-              //   width: width - 100,
               justifyContent: 'space-evenly',
               alignItems: 'center',
             }}
           />
-          <CustomText
-            style={{
-              fontFamily: FontsConst.OpenSans_SemiBold,
-              color: '#454545',
-              fontSize: 14,
-            }}>
-            {useDetail?.count} reviews
+          <CustomText style={styles.reviewText}>
+            {userDetail?.count} reviews
           </CustomText>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <CustomText
-            style={{
-              fontFamily: FontsConst.Cabin_Bold,
-              color: '#737373',
-              fontSize: 14,
-            }}>
-            Varified :
-          </CustomText>
+        </Pressable>
+        <View style={styles.varify_container}>
+          <CustomText style={styles.verified_text}>Varified :</CustomText>
           <Image
             source={IMAGES.Seller__Singpass}
             style={styles.verifiedImage}
@@ -242,53 +292,18 @@ const SellerProfile = props => {
           <Image source={IMAGES.Seller_facebook} style={styles.verifiedImage} />
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingVertical: 20,
-        }}>
+      <View style={styles.tabcontainer}>
         <Pressable
           onPress={() => setActiveTab('Listings')}
-          style={{
-            flex: 1,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderBottomColor: activeTab === 'Listings' ? '#00958C' : '#868686',
-            borderBottomWidth: activeTab === 'Listings' ? 3 : 1,
-            paddingBottom: 10,
-          }}>
-          <CustomText
-            style={{
-              color: activeTab === 'Listings' ? '#00958C' : '#868686',
-              fontFamily:
-                activeTab === 'Listings'
-                  ? FontsConst.Cabin_Bold
-                  : FontsConst.Cabin_Regular,
-            }}>
+          style={styles.getTab(activeTab === 'Listings')}>
+          <CustomText style={styles.getTabText(activeTab === 'Listings')}>
             Listings
           </CustomText>
         </Pressable>
         <Pressable
           onPress={() => setActiveTab('About')}
-          style={{
-            flex: 1,
-            alignSelf: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderBottomColor: activeTab === 'About' ? '#00958C' : '#868686',
-            borderBottomWidth: activeTab === 'About' ? 3 : 1,
-            paddingBottom: 10,
-          }}>
-          <CustomText
-            style={{
-              color: activeTab === 'About' ? '#00958C' : '#868686',
-              fontFamily:
-                activeTab === 'About'
-                  ? FontsConst.Cabin_Bold
-                  : FontsConst.Cabin_Regular,
-            }}>
+          style={styles.getTab(activeTab === 'About')}>
+          <CustomText style={styles.getTabText(activeTab === 'About')}>
             About
           </CustomText>
         </Pressable>
@@ -310,5 +325,79 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 2,
+  },
+  profile_container: {
+    position: 'absolute',
+    top: 100,
+    backgroundColor: '#fff',
+    height: 104,
+    width: 104,
+    borderRadius: 52,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  getTab: activeTab => {
+    return {
+      flex: 1,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderBottomColor: activeTab ? '#00958C' : '#868686',
+      borderBottomWidth: activeTab ? 3 : 1,
+      paddingBottom: 10,
+    };
+  },
+  getTabText: activeTab => {
+    return {
+      color: activeTab ? '#00958C' : '#868686',
+      fontFamily: activeTab ? FontsConst.Cabin_Bold : FontsConst.Cabin_Regular,
+    };
+  },
+  tabcontainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  ratingcontainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 5,
+    width: '80%',
+  },
+  reviewText: {
+    fontFamily: FontsConst.OpenSans_SemiBold,
+    color: '#454545',
+    fontSize: 14,
+  },
+  verified_text: {
+    fontFamily: FontsConst.Cabin_Bold,
+    color: '#737373',
+    fontSize: 14,
+  },
+  varify_container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button_container: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  sharebutton: {
+    width: '20%',
+    height: 50,
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  divider: {
+    width: '90%',
+    alignSelf: 'center',
+    height: 2,
   },
 });

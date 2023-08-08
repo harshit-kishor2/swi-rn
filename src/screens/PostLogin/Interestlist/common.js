@@ -1,11 +1,11 @@
-import {FontsConst} from '@app/assets/assets';
-import {CustomIcon, CustomText, Spacer} from '@app/components';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {ActivityIndicator, Avatar} from 'react-native-paper';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
+import { FontsConst } from '@app/assets/assets';
+import { CustomIcon, CustomText, Spacer } from '@app/components';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Avatar } from 'react-native-paper';
+// const IMAGE = {
+//   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
+// };
 export function Seprator() {
   return <View style={styles.seprator} />;
 }
@@ -18,11 +18,17 @@ export function EmptyList() {
   );
 }
 
-export function RenderItem({item, index}) {
+export function RenderItem({ item, index }) {
   const onRowClick = () => {
     //
   };
-
+  const userName = item?.user?.name;
+  const profilePic = item?.user?.image;
+  const price = item?.price;
+  const watch_title = item?.title;
+  const watch_condition = item?.watch_condition;
+  console.log(item, "Item==================");
+  console.log(profilePic, '---------------')
   return (
     <Pressable onPress={onRowClick} style={styles.product}>
       <View
@@ -30,14 +36,14 @@ export function RenderItem({item, index}) {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Avatar.Image size={30} source={IMAGE} />
+        <Avatar.Image size={30} source={{ uri: profilePic }} />
         <Spacer width={10} />
         <CustomText style={styles.brandtext}>
-          2020 Fossil Analog Watch
+          {userName}
         </CustomText>
       </View>
       <CustomText style={styles.branddescriptiontext}>
-        Rolex anolog watch
+        {watch_title}
       </CustomText>
       <View
         style={{
@@ -47,9 +53,9 @@ export function RenderItem({item, index}) {
           width: '100%',
         }}>
         <View style={styles.price_row}>
-          <CustomText style={styles.price}>$12500</CustomText>
+          <CustomText style={styles.price}>${price}</CustomText>
           <View style={styles.circle} />
-          <CustomText style={styles.condition}>Brand New</CustomText>
+          <CustomText style={styles.condition}>{watch_condition}</CustomText>
         </View>
         <CustomIcon
           origin={ICON_TYPE.FEATHER_ICONS}
