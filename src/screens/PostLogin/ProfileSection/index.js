@@ -11,6 +11,7 @@ import {
   profileAboutAction,
   sellerProductListingAction,
 } from '@app/store/profileSectionSlice';
+import {addWishListAction} from '@app/store/exploreProductSlice';
 
 const ProfileSection = props => {
   const {
@@ -112,6 +113,7 @@ const mapDispatchToProps = dispatch => ({
   getProfileAbout: params => dispatch(profileAboutAction(params)),
   getProfileListing: params => dispatch(sellerProductListingAction(params)),
   onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
+  onWishlistClick: params => dispatch(addWishListAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);

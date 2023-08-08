@@ -20,7 +20,6 @@ import {RoutesName} from '@app/helper/strings';
 const {width} = Dimensions.get('screen');
 const ProductCard = ({
   item,
-  onPress,
   isSelf = false,
   onSoldClick,
   onReservedClick,
@@ -147,7 +146,7 @@ const ProductCard = ({
             />
           </Menu>
         ) : (
-          <Pressable onPress={onPress}>
+          <Pressable onPress={onWishlistClick}>
             <CustomIcon
               size={30}
               color={'#000000'}

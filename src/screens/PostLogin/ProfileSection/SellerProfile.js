@@ -25,6 +25,7 @@ const SellerProfile = props => {
     isSelf,
     onChangeProductStatus,
     getProfileListing,
+    onWishlistClick,
   } = props;
   const [activeTab, setActiveTab] = useState('Listings');
   const [search, setSearch] = useState('');
@@ -38,7 +39,6 @@ const SellerProfile = props => {
           item={item}
           isSelf={isSelf}
           onSoldClick={() => {
-            console.log('Sold', item.id);
             onChangeProductStatus({
               product_id: item.id,
               product_status: 'sold_out',
@@ -57,7 +57,6 @@ const SellerProfile = props => {
             });
           }}
           onReservedClick={() => {
-            console.log('Reserced', item.id);
             onChangeProductStatus({
               product_id: item.id,
               product_status: 'reserved',
@@ -76,7 +75,6 @@ const SellerProfile = props => {
             });
           }}
           onDeleteClick={() => {
-            console.log('Delete', item.id);
             onChangeProductStatus({
               product_id: item.id,
               product_status: 'deleted',
@@ -95,7 +93,23 @@ const SellerProfile = props => {
             });
           }}
           onWishlistClick={() => {
-            console.log('Wishlist');
+            console.log('Wishlist', item.id);
+            onWishlistClick({
+              product_id: item.id,
+            }).then(res => {
+              if (res?.type.includes('fulfilled')) {
+                console.log('Res==', res);
+                getProfileListing({userId: userDetail.id});
+                showAlert({
+                  title: 'Success !',
+                  message: `${res?.payload?.message}` ?? 'Success',
+                });
+              } else if (res?.type.includes('rejected')) {
+                showAlert({
+                  title: 'Server error !',
+                });
+              }
+            });
           }}
         />
       );
