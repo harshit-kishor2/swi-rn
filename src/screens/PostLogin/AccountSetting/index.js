@@ -5,6 +5,8 @@ import {
   NavigationBar,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
 import {COLORS, IMAGES} from '@app/resources';
 import {stayLoginAction} from '@app/store/authSlice';
 import React, {useState} from 'react';
@@ -74,29 +76,33 @@ const AccountSetting = () => {
           </View>
         </View>
         <View style={style.line} />
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => {
+            NavigationService.navigate(RoutesName.CHANGE_PASSWORD_SCREEN);
           }}>
-          <View style={{flexDirection: 'row'}}>
-            <CustomIcon
-              origin={ICON_TYPE.FEATHER_ICONS}
-              name={'lock'}
-              color={COLORS.BLACK}
-            />
-            <Text style={style.text}>Change Password</Text>
-          </View>
-          <View>
-            <TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <View style={{flexDirection: 'row'}}>
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name={'lock'}
+                color={COLORS.BLACK}
+              />
+              <Text style={style.text}>Change Password</Text>
+            </View>
+            <View>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'chevron-right'}
                 color={COLORS.BLACK}
               />
-            </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
         <View style={style.line} />
       </View>
     </Container>

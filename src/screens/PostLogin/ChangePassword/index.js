@@ -79,7 +79,7 @@ export const ChangePassword = () => {
           <CustomInput
             placeholder="Enter old Password"
             value={values.oldPassword}
-            onchangeText={value => setFieldValue('oldPassword', value)}
+            onChangeText={handleChange('oldPassword')}
             secureTextEntry={true}
             leftIcon={
               <CustomIcon
@@ -98,7 +98,7 @@ export const ChangePassword = () => {
             placeholder="Enter New Password"
             returnKeyType="next"
             value={values.newPassword}
-            onchangeText={value => setFieldValue('newPassword', value)}
+            onChangeText={value => setFieldValue('newPassword', value)}
             secureTextEntry={true}
             leftIcon={
               <CustomIcon
@@ -113,7 +113,7 @@ export const ChangePassword = () => {
             placeholder="Confirm New Password"
             returnKeyType="next"
             value={values.confirmPassword}
-            onchangeText={value => setFieldValue('confirmPassword', value)}
+            onChangeText={value => setFieldValue('confirmPassword', value)}
             secureTextEntry={true}
             leftIcon={
               <CustomIcon

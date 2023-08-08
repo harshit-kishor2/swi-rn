@@ -35,6 +35,8 @@ export const RoutesName = {
   PROFILE_QR_SCREEN: 'Profile QR Screen',
   ACCOUNT_SETTING_SCREEN: 'Account Setting Screen',
   PROFILE_SECTION_SCREEN: 'Profile Section Screen',
+  CHANGE_PASSWORD_SCREEN: 'Change Password Screen',
+  EDIT_SELLER_PROFILE: 'Edit Seller Profile Screen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

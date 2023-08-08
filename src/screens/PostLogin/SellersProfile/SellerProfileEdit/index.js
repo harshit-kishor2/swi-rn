@@ -34,15 +34,15 @@ import {connect} from 'react-redux';
 // type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const EditSellerProfile = props => {
-  const {getSellerProfileList} = props;
-  console.log(props, 'Props');
-  const item = getSellerProfileReducer;
-  console.log('=>>>>>>>>>>>>', item);
-  useEffect(() => {
-    if (props.route.params) {
-      getSellerProfileList();
-    }
-  }, []);
+  // const {getSellerProfileList} = props;
+  // console.log(props, 'Props');
+  // const item = getSellerProfileReducer;
+  // console.log('=>>>>>>>>>>>>', item);
+  // useEffect(() => {
+  //   if (props.route.params) {
+  //     getSellerProfileList();
+  //   }
+  // }, []);
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);

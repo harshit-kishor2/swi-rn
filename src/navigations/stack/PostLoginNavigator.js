@@ -17,6 +17,8 @@ import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
 import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
 import MainTabNavigator from './MainTabNavigator';
+import {ChangePassword} from '@app/screens/PostLogin/ChangePassword';
+import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -70,6 +72,16 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PROFILE_SECTION_SCREEN}
         component={ProfileSection}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.CHANGE_PASSWORD_SCREEN}
+        component={ChangePassword}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.EDIT_SELLER_PROFILE}
+        component={SellerProfileEdit}
         options={{headerShown: false}}
       />
 
