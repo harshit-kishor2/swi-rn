@@ -1,4 +1,5 @@
 import {
+  BackHeader,
   Container,
   CustomIcon,
   CustomInput,
@@ -26,19 +27,20 @@ import {
 } from 'react-native';
 
 import ToggleSwitch from 'toggle-switch-react-native';
+import {connect} from 'react-redux';
 
 // type ValuePiece = Date | string | null;
 
 // type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export const EditSellerProfile = props => {
-  const {sellerProfile, getSellerProfileReducer} = props;
+const EditSellerProfile = props => {
+  const {getSellerProfileList} = props;
   console.log(props, 'Props');
-  const item = getSellerProfileReducer?.getSellerProfile?.data;
-
+  const item = getSellerProfileReducer;
+  console.log('=>>>>>>>>>>>>', item);
   useEffect(() => {
     if (props.route.params) {
-      getProductList(props.route.params);
+      getSellerProfileList();
     }
   }, []);
 
@@ -207,14 +209,7 @@ export const EditSellerProfile = props => {
           justifyContent: 'space-between',
           margin: 15,
         }}>
-        <NavigationBar
-          leftSource={IMAGES.BACKARROW}
-          leftAction={() => {
-            console.log('first');
-            props.navigation.navigate('CreateAccountScreen');
-          }}
-          flexDirection="row"
-        />
+        <BackHeader />
         <View>
           <TouchableOpacity>
             <Text
@@ -597,3 +592,15 @@ const style = StyleSheet.create({
   toggleView: {justifyContent: 'center', width: '25%'},
   customInput: {width: '30%', marginHorizontal: 20},
 });
+
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+    updateSellerProfileReducer: state.updateSellerProfileReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getSellerProfileList: params => dispatch(getSellerProfile(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditSellerProfile);

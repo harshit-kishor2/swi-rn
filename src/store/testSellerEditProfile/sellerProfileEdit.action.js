@@ -27,6 +27,7 @@ export const getSellerProfile = createAsyncThunk(
       const response = await axiosRequest({
         url: `/user-profile`,
         method: `GET`,
+        params: params,
       });
       return response;
     } catch (error) {
