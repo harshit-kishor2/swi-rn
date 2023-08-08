@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View,
   Image,
+  ScrollView,
 } from 'react-native';
 import Banner from './Banner';
 import TrendyWatch from './TrendyWatch';
@@ -55,7 +56,6 @@ const ExploreScreen = props => {
     getTrendyWatch();
     getAllBrands();
   }, []);
-  console.log(topNotchWatch, 'Top Notch watch data details=====');
   const onLoadMore = () => {
     if (exploreProduct?.isLoadMore) {
       getTopNotchWatch({page: page, keyWord: query});
@@ -102,68 +102,72 @@ const ExploreScreen = props => {
     return <ProductCard key={index} item={item} />;
   };
 
-  const HEADER = () => {
-    return (
-      <>
-        <Banner bannerData={exploreProduct?.bannerList} />
-        <TrendyWatch setIsFilter={setIsFilter} {...props} />
-      </>
-    );
-  };
+  // const HEADER = () => {
+  //   return (
+  //     <>
+
+  //     </>
+  //   );
+  // };
 
   return (
     <Container useSafeAreaView={true} loading={isLoading}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 10,
-          marginTop: 10,
-        }}>
-        <SearchBarComponent
-          onPress={() => {
-            props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
-              from: 'explore',
-            });
-          }}
-        />
-        <Pressable
-          onPress={() => {
-            //Alert.alert('Bell clicked');
-          }}
-          style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
-          <Image source={IMAGES.notificationBell} />
-        </Pressable>
-      </View>
+      <ScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 10,
+            marginTop: 10,
+          }}>
+          <SearchBarComponent
+            onPress={() => {
+              props.navigation.navigate(RoutesName.SEARCH_SCREEN, {
+                from: 'explore',
+              });
+            }}
+          />
+          <Pressable
+            onPress={() => {
+              //Alert.alert('Bell clicked');
+            }}
+            style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
+            <Image source={IMAGES.notificationBell} />
+          </Pressable>
+        </View>
 
-      {/* <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} /> */}
-      <FlatList
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 40,
-        }}
-        data={topNotchWatch}
-        ListHeaderComponent={HEADER}
-        windowSize={11}
-        renderItem={renderItem}
-        numColumns={2}
-        maxToRenderPerBatch={8}
-        showsVerticalScrollIndicator={false}
-        columnWrapperStyle={{
-          flex: 1,
-          justifyContent: 'flex-start',
-          paddingHorizontal: 10,
-          paddingBottom: 10,
-        }}
-        onEndReachedThreshold={0.3}
-        onEndReached={onLoadMore}
-        ListEmptyComponent={() => (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <CustomText>No Data Found</CustomText>
-          </View>
-        )}
-      />
+        <Banner bannerData={exploreProduct?.bannerList} />
+        <TrendyWatch setIsFilter={setIsFilter} {...props} />
+
+        {/* <SearchHeader onChangeSearch={onChangeSearch} searchQuery={searchQuery} /> */}
+        <FlatList
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 40,
+          }}
+          data={topNotchWatch}
+          // ListHeaderComponent={HEADER}
+          windowSize={11}
+          renderItem={renderItem}
+          numColumns={2}
+          maxToRenderPerBatch={8}
+          showsVerticalScrollIndicator={false}
+          columnWrapperStyle={{
+            flex: 1,
+            justifyContent: 'flex-start',
+            paddingHorizontal: 10,
+            paddingBottom: 10,
+          }}
+          onEndReachedThreshold={0.3}
+          onEndReached={onLoadMore}
+          ListEmptyComponent={() => (
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <CustomText>No Data Found</CustomText>
+            </View>
+          )}
+        />
+      </ScrollView>
       <Filter
         isFilter={isFilter}
         setIsFilter={setIsFilter}

@@ -13,20 +13,42 @@ import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
-import {addEllipsis, formatTimestamp} from '@app/helper/commonFunction';
+import {
+  addEllipsis,
+  formatTimestamp,
+  showAlert,
+} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
+import {useDispatch, useSelector} from 'react-redux';
+import {addWishListAction} from '@app/store/exploreProductSlice';
 
 const {width} = Dimensions.get('screen');
 const ProductCard = ({
   item,
-  isSelf = false,
   onSoldClick,
   onReservedClick,
   onDeleteClick,
-  onWishlistClick,
+  callBack,
 }) => {
   const [visible, setVisible] = useState(false);
+  const [inWishlist, setInWishlist] = useState(item?.isInWishlist);
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.authReducer);
+  const isSelf = authReducer?.userProfileDetails?.id === item.user_id ?? false;
+
+  // On wishlist click
+  const onWishlistClick = () => {
+    dispatch(
+      addWishListAction({
+        product_id: item.id,
+      }),
+    ).then(res => {
+      if (res?.type.includes('fulfilled')) {
+        setInWishlist(!inWishlist);
+      }
+    });
+  };
 
   return (
     <Card style={styles.card_container}>
@@ -146,12 +168,20 @@ const ProductCard = ({
             />
           </Menu>
         ) : (
-          <Pressable onPress={onWishlistClick}>
+          <Pressable
+            onPress={
+              onWishlistClick
+                ? () => {
+                    setInWishlist(!inWishlist);
+                    onWishlistClick();
+                  }
+                : null
+            }>
             <CustomIcon
               size={30}
-              color={'#000000'}
+              color={inWishlist ? '#00958C' : '#000000'}
               origin={ICON_TYPE.MATERIAL_ICONS}
-              name="bookmark-outline"
+              name={inWishlist ? 'bookmark' : 'bookmark-outline'}
             />
           </Pressable>
         )}

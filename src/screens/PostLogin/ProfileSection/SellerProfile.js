@@ -37,7 +37,6 @@ const SellerProfile = props => {
         <ProductCard
           key={index}
           item={item}
-          isSelf={isSelf}
           onSoldClick={() => {
             onChangeProductStatus({
               product_id: item.id,
@@ -84,25 +83,6 @@ const SellerProfile = props => {
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as deleted.',
-                });
-              } else if (res?.type.includes('rejected')) {
-                showAlert({
-                  title: 'Server error !',
-                });
-              }
-            });
-          }}
-          onWishlistClick={() => {
-            console.log('Wishlist', item.id);
-            onWishlistClick({
-              product_id: item.id,
-            }).then(res => {
-              if (res?.type.includes('fulfilled')) {
-                console.log('Res==', res);
-                getProfileListing({userId: userDetail.id});
-                showAlert({
-                  title: 'Success !',
-                  message: `${res?.payload?.message}` ?? 'Success',
                 });
               } else if (res?.type.includes('rejected')) {
                 showAlert({
