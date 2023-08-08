@@ -13,13 +13,42 @@ import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
-import {addEllipsis, formatTimestamp} from '@app/helper/commonFunction';
+import {
+  addEllipsis,
+  formatTimestamp,
+  showAlert,
+} from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
+import {useDispatch, useSelector} from 'react-redux';
+import {addWishListAction} from '@app/store/exploreProductSlice';
 
 const {width} = Dimensions.get('screen');
-const ProductCard = ({item, onPress, isSelf = false}) => {
+const ProductCard = ({
+  item,
+  onSoldClick,
+  onReservedClick,
+  onDeleteClick,
+  callBack,
+}) => {
   const [visible, setVisible] = useState(false);
+  const [inWishlist, setInWishlist] = useState(item?.isInWishlist);
+  const dispatch = useDispatch();
+  const authReducer = useSelector(state => state.authReducer);
+  const isSelf = authReducer?.userProfileDetails?.id === item.user_id ?? false;
+
+  // On wishlist click
+  const onWishlistClick = () => {
+    dispatch(
+      addWishListAction({
+        product_id: item.id,
+      }),
+    ).then(res => {
+      if (res?.type.includes('fulfilled')) {
+        setInWishlist(!inWishlist);
+      }
+    });
+  };
 
   return (
     <Card style={styles.card_container}>
@@ -71,7 +100,13 @@ const ProductCard = ({item, onPress, isSelf = false}) => {
         </CustomText>
         <Spacer height={13} />
         {isSelf ? (
-          <Pressable style={styles.boostButton} onPress={() => {}}>
+          <Pressable
+            style={styles.boostButton}
+            onPress={() => {
+              // NavigationService.navigate(RoutesName.B, {
+              //   product_id: item.id,
+              // });
+            }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>
         ) : null}
@@ -96,19 +131,57 @@ const ProductCard = ({item, onPress, isSelf = false}) => {
             }>
             <Menu.Item onPress={() => {}} title="Edit Details" />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Mark as sold" />
+            <Menu.Item
+              onPress={
+                onSoldClick
+                  ? () => {
+                      setVisible(false);
+                      onSoldClick();
+                    }
+                  : null
+              }
+              title="Mark as sold"
+            />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Mark as Reserved" />
+            <Menu.Item
+              onPress={
+                onReservedClick
+                  ? () => {
+                      setVisible(false);
+                      onReservedClick();
+                    }
+                  : null
+              }
+              title="Mark as Reserved"
+            />
             <Divider />
-            <Menu.Item onPress={() => {}} title="Delete" />
+            <Menu.Item
+              onPress={
+                onDeleteClick
+                  ? () => {
+                      setVisible(false);
+                      onDeleteClick();
+                    }
+                  : null
+              }
+              title="Delete"
+            />
           </Menu>
         ) : (
-          <Pressable onPress={onPress}>
+          <Pressable
+            onPress={
+              onWishlistClick
+                ? () => {
+                    setInWishlist(!inWishlist);
+                    onWishlistClick();
+                  }
+                : null
+            }>
             <CustomIcon
               size={30}
-              color={'#000000'}
+              color={inWishlist ? '#00958C' : '#000000'}
               origin={ICON_TYPE.MATERIAL_ICONS}
-              name="bookmark-outline"
+              name={inWishlist ? 'bookmark' : 'bookmark-outline'}
             />
           </Pressable>
         )}
