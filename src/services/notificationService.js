@@ -2,6 +2,33 @@ import messaging from '@react-native-firebase/messaging';
 import {getFCMToken} from './firebaseServices';
 import {PermissionsAndroid} from 'react-native';
 
+import notifee from '@notifee/react-native';
+
+export async function onDisplayNotification(title, body) {
+  // Request permissions (required for iOS)
+  //await notifee.requestPermission();
+
+  // Create a channel (required for Android)
+  const channelId = await notifee.createChannel({
+    id: 'default',
+    name: 'Default Channel',
+  });
+
+  // Display a notification
+  await notifee.displayNotification({
+    title: title,
+    body: body,
+    android: {
+      channelId,
+      smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+      // pressAction is needed if you want the notification to open the app when pressed
+      pressAction: {
+        id: 'default',
+      },
+    },
+  });
+}
+
 export async function requestUserPermission() {
   let r = PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
@@ -28,6 +55,16 @@ export const notificationListner = async () => {
 
   messaging().onMessage(async remoteMessage => {
     console.log('received in forground', remoteMessage);
+    // const jsonData = JSON.parse(remoteMessage.data.default);
+    // const again = JSON.parse(jsonData.GCM);
+
+    // // Access the title and body properties
+    // const title = again.data.title;
+    // const body = again.data.body;
+    // console.log(title, 'fghjkl');
+    // console.log(body, 'fghjkl');
+
+    onDisplayNotification('dfghjkl', 'fghjkl');
   });
 
   messaging()

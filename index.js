@@ -10,6 +10,6 @@ import messaging from '@react-native-firebase/messaging';
 import App from './src/App';
 import 'react-native-reanimated';
 messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
+  console.log('Message handle======d in the background!', remoteMessage);
 });
 AppRegistry.registerComponent(appName, () => App);

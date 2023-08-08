@@ -1,5 +1,8 @@
+use_modular_headers!
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
+pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec', :modular_headers => false
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 pod 'Firebase', :modular_headers => true
@@ -30,6 +33,7 @@ if linkage != nil
 end
 
 target 'SWI' do
+
   config = use_native_modules!
 
   # Flags change depending on the env values.
