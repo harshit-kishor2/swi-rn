@@ -12,6 +12,7 @@ import ClearableSearch from '@app/screens/atoms/ClearableSearch';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
+import {RoutesName} from '@app/helper/strings';
 const IMAGE = {
   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
 };
@@ -182,7 +183,13 @@ const SellerProfile = props => {
             Premium Seller
           </CustomText>
         </View>
-        <View style={styles.ratingcontainer}>
+        <Pressable
+          onPress={() =>
+            navigation?.navigate(RoutesName.REVIEW_RATING_SCREEN, {
+              userID: userDetail?.id,
+            })
+          }
+          style={styles.ratingcontainer}>
           <AirbnbRating
             count={5}
             showRating={false}
@@ -200,7 +207,7 @@ const SellerProfile = props => {
           <CustomText style={styles.reviewText}>
             {userDetail?.count} reviews
           </CustomText>
-        </View>
+        </Pressable>
         <View style={styles.varify_container}>
           <CustomText style={styles.verified_text}>Varified :</CustomText>
           <Image

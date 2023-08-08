@@ -27,8 +27,6 @@ export const RoutesName = {
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
   PRODUCT_DETAILS: 'Product Details',
-  SELLERSPROFILE_VIEWBYOWN: 'Sellers Own Profile',
-  SELLERSPROFILE_VIEWBYOTHERS: 'Sellers View By Others Profile',
   COIN_HISTORY: 'Coin History',
   ITEM_COMPARISON: 'ItemComparison',
   SEARCH_SCREEN: 'SearchScreen',
@@ -37,6 +35,7 @@ export const RoutesName = {
   PROFILE_SECTION_SCREEN: 'Profile Section Screen',
   CHANGE_PASSWORD_SCREEN: 'Change Password Screen',
   EDIT_SELLER_PROFILE: 'Edit Seller Profile Screen',
+  REVIEW_RATING_SCREEN: 'Review Rating Screen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',
