@@ -1,82 +1,50 @@
-import { Container, CustomIcon, CustomInput, NavigationBar, Spacer } from "@app/components";
-import { ICON_TYPE } from "@app/components/CustomIcon";
-import { COLORS, IMAGES } from "@app/resources";
-import SearchHeader from "@app/screens/atoms/SearchHeader";
+import {BackHeader, Container, Spacer} from '@app/components';
 
-import React from "react";
-import { Image, ScrollView, View } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { Searchbar, Text } from "react-native-paper";
-import { SearchBar } from "react-native-screens";
-import { InterestCard } from "./InterestCard";
+import PageTitle from '@app/screens/atoms/PageTitle';
+import {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import ClearableSearch from '../../atoms/ClearableSearch';
+import {EmptyList, FooterList, RenderItem} from './common';
 
+const InterestList = props => {
+  const [search, setSearch] = useState('');
 
-export const InterestList = () => {
-    return (
-        <Container style={{ padding: 15, marginVertical: 20 }}>
-            <NavigationBar
-                leftSource={IMAGES.BACKARROW}
-                leftAction={() => {
-                    console.log('first');
-                    props.navigation.navigate('CreateAccountScreen');
-                }}
-                flexDirection="row"
-            />
-            <View>
-                <Text style={{ fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK }}>
-                    Interest List
-                </Text>
-            </View>
-            <View
-                style={{
-                    height: 80,
-                    width: '100%',
+  const onLoadMore = () => {};
 
-                }}>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-evenly',
-                        alignItems: 'center',
-                        flex: 1,
-                    }}>
-                    <CustomInput
-                        mode={'outlined'}
-                        outlineColor="grey"
+  return (
+    <Container useSafeAreaView={true}>
+      <Spacer height={20} />
+      <BackHeader />
+      <PageTitle title={'Interest List'} />
+      <View style={styles.input}>
+        <ClearableSearch search={search} setSearch={setSearch} />
+      </View>
+      <FlatList
+        data={[1, 2, 3]}
+        contentContainerStyle={styles.flatlist_container}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={RenderItem}
+        ListEmptyComponent={EmptyList}
+        onEndReachedThreshold={0.2}
+        onEndReached={onLoadMore}
+        ListFooterComponent={FooterList}
+      />
+    </Container>
+  );
+};
 
-                        style={{
-                            // flex: 0.85,
-                            width: '99%'
-                        }}
-                        outlineStyle={{
-                            borderRadius: 10,
-                        }}
-                        leftIcon={
-                            <CustomIcon
-                                style={{
-                                    alignSelf: 'center',
-                                    paddingTop: 5,
-                                }}
-                                origin={ICON_TYPE.FEATHER_ICONS}
-                                name={'search'}
-                                color={'#00000070'}
-                                size={20}
-                            />
-                        }
-                        placeholder={'Search by product/brand/model'}
-                    />
-                </View>
-            </View>
-            <View>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <InterestCard />
-
-                </ScrollView>
-
-            </View>
-        </Container>
-    )
-}
-
-
-
+export default InterestList;
+const styles = StyleSheet.create({
+  input: {
+    alignSelf: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  flatlist_container: {
+    flexGrow: 1,
+    paddingHorizontal: 10,
+    paddingBottom: 50,
+    paddingTop: 20,
+  },
+});

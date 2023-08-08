@@ -1,21 +1,22 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
+  AccountSetting,
   ChatDetailScreen,
-  FreshFindScreen,
+  InterestList,
+  MyFavourites,
   NotificationScreen,
-  PostedSuccessfully,
   ProductDetails,
+  ProfileSection,
+  SellerProfileQR,
 } from '@app/screens';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import MainTabNavigator from './MainTabNavigator';
 import {RoutesName} from '@app/helper/strings';
-import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
 import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
-import MyFavourites from '@app/screens/PostLogin/MyFavourites.js/Index';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
+import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
 import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
-import {InterestList} from '@app/screens/PostLogin/Interestlist';
+import MainTabNavigator from './MainTabNavigator';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -52,22 +53,25 @@ const PostLoginNavigator = () => {
       />
       <Stack.Screen name={RoutesName.MY_FAVOURITES} component={MyFavourites} />
       <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
-
-      {/* <Stack.Screen
-        name="FreshFind"
-        component={FreshFindScreen}
-        options={{headerShown: false}}
-      /> */}
+      <Stack.Screen
+        name={RoutesName.PROFILE_QR_SCREEN}
+        component={SellerProfileQR}
+      />
       <Stack.Screen
         name={RoutesName.NOTIFICATION_SCREEN}
         component={NotificationScreen}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetails}
+      <Stack.Screen
+        name={RoutesName.ACCOUNT_SETTING_SCREEN}
+        component={AccountSetting}
         options={{headerShown: false}}
-      /> */}
+      />
+      <Stack.Screen
+        name={RoutesName.PROFILE_SECTION_SCREEN}
+        component={ProfileSection}
+        options={{headerShown: false}}
+      />
 
       {/* <Stack.Screen name="PostedSuccessfully" component={PostedSuccessfully} /> */}
     </Stack.Navigator>

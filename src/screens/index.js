@@ -16,9 +16,14 @@ import FreshFindScreen from './PostLogin/FreshFindScreen';
 import MyProfileScreen from './PostLogin/MyProfileScreen';
 import NotificationScreen from './PostLogin/NotificationScreen';
 import ProductDetails from './PostLogin/ProductDetails';
-import PostedSuccessfully from './PostLogin/AddProduct/PostedSuccessfully';
+import PostedSuccessfully from './PostLogin/AddProduct1/PostedSuccessfully';
 import PendingProfileScreen from './PreLogin/PendingProfileScreen';
 import ChatDetailScreen from './PostLogin/ChatDetailScreen';
+import InterestList from './PostLogin/Interestlist';
+import MyFavourites from './PostLogin/MyFavourites/Index';
+import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
+import AccountSetting from './PostLogin/AccountSetting/index';
+import ProfileSection from './PostLogin/ProfileSection/index';
 
 export {
   // PreLogin
@@ -42,4 +47,9 @@ export {
   NotificationScreen,
   ProductDetails,
   PostedSuccessfully,
+  SellerProfileQR,
+  InterestList,
+  MyFavourites,
+  AccountSetting,
+  ProfileSection,
 };

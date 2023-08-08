@@ -8,8 +8,11 @@ import exploreProductReducer, {
 } from './exploreProductSlice';
 import exploreReducer from './explore.slice';
 import {productReducer, productStateReducer} from './productSlice';
-import sellersProfileReducer from './sellersProfileSclice'
+import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
+import chatReducer from './chatSlice';
+import profileSectionReducer from './profileSectionSlice/index';
+import {updateSellerProfileReducer} from './testSellerEditProfile';
 
 const combinedReducer = combineReducers({
   authReducer,
@@ -18,10 +21,13 @@ const combinedReducer = combineReducers({
   productReducer,
   productStateReducer,
   exploreReducer,
-  
+  profileSectionReducer,
+
   addToCompareReducer,
   sellersProfileReducer,
   wishlistReducer,
+  chatReducer,
+  updateSellerProfileReducer,
 });
 
 const rootReducers = (state, action) => {

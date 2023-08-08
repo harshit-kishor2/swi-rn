@@ -2,7 +2,7 @@ import moment from 'moment';
 import {fire} from 'react-native-alertbox';
 
 export function addEllipsis(text, maxLength) {
-  if (text?.length > maxLength) {
+  if (text && text?.length > maxLength) {
     return text.substring(0, maxLength) + '...';
   }
   return text;

@@ -6,17 +6,17 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {showAlert} from '@app/helper/commonFunction';
-import {RoutesName} from '@app/helper/strings';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { showAlert } from '@app/helper/commonFunction';
+import { RoutesName } from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import LinkNavigationRow from '@app/screens/atoms/LinkNavigationRow';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
-import {forgotPasswordAction} from '@app/store/authSlice';
-import {useFormik} from 'formik';
-import {useState} from 'react';
-import {Keyboard, ScrollView, StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
+import { forgotPasswordAction } from '@app/store/authSlice';
+import { useFormik } from 'formik';
+import { useState } from 'react';
+import { Keyboard, ScrollView, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import * as Yup from 'yup';
 
 //Validation Schema for formik
@@ -27,7 +27,7 @@ const validationSchema = Yup.object({
 });
 
 const ForgetPassword = props => {
-  const {authReducer, onForgotPassword} = props;
+  const { authReducer, onForgotPassword } = props;
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
   // Initial Values for  formik
@@ -48,7 +48,7 @@ const ForgetPassword = props => {
   } = useFormik({
     initialValues: initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (val, {setErrors}) => {
+    onSubmit: async (val, { setErrors }) => {
       Keyboard.dismiss();
       try {
         setButtonDisabled(true);
@@ -73,7 +73,7 @@ const ForgetPassword = props => {
           }
         });
       } catch (err) {
-        setErrors({serverError: err.message});
+        setErrors({ serverError: err.message });
         setButtonDisabled(false);
       }
     },
@@ -95,7 +95,7 @@ const ForgetPassword = props => {
           <LoginHeader
             title={'Forgot Password'}
             description={'Enter email address for the link'}
-            descriptionStyle={{color: '#00958C'}}
+            descriptionStyle={{ color: '#00958C' }}
           />
           <Spacer height={40} />
           <CustomInput
@@ -128,7 +128,7 @@ const ForgetPassword = props => {
             title={''}
             linkTitle={'Resend Link'}
             onPress={
-              () => {}
+              () => { }
               // NavigationService.navigate(RoutesName.CREATE_ACCOUNT_SCREEN)
             }
           />

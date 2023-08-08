@@ -3,7 +3,7 @@
 import {IMAGES, SPACING} from '@app/resources';
 import store from '@app/store';
 // import {logoutAction} from '@app/store/authSlice/auth.slice';
-import {RoutesName} from '@app/helper/strings'
+import {RoutesName} from '@app/helper/strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
@@ -35,7 +35,7 @@ const MyProfileScreen = props => {
   );
   console.log('Profiledata===', profileData);
   const dispatch = useDispatch();
-  
+
   const logout = async () => {
     await AsyncStorage.setItem('Token', '');
     SharedPreference.multiRemove([
@@ -85,7 +85,9 @@ const MyProfileScreen = props => {
           <View style={styles.ProfilePicture}>
             <Pressable
               onPress={() => {
-                NavigationService.navigate(RoutesName.SELLERSPROFILE_VIEWBYOWN,{id:profileData.id})
+                NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+                  userId: profileData.id,
+                });
               }}>
               <View
                 style={{
@@ -153,7 +155,8 @@ const MyProfileScreen = props => {
         </View>
         <View style={{}}>
           <Text style={styles.TextStyle1}>
-            You have {<Image source={IMAGES.coin} />} { profileData.coins ? profileData.coins : '0' } coins with you now
+            You have {<Image source={IMAGES.coin} />}{' '}
+            {profileData.coins ? profileData.coins : '0'} coins with you now
           </Text>
         </View>
         <View
@@ -168,7 +171,7 @@ const MyProfileScreen = props => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              props.navigation.navigate(RoutesName.MY_FAVOURITES)
+              props.navigation.navigate(RoutesName.MY_FAVOURITES);
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
@@ -186,7 +189,7 @@ const MyProfileScreen = props => {
             activeOpacity={1}
             onPress={() => {
               // Alert.alert('Pressed');
-              props.navigation.navigate(RoutesName.INTERESTLIST_SCREEN)
+              props.navigation.navigate(RoutesName.INTERESTLIST_SCREEN);
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
@@ -223,7 +226,9 @@ const MyProfileScreen = props => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              // Alert.alert('Pressed');
+              NavigationService.navigate(RoutesName.ACCOUNT_SETTING_SCREEN, {
+                userId: profileData.id,
+              });
             }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>

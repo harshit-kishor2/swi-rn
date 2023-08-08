@@ -96,7 +96,7 @@ export default ImageModal;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: 'transparent',
+    backgroundColor: '#00000040',
   },
   backdrop: {
     height: '70%',
@@ -119,8 +119,7 @@ const styles = StyleSheet.create({
     height: '30%',
     width: '100%',
     backgroundColor: '#FFFFFF',
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
+    borderRadius: 0,
   },
   button_container: {
     flexDirection: 'row',
