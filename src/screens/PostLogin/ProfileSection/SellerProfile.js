@@ -32,7 +32,7 @@ const SellerProfile = props => {
           paddingHorizontal: 20,
         }}>
         <ClearableSearch search={search} setSearch={setSearch} />
-        <PageTitle title={'Watch Posted by Harshit'} />
+        <PageTitle title={`Watch Posted by ${userDetail?.name}`} />
         <FlatList
           contentContainerStyle={{
             flexGrow: 1,
