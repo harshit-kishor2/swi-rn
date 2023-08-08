@@ -17,12 +17,7 @@ const NormalProfile = props => {
         flexGrow: 1,
         paddingBottom: 30,
       }}>
-      <View
-        style={{
-          height: 250,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.imageContainer}>
         <Avatar.Image source={IMAGE} size={100} />
         <CustomText
           style={{
@@ -49,13 +44,7 @@ const NormalProfile = props => {
           {useDetail?.mobile}
         </CustomText>
       </View>
-      <Divider
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          height: 2,
-        }}
-      />
+      <Divider style={styles.divider} />
       <View
         style={{
           paddingHorizontal: 20,
@@ -80,13 +69,7 @@ const NormalProfile = props => {
       </View>
       {isSelf ? (
         <View>
-          <Divider
-            style={{
-              width: '90%',
-              alignSelf: 'center',
-              height: 2,
-            }}
-          />
+          <Divider style={styles.divider} />
           <View
             style={{
               height: 50,
@@ -117,13 +100,7 @@ const NormalProfile = props => {
             />
           </View>
 
-          <Divider
-            style={{
-              width: '90%',
-              alignSelf: 'center',
-              height: 2,
-            }}
-          />
+          <Divider style={styles.divider} />
         </View>
       ) : null}
       <Spacer />
@@ -133,4 +110,15 @@ const NormalProfile = props => {
 
 export default NormalProfile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  divider: {
+    width: '90%',
+    alignSelf: 'center',
+    height: 2,
+  },
+  imageContainer: {
+    height: 250,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
