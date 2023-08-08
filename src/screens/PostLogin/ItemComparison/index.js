@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/self-closing-comp */
 import {
   View,
   Text,
@@ -24,6 +26,7 @@ import {
   resetAddToProductSliceState,
 } from '@app/store/exploreProductSlice/addToCompare.slice';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {addEllipsis} from '@app/helper/commonFunction';
 
 const ItemComparison = props => {
   const dispatch = useDispatch();
@@ -99,7 +102,7 @@ const ItemComparison = props => {
                       fontWeight: 'bold',
                       // marginLeft: SPACING.SCALE_33,
                     }}>
-                    {productCompareList[0]?.title}
+                    {addEllipsis(productCompareList[0]?.title, 10)}
                   </CustomText>
                   <Spacer height={SPACING.SCALE_25} />
                   <CustomText
@@ -116,8 +119,10 @@ const ItemComparison = props => {
                     style={{
                       fontSize: SPACING.SCALE_18,
                       color: COLORS.modalViewTextColor,
+                      maxWidth: SPACING.SCALE_145,
+                      // backgroundColor: 'red',
                     }}>
-                    {productCompareList[0]?.model?.name}
+                    {addEllipsis(productCompareList[0]?.model?.name, 10)}
                   </CustomText>
                   <Spacer />
                   <HorizontalLine width={SPACING.SCALE_160} />
@@ -136,8 +141,9 @@ const ItemComparison = props => {
                     style={{
                       fontSize: SPACING.SCALE_18,
                       color: COLORS.modalViewTextColor,
+                      maxWidth: SPACING.SCALE_145,
                     }}>
-                    {productCompareList[0]?.watch_condition}
+                    {addEllipsis(productCompareList[0]?.watch_condition, 10)}
                   </CustomText>
                   <Spacer />
                   <HorizontalLine width={SPACING.SCALE_160} />
@@ -156,8 +162,9 @@ const ItemComparison = props => {
                     style={{
                       fontSize: SPACING.SCALE_18,
                       color: COLORS.modalViewTextColor,
+                      maxWidth: SPACING.SCALE_145,
                     }}>
-                    $ {productCompareList[0]?.price}
+                    $ {addEllipsis(productCompareList[0]?.price, 10)}
                   </CustomText>
                   <Spacer />
                   <HorizontalLine width={SPACING.SCALE_160} />
@@ -196,8 +203,9 @@ const ItemComparison = props => {
                     style={{
                       fontSize: SPACING.SCALE_18,
                       color: COLORS.modalViewTextColor,
+                      maxWidth: SPACING.SCALE_145,
                     }}>
-                    {productCompareList[0]?.user?.name}
+                    {addEllipsis(productCompareList[0]?.user?.name, 10)}
                   </CustomText>
                   <Spacer />
                   <HorizontalLine width={SPACING.SCALE_160} />
@@ -210,7 +218,7 @@ const ItemComparison = props => {
                   data={productCompareList}
                   renderItem={({item, index}) => {
                     return index !== 0 ? (
-                      <View style={{marginLeft: 20}}>
+                      <View style={{marginLeft: 16}}>
                         {item?.thumb_image ? (
                           <>
                             <Image
@@ -252,7 +260,7 @@ const ItemComparison = props => {
                             fontWeight: 'bold',
                             // marginLeft: SPACING.SCALE_33,
                           }}>
-                          {item?.title}
+                          {addEllipsis(item?.title, 10)}
                         </CustomText>
                         <Spacer height={SPACING.SCALE_25} />
                         <CustomText
@@ -269,8 +277,9 @@ const ItemComparison = props => {
                           style={{
                             fontSize: SPACING.SCALE_18,
                             color: COLORS.modalViewTextColor,
+                            maxWidth: SPACING.SCALE_145,
                           }}>
-                          {item?.model?.name}
+                          {addEllipsis(item?.model?.name, 10)}
                         </CustomText>
                         <Spacer />
                         <HorizontalLine width={SPACING.SCALE_160} />
@@ -289,8 +298,9 @@ const ItemComparison = props => {
                           style={{
                             fontSize: SPACING.SCALE_18,
                             color: COLORS.modalViewTextColor,
+                            maxWidth: SPACING.SCALE_145,
                           }}>
-                          {item?.watch_condition}
+                          {addEllipsis(item?.watch_condition, 10)}
                         </CustomText>
                         <Spacer />
                         <HorizontalLine width={SPACING.SCALE_160} />
@@ -309,8 +319,9 @@ const ItemComparison = props => {
                           style={{
                             fontSize: SPACING.SCALE_18,
                             color: COLORS.modalViewTextColor,
+                            maxWidth: SPACING.SCALE_145,
                           }}>
-                          $ {item?.price}
+                          $ {addEllipsis(item?.price, 10)}
                         </CustomText>
                         <Spacer />
                         <HorizontalLine width={SPACING.SCALE_160} />
@@ -329,6 +340,7 @@ const ItemComparison = props => {
                           style={{
                             fontSize: SPACING.SCALE_18,
                             color: COLORS.modalViewTextColor,
+                            maxWidth: SPACING.SCALE_145,
                           }}>
                           {item?.dated}
                         </CustomText>
@@ -349,8 +361,9 @@ const ItemComparison = props => {
                           style={{
                             fontSize: SPACING.SCALE_18,
                             color: COLORS.modalViewTextColor,
+                            maxWidth: SPACING.SCALE_145,
                           }}>
-                          {item?.user?.name}
+                          {addEllipsis(item?.user?.name, 10)}
                         </CustomText>
                         <Spacer />
                         <HorizontalLine width={SPACING.SCALE_160} />
