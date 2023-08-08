@@ -56,7 +56,9 @@ const ProfileSection = props => {
                   justifyContent: 'center',
                 }}
                 onPress={() => {
-                  navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE);
+                  navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
+                    userId: userId,
+                  });
                 }}>
                 <CustomIcon
                   origin={ICON_TYPE.OCTICONS}

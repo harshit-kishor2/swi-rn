@@ -12,7 +12,10 @@ import {COLORS, IMAGES} from '@app/resources';
 import CheckBox from '@react-native-community/checkbox';
 import {useFormik} from 'formik';
 import moment from 'moment';
-import {getSellerProfile} from '@app/store/testSellerEditProfile/sellerProfileEdit.action';
+import {
+  getSellerProfile,
+  updateSellerProfile,
+} from '@app/store/testSellerEditProfile/sellerProfileEdit.action';
 import {useEffect, useState} from 'react';
 // import { CheckBox } from 'react-native-elements';
 import {
@@ -28,162 +31,61 @@ import {
 
 import ToggleSwitch from 'toggle-switch-react-native';
 import {connect} from 'react-redux';
-
-// type ValuePiece = Date | string | null;
-
-// type Value = ValuePiece | [ValuePiece, ValuePiece];
+import {showAlert} from '@app/helper/commonFunction';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const EditSellerProfile = props => {
+  const [inputs, setInputs] = useState([{id: 0, value: ''}]);
+  const addTextInput = () => {
+    const newInput = {id: inputs.length, value: ''};
+    setInputs([...inputs, newInput]);
+  };
+  const handleInputChange = (id, text) => {
+    const updatedInputs = inputs.map(input =>
+      input.id === id ? {...input, value: text} : input,
+    );
+    setInputs(updatedInputs);
+  };
+  const {
+    navigation,
+    route,
+    authReducer,
+    updateSellerProfileReducer,
+    getUpdateProfile,
+    updateSellerProfile,
+  } = props;
+  const userId = route.params?.userId;
   // const {getSellerProfileList} = props;
-  // console.log(props, 'Props');
+  console.log(props, 'Props================|||||||||||||||||||||||||');
+
+  const item = updateSellerProfileReducer?.getSellerProfile;
+
+  const updateItem = updateSellerProfileReducer.updateSellerProfile;
+  // console.log('=>>>>>>>item==================>', item);  console.log('=>>>>>>>item==================>Alok', updateItem);
   // const item = getSellerProfileReducer;
-  // console.log('=>>>>>>>>>>>>', item);
-  // useEffect(() => {
-  //   if (props.route.params) {
-  //     getSellerProfileList();
-  //   }
-  // }, []);
+  console.log('ITEM GET===================>>>>>>>>>>>>', item);
+  useEffect(() => {
+    getUpdateProfile();
+  }, []);
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
   const [switchOn, setSwitchOn] = useState(false);
-  const [paymentMode, setPaymentMode] = useState([
-    {
-      id: 1,
-      check: true,
-      paymentName: 'Debit Card',
-    },
-    {
-      id: 2,
-      check: false,
-      paymentName: 'Credit Card',
-    },
-    {
-      id: 3,
-      check: true,
-      paymentName: 'Debit Card',
-    },
-    {
-      id: 3,
-      check: true,
-      paymentName: 'Online',
-    },
-  ]);
-  const [weekData, setWeekData] = useState([
-    {
-      id: 1,
-      day: 'Monday',
-      // onOff: "off"
-      timing: '10:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 2,
-      day: 'Tuesday',
-      // onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 3,
-      day: 'Wednesday',
-      //onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 4,
-      day: 'Thursday',
-      // onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 5,
-      day: 'Friday',
-      // onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 6,
-      day: 'Saturday',
-      //// onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-    {
-      id: 7,
-      day: 'Sunday',
-      //onOff: "on",
-      timing: '9:00 am - 5:00 pm',
-      onOff: false,
-    },
-  ]);
 
   const initialValues = {
-    sellerName: '',
-    email: '',
-    phoneNumber: '',
-    about: '',
-    location: '',
-    week: [
-      {
-        id: 1,
-        day: 'Monday',
-        // onOff: "off"
-        timing: '10:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 2,
-        day: 'Tuesday',
-        // onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 3,
-        day: 'Wednesday',
-        //onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 4,
-        day: 'Thursday',
-        // onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 5,
-        day: 'Friday',
-        // onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 6,
-        day: 'Saturday',
-        //// onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-      {
-        id: 7,
-        day: 'Sunday',
-        //onOff: "on",
-        timing: '9:00 am - 5:00 pm',
-        onOff: false,
-      },
-    ],
-    website: '',
-    socialMedia: [],
-    paymentMode: [],
-    announcement: '',
-    announcementDate: '',
+    userId: item?.id,
+    name: item?.name ?? '',
+    email: item?.email ?? '',
+    mobile: item?.mobile ?? '',
+    about: item?.bio ?? '',
+    location: item.additional_info?.location,
+    opening_hours: item.additional_info?.opening_hours ?? [],
+    website: item.additional_info?.website ?? '',
+    social_media: item.additional_info?.social_media ?? [],
+    payment_method: item.additional_info?.payment_method ?? [],
+    announcement: item.additional_info?.announcement ?? '',
+    announcement_end: item.additional_info?.announcement_end ?? '',
   };
   const {
     handleChange,
@@ -196,10 +98,30 @@ const EditSellerProfile = props => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      // console.log(values);
+      try {
+        updateSellerProfile(values).then(res => {
+          if (res?.type.include('fulfilled')) {
+            showAlert({
+              title: 'success',
+              message: res?.payload?.message ?? 'Success',
+            });
+          }
+          if (res?.type.include('rejected')) {
+            showAlert({
+              title: 'Error',
+              message: res?.payload?.message ?? 'Failed',
+            });
+          }
+        });
+      } catch (error) {
+        console.log('OnPost Error Message==================>', error.message);
+      }
+      // updateSellerProfileReducer();
     },
   });
-  // console.log('=>>>>>>>>', values);
+  console.log('================>Values ONSubmit ', values);
+
+  console.log('=>>>>>>>>initial VAllues', initialValues);
 
   return (
     <Container useSafeAreaView={true}>
@@ -285,8 +207,8 @@ const EditSellerProfile = props => {
             <CustomInput
               placeholder="Seller's Name"
               style={style.input}
-              onChangeText={values => setFieldValue('sellerName', values)}
-              value={values.sellerName}
+              onChangeText={values => setFieldValue('name', values)}
+              value={values.name}
             />
             <Text style={style.text}>Email</Text>
             <CustomInput
@@ -299,8 +221,8 @@ const EditSellerProfile = props => {
             <CustomInput
               placeholder="Phone Number"
               style={style.input}
-              onChangeText={value => setFieldValue('phoneNumber', value)}
-              value={values.phoneNumber}
+              onChangeText={value => setFieldValue('mobile', value)}
+              value={values.mobile}
             />
             <Text style={style.text}>About (Max 500 Words)</Text>
             <CustomInput
@@ -323,7 +245,7 @@ const EditSellerProfile = props => {
 
             <View>
               <FlatList
-                data={values.week}
+                data={values.opening_hours}
                 keyExtractor={item => item.id}
                 renderItem={({item, index}) => {
                   // console.log(item)
@@ -336,7 +258,7 @@ const EditSellerProfile = props => {
                         <ToggleSwitch
                           isOn={item.onOff}
                           onToggle={val => {
-                            const temp = weekData.filter((a, i) => {
+                            const temp = values.opening_hours.filter((a, i) => {
                               if (a.id === item.id) {
                                 item.onOff = val;
                                 return item;
@@ -345,8 +267,7 @@ const EditSellerProfile = props => {
                               }
                             });
 
-                            setWeekData(temp);
-                            setFieldValue('week', temp);
+                            setFieldValue('opening_hours', temp);
                           }}
                           // onToggle={}
                           onColor={'#00958C'}
@@ -360,7 +281,7 @@ const EditSellerProfile = props => {
                           value={item.timing}
                           style={{width: 150}}
                           onChangeText={val => {
-                            const temp = weekData.filter((a, i) => {
+                            const temp = values.opening_hours.filter((a, i) => {
                               if (a.id === item.id) {
                                 item.timing = val;
                                 return item;
@@ -368,8 +289,8 @@ const EditSellerProfile = props => {
                                 return item;
                               }
                             });
-                            setWeekData(temp);
-                            setFieldValue('week', temp);
+
+                            setFieldValue('opening_hours', temp);
                           }}
                         />
                       </View>
@@ -389,14 +310,35 @@ const EditSellerProfile = props => {
               />
               <View>
                 <Text style={style.text}>Social Media Links</Text>
-                <CustomInput
+
+                {/* <CustomInput
                   placeholder="facebook/immyvan"
                   style={style.input}
-                />
+                /> */}
+                {values.social_media.map((item, index) => (
+                  <CustomInput
+                    key={index}
+                    value={item}
+                    onChangeText={value => {
+                      values.social_media[index] = value;
+                      setFieldValue('social_media', values.social_media);
+                    }}
+                    // onChangeText={text => handleInputChange(item.id, text)}
+                    rightIcon={() => {
+                      return (
+                        <CustomIcon
+                          origin={ICON_TYPE.ENTYPO}
+                          name={'cross'}
+                          size={20}
+                        />
+                      );
+                    }}
+                  />
+                ))}
               </View>
 
               <View style={{alignSelf: 'flex-end'}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={addTextInput}>
                   <Text
                     style={{
                       fontFamily: 'OpenSans-SemiBold',
@@ -412,7 +354,7 @@ const EditSellerProfile = props => {
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                 <FlatList
-                  data={paymentMode}
+                  data={values.payment_method}
                   numColumns={3}
                   keyExtractor={item => item.id}
                   renderItem={({item, index}) => {
@@ -427,20 +369,21 @@ const EditSellerProfile = props => {
                           disabled={false}
                           value={item.check}
                           onValueChange={val => {
-                            const temp = paymentMode.filter((a, i) => {
-                              if (a.id === item.id) {
-                                item.check = val;
-                                return item;
-                              } else {
-                                return item;
-                              }
-                            });
-                            setPaymentMode(temp);
+                            const temp = values.payment_method.filter(
+                              (a, i) => {
+                                if (a.id === item.id) {
+                                  item.check = val;
+                                  return item;
+                                } else {
+                                  return item;
+                                }
+                              },
+                            );
+                            // setPaymentMode(temp);
+                            setFieldValue('payment_method', temp);
                           }}
                         />
-                        <Text style={[{marginTop: 6}, style.text]}>
-                          {item.paymentName}
-                        </Text>
+                        <Text style={[{marginTop: 6}, style.text]}>{item}</Text>
                       </View>
                     );
                   }}
@@ -495,7 +438,7 @@ const EditSellerProfile = props => {
               <Text>Announcement ends on </Text>
               <View onPress={() => setOpen(true)} style={{marginBottom: 5}}>
                 <DatePicker
-                  Value={date}
+                  Value={values.announcement_end}
                   children={
                     <CustomText>
                       {date
@@ -503,7 +446,7 @@ const EditSellerProfile = props => {
                         : 'DD MMM YYYY'}
                     </CustomText>
                   }
-                  onChangeDate={d => setDate(d)}
+                  onChangeDate={d => setFieldValue(d)}
                 />
               </View>
               <View
@@ -527,8 +470,7 @@ const EditSellerProfile = props => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  // onPress={handlerSubmit}
-                >
+                  onPress={handleSubmit}>
                   <Text
                     style={{
                       fontSize: 20,
@@ -600,7 +542,8 @@ const mapStateToProps = state => {
   };
 };
 const mapDispatchToProps = dispatch => ({
-  getSellerProfileList: params => dispatch(getSellerProfile(params)),
+  getUpdateProfile: params => dispatch(getSellerProfile(params)),
+  updateSellerProfile: params => dispatch(updateSellerProfile(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSellerProfile);
