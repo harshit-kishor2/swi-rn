@@ -9,8 +9,9 @@ export const updateSellerProfile = createAsyncThunk(
       const response = await axiosRequest({
         url: `/update-profile`,
         method: `POST`,
+        data: params,
       });
-      console.log('=>>API>>>>>>>>>', response);
+      console.log('=>>API Response Edit Profile Section>>>>>>>>>', response);
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -27,6 +28,7 @@ export const getSellerProfile = createAsyncThunk(
       const response = await axiosRequest({
         url: `/user-profile`,
         method: `GET`,
+        params: params,
       });
       return response;
     } catch (error) {

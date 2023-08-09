@@ -62,3 +62,21 @@ export const coinHistoryAction = createAsyncThunk(
     }
   },
 );
+
+export const changeProductStatusAction = createAsyncThunk(
+  'profileSection/changeProductStatusAction',
+  async (params, thunkAPI) => {
+    try {
+      const result = await AxiosRequest({
+        url: `product-status/${params?.product_id}`,
+        method: 'GET',
+        params: {product_status: params?.product_status},
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

@@ -7,10 +7,9 @@ import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 import NavigationService from '@app/navigations/NavigationService';
 import {Avatar} from 'react-native-paper';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
-const Header = ({onInterestClick}) => {
+import moment from 'moment';
+import {RoutesName} from '@app/helper/strings';
+const Header = ({onInterestClick, chat_item, exploreProduct, navigation}) => {
   const isKeyboardVisible = useKeyboardVisible();
 
   const _goBack = () => {
@@ -27,11 +26,19 @@ const Header = ({onInterestClick}) => {
             size={30}
           />
         </Pressable>
-        <View style={styles.title_container}>
-          <Avatar.Image size={35} source={IMAGE} />
+        <Pressable
+          onPress={() =>
+            navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+              userId: chat_item?.user_id,
+            })
+          }
+          style={styles.title_container}>
+          <Avatar.Image size={35} source={{uri: chat_item?.user_image}} />
           <Spacer width={10} />
-          <CustomText style={styles.title_text}>Name</CustomText>
-        </View>
+          <CustomText style={styles.title_text}>
+            {chat_item?.user_name}
+          </CustomText>
+        </Pressable>
         <Pressable style={styles.follow_button} onPress={() => {}}>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
@@ -43,18 +50,27 @@ const Header = ({onInterestClick}) => {
       </View>
       {!isKeyboardVisible ? (
         <Pressable onPress={onInterestClick} style={styles.product}>
-          <Image style={styles.avatar} source={IMAGE} />
+          <Image
+            style={styles.avatar}
+            source={{uri: exploreProduct?.productDetails?.thumb_image}}
+          />
           <View
             style={{
               paddingLeft: 15,
             }}>
             <CustomText style={styles.brandtext}>
-              2020 Fossil Analog Watch
+              {moment(exploreProduct?.productDetails?.dated).format('YYYY')}{' '}
+              {exploreProduct?.productDetails?.brand?.name}{' '}
+              {exploreProduct?.productDetails?.title}
             </CustomText>
             <View style={styles.price_row}>
-              <CustomText style={styles.price}>$12500</CustomText>
+              <CustomText style={styles.price}>
+                ${exploreProduct?.productDetails?.price}
+              </CustomText>
               <View style={styles.circle} />
-              <CustomText style={styles.condition}>Brand New</CustomText>
+              <CustomText style={styles.condition}>
+                {exploreProduct?.productDetails?.watch_condition}
+              </CustomText>
             </View>
           </View>
         </Pressable>

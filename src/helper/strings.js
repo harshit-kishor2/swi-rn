@@ -27,8 +27,6 @@ export const RoutesName = {
   MAIN_TAB_NAVIGATOR: 'TabNavigations',
   NOTIFICATION_SCREEN: 'NotificationScreen',
   PRODUCT_DETAILS: 'Product Details',
-  SELLERSPROFILE_VIEWBYOWN: 'Sellers Own Profile',
-  SELLERSPROFILE_VIEWBYOTHERS: 'Sellers View By Others Profile',
   COIN_HISTORY: 'Coin History',
   ITEM_COMPARISON: 'ItemComparison',
   SEARCH_SCREEN: 'SearchScreen',
@@ -41,6 +39,9 @@ export const RoutesName = {
   BOOST_PRODUCT_SUCCESS: 'BoostProductSuccess',
   BOOST_PURCHASE_COIN: 'PurchaseCoin',
   PAY_NOW: 'Paynow',
+  CHANGE_PASSWORD_SCREEN: 'Change Password Screen',
+  EDIT_SELLER_PROFILE: 'Edit Seller Profile Screen',
+  REVIEW_RATING_SCREEN: 'Review Rating Screen',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

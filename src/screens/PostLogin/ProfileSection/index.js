@@ -7,9 +7,11 @@ import NormalProfile from './NormalProfile';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import {
+  changeProductStatusAction,
   profileAboutAction,
   sellerProductListingAction,
 } from '@app/store/profileSectionSlice';
+import {addWishListAction} from '@app/store/exploreProductSlice';
 
 const ProfileSection = props => {
   const {
@@ -20,12 +22,14 @@ const ProfileSection = props => {
     getProfileAbout,
     getProfileListing,
   } = props;
+
   const userId = route.params?.userId;
   const isSelf = userId === authReducer?.userProfileDetails?.id ?? false;
   const isSeller =
     profileSectionReducer?.profileAbout?.role === 'seller' ? true : false;
-  console.log('profileSection', profileSectionReducer);
+
   const useDetail = profileSectionReducer?.profileAbout;
+
   useEffect(() => {
     getProfileAbout({userId: userId});
     getProfileListing({userId: userId});
@@ -36,7 +40,7 @@ const ProfileSection = props => {
       useSafeAreaView={true}
       loading={
         profileSectionReducer?.profileAboutLoadingStatus ===
-          LoadingStatus.LOADING ||
+          LoadingStatus.LOADING &&
         profileSectionReducer?.sellerProductListingLoadingStatus ===
           LoadingStatus.LOADING
       }>
@@ -49,14 +53,11 @@ const ProfileSection = props => {
                 alignItems: 'center',
               }}>
               <Pressable
-                style={{
-                  height: 50,
-                  width: 50,
-                  //backgroundColor: 'red',
-                  justifyContent: 'center',
-                }}
+                style={styles.button}
                 onPress={() => {
-                  // navigation?.navigate(RoutesName.PR);
+                  navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
+                    userId: userId,
+                  });
                 }}>
                 <CustomIcon
                   origin={ICON_TYPE.OCTICONS}
@@ -66,12 +67,7 @@ const ProfileSection = props => {
                 />
               </Pressable>
               <Pressable
-                style={{
-                  height: 50,
-                  width: 50,
-                  //backgroundColor: 'red',
-                  justifyContent: 'center',
-                }}
+                style={styles.button}
                 onPress={() => {
                   navigation?.navigate(RoutesName.PROFILE_QR_SCREEN, {
                     userDetail: useDetail,
@@ -86,14 +82,7 @@ const ProfileSection = props => {
               </Pressable>
             </View>
           ) : isSeller ? null : (
-            <Pressable
-              style={{
-                height: 50,
-                width: 50,
-                //backgroundColor: 'red',
-                justifyContent: 'center',
-              }}
-              onPress={() => {}}>
+            <Pressable style={styles.button} onPress={() => {}}>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'share-2'}
@@ -125,8 +114,16 @@ const mapDispatchToProps = dispatch => ({
   //   getBannerList: params => dispatch(getBannerAction(params)),
   getProfileAbout: params => dispatch(profileAboutAction(params)),
   getProfileListing: params => dispatch(sellerProductListingAction(params)),
+  onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
+  onWishlistClick: params => dispatch(addWishListAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  button: {
+    height: 50,
+    width: 50,
+    justifyContent: 'center',
+  },
+});

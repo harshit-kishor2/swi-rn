@@ -7,15 +7,17 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
  * Api Action
  */
 export const boostProduct = createAsyncThunk(
-  'test/apiAction',
-  async (val, thunkAPI) => {
+  'boostProduct/now',
+  async (params, thunkAPI) => {
+    console.log('boostNowProduct----->>>Params', params);
     try {
       const result = await axiosRequest({
-        url: '/api_url',
+        url: '/boost-product',
         method: 'POST',
-        data: val,
+        params: params,
       });
-      return true;
+      console.log('boostNowProduct', result);
+      return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response?.data : error.data,

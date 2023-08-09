@@ -8,6 +8,7 @@ import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 import {ActivityIndicator, Avatar} from 'react-native-paper';
 import {FontsConst} from '@app/assets/assets';
+import moment from 'moment';
 
 export function Seprator() {
   return <View style={styles.seprator} />;
@@ -47,7 +48,9 @@ export function RenderItem({item, index}) {
   };
 
   const onRowClick = () => {
-    NavigationService.navigate(RoutesName.CHAT_DETAIL_SCREEN, {id: '1'});
+    NavigationService.navigate(RoutesName.CHAT_DETAIL_SCREEN, {
+      chat_item: item,
+    });
   };
 
   return (
@@ -60,20 +63,26 @@ export function RenderItem({item, index}) {
         <Avatar.Image
           style={{marginHorizontal: 5}}
           source={{
-            uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
+            uri: item?.image,
           }}
           size={35}
         />
         <View style={{flex: 1, paddingLeft: 5}}>
           <View style={styles.chat_container}>
             <CustomText style={styles.name_container}>
-              {item?.username}
+              {item?.user_name}
             </CustomText>
-            <CustomText style={styles.date_container}>{item?.date}</CustomText>
+            <CustomText style={styles.date_container}>
+              {item?.created_at
+                ? moment(item?.created_at).format('DD MMM, YYYY')
+                : '-'}
+            </CustomText>
           </View>
-          <CustomText style={styles.brand_container}>{item?.brand}</CustomText>
+          <CustomText style={styles.brand_container}>
+            {item?.product_title}
+          </CustomText>
           <CustomText numberOfLines={2} style={styles.description_container}>
-            {item?.description}
+            {item?.message}
           </CustomText>
         </View>
       </Pressable>

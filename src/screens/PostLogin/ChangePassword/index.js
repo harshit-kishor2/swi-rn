@@ -1,91 +1,132 @@
-import { Container, CustomIcon, CustomInput, CustomText, NavigationBar, Spacer } from "@app/components";
-import { ICON_TYPE } from "@app/components/CustomIcon";
-import { COLORS, IMAGES } from "@app/resources";
-import LoginHeader from "@app/screens/atoms/LoginHeader";
-import React from "react";
-import { Text } from "react-native";
-import { View } from "react-native";
+import {
+  BackHeader,
+  Container,
+  CustomIcon,
+  CustomInput,
+  SubmitButton,
+} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {COLORS, IMAGES} from '@app/resources';
+import LoginHeader from '@app/screens/atoms/LoginHeader';
+import {useFormik} from 'formik';
+import React from 'react';
+import {View} from 'react-native';
+import * as Yup from 'yup';
 
 export const ChangePassword = () => {
-    return (
-        <Container useSafeAreaView={true}>
-            <View style={{ margin: 15 }}>
-                <NavigationBar
-                    leftSource={IMAGES.BACKARROW}
-                    leftAction={() => {
-                        console.log('first');
-                        props.navigation.navigate('CreateAccountScreen');
-                    }}
-                    flexDirection="row"
-                />
+  const validationSchema = Yup.object({
+    oldPassword: Yup.string()
+      .trim()
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .max(15, ({max}) => `Password must not exceed ${max} characters`)
+      .required('Required*')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
+      ),
+    newPassword: Yup.string()
+      .trim()
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .max(15, ({max}) => `Password must not exceed ${max} characters`)
+      .required('Required*')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
+      ),
+    confirmPassword: Yup.string()
+      .required('Required*')
+      .oneOf([Yup.ref('password')], 'Password does not match'),
+  });
+  const initialValues = {
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  };
 
-                <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                    {/* <Text style={{
-                        fontFamily: 'Cabin-Bold',
-                        fontSize: 40,
-                        color: COLORS.BLACK
-                    }}>Change Password </Text> */}
-                    <LoginHeader
-                        title={"Change Password"}
-                    />
-                </View>
-                <View style={{
-                    // // alignContent: 'center',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                    marginHorizontal: 50
+  const {
+    handleChange,
+    setFieldValue,
+    handleBlur,
+    handleSubmit,
+    errors,
+    values,
+    touched,
+  } = useFormik({
+    initialValues: initialValues,
+    enableReinitialize: true,
+    validationSchema: validationSchema,
+    onSubmit: async val => {
+      console.log('VAlues ', val);
+    },
+  });
+  console.log(values);
 
+  return (
+    <Container useSafeAreaView={true}>
+      <View style={{margin: 15}}>
+        <BackHeader />
 
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          <LoginHeader title={'Change Password'} />
+        </View>
+        <View
+          style={{
+            // // alignContent: 'center',
+            justifyContent: 'center',
+            alignContent: 'center',
+            marginHorizontal: 50,
+          }}>
+          <CustomInput
+            placeholder="Enter old Password"
+            value={values.oldPassword}
+            onChangeText={handleChange('oldPassword')}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name={'lock'}
+                color={COLORS.BLACK}
+                style={{
+                  marginRight: 10,
 
-                }}>
-                    <CustomInput
-                        placeholder='Enter old Password'
-                        returnKeyType="next"
-
-
-                        leftIcon={
-                            <CustomIcon
-                                origin={ICON_TYPE.FEATHER_ICONS}
-                                name={'lock'}
-                                color={COLORS.BLACK}
-                                style={{
-                                    marginRight: 10,
-
-                                    // width: 240
-                                }}
-
-                            />
-                        }
-                    />
-                    <CustomInput
-                        placeholder='Enter New Password'
-                        returnKeyType="next"
-                        leftIcon={
-                            <CustomIcon
-                                origin={ICON_TYPE.FEATHER_ICONS}
-                                name={'lock'}
-                                color={COLORS.BLACK}
-                                style={{ marginRight: 10 }}
-
-                            />
-                        }
-                    />
-                    <CustomInput
-                        placeholder='Confirm New Password'
-                        returnKeyType="next"
-                        leftIcon={
-                            <CustomIcon
-                                origin={ICON_TYPE.FEATHER_ICONS}
-                                name={'lock'}
-                                color={COLORS.BLACK}
-                                style={{ marginRight: 10 }}
-
-                            />
-
-                        }
-                    />
-                </View>
-            </View>
-        </Container>
-    )
-}
+                  // width: 240
+                }}
+              />
+            }
+          />
+          <CustomInput
+            placeholder="Enter New Password"
+            returnKeyType="next"
+            value={values.newPassword}
+            onChangeText={value => setFieldValue('newPassword', value)}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name={'lock'}
+                color={COLORS.BLACK}
+                style={{marginRight: 10}}
+              />
+            }
+          />
+          <CustomInput
+            placeholder="Confirm New Password"
+            returnKeyType="next"
+            value={values.confirmPassword}
+            onChangeText={value => setFieldValue('confirmPassword', value)}
+            secureTextEntry={true}
+            leftIcon={
+              <CustomIcon
+                origin={ICON_TYPE.FEATHER_ICONS}
+                name={'lock'}
+                color={COLORS.BLACK}
+                style={{marginRight: 10}}
+              />
+            }
+          />
+          <SubmitButton lable="Change Password" onPress={handleSubmit} />
+        </View>
+      </View>
+    </Container>
+  );
+};

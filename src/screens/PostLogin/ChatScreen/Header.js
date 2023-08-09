@@ -1,16 +1,28 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import SearchBarComponent from '@app/components/SearchBarComponent';
-import {Pressable} from 'react-native';
+import useDebounce from '@app/hooks/useDebounce';
 import {IMAGES, SPACING} from '@app/resources';
+import ClearableSearch from '@app/screens/atoms/ClearableSearch';
+import {useEffect, useState} from 'react';
+import {Image, Pressable, StyleSheet, View} from 'react-native';
 
-const Header = () => {
+const Header = props => {
+  const {getChatHistory} = props;
+
+  const [search, setSearch] = useState('');
+  const searchQuery = useDebounce(search);
+
+  useEffect(() => {
+    getChatHistory({keyword: searchQuery});
+  }, [searchQuery]);
+
   return (
     <View style={styles.search_container}>
-      <SearchBarComponent
-        placeholder={'Search by keyword'}
-        onPress={() => {}}
-      />
+      <View style={{width: '90%'}}>
+        <ClearableSearch
+          placeholder="Search by keyword"
+          search={search}
+          setSearch={setSearch}
+        />
+      </View>
       <Pressable
         onPress={() => {}}
         style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
@@ -24,9 +36,11 @@ export default Header;
 
 const styles = StyleSheet.create({
   search_container: {
+    width: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     marginTop: 10,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
 });

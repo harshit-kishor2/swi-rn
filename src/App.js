@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
 import {AlertBox} from 'react-native-alertbox';
 // import SplashScreen from 'react-native-splash-screen';
+import {StatusBar} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import {SplashScreen as CustomSplash} from './screens';
 import store from './store';
-import {StatusBar} from 'react-native';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
-import {PaperProvider} from 'react-native-paper';
 
 const App = () => {
   // useEffect(() => {

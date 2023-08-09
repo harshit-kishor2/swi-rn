@@ -2,6 +2,7 @@ import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {apiAction} from './actions';
 import {LoadingStatus} from '../../helper/strings';
 import {
+  changeProductStatusAction,
   coinHistoryAction,
   profileAboutAction,
   sellerProductListingAction,
@@ -27,6 +28,10 @@ const initialState = entityAdapter.getInitialState({
   coinHistoryLoadingStatus: LoadingStatus.NOT_LOADED,
   coinHistory: [],
   coinHistoryError: null,
+
+  changeProductStatusLoadingStatus: LoadingStatus.NOT_LOADED,
+  changeProductStatus: [],
+  changeProductStatusError: null,
 });
 
 /**
@@ -76,6 +81,17 @@ const reduxSlice = createSlice({
       .addCase(coinHistoryAction.rejected, (state, action) => {
         state.coinHistoryLoadingStatus = LoadingStatus.FAILED;
         state.coinHistoryError = action.payload;
+      })
+      .addCase(changeProductStatusAction.pending, state => {
+        state.changeProductStatusLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(changeProductStatusAction.fulfilled, (state, action) => {
+        state.changeProductStatusLoadingStatus = LoadingStatus.LOADED;
+        state.changeProductStatus = action.payload?.data;
+      })
+      .addCase(changeProductStatusAction.rejected, (state, action) => {
+        state.changeProductStatusLoadingStatus = LoadingStatus.FAILED;
+        state.changeProductStatusError = action.payload;
       });
   },
 });

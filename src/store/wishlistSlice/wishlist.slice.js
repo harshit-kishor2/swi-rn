@@ -1,7 +1,7 @@
-import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
-import {apiAction} from './actions';
-import {LoadingStatus} from '../../helper/strings';
-import { wishlistAction} from "./wishlist.action"
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { apiAction } from './actions';
+import { LoadingStatus } from '../../helper/strings';
+import { InterestListAction, wishlistAction } from "./wishlist.action"
 
 // =============================== Redux : Test Slice ==================================
 
@@ -15,6 +15,9 @@ const initialState = entityAdapter.getInitialState({
   wishlistActionLoadingStatus: LoadingStatus.NOT_LOADED,
   wishlistAction: [],
   wishlistActionError: null,
+  InterestListActionLoadingStatus: LoadingStatus.NOT_LOADED,
+  InterestListAction: [],
+  InterestListActionError: null,
 });
 
 /**
@@ -33,7 +36,7 @@ const reduxSlice = createSlice({
   extraReducers: builder => {
     builder
 
-    //wishlist
+      //wishlist
       .addCase(wishlistAction.pending, state => {
         state.wishlistActionLoadingStatus = LoadingStatus.LOADING;
       })
@@ -43,7 +46,19 @@ const reduxSlice = createSlice({
       })
       .addCase(wishlistAction.rejected, (state, action) => {
         state.wishlistAction = LoadingStatus.FAILED;
-        state.wishlistActionError= action.payload;
+        state.wishlistActionError = action.payload;
+      })
+      //Interest list
+      .addCase(InterestListAction.pending, state => {
+        state.InterestListActionLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(InterestListAction.fulfilled, (state, action) => {
+        state.InterestListActionLoadingStatus = LoadingStatus.LOADED;
+        state.InterestListAction = action.payload;
+      })
+      .addCase(InterestListAction.rejected, (state, action) => {
+        state.InterestListAction = LoadingStatus.FAILED;
+        state.InterestListActionError = action.payload;
       });
   },
 });
@@ -52,6 +67,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const { resetSliceState } = reduxSlice.actions;
 
 export const wishlistReducer = reduxSlice.reducer;

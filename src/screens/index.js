@@ -23,6 +23,7 @@ import MyFavourites from './PostLogin/MyFavourites/Index';
 import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
 import AccountSetting from './PostLogin/AccountSetting/index';
 import ProfileSection from './PostLogin/ProfileSection/index';
+import RatingAndReviews from './PostLogin/RatingAndReviews';
 
 export {
   // PreLogin
@@ -51,4 +52,5 @@ export {
   MyFavourites,
   AccountSetting,
   ProfileSection,
+  RatingAndReviews,
 };

@@ -7,6 +7,7 @@ import {
   NotificationScreen,
   ProductDetails,
   ProfileSection,
+  RatingAndReviews,
   SellerProfileQR,
 } from '@app/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -22,6 +23,9 @@ import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
 import PurchaseCoin from '@app/screens/PostLogin/Coin/PurchaseCoin';
 import {BuyCoins} from '@app/screens/PostLogin/Coin/BuyCoins';
+
+import {ChangePassword} from '@app/screens/PostLogin/ChangePassword';
+import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -99,6 +103,22 @@ const PostLoginNavigator = () => {
         component={BuyCoins}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name={RoutesName.CHANGE_PASSWORD_SCREEN}
+        component={ChangePassword}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.EDIT_SELLER_PROFILE}
+        component={SellerProfileEdit}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.REVIEW_RATING_SCREEN}
+        component={RatingAndReviews}
+        options={{headerShown: false}}
+      />
+
       {/* <Stack.Screen name="PostedSuccessfully" component={PostedSuccessfully} /> */}
     </Stack.Navigator>
   );

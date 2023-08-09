@@ -5,9 +5,7 @@ import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
+
 const NormalProfile = props => {
   const {route, navigation, profileSectionReducer, isSelf} = props;
   const useDetail = profileSectionReducer?.profileAbout;
@@ -17,13 +15,8 @@ const NormalProfile = props => {
         flexGrow: 1,
         paddingBottom: 30,
       }}>
-      <View
-        style={{
-          height: 250,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Avatar.Image source={IMAGE} size={100} />
+      <View style={styles.imageContainer}>
+        <Avatar.Image source={{uri: useDetail?.image}} size={100} />
         <CustomText
           style={{
             fontFamily: FontsConst.Cabin_Bold,
@@ -49,13 +42,7 @@ const NormalProfile = props => {
           {useDetail?.mobile}
         </CustomText>
       </View>
-      <Divider
-        style={{
-          width: '90%',
-          alignSelf: 'center',
-          height: 2,
-        }}
-      />
+      <Divider style={styles.divider} />
       <View
         style={{
           paddingHorizontal: 20,
@@ -80,13 +67,7 @@ const NormalProfile = props => {
       </View>
       {isSelf ? (
         <View>
-          <Divider
-            style={{
-              width: '90%',
-              alignSelf: 'center',
-              height: 2,
-            }}
-          />
+          <Divider style={styles.divider} />
           <View
             style={{
               height: 50,
@@ -117,13 +98,7 @@ const NormalProfile = props => {
             />
           </View>
 
-          <Divider
-            style={{
-              width: '90%',
-              alignSelf: 'center',
-              height: 2,
-            }}
-          />
+          <Divider style={styles.divider} />
         </View>
       ) : null}
       <Spacer />
@@ -133,4 +108,15 @@ const NormalProfile = props => {
 
 export default NormalProfile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  divider: {
+    width: '90%',
+    alignSelf: 'center',
+    height: 2,
+  },
+  imageContainer: {
+    height: 250,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
