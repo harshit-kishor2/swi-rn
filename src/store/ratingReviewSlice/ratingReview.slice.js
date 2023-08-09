@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { apiAction } from './actions';
 import { LoadingStatus } from '../../helper/strings';
-import { ratingReviewAction } from './ratingReview.action';
+import { ratingReviewAction, ratingReviewAsBuyerAction } from './ratingReview.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -15,6 +15,10 @@ const initialState = entityAdapter.getInitialState({
     ratingReviewActionLoadingStatus: LoadingStatus.NOT_LOADED,
     ratingReviewAction: [],
     ratingReviewActionError: null,
+
+    ratingReviewAsBuyerActionLoadingStatus: LoadingStatus.NOT_LOADED,
+    ratingReviewAsBuyerAction: [],
+    ratingReviewAsBuyerActionError: null,
 });
 
 /**
@@ -33,7 +37,7 @@ const reduxSlice = createSlice({
     extraReducers: builder => {
         builder
 
-            //wishlist
+            //rating review
             .addCase(ratingReviewAction.pending, state => {
                 state.ratingReviewActionLoadingStatus = LoadingStatus.LOADING;
             })
@@ -44,6 +48,19 @@ const reduxSlice = createSlice({
             .addCase(ratingReviewAction.rejected, (state, action) => {
                 state.ratingReviewAction = LoadingStatus.FAILED;
                 state.ratingReviewActionError = action.payload;
+            })
+
+            //rating as buyer
+            .addCase(ratingReviewAsBuyerAction.pending, state => {
+                state.ratingReviewAsBuyerActionLoadingStatus = LoadingStatus.LOADING;
+            })
+            .addCase(ratingReviewAsBuyerAction.fulfilled, (state, action) => {
+                state.ratingReviewAsBuyerActionLoadingStatus = LoadingStatus.LOADED;
+                state.ratingReviewAsBuyerAction = action.payload;
+            })
+            .addCase(ratingReviewAsBuyerAction.rejected, (state, action) => {
+                state.ratingReviewAsBuyerAction = LoadingStatus.FAILED;
+                state.ratingReviewAsBuyerActionError = action.payload;
             });
 
     },
