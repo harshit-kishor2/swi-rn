@@ -22,7 +22,7 @@ const ChatScreen = props => {
       <Header />
       <PageTitle title={'Chats'} />
       <FlatList
-        data={chatReducer?.chatList}
+        data={chatReducer?.chatList?.data}
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
         renderItem={RenderItem}

@@ -40,25 +40,29 @@ export const capitalizeFirstLetter = str => {
 };
 
 export const mergeArrays = (baseArray, newArray) => {
-  console.log('newItem.baseArray === newArray', {
-    baseArray,
-    newArray,
-  });
   const mergedArray = baseArray.map(baseItem => {
     const matchingItem = newArray.find(newItem => {
-      console.log('newItem.id === baseItem.id', {
-        a: newItem.id,
-        b: baseItem.id,
-      });
       return newItem.id === baseItem.id;
     });
     return matchingItem ? {...baseItem, ...matchingItem} : baseItem;
   });
-  console.log('MergedArray', mergedArray);
   const newItems = newArray.filter(
     newItem => !baseArray.some(baseItem => baseItem.id === newItem.id),
   );
-  console.log('newItems', newItems);
 
   return [...mergedArray, ...newItems];
 };
+
+export function addObjectAndUpdate(array, newObject) {
+  const index = array.findIndex(obj => obj.id === newObject.id);
+
+  if (index !== -1) {
+    // Update the existing object
+    array[index] = newObject;
+  } else {
+    // Add the new object at the start of the array
+    array.unshift(newObject);
+  }
+
+  return array;
+}
