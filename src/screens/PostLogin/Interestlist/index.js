@@ -18,11 +18,11 @@ const InterestList = props => {
   );
   const item = props?.wishlistReducer?.InterestListAction?.data;
   useEffect(() => {
-    getInterestList({type: 'interest_list'});
-  }, []);
+    getInterestList({type: 'interest_list', search: search});
+  }, [search]);
 
   const onLoadMore = () => {};
-
+  console.log('Search Value Check =>>>>>>>>>>>>>>>>>', search);
   return (
     <Container useSafeAreaView={true}>
       <Spacer height={20} />
@@ -30,6 +30,10 @@ const InterestList = props => {
       <PageTitle title={'Interest List'} />
       <View style={styles.input}>
         <ClearableSearch search={search} setSearch={setSearch} />
+        {/* <ClearableSearch
+          value={search}
+          onChangeText={value => setSearch(value)}
+        /> */}
       </View>
       <FlatList
         data={item}
