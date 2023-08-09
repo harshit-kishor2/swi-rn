@@ -6,6 +6,7 @@ import {
   socketJoinAction,
 } from './chat.action';
 import {LoadingStatus} from '../../helper/strings';
+import {addObjectAndUpdate} from '@app/helper/commonFunction';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -42,7 +43,7 @@ const reduxSlice = createSlice({
       };
     },
     onNewMessageUpdate: (state, action) => {
-      state.chatHistory = [...state.chatHistory, action.payload];
+      state.chatHistory = addObjectAndUpdate(state.chatHistory, action.payload);
     },
   },
   extraReducers: builder => {

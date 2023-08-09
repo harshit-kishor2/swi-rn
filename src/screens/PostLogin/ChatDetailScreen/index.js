@@ -19,6 +19,8 @@ import {
 } from '@app/store/chatSlice';
 import {LoadingStatus} from '@app/helper/strings';
 import {getProductDetailsAction} from '@app/store/exploreProductSlice';
+
+import useSocket from '@app/hooks/useSocket';
 import socket from '@app/helper/socket';
 
 const ChatDetailScreen = props => {
@@ -39,6 +41,7 @@ const ChatDetailScreen = props => {
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [interestModalVisible, setInterestModalVisible] = useState(false);
   const {chat_item} = route.params;
+  useSocket(updateNewMessage);
   useEffect(() => {
     getChatDetails({
       product_id: chat_item?.product_id,
@@ -54,17 +57,6 @@ const ChatDetailScreen = props => {
       getChatHistory();
     };
   }, []);
-
-  useEffect(() => {
-    socket.on('newMessage', msg => {
-      console.log(msg, 'newMessage');
-    });
-    socket.on('typing', val => {
-      console.log('Typing..', val);
-    });
-
-    // updateNewMessage({message: 'Hello'});
-  }, [socket]);
 
   //  Send text message
   const sendMessage = message => {

@@ -5,7 +5,6 @@ import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 import {CustomText} from '@app/components';
 import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
-import socket from '@app/helper/socket';
 
 const ActionContainer = ({
   onSendMessageClick,
@@ -49,9 +48,6 @@ const ActionContainer = ({
           outlineColor="grey"
           value={message}
           onChangeText={v => {
-            socket.emit('typing', val => {
-              console.log('Typing..');
-            });
             setMessage(v);
           }}
           placeholder={'Start typing here...'}
