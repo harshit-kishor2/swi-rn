@@ -14,6 +14,8 @@ import {IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
 import {ScrollView} from 'react-native-gesture-handler';
+import {connect, useSelector} from 'react-redux';
+import {boostProduct} from '@app/store/exploreProductSlice/boostProduct.action';
 
 // const Item = ({
 //     week_days,
@@ -42,6 +44,9 @@ const DATA = [
 
 const BoostNow = props => {
   const [selected, setSelected] = useState();
+  const [coins, setCoins] = useState(null);
+
+  const {boostProduct, boostProductReducer} = props;
 
   // const renderItem = ({ item, index, setSelected,selected}) => (
   //     <Item
@@ -52,7 +57,12 @@ const BoostNow = props => {
   //       selected={selected}
   //     />
   //   );
-  console.log(props, 'props===========');
+
+  console.log(boostProduct, boostProductReducer, 'ProductId');
+  const params = {
+    pid: props?.route?.params?.product_id,
+    planid: 100,
+  };
   return (
     <Container style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView showsVerticalScrollIndicator={false} style={{margin: 20}}>
@@ -94,7 +104,9 @@ const BoostNow = props => {
               <TouchableOpacity
                 onPress={() => {
                   setSelected(index);
-                  console.log(index);
+                  setCoins(item?.number_of_coins);
+                  params.planid = item.number_of_coins;
+                  console.log(item, coins, '======');
                 }}>
                 <View
                   style={[
@@ -135,7 +147,14 @@ const BoostNow = props => {
             width={'100%'}
             marginHorizontal={20}
             onPress={() => {
-              props.navigation.navigate(RoutesName.BOOST_PRODUCT_SUCCESS);
+              if (params.pid && params.planid) {
+                console.log('fghjkl;');
+                boostProduct(params);
+              }
+
+              // if (props?.route?.params?.product_id) {
+              //   props.navigation.navigate(RoutesName.BOOST_PRODUCT_SUCCESS);
+              // }
             }}
           />
         </View>
@@ -159,4 +178,14 @@ const BoostNow = props => {
   );
 };
 
-export default BoostNow;
+const mapStateToProps = state => {
+  return {
+    boostProductReducer: state?.boostProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  boostProduct: params => dispatch(boostProduct(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BoostNow);

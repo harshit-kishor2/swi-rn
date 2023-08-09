@@ -15,7 +15,8 @@ import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
 
 const BoostNowIntroduction = props => {
-  const isCoins = false;
+  console.log('product id==>>', props?.route?.params?.product_id);
+  const isCoins = true;
   return (
     <View style={styles.MainContainer}>
       <BackHeader />
@@ -76,9 +77,14 @@ const BoostNowIntroduction = props => {
           width={'80%'}
           fontSize={SPACING.SCALE_20}
           onPress={() => {
-            props?.navigation?.navigate(
-              isCoins ? RoutesName.BOOST_NOW : RoutesName.BOOST_PURCHASE_COIN,
-            );
+            if (props?.route?.params?.product_id) {
+              props?.navigation?.navigate(
+                isCoins ? RoutesName.BOOST_NOW : RoutesName.BOOST_PURCHASE_COIN,
+                {
+                  product_id: props?.route?.params?.product_id,
+                },
+              );
+            }
           }}
         />
         <Pressable
