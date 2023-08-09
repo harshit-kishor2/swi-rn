@@ -1,6 +1,6 @@
 import {Container, CustomText, Spacer} from '@app/components';
 import {useEffect, useRef, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, Platform, StyleSheet, View} from 'react-native';
 import ActionContainer from './ActionContainer';
 import Header from './Header';
 import ImageModal from './ImageModal';
@@ -59,13 +59,29 @@ const ChatDetailScreen = props => {
   }, []);
 
   //  Send text message
-  const sendMessage = message => {
-    sendChatMessage({
-      receiver_id: chat_item?.user_id,
-      type: 'text',
-      message: message,
-      product_id: chat_item?.product_id,
-    });
+  const sendMessage = ({type = 'text', message}) => {
+    const formData = new FormData();
+    formData.append('receiver_id', chat_item?.user_id);
+    formData.append('type', type);
+    formData.append('product_id', chat_item?.product_id);
+
+    if (type !== 'image') {
+      formData.append('message', message);
+    }
+    if (type === 'image') {
+      const d = message?.path?.split('/');
+      const name = d[d.length - 1];
+      formData.append(`media`, {
+        name: name ?? 'Image' + Date.now() + '.jpg',
+        type: message.mime,
+        uri:
+          Platform.OS === 'ios'
+            ? message.path.replace('file://', '')
+            : message.path,
+      });
+      formData.append('message', 'Uploaded Image');
+    }
+    sendChatMessage(formData);
   };
 
   // Open attachment modal if permission
@@ -124,6 +140,7 @@ const ChatDetailScreen = props => {
       <ImageModal
         modalVisible={imageModalVisible}
         setModalVisible={setImageModalVisible}
+        sendMessage={sendMessage}
       />
       {/* Make Offer Modal */}
       <MakeOfferModal
