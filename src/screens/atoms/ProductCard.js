@@ -16,6 +16,7 @@ import {IMAGES, SPACING} from '@app/resources';
 import {
   addEllipsis,
   formatTimestamp,
+  getTimeDifferenceString,
   showAlert,
 } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
@@ -96,7 +97,7 @@ const ProductCard = ({
           </View>
         </View>
         <CustomText style={styles.duration}>
-          {formatTimestamp(item?.created_at)}
+          Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
         {isSelf ? (

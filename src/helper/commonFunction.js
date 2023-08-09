@@ -66,3 +66,69 @@ export function addObjectAndUpdate(array, newObject) {
 
   return array;
 }
+
+export function getTimeDifferenceString(date) {
+  const now = new Date();
+  const timestamp = new Date(date);
+
+  const timeDifferenceInSeconds = Math.floor((now - timestamp) / 1000);
+
+  if (timeDifferenceInSeconds < 60) {
+    return 'few seconds ago';
+  } else if (timeDifferenceInSeconds < 3600) {
+    const minutes = Math.floor(timeDifferenceInSeconds / 60);
+    return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+  } else if (timeDifferenceInSeconds < 86400) {
+    const hours = Math.floor(timeDifferenceInSeconds / 3600);
+    return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  } else if (timeDifferenceInSeconds < 172800) {
+    // 24 * 60 * 60 seconds in a day
+    return 'yesterday';
+  } else if (timeDifferenceInSeconds < 604800) {
+    const days = Math.floor(timeDifferenceInSeconds / 86400);
+    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  } else if (timeDifferenceInSeconds < 2419200) {
+    const weeks = Math.floor(timeDifferenceInSeconds / 604800);
+    return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+  } else if (timeDifferenceInSeconds < 29030400) {
+    const months = Math.floor(timeDifferenceInSeconds / 2419200);
+    return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+  } else {
+    const years = Math.floor(timeDifferenceInSeconds / 29030400);
+    return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+  }
+}
+
+/**
+ * Function to group messages by date
+ *
+ * @key created_at
+ * @messages List of messages
+ *
+ **/
+export function groupMessagesByDate(messages, key) {
+  const groupedMessages = [];
+
+  // Create an object to store messages by date
+  const messagesByDate = {};
+
+  messages.forEach(message => {
+    const date = moment(message?.[key]).format('YYYY/MM/DD');
+
+    if (!messagesByDate[date]) {
+      messagesByDate[date] = [];
+    }
+
+    messagesByDate[date].push(message);
+  });
+
+  // Convert the object into the desired array format
+  for (const date in messagesByDate) {
+    groupedMessages.push({
+      title: date,
+      data: messagesByDate[date],
+    });
+  }
+
+  return groupedMessages;
+}
