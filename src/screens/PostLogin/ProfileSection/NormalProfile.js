@@ -3,7 +3,7 @@ import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
-import {FontsConst} from '@app/assets/assets';
+import {AssestsConst, FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 
 const NormalProfile = props => {
@@ -16,7 +16,16 @@ const NormalProfile = props => {
         paddingBottom: 30,
       }}>
       <View style={styles.imageContainer}>
-        <Avatar.Image source={{uri: useDetail?.image}} size={100} />
+        <Avatar.Image
+          source={
+            useDetail?.image
+              ? {
+                  uri: useDetail?.image,
+                }
+              : AssestsConst.AVATAR
+          }
+          size={100}
+        />
         <CustomText
           style={{
             fontFamily: FontsConst.Cabin_Bold,

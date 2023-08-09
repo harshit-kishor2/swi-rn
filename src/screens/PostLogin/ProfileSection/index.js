@@ -57,6 +57,7 @@ const ProfileSection = props => {
                 onPress={() => {
                   navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
                     userId: userId,
+                    isSelf: isSelf,
                   });
                 }}>
                 <CustomIcon

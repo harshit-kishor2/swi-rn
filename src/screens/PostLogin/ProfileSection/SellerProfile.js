@@ -1,19 +1,19 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useState } from 'react';
-import { ScrollView } from 'react-native-gesture-handler';
-import { Avatar, Divider, List } from 'react-native-paper';
-import { CustomIcon, CustomText, Spacer, SubmitButton } from '@app/components';
-import { FontsConst } from '@app/assets/assets';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { IMAGES } from '@app/resources';
-import { AirbnbRating, Rating } from 'react-native-ratings';
-import { AboutRow, GetAboutRow, PostFollowVisitor, getAboutRow } from './common';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Avatar, Divider, List} from 'react-native-paper';
+import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
+import {AssestsConst, FontsConst} from '@app/assets/assets';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {IMAGES} from '@app/resources';
+import {AirbnbRating, Rating} from 'react-native-ratings';
+import {AboutRow, GetAboutRow, PostFollowVisitor, getAboutRow} from './common';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import { EmptyList } from '../ChatScreen/commn';
+import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import { RoutesName } from '@app/helper/strings';
-import { showAlert } from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
+import {showAlert} from '@app/helper/commonFunction';
 
 const SellerProfile = props => {
   const {
@@ -30,7 +30,7 @@ const SellerProfile = props => {
   const userDetail = profileSectionReducer?.profileAbout;
 
   const getListings = () => {
-    const renderItem = ({ item, index }) => {
+    const renderItem = ({item, index}) => {
       return (
         <ProductCard
           key={index}
@@ -41,7 +41,7 @@ const SellerProfile = props => {
               product_status: 'sold_out',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({ userId: userDetail.id });
+                getProfileListing({userId: userDetail.id});
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as sold.',
@@ -59,7 +59,7 @@ const SellerProfile = props => {
               product_status: 'reserved',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({ userId: userDetail.id });
+                getProfileListing({userId: userDetail.id});
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as reserved.',
@@ -77,7 +77,7 @@ const SellerProfile = props => {
               product_status: 'deleted',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({ userId: userDetail.id });
+                getProfileListing({userId: userDetail.id});
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as deleted.',
@@ -141,9 +141,9 @@ const SellerProfile = props => {
               style={{
                 width: '80%',
               }}>
-              <SubmitButton lable="+ Follow" onPress={() => { }} />
+              <SubmitButton lable="+ Follow" onPress={() => {}} />
             </View>
-            <Pressable style={styles.sharebutton} onPress={() => { }}>
+            <Pressable style={styles.sharebutton} onPress={() => {}}>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'share-2'}
@@ -221,7 +221,12 @@ const SellerProfile = props => {
           />
         </View>
         <View style={styles.profile_container}>
-          <Avatar.Image source={{ uri: userDetail?.image }} size={100} />
+          <Avatar.Image
+            source={
+              userDetail?.image ? {uri: userDetail?.image} : AssestsConst.AVATAR
+            }
+            size={100}
+          />
         </View>
         <Spacer height={50} />
         <CustomText
@@ -240,7 +245,7 @@ const SellerProfile = props => {
           }}>
           <Image
             source={IMAGES.ProfileBadge}
-            style={{ marginTop: 5, marginRight: 5 }}
+            style={{marginTop: 5, marginRight: 5}}
           />
           <CustomText
             style={{
@@ -264,8 +269,8 @@ const SellerProfile = props => {
             defaultRating={userDetail?.averageRating}
             isDisabled
             size={15}
-            style={{ marginHorizontal: 10 }}
-            ratingContainerStyle={{ marginHorizontal: 10 }}
+            style={{marginHorizontal: 10}}
+            ratingContainerStyle={{marginHorizontal: 10}}
             starContainerStyle={{
               paddingVertical: 10,
               justifyContent: 'space-evenly',
