@@ -9,15 +9,39 @@ import {wishlistAction} from '@app/store/wishlistSlice/wishlist.action';
 import {connect} from 'react-redux';
 import ProductCardFav from '@app/screens/atoms/ProductCardFav';
 import {EmptyList} from '../ChatScreen/commn';
+import {addWishListAction} from '@app/store/exploreProductSlice';
+import {showAlert} from '@app/helper/commonFunction';
 
 const MyFavourites = props => {
-  const {getProductList, wishlistReducer} = props;
+  const {getProductList, wishlistReducer, removeWishlist} = props;
   const item = wishlistReducer?.wishlistAction?.data;
   useEffect(() => {
     getProductList();
   }, []);
   const renderItem = ({item, index}) => {
-    return <ProductCardFav key={index} item={item} />;
+    return (
+      <ProductCardFav
+        key={index}
+        item={item}
+        onPress={() => {
+          removeWishlist({
+            product_id: item.id,
+          }).then(res => {
+            if (res?.type.includes('fulfilled')) {
+              getProductList();
+              showAlert({
+                title: 'Success !',
+                message: 'Product removed from favourites list.',
+              });
+            } else if (res?.type.includes('rejected')) {
+              showAlert({
+                title: 'Server error !',
+              });
+            }
+          });
+        }}
+      />
+    );
   };
   return (
     <Container useSafeAreaView={true}>
@@ -43,6 +67,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   getProductList: params => dispatch(wishlistAction()),
+  removeWishlist: params => dispatch(addWishListAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyFavourites);

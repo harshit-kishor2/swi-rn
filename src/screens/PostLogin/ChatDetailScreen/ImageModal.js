@@ -96,7 +96,7 @@ export default ImageModal;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: '#00000040',
+    // backgroundColor: '#00000040',
   },
   backdrop: {
     height: '70%',

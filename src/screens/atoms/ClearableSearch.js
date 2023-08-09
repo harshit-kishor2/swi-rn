@@ -4,11 +4,11 @@ import {TextInput} from 'react-native-paper';
 import {CustomIcon} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 
-const ClearableSearch = ({search, setSearch}) => {
+const ClearableSearch = ({search, setSearch, placeholder}) => {
   return (
     <TextInput
       mode="outlined"
-      placeholder={'Search by product/brand/model'}
+      placeholder={placeholder ?? 'Search by product/brand/model'}
       value={search}
       onChangeText={v => setSearch(v)}
       activeOutlineColor=""

@@ -9,73 +9,71 @@ import {showAlert} from '@app/helper/commonFunction';
 import {EmptyList, FooterList, RenderItem} from './common';
 import MakeOfferModal from './MakeOfferModal';
 import InterestModal from './InterestModal';
-const data = [
-  {
-    id: 1,
-    sender: true,
-    message: 'Hello !',
-  },
-  {
-    id: 1,
-    sender: false,
-    message: 'Hello !',
-  },
-  {
-    id: 1,
-    sender: true,
-    message: 'How are you !',
-  },
-  {
-    id: 1,
-    sender: false,
-    message: "I'm fine brother !",
-  },
-  {
-    id: 1,
-    sender: false,
-    message:
-      "I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother !",
-  },
-  {
-    id: 1,
-    sender: false,
-    message:
-      "I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother !",
-  },
-  {
-    id: 1,
-    sender: false,
-    message:
-      "I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother ! I'm fine brother !",
-  },
-];
+import {connect} from 'react-redux';
+import {
+  getChatHistoryAction,
+  getChatListAction,
+  onNewMessageUpdate,
+  sendMessageAction,
+  socketJoinAction,
+} from '@app/store/chatSlice';
+import {LoadingStatus} from '@app/helper/strings';
+import {getProductDetailsAction} from '@app/store/exploreProductSlice';
+import socket from '@app/helper/socket';
 
-const ChatDetailScreen = ({navigation, route}) => {
+const ChatDetailScreen = props => {
+  const {
+    chatReducer,
+    authReducer,
+    getChatDetails,
+    getProductDetails,
+    sendChatMessage,
+    updateSocketId,
+    getChatHistory,
+    updateNewMessage,
+    navigation,
+    route,
+  } = props;
   const flatRef = useRef();
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [interestModalVisible, setInterestModalVisible] = useState(false);
-
-  const [allMessage, setAllMessage] = useState([]);
-  const {id} = route.params;
-
-  // Retrive mwessages
+  const {chat_item} = route.params;
   useEffect(() => {
-    setAllMessage(data);
+    getChatDetails({
+      product_id: chat_item?.product_id,
+      receiver_id: chat_item?.user_id,
+    });
+    getProductDetails({
+      product_id: chat_item?.product_id,
+    });
+    updateSocketId({
+      socket_id: socket?.id,
+    });
+    return () => {
+      getChatHistory();
+    };
   }, []);
 
-  const loadMore = () => {
-    console.log('Load more==');
-    setAllMessage([...data, ...allMessage]);
-  };
+  useEffect(() => {
+    socket.on('newMessage', msg => {
+      console.log(msg, 'newMessage');
+    });
+    socket.on('typing', val => {
+      console.log('Typing..', val);
+    });
+
+    // updateNewMessage({message: 'Hello'});
+  }, [socket]);
 
   //  Send text message
   const sendMessage = message => {
-    console.log('send');
-    setAllMessage([...allMessage, {id: 1, sender: false, message: message}]);
-    if (allMessage.length) {
-      flatRef.current?.scrollToIndex({animated: true, index: 0});
-    }
+    sendChatMessage({
+      receiver_id: chat_item?.user_id,
+      type: 'text',
+      message: message,
+      product_id: chat_item?.product_id,
+    });
   };
 
   // Open attachment modal if permission
@@ -91,29 +89,38 @@ const ChatDetailScreen = ({navigation, route}) => {
     }
   };
 
-  const reversedData = allMessage.slice().reverse();
+  // const reversedData = (chatReducer?.chatHistory ?? []).slice().reverse();
 
   return (
     <Container
       style={{
         backgroundColor: '#FFFFFF90',
       }}
-      useSafeAreaView={true}>
+      useSafeAreaView={true}
+      loading={chatReducer.chatHistoryLoadingStatus === LoadingStatus.LOADING}>
       <Header
         onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
+        chat_item={chat_item}
+        {...props}
       />
       <FlatList
-        inverted={reversedData.length ? true : false}
+        inverted={chatReducer?.chatHistory.length ? true : false}
         ref={flatRef}
-        data={reversedData}
+        data={chatReducer?.chatHistory ?? []}
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={RenderItem}
+        renderItem={({item, index}) =>
+          RenderItem({
+            item,
+            index,
+            currentUser: authReducer?.userProfileDetails,
+          })
+        }
         ListEmptyComponent={EmptyList}
-        ListFooterComponent={FooterList}
         ItemSeparatorComponent={<Spacer />}
-        onEndReachedThreshold={0.5}
-        onEndReached={loadMore}
+        // onEndReachedThreshold={0.5}
+        // onEndReached={loadMore}
+        // ListFooterComponent={FooterList}
       />
       <ActionContainer
         onAttachmentClick={sendAttachment}
@@ -130,6 +137,7 @@ const ChatDetailScreen = ({navigation, route}) => {
       <MakeOfferModal
         modalVisible={offerModalVisible}
         setModalVisible={setOfferModalVisible}
+        sendMessage={sendMessage}
       />
       {/* Interest List Modal */}
       <InterestModal
@@ -140,7 +148,25 @@ const ChatDetailScreen = ({navigation, route}) => {
   );
 };
 
-export default ChatDetailScreen;
+const mapStateToProps = state => {
+  return {
+    chatReducer: state?.chatReducer,
+    authReducer: state?.authReducer,
+    exploreProduct: state?.exploreProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getChatDetails: params => dispatch(getChatHistoryAction(params)),
+  getChatHistory: params => dispatch(getChatListAction(params)),
+
+  getProductDetails: params => dispatch(getProductDetailsAction(params)),
+  updateSocketId: params => dispatch(socketJoinAction(params)),
+  sendChatMessage: params => dispatch(sendMessageAction(params)),
+  updateNewMessage: params => dispatch(onNewMessageUpdate(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatDetailScreen);
 
 const styles = StyleSheet.create({
   flatlist_container: {

@@ -5,9 +5,7 @@ import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
+
 const NormalProfile = props => {
   const {route, navigation, profileSectionReducer, isSelf} = props;
   const useDetail = profileSectionReducer?.profileAbout;
@@ -18,7 +16,7 @@ const NormalProfile = props => {
         paddingBottom: 30,
       }}>
       <View style={styles.imageContainer}>
-        <Avatar.Image source={IMAGE} size={100} />
+        <Avatar.Image source={{uri: useDetail?.image}} size={100} />
         <CustomText
           style={{
             fontFamily: FontsConst.Cabin_Bold,

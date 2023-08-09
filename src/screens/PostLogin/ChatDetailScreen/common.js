@@ -2,6 +2,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {CustomText} from '@app/components';
+import moment from 'moment';
 
 export function EmptyList() {
   return (
@@ -18,22 +19,27 @@ export function FooterList() {
   return <ActivityIndicator size={20} />;
 }
 
-export function RenderItem({item, index}) {
+export function RenderItem({item, index, currentUser}) {
+  console.log();
+  const isSelf = currentUser?.id == item?.sender_id ?? false;
+
   return (
     <>
       <View
         style={{
-          alignSelf: item.sender ? 'flex-start' : 'flex-end',
+          alignSelf: isSelf ? 'flex-end' : 'flex-start',
         }}>
-        <CustomText style={styles.timestamp}>{'12:30 PM'}</CustomText>
+        <CustomText style={styles.timestamp}>
+          {moment(item?.created_at).format('HH:mm A')}
+        </CustomText>
       </View>
       <View
         style={{
-          backgroundColor: item.sender ? '#00000010' : '#00958C',
+          backgroundColor: isSelf ? '#00958C' : '#00000010',
           flexDirection: 'row',
-          alignSelf: item.sender ? 'flex-start' : 'flex-end',
-          borderTopRightRadius: item.sender ? 30 : 0,
-          borderBottomLeftRadius: item.sender ? 0 : 30,
+          alignSelf: isSelf ? 'flex-end' : 'flex-start',
+          borderTopRightRadius: isSelf ? 0 : 30,
+          borderBottomLeftRadius: isSelf ? 30 : 0,
           borderBottomRightRadius: 30,
           borderTopLeftRadius: 30,
           paddingHorizontal: 20,

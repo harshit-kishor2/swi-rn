@@ -5,7 +5,7 @@ import {useState} from 'react';
 import {Keyboard, Modal, Pressable, StyleSheet, View} from 'react-native';
 import {Card, TextInput} from 'react-native-paper';
 
-const MakeOfferModal = ({modalVisible, setModalVisible}) => {
+const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
   const [amount, setAmount] = useState(null);
   const keyboardVisible = useKeyboardVisible();
 
@@ -16,12 +16,9 @@ const MakeOfferModal = ({modalVisible, setModalVisible}) => {
       return;
     } else {
       const numericValue = amount?.replace(/[^0-9.]/g, '');
-      const props = {
-        price: numericValue,
-      };
-      console.log('props', props);
-
+      sendMessage(numericValue);
       setAmount('');
+      setModalVisible(false);
     }
   };
 
@@ -81,7 +78,7 @@ export default MakeOfferModal;
 const styles = StyleSheet.create({
   container: {
     height: '100%',
-    backgroundColor: '#00000040',
+    // backgroundColor: '#00000040',
   },
   backdrop: {
     height: '60%',
