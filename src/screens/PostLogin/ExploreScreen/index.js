@@ -149,7 +149,9 @@ const ExploreScreen = props => {
               }}
             />
             <Pressable
-              onPress={() => {}}
+              onPress={() => {
+                props.navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
+              }}
               style={{
                 marginLeft: SPACING.SCALE_10,
                 marginTop: SPACING.SCALE_8,
