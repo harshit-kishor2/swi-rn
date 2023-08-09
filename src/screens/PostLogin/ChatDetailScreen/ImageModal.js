@@ -6,7 +6,7 @@ import {Modal, Pressable, StyleSheet, View} from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {Card} from 'react-native-paper';
 
-const ImageModal = ({modalVisible, setModalVisible}) => {
+const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
   const launchGallery = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -15,7 +15,7 @@ const ImageModal = ({modalVisible, setModalVisible}) => {
     })
       .then(image => {
         if (image?.size <= 5242880) {
-          console.log('GalleryImage', image);
+          sendMessage({type: 'image', message: image});
           setModalVisible(!modalVisible);
         } else {
           showAlert({
@@ -37,7 +37,7 @@ const ImageModal = ({modalVisible, setModalVisible}) => {
     })
       .then(image => {
         if (image?.size <= 5242880) {
-          console.log('Camera Image', image);
+          sendMessage({type: 'image', message: image});
           setModalVisible(!modalVisible);
         } else {
           showAlert({

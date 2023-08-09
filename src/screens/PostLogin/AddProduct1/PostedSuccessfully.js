@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Container, Custombutton2, Spacer, StoryScreen} from '@app/components';
 import {IMAGES, SPACING} from '@app/resources';
+import {RoutesName} from '@app/helper/strings';
 
 const PostedSuccessfully = props => {
   return (
@@ -43,7 +44,9 @@ const PostedSuccessfully = props => {
               height={51}
               marginHorizontal={20}
               onPress={() => {
-                // Alert.alert('rrr');
+                props?.navigation?.navigate(
+                  RoutesName.BOOST_PRODUCT_INTRODUCTION,
+                );
               }}
             />
           </View>
@@ -77,7 +80,6 @@ const PostedSuccessfully = props => {
                     color: '#00958C',
                     fontFamily: 'OpenSans-Regular',
                     textDecorationLine: 'underline',
-                    
                   }}
                   onPress={() => {
                     // Alert.alert('in process');
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 18,
     fontFamily: 'OpenSans-SemiBold',
-    marginTop:80,
+    marginTop: 80,
     width: 280,
 
     textAlign: 'center',

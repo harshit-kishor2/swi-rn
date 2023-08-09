@@ -9,17 +9,10 @@ import Header from './Header';
 import {EmptyList, RenderItem, Seprator} from './commn';
 
 const ChatScreen = props => {
-  const {chatReducer, getChatHistory} = props;
-
-  useEffect(() => {
-    getChatHistory();
-  }, []);
-
+  const {chatReducer} = props;
   return (
-    <Container
-      useSafeAreaView={true}
-      loading={chatReducer.chatListLoadingStatus === LoadingStatus.LOADING}>
-      <Header />
+    <Container useSafeAreaView={true}>
+      <Header {...props} />
       <PageTitle title={'Chats'} />
       <FlatList
         data={chatReducer?.chatList?.data}

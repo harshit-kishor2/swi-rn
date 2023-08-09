@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {CustomText} from '@app/components';
@@ -19,10 +19,8 @@ export function FooterList() {
   return <ActivityIndicator size={20} />;
 }
 
-export function RenderItem({item, index, currentUser}) {
-  console.log();
+export function RenderItem({item, index, currentUser, setFullImageVisible}) {
   const isSelf = currentUser?.id == item?.sender_id ?? false;
-
   return (
     <>
       <View
@@ -46,7 +44,22 @@ export function RenderItem({item, index, currentUser}) {
           paddingVertical: 10,
           maxWidth: '90%',
         }}>
-        <CustomText>{item?.message}</CustomText>
+        {item.type === 'image' ? (
+          <Pressable
+            onPress={() =>
+              setFullImageVisible({visible: true, uri: item?.docs})
+            }>
+            <Image
+              source={{uri: item?.docs}}
+              style={{
+                height: 200,
+                width: 200,
+              }}
+            />
+          </Pressable>
+        ) : (
+          <CustomText>{item?.message}</CustomText>
+        )}
       </View>
     </>
   );

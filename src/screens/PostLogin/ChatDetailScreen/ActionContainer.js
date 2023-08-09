@@ -57,7 +57,7 @@ const ActionContainer = ({
           onPress={
             message.length
               ? () => {
-                  onSendMessageClick(message);
+                  onSendMessageClick({message});
                   setMessage('');
                 }
               : null

@@ -1,82 +1,83 @@
 /* eslint-disable react-native/no-inline-styles */
-
 import {
-  View,
-  Text,
-  Image,
   ImageBackground,
+  Image,
+  StyleSheet,
+  Text,
   FlatList,
+  View,
   TouchableOpacity,
-  Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
   BackHeader,
   Container,
-  CustomIcon,
   Custombutton,
   NavigationBar,
+  Spacer,
 } from '@app/components';
 import {IMAGES, SPACING} from '@app/resources';
+import {RoutesName} from '@app/helper/strings';
 import styles from './styles';
-import {ICON_TYPE} from '@app/components/CustomIcon';
 
-//   };
-const DATA = [
-  {
-    coinNumber: 300,
-    price: 30,
-  },
-  {
-    coinNumber: 500,
-    price: 50,
-  },
-  {
-    coinNumber: 800,
-    price: 80,
-  },
-];
-
-export const BuyCoins = props => {
+const PurchaseCoin = props => {
   const [selected, setSelected] = useState();
-  return (
-    <Container>
-      <View style={{margin: 10}}>
-        <BackHeader />
 
+  const DATA = [
+    {
+      week_days: '1 Week',
+      number_of_coins: 18,
+    },
+    {
+      week_days: '15 days',
+      number_of_coins: 50,
+    },
+    {
+      week_days: '1 Month',
+      number_of_coins: 80,
+    },
+  ];
+
+  console.log(props, 'props===========');
+  return (
+    <Container style={{flex: 1}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{margin: 10, flex: 1}}>
+        <BackHeader />
         <View style={styles.CoinContainer}>
           <ImageBackground
-            source={IMAGES.bag}
+            source={IMAGES.sandWatch}
             style={styles.ImageBackgroudContainer}>
             <Image
-              style={{
-                top: SPACING.SCALE_1,
-                marginLeft: 55,
-                height: 58,
-                width: 73,
-              }}
+              style={{top: SPACING.SCALE__35, marginLeft: 30}}
               source={IMAGES.CoinBoostNow}
             />
           </ImageBackground>
         </View>
 
         <View style={styles.TextContainer}>
-          <Text style={styles.TopText}>Buy coins now</Text>
-          <Text style={styles.TopText}> and help your post</Text>
-          <Text style={styles.TopText}> to boost.</Text>
+          <Text style={styles.TopText}>
+            You can select a time frame to increase the visibility of your post.
+          </Text>
         </View>
 
         <View style={{alignItems: 'center', marginBottom: 20}}>
-          <TouchableOpacity>
-            <Text style={styles.TextStyle1}>Get it Now</Text>
-          </TouchableOpacity>
+          <Text style={styles.TextStyle1}>
+            No coins? Buy them to use this feature.
+          </Text>
         </View>
 
         <FlatList
+          contentContainerStyle={{
+            flexGrow: 1,
+          }}
           data={DATA}
           renderItem={({item, index}) => {
             return (
               <TouchableOpacity
+                style={{}}
                 onPress={() => {
                   setSelected(index);
                   console.log(index);
@@ -92,28 +93,18 @@ export const BuyCoins = props => {
                       flexDirection: 'row',
                     }}>
                     <Text style={styles.outerText}>
-                      Get
-                      <Image source={IMAGES.coin} style={{marginLeft: 2}} />
-                      <Text style={styles.innerText}> {item.coinNumber} </Text>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontFamily: 'OpenSans-SemiBold',
-                          color: '#7C7C7C',
-                        }}>
-                        for
-                      </Text>
+                      {' '}
+                      for{' '}
+                      <Text style={styles.innerText}>
+                        {' '}
+                        {item.week_days}{' '}
+                      </Text>{' '}
                     </Text>
-
                     <View style={styles.CardCoinStyle}>
-                      <CustomIcon
-                        origin={ICON_TYPE.FOUNDATION}
-                        name={'dollar'}
-                        color={'#00958C'}
-                        size={30}
-                        style={{marginTop: -8}}
-                      />
-                      <Text style={styles.NumberStyle}>{item.price}</Text>
+                      <Image source={IMAGES.coin} />
+                      <Text style={styles.NumberStyle}>
+                        {item.number_of_coins}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -121,15 +112,17 @@ export const BuyCoins = props => {
             );
           }}
         />
-
+        <Spacer height={40} />
         <View>
           <Custombutton
-            title="Pay Now"
-            marginTop={10}
+            title="Purchase Coins"
+            //marginTop={10}
             height={50}
-            width={'100%'}
-            marginHorizontal={20}
-            // onPress={() => { Alert.alert("") }}
+            width={'90%'}
+            //marginHorizontal={20}
+            onPress={() => {
+              props.navigation.navigate(RoutesName.PAY_NOW);
+            }}
           />
         </View>
 
@@ -147,7 +140,9 @@ export const BuyCoins = props => {
             Not now, I'll do it later
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </Container>
   );
 };
+
+export default PurchaseCoin;
