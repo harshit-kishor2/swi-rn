@@ -5,6 +5,7 @@ import {err} from 'react-native-svg/lib/typescript/xml';
 export const updateSellerProfile = createAsyncThunk(
   `updateSellerProfile/updateSellerProfile`,
   async (params, thunkAPI) => {
+    console.log(params, '===================params update profile');
     try {
       const response = await axiosRequest({
         url: `/update-profile`,
