@@ -1,6 +1,13 @@
-import {Container, CustomText, Spacer} from '@app/components';
+import {Container, CustomIcon, CustomText, Spacer} from '@app/components';
 import {useEffect, useRef, useState} from 'react';
-import {FlatList, Platform, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import ActionContainer from './ActionContainer';
 import Header from './Header';
 import ImageModal from './ImageModal';
@@ -22,6 +29,8 @@ import {getProductDetailsAction} from '@app/store/exploreProductSlice';
 
 import useSocket from '@app/hooks/useSocket';
 import socket from '@app/helper/socket';
+import {Modal} from 'react-native-paper';
+import {ICON_TYPE} from '@app/components/CustomIcon';
 
 const ChatDetailScreen = props => {
   const {
@@ -40,6 +49,11 @@ const ChatDetailScreen = props => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [interestModalVisible, setInterestModalVisible] = useState(false);
+  const [fullImageVisible, setFullImageVisible] = useState({
+    visible: false,
+    uri: '',
+  });
+
   const {chat_item} = route.params;
   useSocket(updateNewMessage);
   useEffect(() => {
@@ -122,6 +136,7 @@ const ChatDetailScreen = props => {
             item,
             index,
             currentUser: authReducer?.userProfileDetails,
+            setFullImageVisible: setFullImageVisible,
           })
         }
         ListEmptyComponent={EmptyList}
@@ -153,6 +168,62 @@ const ChatDetailScreen = props => {
         modalVisible={interestModalVisible}
         setModalVisible={setInterestModalVisible}
       />
+      {/* Full Screen Image Modal */}
+
+      <Modal
+        visible={fullImageVisible.visible}
+        presentationStyle="fullScreen"
+        onRequestClose={() => {
+          setFullImageVisible({
+            visible: false,
+            uri: '',
+          });
+        }}
+        hardwareAccelerated>
+        <View
+          style={{
+            height: '100%',
+            backgroundColor: '#000',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row-reverse',
+              height: 50,
+              alignItems: 'center',
+              paddingHorizontal: 20,
+            }}>
+            <Pressable
+              onPress={() => {
+                setFullImageVisible({
+                  visible: false,
+                  uri: '',
+                });
+              }}>
+              <CustomIcon
+                name={'close'}
+                origin={ICON_TYPE.MATERIAL_ICONS}
+                size={25}
+                color={'#fff'}
+              />
+            </Pressable>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              paddingHorizontal: 10,
+              paddingVertical: 10,
+            }}>
+            <Image
+              resizeMode="contain"
+              source={{uri: fullImageVisible.uri}}
+              style={{
+                flex: 1,
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </Container>
   );
 };
