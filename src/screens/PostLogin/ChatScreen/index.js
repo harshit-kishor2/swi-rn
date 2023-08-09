@@ -1,110 +1,52 @@
 import {Container} from '@app/components';
-import {IMAGES} from '@app/resources';
+import {LoadingStatus} from '@app/helper/strings';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {useEffect, useState} from 'react';
+import {getChatListAction} from '@app/store/chatSlice';
+import {useEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 import Header from './Header';
-import {EmptyList, FooterList, RenderItem, Seprator} from './commn';
+import {EmptyList, RenderItem, Seprator} from './commn';
 
-const DATA = [
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Guy Hawkins',
-    date: '11 Jan, 2023',
-    brand: 'Brand new 2019 Mens Rolex Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Patrick',
-    date: '11 Jan, 2023',
-    brand: 'Brand new 2020 Fossil Analog Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Will Hawkins',
-    date: '11 Jan, 2023',
-    brand: 'Pre-owned 2021 Mens Rolex Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Smith Kins',
-    date: '11 Jan, 2023',
-    brand: 'Pre-owned 2021 Quartz Classy Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet...',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Guy Hawkins',
-    date: '11 Jan, 2023',
-    brand: 'Brand new 2019 Mens Rolex Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Patrick',
-    date: '11 Jan, 2023',
-    brand: 'Brand new 2020 Fossil Analog Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Will Hawkins',
-    date: '11 Jan, 2023',
-    brand: 'Pre-owned 2021 Mens Rolex Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-  {
-    userImage: IMAGES.Ellipse7,
-    username: 'Smith Kins',
-    date: '11 Jan, 2023',
-    brand: 'Pre-owned 2021 Quartz Classy Watch',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet Lorem ipsum dolor sit amet, consectetur adipiscing elit malesuada eget vitae amet ',
-  },
-];
-
-const ChatScreen = ({navigation}) => {
-  const [conversations, setConversations] = useState([]);
+const ChatScreen = props => {
+  const {chatReducer, getChatHistory} = props;
 
   useEffect(() => {
-    setConversations(DATA);
+    getChatHistory();
   }, []);
 
-  const onLoadMore = () => {
-    console.log('Load More');
-    setConversations([...conversations, ...DATA]);
-  };
-
   return (
-    <Container useSafeAreaView={true}>
+    <Container
+      useSafeAreaView={true}
+      loading={chatReducer.chatListLoadingStatus === LoadingStatus.LOADING}>
       <Header />
       <PageTitle title={'Chats'} />
       <FlatList
-        data={conversations}
+        data={chatReducer?.chatList}
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
         renderItem={RenderItem}
         ListEmptyComponent={EmptyList}
         onEndReachedThreshold={0.2}
-        onEndReached={onLoadMore}
         ItemSeparatorComponent={Seprator}
-        ListFooterComponent={FooterList}
+        // onEndReached={onLoadMore}
+        // ListFooterComponent={FooterList}
       />
     </Container>
   );
 };
 
-export default ChatScreen;
+const mapStateToProps = state => {
+  return {
+    chatReducer: state?.chatReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getChatHistory: params => dispatch(getChatListAction(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatScreen);
 
 const styles = StyleSheet.create({
   flatlist_container: {

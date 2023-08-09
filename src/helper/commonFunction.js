@@ -38,3 +38,27 @@ export const capitalizeFirstLetter = str => {
 
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+export const mergeArrays = (baseArray, newArray) => {
+  console.log('newItem.baseArray === newArray', {
+    baseArray,
+    newArray,
+  });
+  const mergedArray = baseArray.map(baseItem => {
+    const matchingItem = newArray.find(newItem => {
+      console.log('newItem.id === baseItem.id', {
+        a: newItem.id,
+        b: baseItem.id,
+      });
+      return newItem.id === baseItem.id;
+    });
+    return matchingItem ? {...baseItem, ...matchingItem} : baseItem;
+  });
+  console.log('MergedArray', mergedArray);
+  const newItems = newArray.filter(
+    newItem => !baseArray.some(baseItem => baseItem.id === newItem.id),
+  );
+  console.log('newItems', newItems);
+
+  return [...mergedArray, ...newItems];
+};

@@ -14,9 +14,7 @@ import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {RoutesName} from '@app/helper/strings';
 import {showAlert} from '@app/helper/commonFunction';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
+
 const SellerProfile = props => {
   const {
     route,
@@ -215,7 +213,7 @@ const SellerProfile = props => {
             width: '100%',
           }}>
           <Image
-            source={IMAGE}
+            source={IMAGES.coverSellerProfile}
             resizeMode="stretch"
             style={{
               height: 150,
