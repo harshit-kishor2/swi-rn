@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   Container,
   CustomIcon,
@@ -13,7 +14,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {BarChart} from 'react-native-chart-kit';
 import {Dropdown} from 'react-native-element-dropdown';
 
-export const Insight = () => {
+export const Insight = props => {
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
@@ -66,12 +67,12 @@ export const Insight = () => {
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{margin: 15}}>
+        <View style={{margin: 20}}>
           <NavigationBar
             leftSource={IMAGES.BACKARROW}
             leftAction={() => {
               console.log('first');
-              props.navigation.navigate('CreateAccountScreen');
+              props.navigation.goBack();
             }}
             flexDirection="row"
           />
@@ -240,7 +241,8 @@ export const Insight = () => {
               width: '90%',
               flexDirection: 'row',
               justifyContent: 'space-around',
-            }}></View>
+            }}
+          />
 
           <View
             style={{

@@ -35,6 +35,12 @@ export const RoutesName = {
   PROFILE_QR_SCREEN: 'Profile QR Screen',
   ACCOUNT_SETTING_SCREEN: 'Account Setting Screen',
   PROFILE_SECTION_SCREEN: 'Profile Section Screen',
+  VIEW_INSIGHTS: 'Insight',
+  BOOST_PRODUCT_INTRODUCTION: 'Boost product introduction',
+  BOOST_NOW: 'Boost now',
+  BOOST_PRODUCT_SUCCESS: 'BoostProductSuccess',
+  BOOST_PURCHASE_COIN: 'PurchaseCoin',
+  PAY_NOW: 'Paynow',
 
   // Sell Tab
   SELL_SCREEN1: 'Sell Screen1',

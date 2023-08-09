@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useNavigation} from '@react-navigation/native';
@@ -27,6 +26,7 @@ import {
   Loader,
   ProductViewComponent,
   Spacer,
+  SubmitButton,
 } from '@app/components';
 import {
   addEllipsis,
@@ -59,7 +59,7 @@ const selectKey = [
 
 const ProductDetails = props => {
   const [fullImageModalVisible, setfullImageModalVisible] = useState(false);
-  const {onAddToProductCompare, addToCompareReducer} = props;
+  const {onAddToProductCompare, addToCompareReducer, authReducer} = props;
   const [isChartDropDown, setIsChartDropDown] = useState(false);
   const [selectFilteredValue, setSelectFilteredValue] = useState({
     id: 1,
@@ -81,6 +81,12 @@ const ProductDetails = props => {
 
   const {productDetailLoading, productDetailData, productDetailError} =
     useSelector(state => state?.exploreReducer);
+
+  const isSelf =
+    authReducer?.userProfileDetails?.id === productDetailData?.data?.user_id
+      ? true
+      : false;
+  console.log(isSelf, 'isself');
 
   useEffect(() => {
     if (props.route?.params?.product_id) {
@@ -161,7 +167,12 @@ const ProductDetails = props => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       {productDetailLoading === false ? (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 20,
+          }}>
           {
             //header
           }
@@ -301,7 +312,12 @@ const ProductDetails = props => {
                   )}
                 </View>
 
-                <View style={{width: SPACING.SCALE_285}}>
+                <View
+                  style={{
+                    width: SPACING.SCALE_285,
+                    //backgroundColor: 'green',
+                    marginLeft: 10,
+                  }}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -310,12 +326,17 @@ const ProductDetails = props => {
                       // backgroundColor: 'blue',
                       maxWidth: SPACING.SCALE_285,
                     }}>
-                    <View style={{maxWidth: SPACING.SCALE_100}}>
+                    <View
+                      style={{
+                        maxWidth: SPACING.SCALE_100,
+                        // backgroundColor: 'red',
+                        //marginLeft: 10,
+                      }}>
                       <Text
                         style={{
                           fontFamily: 'OpenSans-Regular',
                           fontSize: 14,
-                          margin: 3,
+                          marginLeft: 16,
                         }}>
                         {productDetailData?.data?.user?.name?.length > 8
                           ? addEllipsis(productDetailData?.data?.user?.name, 8)
@@ -565,157 +586,206 @@ const ProductDetails = props => {
               <Chartdemo />
             </View>
           </View>
-
+          <Spacer height={isSelf ? 20 : 0} />
           {/* horizontal watcehs */}
-          <View style={{marginTop: SPACING.SCALE_25, zIndex: -2}}>
-            <Text
+          {isSelf ? (
+            <View
               style={{
-                marginLeft: SPACING.SCALE_20,
-                fontSize: SPACING.SCALE_20,
-                color: COLORS.BLACK,
-                fontWeight: 'bold',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                width: '100%',
               }}>
-              Suggested watches for you
-            </Text>
-            <Spacer height={SPACING.SCALE_13} />
-
-            {productDetailData?.data?.suggested_data?.length != 0 ? (
-              <View style={{marginLeft: SPACING.SCALE_14}}>
-                <FlatList
-                  data={productDetailData?.data?.suggested_data}
-                  horizontal={true}
-                  renderItem={({item, index}) => {
-                    console.log('Product_item======>>>>>>', item);
-                    return <ProductCard item={item} />;
+              <View
+                style={{
+                  width: '48%',
+                }}>
+                <SubmitButton lable="Mark as sold" />
+              </View>
+              <View
+                style={{
+                  width: '48%',
+                }}>
+                <SubmitButton
+                  onPress={() => {
+                    props.navigation.navigate(RoutesName.VIEW_INSIGHTS);
                   }}
+                  type="outlined"
+                  lable="View Insights"
                 />
               </View>
-            ) : (
-              // <ProductViewComponent
-              //   data={productDetailData?.data?.suggested_data}
-              // />
-              <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                <Text>No Suggested watches</Text>
+            </View>
+          ) : (
+            <View>
+              <View
+                style={{
+                  marginTop: SPACING.SCALE_25,
+                  zIndex: -2,
+                  // backgroundColor: 'red',
+                }}>
+                <Text
+                  style={{
+                    marginLeft: SPACING.SCALE_20,
+                    fontSize: SPACING.SCALE_20,
+                    color: COLORS.BLACK,
+                    fontWeight: 'bold',
+                  }}>
+                  Suggested watches for you
+                </Text>
+                <Spacer height={SPACING.SCALE_13} />
+
+                {productDetailData?.data?.suggested_data?.length != 0 ? (
+                  <View style={{marginLeft: SPACING.SCALE_14}}>
+                    <FlatList
+                      data={productDetailData?.data?.suggested_data}
+                      horizontal={true}
+                      renderItem={({item, index}) => {
+                        console.log('Product_item======>>>>>>', item);
+                        return <ProductCard item={item} />;
+                      }}
+                    />
+                  </View>
+                ) : (
+                  // <ProductViewComponent
+                  //   data={productDetailData?.data?.suggested_data}
+                  // />
+                  <View
+                    style={{alignItems: 'center', justifyContent: 'center'}}>
+                    <Text>No Suggested watches</Text>
+                  </View>
+                )}
               </View>
-            )}
-          </View>
 
-          {/* make an offer and chat button */}
-          <View
-            style={{
-              flexDirection: 'row',
-              marginVertical: 20,
-              marginHorizontal: 20,
-              justifyContent: 'space-evenly',
-            }}>
-            <Custombutton
-              title="Make Offer"
-              //marginTop={50}
-              height={SPACING.SCALE_50}
-              width={SPACING.SCALE_160}
-              // marginHorizontal={20}
-              // onPress={() => {
-              // // Alert.alert('Make an Offer');
-              // }}
-            />
-            <Custombutton2
-              title="Chat"
-              //marginTop={50}
-              height={SPACING.SCALE_50}
-              width={SPACING.SCALE_160}
-              // marginHorizontal={20}
-              // onPress={() => {
-              // // Alert.alert('Chat');
-              // }}
-            />
-          </View>
+              {/* make an offer and chat button */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: 20,
+                  marginHorizontal: 20,
+                  justifyContent: 'space-evenly',
+                  // backgroundColor: 'red',
+                }}>
+                <Custombutton
+                  title="Make Offer"
+                  //marginTop={50}
+                  height={SPACING.SCALE_50}
+                  width={SPACING.SCALE_160}
+                  // marginHorizontal={20}
+                  // onPress={() => {
+                  // // Alert.alert('Make an Offer');
+                  // }}
+                />
+                <Custombutton2
+                  title="Chat"
+                  //marginTop={50}
+                  height={SPACING.SCALE_50}
+                  width={SPACING.SCALE_160}
+                  // marginHorizontal={20}
+                  // onPress={() => {
+                  // // Alert.alert('Chat');
+                  // }}
+                />
+              </View>
 
-          {/* Compare PriceAlert */}
+              {/* Compare PriceAlert */}
 
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              marginTop: 20,
-              marginBottom: 20,
-            }}>
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-              {console.log(
-                'Test===',
-                addToCompareReducer?.productCompareList?.some(
-                  item => item.id == props.route.params.product_id,
-                ),
-              )}
-              {!addToCompareReducer?.productCompareList?.some(
-                item => item.id == props.route.params.product_id,
-              ) ? (
-                <>
-                  <Image source={IMAGES.CompareImage} />
-                  <TouchableOpacity
-                    onPress={() => {
-                      if (addToCompareReducer.productCompareList.length >= 4) {
-                        showAlert({
-                          title: 'Alert',
-                          message: 'You can not add more than four products.',
-                        });
-                        navigation.navigate(RoutesName.ITEM_COMPARISON, {
-                          product_id: props.route.params.product_id,
-                        });
-                      } else {
-                        if (
-                          props.route.params.product_id &&
-                          productDetailData?.data
-                        ) {
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-evenly',
+                  marginTop: 20,
+                  marginBottom: 20,
+                  //backgroundColor: 'green',
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
+                  }}>
+                  {console.log(
+                    'Test===',
+                    addToCompareReducer?.productCompareList?.some(
+                      item => item.id == props.route.params.product_id,
+                    ),
+                  )}
+                  {!addToCompareReducer?.productCompareList?.some(
+                    item => item.id == props.route.params.product_id,
+                  ) ? (
+                    <>
+                      <Image source={IMAGES.CompareImage} />
+                      <TouchableOpacity
+                        onPress={() => {
                           if (
-                            addToCompareReducer.productCompareList.length >= 1
+                            addToCompareReducer.productCompareList.length >= 4
                           ) {
-                            onAddToProductCompare(productDetailData?.data);
+                            showAlert({
+                              title: 'Alert',
+                              message:
+                                'You can not add more than four products.',
+                            });
                             navigation.navigate(RoutesName.ITEM_COMPARISON, {
                               product_id: props.route.params.product_id,
                             });
                           } else {
-                            onAddToProductCompare(productDetailData?.data);
-                            showAlert({
-                              title: 'Alert',
-                              message: 'Add more products to compare.',
-                            });
+                            if (
+                              props.route.params.product_id &&
+                              productDetailData?.data
+                            ) {
+                              if (
+                                addToCompareReducer.productCompareList.length >=
+                                1
+                              ) {
+                                onAddToProductCompare(productDetailData?.data);
+                                navigation.navigate(
+                                  RoutesName.ITEM_COMPARISON,
+                                  {
+                                    product_id: props.route.params.product_id,
+                                  },
+                                );
+                              } else {
+                                onAddToProductCompare(productDetailData?.data);
+                                showAlert({
+                                  title: 'Alert',
+                                  message: 'Add more products to compare.',
+                                });
+                              }
+                            }
                           }
-                        }
-                      }
-                    }}>
-                    <Text style={{marginLeft: 10}}>Add to compare</Text>
-                  </TouchableOpacity>
-                </>
-              ) : (
-                <Text style={{color: 'green'}}>
-                  Product Added{'\n'} in compare list
-                </Text>
-              )}
-            </View>
-            <View
-              style={{
-                height: 40,
-                width: 1,
-                backgroundColor: 'gray',
-                flexShrink: 1,
-              }}
-            />
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  // Alert.alert('Price Alert');
-                }}>
-                <Text
+                        }}>
+                        <Text style={{marginLeft: 10}}>Add to compare</Text>
+                      </TouchableOpacity>
+                    </>
+                  ) : (
+                    <Text style={{color: 'green'}}>
+                      Product Added{'\n'} in compare list
+                    </Text>
+                  )}
+                </View>
+                <View
                   style={{
-                    fontFamily: 'Cabin-SemiBold',
-                    color: COLORS.HYPERLINK,
-                  }}>
-                  Price Alert
-                </Text>
-              </TouchableOpacity>
+                    height: 40,
+                    width: 1,
+                    backgroundColor: 'gray',
+                    flexShrink: 1,
+                  }}
+                />
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      // Alert.alert('Price Alert');
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Cabin-SemiBold',
+                        color: COLORS.HYPERLINK,
+                      }}>
+                      Price Alert
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
-          </View>
+          )}
+
           {selectedVideo.visible && (
             <Modal
               style={{

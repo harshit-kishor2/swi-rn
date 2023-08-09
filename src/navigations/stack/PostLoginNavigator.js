@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   AccountSetting,
   ChatDetailScreen,
@@ -14,9 +15,13 @@ import {RoutesName} from '@app/helper/strings';
 import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
-import SellersProfileViewByOwn from '@app/screens/PostLogin/SellersProfile/ViewedbyOwn/Index';
-import SellerProfileViewByOther from '../../screens/PostLogin/SellersProfile/ViewedbyOthers/Index';
 import MainTabNavigator from './MainTabNavigator';
+import {Insight} from '@app/screens/PostLogin/Insight/Index';
+import BoostNowIntroduction from '@app/screens/PostLogin/BoostProduct/BoostNowIntroduction';
+import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
+import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
+import PurchaseCoin from '@app/screens/PostLogin/Coin/PurchaseCoin';
+import {BuyCoins} from '@app/screens/PostLogin/Coin/BuyCoins';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -37,14 +42,6 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PRODUCT_DETAILS}
         component={ProductDetails}
-      />
-      <Stack.Screen
-        name={RoutesName.SELLERSPROFILE_VIEWBYOWN}
-        component={SellersProfileViewByOwn}
-      />
-      <Stack.Screen
-        name={RoutesName.SELLERSPROFILE_VIEWBYOTHERS}
-        component={SellerProfileViewByOther}
       />
       <Stack.Screen name={RoutesName.COIN_HISTORY} component={CoinHistory} />
       <Stack.Screen
@@ -72,7 +69,36 @@ const PostLoginNavigator = () => {
         component={ProfileSection}
         options={{headerShown: false}}
       />
-
+      <Stack.Screen
+        name={RoutesName.VIEW_INSIGHTS}
+        component={Insight}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.BOOST_PRODUCT_INTRODUCTION}
+        component={BoostNowIntroduction}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.BOOST_NOW}
+        component={BoostNow}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.BOOST_PRODUCT_SUCCESS}
+        component={BoostProductSuccess}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.BOOST_PURCHASE_COIN}
+        component={PurchaseCoin}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.PAY_NOW}
+        component={BuyCoins}
+        options={{headerShown: false}}
+      />
       {/* <Stack.Screen name="PostedSuccessfully" component={PostedSuccessfully} /> */}
     </Stack.Navigator>
   );
