@@ -58,7 +58,9 @@ export function RenderItem({ item, index }) {
                             <Text
                                 style={{
                                     color: COLORS.WHITE,
-                                    fontSize: 15,
+                                    fontSize: 13.5,
+                                    fontFamily: 'Cabin-SemiBold',
+
                                 }}>
                                 {getShortName(item?.rated_by_user?.name)}
                             </Text>
@@ -68,6 +70,7 @@ export function RenderItem({ item, index }) {
                                 marginLeft: 15,
                                 fontSize: 16,
                                 color: COLORS.BLACK,
+                                fontFamily: 'Cabin-Regular',
                             }}>
                             {item?.rated_by_user?.name}
                         </Text>
@@ -75,7 +78,7 @@ export function RenderItem({ item, index }) {
                     <View
                         style={{
                             height: 22,
-                            width: 40,
+                            width: 45,
                             backgroundColor: '#028006',
                             alignContent: 'center',
                             flexDirection: 'row',

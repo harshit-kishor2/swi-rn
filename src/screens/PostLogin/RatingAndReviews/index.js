@@ -52,8 +52,8 @@ const RatingAndReviews = props => {
 
   return (
     <Container useSafeAreaView={true}>
-      <View style={{ margin: 20, flex: 1 }}>
-        <BackHeader />
+      <BackHeader />
+      <View style={{ marginHorizontal: 20, flex: 1 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -89,6 +89,7 @@ const RatingAndReviews = props => {
                 height: 4,
                 width: '50%',
                 backgroundColor: '#00958C',
+                borderRadius: 10
               },
             ]}
           />
@@ -99,6 +100,7 @@ const RatingAndReviews = props => {
                 height: 4,
                 width: '50%',
                 backgroundColor: '#00958C',
+                borderRadius: 10
               },
             ]}
           />
@@ -147,7 +149,7 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 13,
-                fontFamily: 'OpenSans-SemiRegular',
+                fontFamily: 'OpenSans-SemiBold',
                 color: '#454545',
                 marginLeft: 5,
               }}>
@@ -163,9 +165,9 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 18,
-                fontFamily: 'Cabin Regular',
+                fontFamily: 'Cabin-Regular',
                 color: '#090909',
-                marginTop: 15,
+
               }}>
               Overall Rating
             </Text>
@@ -178,7 +180,8 @@ const RatingAndReviews = props => {
                 <Text
                   style={{
                     fontSize: 55,
-                    marginTop: 15,
+                    fontFamily: 'Cabin-SemiBold',
+                    // marginTop: 15,
                     // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
@@ -187,7 +190,7 @@ const RatingAndReviews = props => {
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-
+                      fontFamily: 'Cabin-SemiBold',
                       color: COLORS.BLACK,
                     }}>
                     /{ratingCount}{' '}
@@ -202,7 +205,7 @@ const RatingAndReviews = props => {
                   imageSize={16}
                   readonly
                   style={{
-                    // marginLeft: 20,
+                    marginLeft: -50,
                   }}
                 />
                 <Text
@@ -211,8 +214,10 @@ const RatingAndReviews = props => {
                     justifyContent: 'center',
                     marginLeft: 20,
                     marginTop: 5,
+                    fontFamily: 'OpenSans-Regular'
+
                   }}>
-                  Base on {item?.count} reviews
+                  Based on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -225,7 +230,7 @@ const RatingAndReviews = props => {
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: 'Cabin Regular',
+                  fontFamily: 'Cabin-Regular',
                   color: '#090909',
                 }}>
                 Reviews
@@ -245,8 +250,8 @@ const RatingAndReviews = props => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'OpenSans',
-                    fontWeight: 'bold',
+                    fontFamily: 'OpenSans-SemiBold',
+
                     fontSize: 16,
                     color: '#00958C',
                     marginLeft: 5,
@@ -275,9 +280,9 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 18,
-                fontFamily: 'Cabin Regular',
+                fontFamily: 'Cabin-Regular',
                 color: '#090909',
-                marginTop: 15,
+
               }}>
               Overall Rating
             </Text>
@@ -290,7 +295,8 @@ const RatingAndReviews = props => {
                 <Text
                   style={{
                     fontSize: 55,
-                    marginTop: 15,
+                    fontFamily: 'Cabin-SemiBold',
+                    // marginTop: 15,
                     // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
@@ -299,7 +305,7 @@ const RatingAndReviews = props => {
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-
+                      fontFamily: 'Cabin-SemiBold',
                       color: COLORS.BLACK,
                     }}>
                     /{ratingCount}{' '}
@@ -314,7 +320,7 @@ const RatingAndReviews = props => {
                   imageSize={16}
                   readonly
                   style={{
-                    // marginLeft: 20,
+                    marginLeft: -50,
                   }}
                 />
                 <Text
@@ -323,8 +329,10 @@ const RatingAndReviews = props => {
                     justifyContent: 'center',
                     marginLeft: 20,
                     marginTop: 5,
+                    fontFamily: 'OpenSans-Regular'
+
                   }}>
-                  Base on {item?.count} reviews
+                  Based on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -337,7 +345,7 @@ const RatingAndReviews = props => {
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: 'Cabin Regular',
+                  fontFamily: 'Cabin-Regular',
                   color: '#090909',
                 }}>
                 Reviews
@@ -357,8 +365,8 @@ const RatingAndReviews = props => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'OpenSans',
-                    fontWeight: 'bold',
+                    fontFamily: 'OpenSans-SemiBold',
+
                     fontSize: 16,
                     color: '#00958C',
                     marginLeft: 5,
@@ -387,9 +395,10 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 16,
-                fontFamily: 'Cabin',
+                fontFamily: 'Cabin-SemiBold',
                 color: '#00958C',
                 marginTop: 5,
+                textDecorationLine: 'underline'
               }}>
               See all reviews
             </Text>
@@ -411,6 +420,7 @@ const style = StyleSheet.create({
     height: 4,
     width: '50%',
     backgroundColor: '#E7E7E7',
+    borderRadius: 10
   },
   lineStyleHighlite: {
     height: 4,
