@@ -56,9 +56,12 @@ const ChatDetailScreen = props => {
     uri: '',
   });
 
-  const {chat_item} = route.params;
+  const {chat_item, isOffer} = route.params;
   useSocket(updateNewMessage);
   useEffect(() => {
+    if (isOffer) {
+      setOfferModalVisible(true);
+    }
     getChatDetails({
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,

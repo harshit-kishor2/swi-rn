@@ -21,6 +21,18 @@ export function EmptyList() {
     </View>
   );
 }
+export function EmptyList1() {
+  return (
+    <View style={styles.empty_container}>
+      <CustomText style={{textAlign: 'center', color: '#00958C'}}>
+        You have not any active conversations yet!
+      </CustomText>
+      <CustomText style={{textAlign: 'center'}}>
+        You can start new conversation from product detail screen.
+      </CustomText>
+    </View>
+  );
+}
 
 function RenderRightAction(item) {
   return (
@@ -111,6 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 200,
+    paddingHorizontal: 40,
   },
   render_container: {
     height: 80,
