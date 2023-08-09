@@ -1,4 +1,4 @@
-import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import {
   forgotPasswordAction,
@@ -8,8 +8,9 @@ import {
   userProfile,
   userSigninAction,
   userSignupAction,
+  changePasswordAction
 } from './auth.actions';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 
 // =============================== Redux : Auth Slice ==================================
@@ -35,6 +36,10 @@ const initialState = entityAdapter.getInitialState({
 
   forgotPasswordLoadingStatus: LoadingStatus.NOT_LOADED,
   forgotPasswordError: null,
+
+  changePasswordLoadingStatus: LoadingStatus.NOT_LOADED,
+  changePasswordError: null,
+
 
   logoutLoadingStatus: LoadingStatus.NOT_LOADED,
   logoutError: null,
@@ -111,6 +116,17 @@ const reduxSlice = createSlice({
         state.forgotPasswordLoadingStatus = LoadingStatus.FAILED;
         state.forgotPasswordError = action.payload;
       })
+      // Change password Action
+      .addCase(changePasswordAction.pending, (state, action) => {
+        state.changePasswordLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(changePasswordAction.fulfilled, (state, action) => {
+        state.changePasswordLoadingStatus = LoadingStatus.LOADED;
+      })
+      .addCase(changePasswordAction.rejected, (state, action) => {
+        state.changePasswordLoadingStatus = LoadingStatus.FAILED;
+        state.changePasswordError = action.payload;
+      })
       // logout  Action
       .addCase(logoutAction.pending, (state, action) => {
         state.logoutLoadingStatus = LoadingStatus.LOADING;
@@ -153,6 +169,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const { resetSliceState } = reduxSlice.actions;
 
 export const authReducer = reduxSlice.reducer;

@@ -5,42 +5,47 @@ import {
   CustomInput,
   SubmitButton,
 } from '@app/components';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {COLORS, IMAGES} from '@app/resources';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { COLORS, IMAGES } from '@app/resources';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
-import {useFormik} from 'formik';
+import { changePasswordAction } from '@app/store/authSlice';
+import { useFormik } from 'formik';
 import React from 'react';
-import {View} from 'react-native';
+import { Pressable, Text, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux';
 import * as Yup from 'yup';
 
-export const ChangePassword = () => {
+export const ChangePassword = (props) => {
+  const { updatePassword, authReducer } = props;
+  console.log(props)
   const validationSchema = Yup.object({
-    oldPassword: Yup.string()
+    current_password: Yup.string()
       .trim()
-      .min(8, ({min}) => `Password must be at least ${min} characters`)
-      .max(15, ({max}) => `Password must not exceed ${max} characters`)
+      .min(8, ({ min }) => `Password must be at least ${min} characters`)
+      .max(15, ({ max }) => `Password must not exceed ${max} characters`)
       .required('Required*')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
         'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
       ),
-    newPassword: Yup.string()
+    new_password: Yup.string()
       .trim()
-      .min(8, ({min}) => `Password must be at least ${min} characters`)
-      .max(15, ({max}) => `Password must not exceed ${max} characters`)
+      .min(8, ({ min }) => `Password must be at least ${min} characters`)
+      .max(15, ({ max }) => `Password must not exceed ${max} characters`)
       .required('Required*')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
         'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character.',
       ),
-    confirmPassword: Yup.string()
+    confirm_password: Yup.string()
       .required('Required*')
-      .oneOf([Yup.ref('password')], 'Password does not match'),
+      .oneOf([Yup.ref('new_password')], 'Password does not match'),
   });
   const initialValues = {
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    current_password: '',
+    new_password: '',
+    confirm_password: '',
   };
 
   const {
@@ -55,18 +60,26 @@ export const ChangePassword = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: async val => {
-      console.log('VAlues ', val);
+    onSubmit: val => {
+      console.log('VAlues =========================', val);
+
+      updatePassword({
+        current_password: val?.current_password,
+        new_password: val?.new_password,
+        confirm_password: val?.confirm_password
+      })
+
+
     },
   });
-  console.log(values);
+  // console.log(values);
 
   return (
     <Container useSafeAreaView={true}>
-      <View style={{margin: 15}}>
+      <ScrollView style={{ margin: 15 }} showsVerticalScrollIndicator={false}>
         <BackHeader />
 
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <LoginHeader title={'Change Password'} />
         </View>
         <View
@@ -78,8 +91,10 @@ export const ChangePassword = () => {
           }}>
           <CustomInput
             placeholder="Enter old Password"
-            value={values.oldPassword}
-            onChangeText={handleChange('oldPassword')}
+            value={values.current_password}
+            onChangeText={handleChange('current_password')}
+            error={errors?.current_password && touched?.current_password}
+            errorText={errors?.current_password}
             secureTextEntry={true}
             leftIcon={
               <CustomIcon
@@ -97,36 +112,61 @@ export const ChangePassword = () => {
           <CustomInput
             placeholder="Enter New Password"
             returnKeyType="next"
-            value={values.newPassword}
-            onChangeText={value => setFieldValue('newPassword', value)}
+            value={values.new_password}
+            onChangeText={handleChange('new_password')}
             secureTextEntry={true}
+            error={errors?.new_password && touched?.new_password}
+            errorText={errors?.new_password}
             leftIcon={
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'lock'}
                 color={COLORS.BLACK}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
             }
           />
+
+
+
           <CustomInput
             placeholder="Confirm New Password"
             returnKeyType="next"
-            value={values.confirmPassword}
-            onChangeText={value => setFieldValue('confirmPassword', value)}
+            value={values.confirm_password}
+            onChangeText={handleChange('confirm_password')}
+            error={errors?.confirm_password && touched?.confirm_password}
+            errorText={errors?.confirm_password}
             secureTextEntry={true}
             leftIcon={
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'lock'}
                 color={COLORS.BLACK}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               />
             }
           />
-          <SubmitButton lable="Change Password" onPress={handleSubmit} />
+          <SubmitButton lable="Change" onPress={handleSubmit} />
+          {/* <Pressable style={{ justifyContent: 'center', alignItems: 'center', borderWidth: 1, height: 50, borderRadius: 20, backgroundColor: 'black' }}
+            onPress={handleSubmit}>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold', color: 'white' }}>Change Password</Text>
+          </Pressable> */}
         </View>
-      </View>
+      </ScrollView>
     </Container>
   );
 };
+
+
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  updatePassword: params => dispatch(changePasswordAction(params)),
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
