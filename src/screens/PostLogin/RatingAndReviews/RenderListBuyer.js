@@ -3,7 +3,7 @@ import { COLORS } from "@app/resources";
 import moment from "moment";
 import { Text, View } from "react-native";
 
-export function RenderItem({ item, index }) {
+export function RenderItemBuyer({ item, index }) {
     function formatDate(inputDate) {
         const months = [
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -36,6 +36,7 @@ export function RenderItem({ item, index }) {
     const changedDate = () => {
         return moment(date).format("DD MMM YYYY")
     }
+    console.log(item?.rated_user?.name, "item================")
 
     return (
         <View>
@@ -62,7 +63,8 @@ export function RenderItem({ item, index }) {
                                     fontFamily: 'Cabin-SemiBold',
 
                                 }}>
-                                {getShortName(item?.rated_by_user?.name)}
+                                {getShortName(item?.rated_user?.name)}
+
                             </Text>
                         </View>
                         <Text
@@ -72,7 +74,7 @@ export function RenderItem({ item, index }) {
                                 color: COLORS.BLACK,
                                 fontFamily: 'Cabin-Regular',
                             }}>
-                            {item?.rated_by_user?.name}
+                            {item?.rated_user?.name}
                         </Text>
                     </View>
                     <View

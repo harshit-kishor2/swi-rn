@@ -14,46 +14,87 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Rating } from 'react-native-ratings';
 import styles from '../ItemComparison/styles';
 import { connect } from 'react-redux';
-import { ratingReviewAction } from '@app/store/ratingReviewSlice';
+import { ratingReviewAction, ratingReviewAsBuyerAction } from '@app/store/ratingReviewSlice';
 import { RenderItem } from './RenderList';
+import { EmptyList } from '../ChatScreen/commn';
+import { RenderItemBuyer } from './RenderListBuyer';
+import FilterModal from './filter';
 
 const RatingAndReviews = props => {
 
 
-  const { route, navigation, ratingReviewReducer, getRatingReview } = props;
-  console.log('UserID@#$%^&*(*&^%$', props?.ratingReviewReducer?.ratingReviewAction?.data);
+  const { route, navigation, ratingReviewReducer, getRatingReview, getRatingReviewAsBuyer } = props;
+  // console.log(props, "propsdata")
+  // console.log('UserID@#$%^&*(*&^%$', props?.ratingReviewReducer?.ratingReviewAction?.data);
 
   //Data
+
+  //As seller
   const item = props?.ratingReviewReducer?.ratingReviewAction?.data;
   const average = item?.average;
   const count = item?.count;
   const userPic = item?.rated_user?.image;
   const userName = item?.rated_user?.name;
   const ratingList = item?.list;
+  const sortData = ratingList?.slice(0, 2);
+  // console.log(sortData, "sortData======================>>>>>>>>>>>")
 
-  console.log("ratinglist===========", ratingList)
 
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [BuyerSelect, setBuyerSelect] = useState(null);
+
+
+
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter);
+    console.log(filter, "Seller")
+    getRatingReview({ type: "user", user_id: props?.route?.params?.userID, filter: filter })
+
+    // Implement your filter logic here based on the selected filter value
+  };
+  const handleFilterChangeBuyer = (filter) => {
+    setBuyerSelect(filter);
+    console.log(filter, "buyer")
+    getRatingReviewAsBuyer({ user_id: props?.route?.params?.userID, filter: filter })
+    // Implement your filter logic here based on the selected filter value
+  };
+
+  //as Buyer
+  const BuyerItem = props?.ratingReviewReducer?.ratingReviewAsBuyerAction?.data;
+  const averageBuyer = BuyerItem?.average;
+  const countBuyer = BuyerItem?.count;
+  const userPicBuyer = BuyerItem?.rated_user?.image;
+  const userNameBuyer = BuyerItem?.rated_user?.name;
+  const ratingListBuyer = BuyerItem?.list;
+  const sortDataBuyer = ratingListBuyer?.slice(0, 2);
+  console.log("BuyerItem", props)
 
   const ratingCount = 5;
   const [selected, setSelected] = useState('seller');
   const handlePress = button => {
     setSelected(button);
-    console.log(selected);
+    // console.log(selected);
   };
   const handleBuyerPress = button => {
     setSelected(button);
   };
+  const [show, setShow] = useState(false)
+  const [filter, setFilter] = useState('')
+  // console.log(show)
 
   useEffect(() => {
-    if (props?.authReducer?.userProfileDetails?.additional_info?.user_id) {
-      getRatingReview({ type: "user", user_id: props?.authReducer?.userProfileDetails?.additional_info?.user_id })
-    }
+    // if (props?.authReducer?.userProfileDetails?.additional_info?.user_id) {
+    getRatingReview({ type: "user", user_id: props?.route?.params?.userID, filter: filter })
+    getRatingReviewAsBuyer({ user_id: props?.route?.params?.userID, filter: selectedFilter })
+    // }
   }, [])
 
   return (
     <Container useSafeAreaView={true}>
-      <View style={{ margin: 20, flex: 1 }}>
-        <BackHeader />
+      <BackHeader />
+      <View style={{ marginHorizontal: 20, flex: 1 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -62,6 +103,7 @@ const RatingAndReviews = props => {
           <TouchableOpacity
             onPress={() => {
               handlePress('seller');
+              setShow(false);
             }}>
             <Text style={[style.btnText, selected === "seller" && {
               fontSize: 17,
@@ -73,6 +115,7 @@ const RatingAndReviews = props => {
           <TouchableOpacity
             onPress={() => {
               handleBuyerPress('buyer');
+              setShow(false);
             }}>
             <Text style={[style.btnText, selected === "buyer" && {
               fontSize: 17,
@@ -89,6 +132,7 @@ const RatingAndReviews = props => {
                 height: 4,
                 width: '50%',
                 backgroundColor: '#00958C',
+                borderRadius: 10
               },
             ]}
           />
@@ -99,6 +143,7 @@ const RatingAndReviews = props => {
                 height: 4,
                 width: '50%',
                 backgroundColor: '#00958C',
+                borderRadius: 10
               },
             ]}
           />
@@ -147,7 +192,7 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 13,
-                fontFamily: 'OpenSans-SemiRegular',
+                fontFamily: 'OpenSans-SemiBold',
                 color: '#454545',
                 marginLeft: 5,
               }}>
@@ -163,9 +208,9 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 18,
-                fontFamily: 'Cabin Regular',
+                fontFamily: 'Cabin-Regular',
                 color: '#090909',
-                marginTop: 15,
+
               }}>
               Overall Rating
             </Text>
@@ -178,7 +223,8 @@ const RatingAndReviews = props => {
                 <Text
                   style={{
                     fontSize: 55,
-                    marginTop: 15,
+                    fontFamily: 'Cabin-SemiBold',
+                    // marginTop: 15,
                     // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
@@ -187,7 +233,7 @@ const RatingAndReviews = props => {
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-
+                      fontFamily: 'Cabin-SemiBold',
                       color: COLORS.BLACK,
                     }}>
                     /{ratingCount}{' '}
@@ -202,7 +248,7 @@ const RatingAndReviews = props => {
                   imageSize={16}
                   readonly
                   style={{
-                    // marginLeft: 20,
+                    marginLeft: -10,
                   }}
                 />
                 <Text
@@ -211,8 +257,10 @@ const RatingAndReviews = props => {
                     justifyContent: 'center',
                     marginLeft: 20,
                     marginTop: 5,
+                    fontFamily: 'OpenSans-Regular'
+
                   }}>
-                  Base on {item?.count} reviews
+                  Based on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -225,12 +273,13 @@ const RatingAndReviews = props => {
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: 'Cabin Regular',
+                  fontFamily: 'Cabin-Regular',
                   color: '#090909',
                 }}>
                 Reviews
               </Text>
-              <View
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
                 style={{
                   flexDirection: 'row',
                 }}>
@@ -245,8 +294,8 @@ const RatingAndReviews = props => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'OpenSans',
-                    fontWeight: 'bold',
+                    fontFamily: 'OpenSans-SemiBold',
+
                     fontSize: 16,
                     color: '#00958C',
                     marginLeft: 5,
@@ -254,13 +303,20 @@ const RatingAndReviews = props => {
                   }}>
                   Filter
                 </Text>
-              </View>
+              </TouchableOpacity>
+
+              <FilterModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onFilterChange={handleFilterChange}
+              />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, paddingBottom: 20 }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
-                  data={ratingList}
+                  data={show === true ? ratingList : sortData}
                   renderItem={RenderItem}
+                  ListEmptyComponent={EmptyList}
                 />
 
               </ScrollView>
@@ -275,9 +331,9 @@ const RatingAndReviews = props => {
             <Text
               style={{
                 fontSize: 18,
-                fontFamily: 'Cabin Regular',
+                fontFamily: 'Cabin-Regular',
                 color: '#090909',
-                marginTop: 15,
+
               }}>
               Overall Rating
             </Text>
@@ -290,16 +346,17 @@ const RatingAndReviews = props => {
                 <Text
                   style={{
                     fontSize: 55,
-                    marginTop: 15,
+                    fontFamily: 'Cabin-SemiBold',
+                    // marginTop: 15,
                     // marginLeft: 5,
                     color: COLORS.BLACK,
                   }}>
-                  {average}
+                  {averageBuyer}
                   <Text
                     style={{
                       fontSize: 37,
                       marginTop: 15,
-
+                      fontFamily: 'Cabin-SemiBold',
                       color: COLORS.BLACK,
                     }}>
                     /{ratingCount}{' '}
@@ -310,11 +367,11 @@ const RatingAndReviews = props => {
                 <Rating
                   type="star"
                   ratingCount={ratingCount}
-                  startingValue={average}
+                  startingValue={averageBuyer}
                   imageSize={16}
                   readonly
                   style={{
-                    // marginLeft: 20,
+                    marginLeft: -10,
                   }}
                 />
                 <Text
@@ -323,8 +380,10 @@ const RatingAndReviews = props => {
                     justifyContent: 'center',
                     marginLeft: 20,
                     marginTop: 5,
+                    fontFamily: 'OpenSans-Regular'
+
                   }}>
-                  Base on {item?.count} reviews
+                  Based on {item?.count} reviews
                 </Text>
               </View>
             </View>
@@ -337,12 +396,15 @@ const RatingAndReviews = props => {
               <Text
                 style={{
                   fontSize: 18,
-                  fontFamily: 'Cabin Regular',
+                  fontFamily: 'Cabin-Regular',
                   color: '#090909',
                 }}>
                 Reviews
               </Text>
-              <View
+
+
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
                 style={{
                   flexDirection: 'row',
                 }}>
@@ -357,8 +419,8 @@ const RatingAndReviews = props => {
                 />
                 <Text
                   style={{
-                    fontFamily: 'OpenSans',
-                    fontWeight: 'bold',
+                    fontFamily: 'OpenSans-SemiBold',
+
                     fontSize: 16,
                     color: '#00958C',
                     marginLeft: 5,
@@ -366,13 +428,23 @@ const RatingAndReviews = props => {
                   }}>
                   Filter
                 </Text>
-              </View>
+              </TouchableOpacity>
+
+              <FilterModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onFilterChange={handleFilterChangeBuyer}
+              />
+
+
             </View>
             <View style={{ flex: 1 }}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
-                  data={ratingList}
-                  renderItem={RenderItem}
+                  data={show === true ? ratingListBuyer : sortDataBuyer}
+                  renderItem={RenderItemBuyer}
+                  ListEmptyComponent={EmptyList}
+
                 />
 
               </ScrollView>
@@ -382,18 +454,22 @@ const RatingAndReviews = props => {
         <View
           style={{
             alignItems: 'center',
+            paddingBottom: 10
           }}>
-          <TouchableOpacity>
+          {show === false && <TouchableOpacity onPress={() => {
+            setShow(true);
+          }}>
             <Text
               style={{
                 fontSize: 16,
-                fontFamily: 'Cabin',
+                fontFamily: 'Cabin-SemiBold',
                 color: '#00958C',
                 marginTop: 5,
+                textDecorationLine: 'underline'
               }}>
               See all reviews
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </View>
       </View>
     </Container>
@@ -411,6 +487,7 @@ const style = StyleSheet.create({
     height: 4,
     width: '50%',
     backgroundColor: '#E7E7E7',
+    borderRadius: 10
   },
   lineStyleHighlite: {
     height: 4,
@@ -427,6 +504,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   getRatingReview: params => dispatch(ratingReviewAction(params)),
+  getRatingReviewAsBuyer: params => dispatch(ratingReviewAsBuyerAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RatingAndReviews);
