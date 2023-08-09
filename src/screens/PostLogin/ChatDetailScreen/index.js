@@ -46,6 +46,8 @@ const ChatDetailScreen = props => {
     route,
   } = props;
   const flatRef = useRef();
+  const [initialLoad, setInitialLoad] = useState(true);
+
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [interestModalVisible, setInterestModalVisible] = useState(false);
@@ -111,6 +113,26 @@ const ChatDetailScreen = props => {
     }
   };
 
+  //  For moving chat on search index
+  useEffect(() => {
+    if (chatReducer?.chatHistory && chatReducer?.chatHistory.length) {
+      if (initialLoad) {
+        const findIndex = chatReducer?.chatHistory?.findIndex(
+          (item, index) => item.id === chat_item.id,
+        );
+        if (findIndex >= 1) {
+          flatRef.current.scrollToIndex({animated: false, index: findIndex});
+          setInitialLoad(false);
+        }
+      } else {
+        flatRef.current.scrollToIndex({
+          animated: false,
+          index: 0,
+        });
+      }
+    }
+  }, [chatReducer, initialLoad]);
+
   // const reversedData = (chatReducer?.chatHistory ?? []).slice().reverse();
 
   return (
@@ -141,6 +163,16 @@ const ChatDetailScreen = props => {
         }
         ListEmptyComponent={EmptyList}
         ItemSeparatorComponent={<Spacer />}
+        onScrollToIndexFailed={({index}) => {
+          flatRef.current?.scrollToOffset({
+            offset: index * 1000,
+            animated: true,
+          });
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            flatRef.current?.scrollToIndex({index, animated: true});
+          });
+        }}
         // onEndReachedThreshold={0.5}
         // onEndReached={loadMore}
         // ListFooterComponent={FooterList}

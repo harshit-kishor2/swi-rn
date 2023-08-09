@@ -13,7 +13,7 @@ export const getChatListAction = createAsyncThunk(
       const result = await axiosRequest({
         url: '/friends-list',
         method: 'GET',
-        data: val,
+        params: val,
       });
       return result;
     } catch (error) {
@@ -36,10 +36,8 @@ export const getChatHistoryAction = createAsyncThunk(
         method: 'GET',
         params: val,
       });
-      console.log('Rees', result);
       return result;
     } catch (error) {
-      console.log('Rerrorees', error);
       return thunkAPI.rejectWithValue(
         error.response ? error.response?.data : error.data,
       );

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {View, Text, StyleSheet, PixelRatio} from 'react-native';
 import React from 'react';
 import {COLORS, SPACING} from '@app/resources';
@@ -34,6 +33,7 @@ export default styles = StyleSheet.create({
     margin: 10,
   },
   cardStyle: {
+    // backgroundColor: 'red',
     backgroundColor: '#F5F5F5',
     height: 50,
     width: 307,

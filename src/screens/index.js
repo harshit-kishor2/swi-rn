@@ -18,7 +18,7 @@ import ProductDetails from './PostLogin/ProductDetails';
 import PostedSuccessfully from './PostLogin/AddProduct1/PostedSuccessfully';
 import PendingProfileScreen from './PreLogin/PendingProfileScreen';
 import ChatDetailScreen from './PostLogin/ChatDetailScreen';
-import InterestList from './PostLogin/Interestlist';
+import InterestList from './PostLogin/Interestlist/index';
 import MyFavourites from './PostLogin/MyFavourites/Index';
 import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
 import AccountSetting from './PostLogin/AccountSetting/index';
