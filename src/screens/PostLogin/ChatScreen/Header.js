@@ -1,10 +1,18 @@
+import useDebounce from '@app/hooks/useDebounce';
 import {IMAGES, SPACING} from '@app/resources';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
-const Header = () => {
+const Header = props => {
+  const {getChatHistory} = props;
+
   const [search, setSearch] = useState('');
+  const searchQuery = useDebounce(search);
+
+  useEffect(() => {
+    getChatHistory({keyword: searchQuery});
+  }, [searchQuery]);
 
   return (
     <View style={styles.search_container}>
