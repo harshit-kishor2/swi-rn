@@ -56,6 +56,8 @@ export const RoutesName = {
   CHAT_TAB: 'Chat',
   CHAT_DETAIL_SCREEN: 'Chat Detail Screen',
   CHAT_LIST_SCREEN: 'Chat List Screen',
+  PRODUCT_HISTORY: 'Product History',
+  RATE_USER: 'Rate User',
 };
 
 export const Messages = {

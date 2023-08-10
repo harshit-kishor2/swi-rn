@@ -49,3 +49,52 @@ export const ratingReviewAsBuyerAction = createAsyncThunk(
         }
     }
 )
+
+export const purchaseProductListingAction = createAsyncThunk(
+    'ratingReview/purchaseProductListingAction',
+    async (params, thunkAPI) => {
+        try {
+            console.log(params, "at purchase action====>>>>")
+
+            const result = await axiosRequest({
+
+                url: `/get-purchased-product`,
+                method: 'GET',
+                params: params,
+            })
+
+            console.log(result, 'purchase Result ==========')
+            return result
+        } catch (error) {
+            console.log(error, 'purchase Error=========>>>>>')
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response?.data : error.data
+            )
+        }
+    }
+)
+
+
+export const RateUserAction = createAsyncThunk(
+    'ratingReview/RateUserAction',
+    async (params, thunkAPI) => {
+        try {
+            console.log(params, "at add rating action====>>>>")
+
+            const result = await axiosRequest({
+
+                url: `/add-rating`,
+                method: 'POST',
+                data: params,
+            })
+
+            console.log(result, 'add rating Result ==========')
+            return result
+        } catch (error) {
+            console.log(error, 'add rating Error=========>>>>>')
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response?.data : error.data
+            )
+        }
+    }
+)

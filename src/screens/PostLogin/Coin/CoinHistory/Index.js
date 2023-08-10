@@ -26,22 +26,30 @@ import {connect, useSelector} from 'react-redux';
 import {EmptyList} from '../../ChatScreen/commn';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {Seprator} from '../../Interestlist/common';
+import {RoutesName} from '@app/helper/strings';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 
 const CoinHistory = props => {
+  const isFocus = useIsFocused();
   const {getCoinHistory, sellersProfileReducer} = props;
   const Data = sellersProfileReducer?.CoinHistoryAction?.data?.history;
   const Coins = sellersProfileReducer?.CoinHistoryAction?.data?.total_coins;
 
   const coinValue = Coins ? Coins : '0';
   useEffect(() => {
-    getCoinHistory();
-  }, []);
+    if (isFocus) {
+      getCoinHistory();
+    }
+  }, [isFocus]);
   const renderItem = ({item, index}) => (
     <View
       style={{
-        // alignItems: 'center',
-        justifyContent: 'center',
-        height: 60,
+        //width: '90%',
+        //alignItems: 'center',
+        justifyContent: 'space-between',
+        //height: 60,
+        paddingVertical: 5,
+        paddingHorizontal: 20,
       }}>
       <View
         style={{
@@ -109,7 +117,13 @@ const CoinHistory = props => {
         style={{
           marginHorizontal: 20,
         }}>
-        <SubmitButton lable="Purchase Coins" onPress={() => {}} />
+        <SubmitButton
+          lable="Purchase Coins"
+          onPress={() => {
+            console.log('fghjk');
+            props?.navigation?.navigate(RoutesName.PAY_NOW);
+          }}
+        />
       </View>
       <View
         style={{
@@ -126,6 +140,7 @@ const CoinHistory = props => {
           paddingTop: 20,
         }}
         data={Data}
+        showsVerticalScrollIndicator={false}
         renderItem={renderItem}
         ListEmptyComponent={EmptyList}
         ItemSeparatorComponent={<Seprator />}

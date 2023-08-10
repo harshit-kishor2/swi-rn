@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Alert,
@@ -13,6 +14,7 @@ import {IMAGES, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
 
 const PostedSuccessfully = props => {
+  console.log('=======>>>>', props);
   return (
     <Container useSafeAreaView={true}>
       <ScrollView
@@ -44,9 +46,14 @@ const PostedSuccessfully = props => {
               height={51}
               marginHorizontal={20}
               onPress={() => {
-                props?.navigation?.navigate(
-                  RoutesName.BOOST_PRODUCT_INTRODUCTION,
-                );
+                if (props?.route?.params?.productID) {
+                  props?.navigation?.navigate(
+                    RoutesName.BOOST_PRODUCT_INTRODUCTION,
+                    {
+                      product_id: props?.route?.params?.productID,
+                    },
+                  );
+                }
               }}
             />
           </View>

@@ -10,12 +10,13 @@ import {
 import React, {useState} from 'react';
 import {Avatar, Button, Card, Divider, Menu} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import {FontsConst} from '@app/assets/assets';
+import {AssestsConst, FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
 import {
   addEllipsis,
   formatTimestamp,
+  getTimeDifferenceString,
   showAlert,
 } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
@@ -30,6 +31,7 @@ const ProductCard = ({
   onReservedClick,
   onDeleteClick,
   callBack,
+  isActionButton = false,
 }) => {
   const [visible, setVisible] = useState(false);
   const [inWishlist, setInWishlist] = useState(item?.isInWishlist);
@@ -83,7 +85,7 @@ const ProductCard = ({
             source={
               item?.user?.image && item?.user?.image !== ''
                 ? {uri: item?.user?.image}
-                : IMAGES.Dollar
+                : AssestsConst.AVATAR
             }
           />
           <Spacer width={5} />
@@ -96,96 +98,101 @@ const ProductCard = ({
           </View>
         </View>
         <CustomText style={styles.duration}>
-          {formatTimestamp(item?.created_at)}
+          Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
-        {isSelf ? (
+        {isSelf && isActionButton ? (
           <Pressable
             style={styles.boostButton}
             onPress={() => {
-              // NavigationService.navigate(RoutesName.B, {
-              //   product_id: item.id,
-              // });
+              NavigationService.navigate(
+                RoutesName.BOOST_PRODUCT_INTRODUCTION,
+                {
+                  product_id: item.id,
+                },
+              );
             }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>
         ) : null}
       </Card.Content>
-      <View style={styles.bookmark}>
-        {isSelf ? (
-          <Menu
-            style={{
-              backgroundColor: '#fff',
-            }}
-            visible={visible}
-            onDismiss={() => setVisible(false)}
-            anchor={
-              <Pressable onPress={() => setVisible(true)}>
-                <CustomIcon
-                  size={20}
-                  color={'#000000'}
-                  origin={ICON_TYPE.ENTYPO}
-                  name="dots-three-vertical"
-                />
-              </Pressable>
-            }>
-            <Menu.Item onPress={() => {}} title="Edit Details" />
-            <Divider />
-            <Menu.Item
+      {isActionButton ? (
+        <View style={styles.bookmark}>
+          {isSelf ? (
+            <Menu
+              style={{
+                backgroundColor: '#fff',
+              }}
+              visible={visible}
+              onDismiss={() => setVisible(false)}
+              anchor={
+                <Pressable onPress={() => setVisible(true)}>
+                  <CustomIcon
+                    size={20}
+                    color={'#000000'}
+                    origin={ICON_TYPE.ENTYPO}
+                    name="dots-three-vertical"
+                  />
+                </Pressable>
+              }>
+              <Menu.Item onPress={() => {}} title="Edit Details" />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onSoldClick
+                    ? () => {
+                        setVisible(false);
+                        onSoldClick();
+                      }
+                    : null
+                }
+                title="Mark as sold"
+              />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onReservedClick
+                    ? () => {
+                        setVisible(false);
+                        onReservedClick();
+                      }
+                    : null
+                }
+                title="Mark as Reserved"
+              />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onDeleteClick
+                    ? () => {
+                        setVisible(false);
+                        onDeleteClick();
+                      }
+                    : null
+                }
+                title="Delete"
+              />
+            </Menu>
+          ) : (
+            <Pressable
               onPress={
-                onSoldClick
+                onWishlistClick
                   ? () => {
-                      setVisible(false);
-                      onSoldClick();
+                      setInWishlist(!inWishlist);
+                      onWishlistClick();
                     }
                   : null
-              }
-              title="Mark as sold"
-            />
-            <Divider />
-            <Menu.Item
-              onPress={
-                onReservedClick
-                  ? () => {
-                      setVisible(false);
-                      onReservedClick();
-                    }
-                  : null
-              }
-              title="Mark as Reserved"
-            />
-            <Divider />
-            <Menu.Item
-              onPress={
-                onDeleteClick
-                  ? () => {
-                      setVisible(false);
-                      onDeleteClick();
-                    }
-                  : null
-              }
-              title="Delete"
-            />
-          </Menu>
-        ) : (
-          <Pressable
-            onPress={
-              onWishlistClick
-                ? () => {
-                    setInWishlist(!inWishlist);
-                    onWishlistClick();
-                  }
-                : null
-            }>
-            <CustomIcon
-              size={30}
-              color={inWishlist ? '#00958C' : '#000000'}
-              origin={ICON_TYPE.MATERIAL_ICONS}
-              name={inWishlist ? 'bookmark' : 'bookmark-outline'}
-            />
-          </Pressable>
-        )}
-      </View>
+              }>
+              <CustomIcon
+                size={30}
+                color={inWishlist ? '#00958C' : '#000000'}
+                origin={ICON_TYPE.MATERIAL_ICONS}
+                name={inWishlist ? 'bookmark' : 'bookmark-outline'}
+              />
+            </Pressable>
+          )}
+        </View>
+      ) : null}
     </Card>
   );
 };

@@ -6,10 +6,11 @@ import {useEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {connect} from 'react-redux';
 import Header from './Header';
-import {EmptyList, RenderItem, Seprator} from './commn';
+import {EmptyList, EmptyList1, RenderItem, Seprator} from './commn';
 
 const ChatScreen = props => {
   const {chatReducer} = props;
+
   return (
     <Container useSafeAreaView={true}>
       <Header {...props} />
@@ -19,7 +20,7 @@ const ChatScreen = props => {
         contentContainerStyle={styles.flatlist_container}
         keyExtractor={(item, index) => index.toString()}
         renderItem={RenderItem}
-        ListEmptyComponent={EmptyList}
+        ListEmptyComponent={EmptyList1}
         onEndReachedThreshold={0.2}
         ItemSeparatorComponent={Seprator}
         // onEndReached={onLoadMore}
