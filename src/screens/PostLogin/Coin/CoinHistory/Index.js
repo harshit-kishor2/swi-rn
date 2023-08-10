@@ -27,17 +27,20 @@ import {EmptyList} from '../../ChatScreen/commn';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {Seprator} from '../../Interestlist/common';
 import {RoutesName} from '@app/helper/strings';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 
 const CoinHistory = props => {
+  const isFocus = useIsFocused();
   const {getCoinHistory, sellersProfileReducer} = props;
   const Data = sellersProfileReducer?.CoinHistoryAction?.data?.history;
   const Coins = sellersProfileReducer?.CoinHistoryAction?.data?.total_coins;
 
   const coinValue = Coins ? Coins : '0';
-  useFocusEffect(() => {
-    getCoinHistory();
-  }, []);
+  useEffect(() => {
+    if (isFocus) {
+      getCoinHistory();
+    }
+  }, [isFocus]);
   const renderItem = ({item, index}) => (
     <View
       style={{
