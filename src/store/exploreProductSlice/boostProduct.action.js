@@ -10,6 +10,7 @@ export const boostProduct = createAsyncThunk(
   'boostProduct/now',
   async (params, thunkAPI) => {
     console.log('boostNowProduct----->>>Params', params);
+    debugger;
     try {
       const result = await axiosRequest({
         url: '/boost-product',
