@@ -31,6 +31,7 @@ const ProductCard = ({
   onReservedClick,
   onDeleteClick,
   callBack,
+  isActionButton = false,
 }) => {
   const [visible, setVisible] = useState(false);
   const [inWishlist, setInWishlist] = useState(item?.isInWishlist);
@@ -100,7 +101,7 @@ const ProductCard = ({
           Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
-        {isSelf ? (
+        {isSelf && isActionButton ? (
           <Pressable
             style={styles.boostButton}
             onPress={() => {
@@ -115,81 +116,83 @@ const ProductCard = ({
           </Pressable>
         ) : null}
       </Card.Content>
-      <View style={styles.bookmark}>
-        {isSelf ? (
-          <Menu
-            style={{
-              backgroundColor: '#fff',
-            }}
-            visible={visible}
-            onDismiss={() => setVisible(false)}
-            anchor={
-              <Pressable onPress={() => setVisible(true)}>
-                <CustomIcon
-                  size={20}
-                  color={'#000000'}
-                  origin={ICON_TYPE.ENTYPO}
-                  name="dots-three-vertical"
-                />
-              </Pressable>
-            }>
-            <Menu.Item onPress={() => {}} title="Edit Details" />
-            <Divider />
-            <Menu.Item
+      {isActionButton ? (
+        <View style={styles.bookmark}>
+          {isSelf ? (
+            <Menu
+              style={{
+                backgroundColor: '#fff',
+              }}
+              visible={visible}
+              onDismiss={() => setVisible(false)}
+              anchor={
+                <Pressable onPress={() => setVisible(true)}>
+                  <CustomIcon
+                    size={20}
+                    color={'#000000'}
+                    origin={ICON_TYPE.ENTYPO}
+                    name="dots-three-vertical"
+                  />
+                </Pressable>
+              }>
+              <Menu.Item onPress={() => {}} title="Edit Details" />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onSoldClick
+                    ? () => {
+                        setVisible(false);
+                        onSoldClick();
+                      }
+                    : null
+                }
+                title="Mark as sold"
+              />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onReservedClick
+                    ? () => {
+                        setVisible(false);
+                        onReservedClick();
+                      }
+                    : null
+                }
+                title="Mark as Reserved"
+              />
+              <Divider />
+              <Menu.Item
+                onPress={
+                  onDeleteClick
+                    ? () => {
+                        setVisible(false);
+                        onDeleteClick();
+                      }
+                    : null
+                }
+                title="Delete"
+              />
+            </Menu>
+          ) : (
+            <Pressable
               onPress={
-                onSoldClick
+                onWishlistClick
                   ? () => {
-                      setVisible(false);
-                      onSoldClick();
+                      setInWishlist(!inWishlist);
+                      onWishlistClick();
                     }
                   : null
-              }
-              title="Mark as sold"
-            />
-            <Divider />
-            <Menu.Item
-              onPress={
-                onReservedClick
-                  ? () => {
-                      setVisible(false);
-                      onReservedClick();
-                    }
-                  : null
-              }
-              title="Mark as Reserved"
-            />
-            <Divider />
-            <Menu.Item
-              onPress={
-                onDeleteClick
-                  ? () => {
-                      setVisible(false);
-                      onDeleteClick();
-                    }
-                  : null
-              }
-              title="Delete"
-            />
-          </Menu>
-        ) : (
-          <Pressable
-            onPress={
-              onWishlistClick
-                ? () => {
-                    setInWishlist(!inWishlist);
-                    onWishlistClick();
-                  }
-                : null
-            }>
-            <CustomIcon
-              size={30}
-              color={inWishlist ? '#00958C' : '#000000'}
-              origin={ICON_TYPE.MATERIAL_ICONS}
-              name={inWishlist ? 'bookmark' : 'bookmark-outline'}
-            />
-          </Pressable>
-        )}
-      </View>
+              }>
+              <CustomIcon
+                size={30}
+                color={inWishlist ? '#00958C' : '#000000'}
+                origin={ICON_TYPE.MATERIAL_ICONS}
+                name={inWishlist ? 'bookmark' : 'bookmark-outline'}
+              />
+            </Pressable>
+          )}
+        </View>
+      ) : null}
     </Card>
   );
 };
