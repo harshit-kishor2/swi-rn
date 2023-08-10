@@ -172,6 +172,8 @@ const BuyCoins = props => {
                           );
                         });
                       }, 100);
+                    } else {
+                      props?.navigation?.goBack();
                     }
                   }
                 });
