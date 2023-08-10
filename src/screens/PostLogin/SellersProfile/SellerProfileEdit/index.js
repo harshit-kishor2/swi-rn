@@ -34,6 +34,18 @@ import {connect} from 'react-redux';
 import {showAlert} from '@app/helper/commonFunction';
 
 const EditSellerProfile = props => {
+  const {
+    navigation,
+    route,
+    authReducer,
+    updateSellerProfileReducer,
+    getUpdateProfile,
+    updateSellerProfile,
+  } = props;
+
+  const userId = route.params?.userId;
+  const item = updateSellerProfileReducer?.getSellerProfile;
+
   const [social_media, setSocial_media] = useState([{id: 0, value: ''}]);
   const addTextInput = () => {
     const newInput = {id: social_media.length, value: ''};
@@ -45,32 +57,21 @@ const EditSellerProfile = props => {
     );
     setSocial_media(updatedInputs);
   };
-  console.log('state =================>>>>>>>', social_media);
 
-  const {
-    navigation,
-    route,
-    authReducer,
-    updateSellerProfileReducer,
-    getUpdateProfile,
-    updateSellerProfile,
-  } = props;
-  const userId = route.params?.userId;
-  // const {getSellerProfileList} = props;
-  // console.log(props, 'Props================|||||||||||||||||||||||||');
-  // console.log('Input>>>>>>>>>>>>>>>>>>>>', inputs);
-  const item = updateSellerProfileReducer?.getSellerProfile;
+  const [IsChecked, setIsChecked] = useState(true);
+  const [checkboxValue, setCheckBoxValue] = useState([]);
+  // console.log('IsCHECKED USESTATS_______________*********', IsChecked);
+  // console.log('CHECHBOX VALUE USESTATE#####################', checkboxValue);
+
+  // console.log('API ITEM VALUE=============>>>>>>>>>>>>>>>>>', item);
 
   const updateItem = updateSellerProfileReducer.updateSellerProfile;
-  console.log('=>>>>>>>item==================>', item);
 
-  // const item = getSellerProfileReducer;
-  console.log('ITEM GET===================>>>>>>>>>>>>', item);
   useEffect(() => {
     getUpdateProfile();
   }, []);
 
-  const [date, setDate] = useState(new Date());
+  // const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [opening_hours, setOpening_hours] = useState([
     {
@@ -83,49 +84,40 @@ const EditSellerProfile = props => {
     {
       id: 2,
       day: 'Tuesday',
-      // onOff: "on",
       timing: '',
       onOff: false,
     },
     {
       id: 3,
       day: 'Wednesday',
-      //onOff: "on",
-      timing: '9:00 am - 5:00 pm',
+      timing: '',
       onOff: false,
     },
     {
       id: 4,
       day: 'Thursday',
-      // onOff: "on",
-      timing: '9:00 am - 5:00 pm',
+      timing: '',
       onOff: false,
     },
     {
       id: 5,
       day: 'Friday',
-      // onOff: "on",
-      timing: '9:00 am - 5:00 pm',
+      timing: '',
       onOff: false,
     },
     {
       id: 6,
       day: 'Saturday',
-      //// onOff: "on",
-      timing: '9:00 am - 5:00 pm',
+      timing: '',
       onOff: false,
     },
     {
       id: 7,
       day: 'Sunday',
-      //onOff: "on",
-      timing: '9:00 am - 5:00 pm',
+      timing: '',
       onOff: false,
     },
   ]);
-
-  // const [switchOn, setSwitchOn] = useState(false);
-  console.log('opening Hour>>>>>>>>>>>>>>>>>>>>', opening_hours);
 
   const initialValues = {
     userId: item?.id,
@@ -134,13 +126,14 @@ const EditSellerProfile = props => {
     mobile: item?.mobile ?? '',
     bio: item?.bio ?? '',
     location: item.additional_info?.location ?? '',
-    opening_hours: item.additional_info?.opening_hours ?? [],
+    opening_hours: item.additional_info?.opening_hours ?? opening_hours ?? [],
     website: item.additional_info?.website ?? '',
-    social_media: item.additional_info?.social_media ?? [],
-    payment_method: item.additional_info?.payment_method ?? [],
+    social_media: social_media ?? [],
+    payment_method: item.master_payment_method ?? [],
     announcement: item.additional_info?.announcement ?? '',
     announcement_end: item.additional_info?.announcement_end ?? '',
   };
+
   const {
     handleChange,
     handleSubmit,
@@ -152,8 +145,8 @@ const EditSellerProfile = props => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: values => {
-      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', values);
       try {
+        // console.log('USER ONSUBMIT VALUES========================>', values);
         updateSellerProfile(values).then(res => {
           if (res?.type.include('fulfilled')) {
             showAlert({
@@ -169,12 +162,12 @@ const EditSellerProfile = props => {
           }
         });
       } catch (error) {
-        console.log('OnPost Error Message==================>', error.message);
+        // console.log('OnPost Error Message==================>', error.message);
       }
       // updateSellerProfileReducer();
     },
   });
-  // console.log('================>Values ONSubmit ', values);
+  console.log('================>Values ONSubmit ', values);
 
   console.log('=>>>>>>>>initial Values', initialValues);
 
@@ -303,7 +296,6 @@ const EditSellerProfile = props => {
                 data={values.opening_hours ?? opening_hours}
                 keyExtractor={item => item.id}
                 renderItem={({item, index}) => {
-                  console.log(item, 'iiiiiiiiiiiiiiiiiiii');
                   return (
                     <View style={style.toggle}>
                       <View style={style.dayText}>
@@ -313,48 +305,32 @@ const EditSellerProfile = props => {
                         <ToggleSwitch
                           isOn={item.onOff}
                           onToggle={val => {
-                            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$', temp);
-                            console.log('#################', aa);
-                            console.log('*****************', val);
-                            let aa = {};
-                            const temp = (
-                              values.opening_hours ?? opening_hours
-                            ).filter((a, i) => {
+                            const temp = values.opening_hours.map((a, i) => {
                               if (a.id === item.id) {
-                                aa = {
-                                  ...item,
-                                  onOff: val,
-                                };
-                                return aa;
+                                return {...a, onOff: val};
                               } else {
-                                return item;
+                                return a;
                               }
                             });
-                            setOpening_hours(temp);
                             setFieldValue('opening_hours', temp);
                           }}
                           onColor={'#00958C'}
                           offColor={'#ACACAC'}
-                          // value={it}
                         />
                       </View>
                       <View style={{width: '30%', marginHorizontal: 20}}>
                         <CustomInput
-                          // placeholder="09:00 am - 05:00pm"
+                          placeholder="09:00 am - 05:00pm"
                           value={item.onOff === true ? item.timing : '-'}
                           style={{width: 150}}
                           onChangeText={val => {
-                            //console.log(val, item, 'onchnage value');
-                            const temp = opening_hours.filter((a, i) => {
+                            const temp = values.opening_hours?.map((a, i) => {
                               if (a.id === item.id) {
-                                item.timing = val;
-                                console.log(item, 'mmmmmmmmm');
-                                return item;
+                                return {...a, timing: val};
                               } else {
-                                return item;
+                                return a;
                               }
                             });
-                            setOpening_hours(temp);
                             setFieldValue('opening_hours', temp);
                           }}
                         />
@@ -375,30 +351,29 @@ const EditSellerProfile = props => {
               />
               <View>
                 <Text style={style.text}>Social Media Links</Text>
-
-                {/* <CustomInput
-                  placeholder="facebook/immyvan"
-                  style={style.input}
+                {/* <FlatList
+                  data={values.social_media}
+                  keyExtractor={item => item.id}
+                  renderItem={(val, index) => {
+                    // console.log('&&&&&&&&&&&&&&&SOCILAMEDIDA', val?.item);
+                    return (
+                      <View key={index}>
+                        <CustomInput
+                          value={val?.item?.value}
+                          onChangeText={value =>
+                            setFieldValue('social_media', value)
+                          }
+                        />
+                      </View>
+                    );
+                  }}
                 /> */}
                 {social_media.map((item, index) => (
                   <CustomInput
                     key={index}
                     value={item}
                     onChangeText={text => handleInputChange(item.id, text)}
-                    // onChangeText={value => {
-                    //   values.social_media[index] = value;
-                    //   setFieldValue('social_media', values.social_media);
-                    // }}
-                    // onChangeText={text => handleInputChange(item.id, text)}
-                    // rightIcon={() => {
-                    //   return (
-                    //     <CustomIcon
-                    //       origin={ICON_TYPE.ENTYPO}
-                    //       name={'cross'}
-                    //       size={20}
-                    //     />
-                    //   );
-                    // }}
+                    // onChangeText={value => setFieldValue('social_media', value)}
                   />
                 ))}
               </View>
@@ -424,6 +399,7 @@ const EditSellerProfile = props => {
                   numColumns={3}
                   keyExtractor={item => item.id}
                   renderItem={({item, index}) => {
+                    // console.log('Item==', item);
                     return (
                       <View
                         style={{
@@ -433,23 +409,31 @@ const EditSellerProfile = props => {
                         }}>
                         <CheckBox
                           disabled={false}
-                          value={item.check}
+                          value={item.isCheck}
+                          // onValueChange={}
                           onValueChange={val => {
                             const temp = values.payment_method.filter(
-                              (a, i) => {
+                              (aa, i) => {
+                                const a = Object.assign({}, aa);
                                 if (a.id === item.id) {
-                                  item.check = val;
-                                  return item;
+                                  a.isCheck = val;
+                                  return a;
                                 } else {
-                                  return item;
+                                  return a;
                                 }
                               },
                             );
-                            // setPaymentMode(temp);
+                            // console.log('Temp====', temp);
                             setFieldValue('payment_method', temp);
+                            // setIsChecked(val);
+                            // if (val) {
+                            //   setCheckBoxValue(item.option_value);
+                            // }
                           }}
                         />
-                        <Text style={[{marginTop: 6}, style.text]}>{item}</Text>
+                        <Text style={[{marginTop: 6}, style.text]}>
+                          {item.option_value}
+                        </Text>
                       </View>
                     );
                   }}
@@ -504,15 +488,15 @@ const EditSellerProfile = props => {
               <Text>Announcement ends on </Text>
               <View onPress={() => setOpen(true)} style={{marginBottom: 5}}>
                 <DatePicker
-                  Value={values.announcement_end}
+                  Value={new Date(values.announcement_end)}
                   children={
                     <CustomText>
-                      {date
-                        ? moment(date).format('DD MMM YYYY')
+                      {values.announcement_end
+                        ? moment(values.announcement_end).format('DD MMM YYYY')
                         : 'DD MMM YYYY'}
                     </CustomText>
                   }
-                  onChangeDate={d => setFieldValue(d)}
+                  onChangeDate={d => setFieldValue('announcement_end', d)}
                 />
               </View>
               <View
