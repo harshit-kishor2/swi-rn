@@ -104,7 +104,7 @@ export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');
 
 // Boost Now Screen
 
-export const sandWatch = require('../assets/images/sandwatch/sandwatch.png');
+export const sandWatch = require('../assets/images/sandWatch/sandwatch.png');
 export const cancel = require('../assets/images/cancel.png');
 export const userProfile = require('../assets/images/userProfile/userProfile.png');
 export const playVideo = require('../assets/images/playVideo.png');
