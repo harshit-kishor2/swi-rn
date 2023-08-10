@@ -2,6 +2,7 @@ import {RoutesName} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import {IMAGES, SPACING} from '@app/resources';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
+import {useFocusEffect} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 

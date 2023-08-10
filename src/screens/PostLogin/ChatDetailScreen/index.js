@@ -195,7 +195,7 @@ const ChatDetailScreen = props => {
           renderChatFooter={() => null}
           renderSend={() => null}
           renderBubble={props => {
-            return RenderItem1({
+            return RenderItem({
               ...props,
               setFullImageVisible: setFullImageVisible,
             });

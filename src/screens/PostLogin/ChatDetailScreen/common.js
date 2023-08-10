@@ -19,53 +19,7 @@ export function FooterList() {
   return <ActivityIndicator size={20} />;
 }
 
-export function RenderItem({item, index, currentUser, setFullImageVisible}) {
-  const isSelf = currentUser?.id == item?.sender_id ?? false;
-  return (
-    <>
-      <View
-        style={{
-          alignSelf: isSelf ? 'flex-end' : 'flex-start',
-        }}>
-        <CustomText style={styles.timestamp}>
-          {moment(item?.created_at).format('HH:mm A')}
-        </CustomText>
-      </View>
-      <View
-        style={{
-          backgroundColor: isSelf ? '#00958C' : '#00000010',
-          flexDirection: 'row',
-          alignSelf: isSelf ? 'flex-end' : 'flex-start',
-          borderTopRightRadius: isSelf ? 0 : 30,
-          borderBottomLeftRadius: isSelf ? 30 : 0,
-          borderBottomRightRadius: 30,
-          borderTopLeftRadius: 30,
-          paddingHorizontal: 20,
-          paddingVertical: 10,
-          maxWidth: '90%',
-        }}>
-        {item.type === 'image' ? (
-          <Pressable
-            onPress={() =>
-              setFullImageVisible({visible: true, uri: item?.docs})
-            }>
-            <Image
-              source={{uri: item?.docs}}
-              style={{
-                height: 200,
-                width: 200,
-              }}
-            />
-          </Pressable>
-        ) : (
-          <CustomText>{item?.message}</CustomText>
-        )}
-      </View>
-    </>
-  );
-}
-
-export function RenderItem1(props) {
+export function RenderItem(props) {
   const {currentMessage, position, currentUser, setFullImageVisible} = props;
   const isSelf = position === 'right' ?? false;
   return (
