@@ -1,213 +1,123 @@
-import React from 'react'
+import React from 'react';
 import {
-  FlatList, Image,
-  Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View
-} from 'react-native'
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  SectionList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
-import { COLORS, IMAGES, SPACING } from '@app/resources'
-import { NavigationBar } from '@app/components'
-import NotificationCard from '@app/screens/atoms/NotificationCard'
+import {COLORS, IMAGES, SPACING} from '@app/resources';
+import {
+  BackHeader,
+  Container,
+  CustomText,
+  NavigationBar,
+} from '@app/components';
+import NotificationCard from '@app/screens/atoms/NotificationCard';
+import PageTitle from '@app/screens/atoms/PageTitle';
+import {FontsConst} from '@app/assets/assets';
+import {Avatar} from 'react-native-paper';
+import {RoutesName} from '@app/helper/strings';
 
-
-// const NotificationScreen = props => {
-
-//   return (
-//     <StoryScreen>
-//       <View style={ {
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         justifyContent: 'space-between',
-
-//       } }>
-//         <NavigationBar
-//           leftSource={ IMAGES.BACKARROW }
-//           leftAction={ () => {
-//             console.log('first');
-//             props.navigation.navigate('CreateAccountScreen');
-//           } }
-//           flexDirection="row"
-//         />
-//         <Pressable
-//           onPress={ () => {
-//             Alert.alert('pressed');
-//           } }>
-//           <Image source={ IMAGES.bell } style={ { marginLeft: SPACING.SCALE_10 } } />
-//         </Pressable>
-//       </View>
-//       <View>
-//         <Text style={ { fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK } }>
-//           Notifications
-//         </Text>
-
-//       </View>
-//       <ScrollView showsVerticalScrollIndicator={ false }>
-//         <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>Today</Text>
-
-//         <View>
-//           <FlatList data={ Data }
-//             renderItem={ renderItem }
-//             nestedScrollEnabled />
-//         </View>
-//         <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black', height: 40, marginBottom: 10, marginTop: 20 } }>This Week</Text>
-//         <View>
-//           <FlatList data={ Data }
-//             renderItem={ renderItem }
-//           />
-//         </View>
-//       </ScrollView>
-//     </StoryScreen>
-//   )
-// }
-
-// export default NotificationScreen
-
-// const styles = StyleSheet.create({
-
-
-
-
-const NotificationScreen = (props) => {
-  const Data = [
+const NotificationScreen = props => {
+  const {navigation, route} = props;
+  const DATA = [
     {
-      id: 2,
-      post_Title: "Liked Post",
-      userId: '1',
-      postImage: IMAGES.Ellipse7,
-      city: "Lucknow",
-      username: 'Radhesh',
-      notification: 'Liked Your Post jladskfhksajdfkjadsnfknasdfkjaslkdnfkdsjfkdsmdfnsdfjf this is my toen yousldkjgsjdbgkjdsfajdsgkdfkb',
-      Date: "Today",
-      status: 'unread',
-      day: '30 min ago'
+      title: 'Today',
+      data: ['Pizza', 'Burger', 'Risotto'],
     },
     {
-      id: 3,
-      post_Title: "Liked Post",
-      userId: '1',
-      postImage: IMAGES.Ellipse7,
-      city: "Lucknow",
-      username: 'Radhesh',
-      notification: 'Liked Your Post',
-      Date: "Today",
-      status: 'unread',
-      day: '1 hour ago'
+      title: 'This Week',
+      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
     },
     {
-      id: 4,
-      post_Title: "Liked Post",
-      userId: '1',
-      postImage: IMAGES.Ellipse7,
-      city: "Lucknow",
-      username: 'Radhesh',
-      notification: 'Liked Your Post ',
-      Date: "Last Week",
-      status: 'read',
-      day: 'Monday'
+      title: 'Date',
+      data: ['Water', 'Coke', 'Beer'],
     },
-    {
-      id: 5,
-      post_Title: "Liked Post",
-      userId: '1',
-      postImage: IMAGES.Ellipse7,
-      city: "Lucknow",
-      username: 'Radhesh',
-      notification: 'Liked Your Post',
-      Date: "Last Week",
-      status: 'unread',
-      day: 'Sunday'
-    },
-    {
-      id: 6,
-      post_Title: "Liked Post",
-      userId: '1',
-      postImage: IMAGES.Ellipse7,
-      city: "Lucknow",
-      username: 'Radhesh',
-      notification: 'Liked Your Post',
-      Date: "Last Week",
-      status: 'read',
-      day: 'Saturday'
-    },
-  ]
-console.log(props,"notifiaction props=====>>>>>")
+  ];
+
+  const onRowClick = type => {
+    switch (type) {
+      case 'PRODUCT_DETAIL':
+        navigation.navigate(RoutesName.PRODUCT_DETAILS);
+      default:
+        break;
+    }
+  };
+
+  const renderSection = ({section: {title}}) => (
+    <View style={styles.section}>
+      <CustomText style={styles.titleText}>{title}</CustomText>
+    </View>
+  );
+
+  const renderItem = ({item}) => (
+    <Pressable onPress={() => onRowClick()} style={styles.row}>
+      <Avatar.Image source={{}} size={50} />
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: 5,
+        }}>
+        <CustomText style={styles.notification_title}>
+          'Description message may be very long. Descri message may be very
+          long. Description message may be very long.
+        </CustomText>
+        <CustomText style={styles.notification_price}>1 hour ago</CustomText>
+      </View>
+    </Pressable>
+  );
 
   return (
-    <View style={{backgroundColor:COLORS.WHITE, }}>
-       
-       <View style={ {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginHorizontal:"3%",
-        marginVertical:20
+    <Container useSafeAreaView={true}>
+      <BackHeader />
 
-      } }>
-        <TouchableOpacity
-              onPress={() => {
-                props.navigation.goBack();
-              }}>
-              <Image
-                style={{
-                  height: SPACING.SCALE_24,
-                  width: SPACING.SCALE_24,
-                  resizeMode: 'cover',
-                }}
-                source={IMAGES.BACKARROW}
-              />
-            </TouchableOpacity>
-     
-      </View>
-      {/* <View>
-        <Text>
-          {Data.map((item)=>{
-            return(
-              <Text>{item.id}</Text>
-            )
-          })}
-        </Text>
-      </View> */}
-     
-      <View>
-        <Text style={ { fontSize: 20, fontFamily: 'Cabin-Bold', color: COLORS.BLACK, marginHorizontal:"5%" } }>
-          Notifications
-        </Text>
-        <View>
-          <View style={{height:4, width:'10%',backgroundColor:COLORS.HYPERLINK, marginHorizontal:20, borderRadius:10, marginVertical:20}}/>
-        </View>
+      <PageTitle title={'Notifications'} />
 
-      </View>
-      <ScrollView showsVerticalScrollIndicator={ false }>
-        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black' ,marginHorizontal:"5%", marginTop:'2%'} }>Today</Text>
+      <SectionList
+        contentContainerStyle={styles.section_container}
+        sections={DATA}
+        keyExtractor={(item, index) => item + index}
+        renderItem={renderItem}
+        renderSectionHeader={renderSection}
+      />
+    </Container>
+  );
+};
 
-        <View>
-          {/* <FlatList data={ Data }
-            renderItem={ renderItem }
-            nestedScrollEnabled /> */}
-            <NotificationCard data={Data}/>
-        </View>
-        <Text style={ { fontSize: 18, fontFamily: 'OpenSans-SemiBold', color: 'black',   marginHorizontal:"5%", marginTop:'5%' } }>This Week</Text>
-        <View>
-          {/* <FlatList data={ Data }
-            renderItem={ renderItem }
-          /> */}
-          <NotificationCard data={Data}/>
-        </View>
-      </ScrollView>
-    </View>
-  )
-}
-
-export default NotificationScreen
+export default NotificationScreen;
 const styles = StyleSheet.create({
-
-  container: {
-    borderBottomWidth: 1,
-    alignSelf: 'center',
-    marginTop: 5,
+  section_container: {
+    flexGrow: 1,
+    paddingBottom: 40,
+  },
+  titleText: {
+    fontSize: 16,
+    fontFamily: FontsConst.Cabin_Bold,
+  },
+  section: {
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    paddingTop: 20,
+  },
+  row: {
     flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    borderColor: '#D8D8D8',
-
-  }
-})
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+  },
+  notification_title: {
+    fontSize: 14,
+    fontFamily: FontsConst.OpenSans_Regular,
+    color: '#000000',
+  },
+  notification_price: {
+    fontSize: 12,
+    fontFamily: FontsConst.OpenSans_Regular,
+    color: '#00000080',
+  },
+});

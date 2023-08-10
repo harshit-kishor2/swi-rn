@@ -32,20 +32,21 @@ import {
 import ToggleSwitch from 'toggle-switch-react-native';
 import {connect} from 'react-redux';
 import {showAlert} from '@app/helper/commonFunction';
-import {err} from 'react-native-svg/lib/typescript/xml';
 
 const EditSellerProfile = props => {
-  const [inputs, setInputs] = useState([{id: 0, value: ''}]);
+  const [social_media, setSocial_media] = useState([{id: 0, value: ''}]);
   const addTextInput = () => {
-    const newInput = {id: inputs.length, value: ''};
-    setInputs([...inputs, newInput]);
+    const newInput = {id: social_media.length, value: ''};
+    setSocial_media([...social_media, newInput]);
   };
   const handleInputChange = (id, text) => {
-    const updatedInputs = inputs.map(input =>
+    const updatedInputs = social_media.map(input =>
       input.id === id ? {...input, value: text} : input,
     );
-    setInputs(updatedInputs);
+    setSocial_media(updatedInputs);
   };
+  console.log('state =================>>>>>>>', social_media);
+
   const {
     navigation,
     route,
@@ -56,12 +57,13 @@ const EditSellerProfile = props => {
   } = props;
   const userId = route.params?.userId;
   // const {getSellerProfileList} = props;
-  console.log(props, 'Props================|||||||||||||||||||||||||');
-
+  // console.log(props, 'Props================|||||||||||||||||||||||||');
+  // console.log('Input>>>>>>>>>>>>>>>>>>>>', inputs);
   const item = updateSellerProfileReducer?.getSellerProfile;
 
   const updateItem = updateSellerProfileReducer.updateSellerProfile;
-  // console.log('=>>>>>>>item==================>', item);  console.log('=>>>>>>>item==================>Alok', updateItem);
+  console.log('=>>>>>>>item==================>', item);
+
   // const item = getSellerProfileReducer;
   console.log('ITEM GET===================>>>>>>>>>>>>', item);
   useEffect(() => {
@@ -70,16 +72,68 @@ const EditSellerProfile = props => {
 
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const [opening_hours, setOpening_hours] = useState([
+    {
+      id: 1,
+      day: 'Monday',
+      //onOff: "off"
+      timing: '',
+      onOff: false,
+    },
+    {
+      id: 2,
+      day: 'Tuesday',
+      // onOff: "on",
+      timing: '',
+      onOff: false,
+    },
+    {
+      id: 3,
+      day: 'Wednesday',
+      //onOff: "on",
+      timing: '9:00 am - 5:00 pm',
+      onOff: false,
+    },
+    {
+      id: 4,
+      day: 'Thursday',
+      // onOff: "on",
+      timing: '9:00 am - 5:00 pm',
+      onOff: false,
+    },
+    {
+      id: 5,
+      day: 'Friday',
+      // onOff: "on",
+      timing: '9:00 am - 5:00 pm',
+      onOff: false,
+    },
+    {
+      id: 6,
+      day: 'Saturday',
+      //// onOff: "on",
+      timing: '9:00 am - 5:00 pm',
+      onOff: false,
+    },
+    {
+      id: 7,
+      day: 'Sunday',
+      //onOff: "on",
+      timing: '9:00 am - 5:00 pm',
+      onOff: false,
+    },
+  ]);
 
-  const [switchOn, setSwitchOn] = useState(false);
+  // const [switchOn, setSwitchOn] = useState(false);
+  console.log('opening Hour>>>>>>>>>>>>>>>>>>>>', opening_hours);
 
   const initialValues = {
     userId: item?.id,
     name: item?.name ?? '',
     email: item?.email ?? '',
     mobile: item?.mobile ?? '',
-    about: item?.bio ?? '',
-    location: item.additional_info?.location,
+    bio: item?.bio ?? '',
+    location: item.additional_info?.location ?? '',
     opening_hours: item.additional_info?.opening_hours ?? [],
     website: item.additional_info?.website ?? '',
     social_media: item.additional_info?.social_media ?? [],
@@ -98,6 +152,7 @@ const EditSellerProfile = props => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: values => {
+      console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', values);
       try {
         updateSellerProfile(values).then(res => {
           if (res?.type.include('fulfilled')) {
@@ -119,9 +174,9 @@ const EditSellerProfile = props => {
       // updateSellerProfileReducer();
     },
   });
-  console.log('================>Values ONSubmit ', values);
+  // console.log('================>Values ONSubmit ', values);
 
-  console.log('=>>>>>>>>initial VAllues', initialValues);
+  console.log('=>>>>>>>>initial Values', initialValues);
 
   return (
     <Container useSafeAreaView={true}>
@@ -231,8 +286,8 @@ const EditSellerProfile = props => {
                                  iaculis ipsum sed, pretium purus."
               multiline={true}
               style={style.input}
-              value={values.about}
-              onChangeText={value => setFieldValue('about', value)}
+              value={values.bio}
+              onChangeText={value => setFieldValue('bio', value)}
             />
 
             <Text style={style.text}>Location</Text>
@@ -245,10 +300,10 @@ const EditSellerProfile = props => {
 
             <View>
               <FlatList
-                data={values.opening_hours}
+                data={values.opening_hours ?? opening_hours}
                 keyExtractor={item => item.id}
                 renderItem={({item, index}) => {
-                  // console.log(item)
+                  console.log(item, 'iiiiiiiiiiiiiiiiiiii');
                   return (
                     <View style={style.toggle}>
                       <View style={style.dayText}>
@@ -258,38 +313,48 @@ const EditSellerProfile = props => {
                         <ToggleSwitch
                           isOn={item.onOff}
                           onToggle={val => {
-                            const temp = values.opening_hours.filter((a, i) => {
+                            console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$', temp);
+                            console.log('#################', aa);
+                            console.log('*****************', val);
+                            let aa = {};
+                            const temp = (
+                              values.opening_hours ?? opening_hours
+                            ).filter((a, i) => {
                               if (a.id === item.id) {
-                                item.onOff = val;
-                                return item;
+                                aa = {
+                                  ...item,
+                                  onOff: val,
+                                };
+                                return aa;
                               } else {
                                 return item;
                               }
                             });
-
+                            setOpening_hours(temp);
                             setFieldValue('opening_hours', temp);
                           }}
-                          // onToggle={}
                           onColor={'#00958C'}
                           offColor={'#ACACAC'}
-                          value={switchOn}
+                          // value={it}
                         />
                       </View>
                       <View style={{width: '30%', marginHorizontal: 20}}>
                         <CustomInput
                           // placeholder="09:00 am - 05:00pm"
-                          value={item.timing}
+                          value={item.onOff === true ? item.timing : '-'}
                           style={{width: 150}}
                           onChangeText={val => {
-                            const temp = values.opening_hours.filter((a, i) => {
+                            //console.log(val, item, 'onchnage value');
+                            const temp = opening_hours.filter((a, i) => {
                               if (a.id === item.id) {
                                 item.timing = val;
+                                console.log(item, 'mmmmmmmmm');
                                 return item;
                               } else {
                                 return item;
                               }
                             });
-
+                            setOpening_hours(temp);
                             setFieldValue('opening_hours', temp);
                           }}
                         />
@@ -315,24 +380,25 @@ const EditSellerProfile = props => {
                   placeholder="facebook/immyvan"
                   style={style.input}
                 /> */}
-                {values.social_media.map((item, index) => (
+                {social_media.map((item, index) => (
                   <CustomInput
                     key={index}
                     value={item}
-                    onChangeText={value => {
-                      values.social_media[index] = value;
-                      setFieldValue('social_media', values.social_media);
-                    }}
+                    onChangeText={text => handleInputChange(item.id, text)}
+                    // onChangeText={value => {
+                    //   values.social_media[index] = value;
+                    //   setFieldValue('social_media', values.social_media);
+                    // }}
                     // onChangeText={text => handleInputChange(item.id, text)}
-                    rightIcon={() => {
-                      return (
-                        <CustomIcon
-                          origin={ICON_TYPE.ENTYPO}
-                          name={'cross'}
-                          size={20}
-                        />
-                      );
-                    }}
+                    // rightIcon={() => {
+                    //   return (
+                    //     <CustomIcon
+                    //       origin={ICON_TYPE.ENTYPO}
+                    //       name={'cross'}
+                    //       size={20}
+                    //     />
+                    //   );
+                    // }}
                   />
                 ))}
               </View>

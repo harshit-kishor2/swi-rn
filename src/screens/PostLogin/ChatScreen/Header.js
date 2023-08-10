@@ -1,3 +1,4 @@
+import {RoutesName} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import {IMAGES, SPACING} from '@app/resources';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
@@ -5,7 +6,7 @@ import {useEffect, useState} from 'react';
 import {Image, Pressable, StyleSheet, View} from 'react-native';
 
 const Header = props => {
-  const {getChatHistory} = props;
+  const {getChatHistory, navigation} = props;
 
   const [search, setSearch] = useState('');
   const searchQuery = useDebounce(search);
@@ -24,7 +25,9 @@ const Header = props => {
         />
       </View>
       <Pressable
-        onPress={() => {}}
+        onPress={() => {
+          navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
+        }}
         style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
         <Image source={IMAGES.notificationBell} />
       </Pressable>

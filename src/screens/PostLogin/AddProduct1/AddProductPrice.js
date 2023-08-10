@@ -31,9 +31,11 @@ const AddProductPrice = ({onNextClick, ...props}) => {
       };
       onAddProductPrice(props).then(res => {
         if (res?.type.includes('fulfilled')) {
-          resetProductState();
           onNextClick();
-          NavigationService.navigate(RoutesName.SUCCESS_SCREEN);
+          NavigationService.navigate(RoutesName.SUCCESS_SCREEN, {
+            productID: productState?.productDetails?.productID,
+          });
+          resetProductState();
         } else if (res?.type.includes('rejected')) {
           showAlert({
             title: 'Server error !',
