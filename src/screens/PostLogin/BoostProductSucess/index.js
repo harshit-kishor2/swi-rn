@@ -3,8 +3,16 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Container, Spacer} from '@app/components';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
+import {useEffect} from 'react';
+import NavigationService from '@app/navigations/NavigationService';
+import {RoutesName} from '@app/helper/strings';
 
 const BoostProductSuccess = props => {
+  useEffect(() => {
+    setTimeout(() => {
+      NavigationService.navigateAndReset(RoutesName.MAIN_TAB_NAVIGATOR);
+    }, 500);
+  }, []);
   return (
     <Container
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

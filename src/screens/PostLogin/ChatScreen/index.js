@@ -10,6 +10,7 @@ import {EmptyList, EmptyList1, RenderItem, Seprator} from './commn';
 
 const ChatScreen = props => {
   const {chatReducer} = props;
+
   return (
     <Container useSafeAreaView={true}>
       <Header {...props} />

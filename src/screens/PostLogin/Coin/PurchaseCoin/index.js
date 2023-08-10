@@ -20,9 +20,15 @@ import {
 import {IMAGES, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
 import styles from './styles';
+import {connect} from 'react-redux';
+import {boostPlans} from '@app/store/exploreProductSlice/boostProduct.action';
+import {useEffect} from 'react';
+import {showAlert} from '@app/helper/commonFunction';
 
 const PurchaseCoin = props => {
+  const {boostPlans, boostProductReducer} = props;
   const [selected, setSelected] = useState();
+  const [selectedPladId, setSelectedPlanId] = useState();
 
   const DATA = [
     {
@@ -39,7 +45,16 @@ const PurchaseCoin = props => {
     },
   ];
 
+  useEffect(() => {
+    boostPlans();
+  }, []);
+
   console.log(props, 'props===========');
+  console.log(props?.route?.params?.product_id, 'props===========');
+  const boostProductDetail = {
+    pid: props?.route?.params?.product_id,
+    planid: selectedPladId,
+  };
   return (
     <Container style={{flex: 1}}>
       <ScrollView
@@ -68,50 +83,57 @@ const PurchaseCoin = props => {
             No coins? Buy them to use this feature.
           </Text>
         </View>
-
-        <FlatList
-          contentContainerStyle={{
-            flexGrow: 1,
-          }}
-          data={DATA}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity
-                style={{}}
-                onPress={() => {
-                  setSelected(index);
-                  console.log(index);
-                }}>
-                <View
-                  style={[
-                    styles.cardStyle,
-                    index === selected && styles.highlightedLine,
-                  ]}>
+        {boostProductReducer?.boostPlansData?.data?.length != 0 ? (
+          <FlatList
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
+            data={boostProductReducer?.boostPlansData?.data}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  style={{}}
+                  onPress={() => {
+                    setSelected(index);
+                    console.log(index);
+                    setSelectedPlanId(item.id);
+                    //boostProductDetail.planId = item.id;
+                  }}>
                   <View
-                    style={{
-                      justifyContent: 'space-between',
-                      flexDirection: 'row',
-                    }}>
-                    <Text style={styles.outerText}>
-                      {' '}
-                      for{' '}
-                      <Text style={styles.innerText}>
+                    style={[
+                      styles.cardStyle,
+                      index === selected && styles.highlightedLine,
+                    ]}>
+                    <View
+                      style={{
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                      }}>
+                      <Text style={styles.outerText}>
                         {' '}
-                        {item.week_days}{' '}
-                      </Text>{' '}
-                    </Text>
-                    <View style={styles.CardCoinStyle}>
-                      <Image source={IMAGES.coin} />
-                      <Text style={styles.NumberStyle}>
-                        {item.number_of_coins}
+                        for{' '}
+                        <Text style={styles.innerText}>
+                          {' '}
+                          {item.plan_name}{' '}
+                        </Text>{' '}
                       </Text>
+                      <View style={styles.CardCoinStyle}>
+                        <Image source={IMAGES.coin} />
+                        <Text style={styles.NumberStyle}>
+                          {item.coins_value}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                </TouchableOpacity>
+              );
+            }}
+          />
+        ) : (
+          <View>
+            <Text>No Data</Text>
+          </View>
+        )}
         <Spacer height={40} />
         <View>
           <Custombutton
@@ -121,7 +143,17 @@ const PurchaseCoin = props => {
             width={'90%'}
             //marginHorizontal={20}
             onPress={() => {
-              props.navigation.navigate(RoutesName.PAY_NOW);
+              if (boostProductDetail.planid) {
+                props.navigation.navigate(
+                  RoutesName.PAY_NOW,
+                  boostProductDetail,
+                );
+              } else {
+                showAlert({
+                  title: 'Error',
+                  message: 'Please select one plan to boost product.',
+                });
+              }
             }}
           />
         </View>
@@ -145,4 +177,15 @@ const PurchaseCoin = props => {
   );
 };
 
-export default PurchaseCoin;
+const mapStateToProps = state => {
+  return {
+    boostProductReducer: state?.boostProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  //boostProduct: params => dispatch(boostProduct(params)),
+  boostPlans: params => dispatch(boostPlans(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseCoin);

@@ -157,7 +157,7 @@ const MyProfileScreen = props => {
         <View style={{}}>
           <Text style={styles.TextStyle1}>
             You have {<Image source={IMAGES.coin} />}{' '}
-            {profileData.coins ? profileData.coins : '0'} coins with you now
+            {profileData?.coins ? profileData?.coins : '0'} coins with you now
           </Text>
         </View>
         <View

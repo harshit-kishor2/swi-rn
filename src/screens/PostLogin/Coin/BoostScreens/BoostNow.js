@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useState} from 'react';
 import {Container, Custombutton, NavigationBar} from '@app/components';
@@ -15,54 +16,35 @@ import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
 import {ScrollView} from 'react-native-gesture-handler';
 import {connect, useSelector} from 'react-redux';
-import {boostProduct} from '@app/store/exploreProductSlice/boostProduct.action';
-
-// const Item = ({
-//     week_days,
-//     number_of_coins,
-//     index,
-//     setSelected,
-//     selected,
-
-//   }) => {
-
-//   };
-const DATA = [
-  {
-    week_days: '1 Week',
-    number_of_coins: 18,
-  },
-  {
-    week_days: '15 days',
-    number_of_coins: 50,
-  },
-  {
-    week_days: '1 Month',
-    number_of_coins: 80,
-  },
-];
+import {
+  boostPlans,
+  boostProduct,
+} from '@app/store/exploreProductSlice/boostProduct.action';
+import {useEffect} from 'react';
+import {userProfile} from '@app/store/authSlice';
+import {showAlert} from '@app/helper/commonFunction';
 
 const BoostNow = props => {
   const [selected, setSelected] = useState();
-  const [coins, setCoins] = useState(null);
+  const [selectedPlan, setSelectedPlan] = useState();
 
-  const {boostProduct, boostProductReducer} = props;
+  const {boostProduct, boostProductReducer, boostPlans, authReducer} = props;
 
-  // const renderItem = ({ item, index, setSelected,selected}) => (
-  //     <Item
-  //       week_days={item.week_days}
-  //     number_of_coins={item.number_of_coins}
-  //       index={index}
-  //       setSelected={setSelected}
-  //       selected={selected}
-  //     />
-  //   );
-
-  console.log(boostProduct, boostProductReducer, 'ProductId');
+  console.log(
+    boostProduct,
+    boostProductReducer.boostPlansData,
+    authReducer?.userProfileDetails?.coins,
+    'ProductId',
+  );
   const params = {
     pid: props?.route?.params?.product_id,
-    planid: 100,
+    planid: selectedPlan,
   };
+
+  useEffect(() => {
+    console.log('runs=======>');
+    boostPlans();
+  }, []);
   return (
     <Container style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView showsVerticalScrollIndicator={false} style={{margin: 20}}>
@@ -93,51 +75,58 @@ const BoostNow = props => {
 
         <View style={{alignItems: 'center', marginBottom: 20}}>
           <Text style={styles.TextStyle1}>
-            You have {<Image source={IMAGES.coin} />} 50 coins with you now
+            You have {<Image source={IMAGES.coin} />}{' '}
+            {authReducer?.userProfileDetails?.coins} coins with you now
           </Text>
         </View>
-
-        <FlatList
-          data={DATA}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  setSelected(index);
-                  setCoins(item?.number_of_coins);
-                  params.planid = item.number_of_coins;
-                  console.log(item, coins, '======');
-                }}>
-                <View
-                  style={[
-                    styles.cardStyle,
-                    index === selected && styles.highlightedLine,
-                  ]}>
+        {boostProductReducer?.boostPlansData?.data?.length != 0 ? (
+          <FlatList
+            data={boostProductReducer?.boostPlansData?.data}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelected(index);
+                    //setCoins(item?.number_of_coins);
+                    setSelectedPlan(item.id);
+                    params.planid = item.id;
+                    console.log(item?.id, '======');
+                  }}>
                   <View
-                    style={{
-                      justifyContent: 'space-between',
-                      flexDirection: 'row',
-                    }}>
-                    <Text style={styles.outerText}>
-                      {' '}
-                      for{' '}
-                      <Text style={styles.innerText}>
+                    style={[
+                      styles.cardStyle,
+                      index === selected && styles.highlightedLine,
+                    ]}>
+                    <View
+                      style={{
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                      }}>
+                      <Text style={styles.outerText}>
                         {' '}
-                        {item.week_days}{' '}
-                      </Text>{' '}
-                    </Text>
-                    <View style={styles.CardCoinStyle}>
-                      <Image source={IMAGES.coin} />
-                      <Text style={styles.NumberStyle}>
-                        {item.number_of_coins}
+                        for{' '}
+                        <Text style={styles.innerText}>
+                          {' '}
+                          {item?.plan_name}{' '}
+                        </Text>{' '}
                       </Text>
+                      <View style={styles.CardCoinStyle}>
+                        <Image source={IMAGES.coin} />
+                        <Text style={styles.NumberStyle}>
+                          {item?.coins_value}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                </TouchableOpacity>
+              );
+            }}
+          />
+        ) : (
+          <View>
+            <ActivityIndicator size={20} />
+          </View>
+        )}
 
         <View>
           <Custombutton
@@ -147,9 +136,22 @@ const BoostNow = props => {
             width={'100%'}
             marginHorizontal={20}
             onPress={() => {
-              if (params.pid && params.planid) {
-                console.log('fghjkl;');
-                boostProduct(params);
+              if (selectedPlan) {
+                boostProduct(params).then(result => {
+                  if (
+                    result?.payload?.message ===
+                    'Your product has been successfully boosted.'
+                  ) {
+                    props?.navigation?.navigate(
+                      RoutesName.BOOST_PRODUCT_SUCCESS,
+                    );
+                  }
+                });
+              } else {
+                showAlert({
+                  title: 'Error',
+                  message: 'Please select one plan.',
+                });
               }
 
               // if (props?.route?.params?.product_id) {
@@ -181,11 +183,15 @@ const BoostNow = props => {
 const mapStateToProps = state => {
   return {
     boostProductReducer: state?.boostProductReducer,
+    authReducer: state?.authReducer,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   boostProduct: params => dispatch(boostProduct(params)),
+  boostPlans: params => dispatch(boostPlans(params)),
+
+  userProfile: params => dispatch(userProfile(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BoostNow);
