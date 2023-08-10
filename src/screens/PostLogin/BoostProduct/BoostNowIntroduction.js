@@ -16,7 +16,7 @@ import {RoutesName} from '@app/helper/strings';
 
 const BoostNowIntroduction = props => {
   console.log('product id==>>', props?.route?.params?.product_id);
-  const isCoins = true;
+  const isCoins = false;
   return (
     <View style={styles.MainContainer}>
       <BackHeader />

@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   Image,
+  Keyboard,
   Platform,
   Pressable,
   StyleSheet,
@@ -13,7 +14,7 @@ import Header from './Header';
 import ImageModal from './ImageModal';
 import {AndroidCameraPermission} from '../../../../androidcamerapermission';
 import {showAlert} from '@app/helper/commonFunction';
-import {EmptyList, FooterList, RenderItem} from './common';
+import {EmptyList, FooterList, RenderItem, RenderItem1} from './common';
 import MakeOfferModal from './MakeOfferModal';
 import InterestModal from './InterestModal';
 import {connect} from 'react-redux';
@@ -31,6 +32,8 @@ import useSocket from '@app/hooks/useSocket';
 import socket from '@app/helper/socket';
 import {Modal} from 'react-native-paper';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {GiftedChat, InputToolbar} from 'react-native-gifted-chat';
+import {transformedMessages} from '../../../helper/commonFunction';
 
 const ChatDetailScreen = props => {
   const {
@@ -57,7 +60,11 @@ const ChatDetailScreen = props => {
   });
 
   const {chat_item, isOffer} = route.params;
+
+  //  Use socket
   useSocket(updateNewMessage);
+
+  // First render
   useEffect(() => {
     if (isOffer) {
       setOfferModalVisible(true);
@@ -79,6 +86,7 @@ const ChatDetailScreen = props => {
 
   //  Send text message
   const sendMessage = ({type = 'text', message}) => {
+    scrollToIndex(0);
     const formData = new FormData();
     formData.append('receiver_id', chat_item?.user_id);
     formData.append('type', type);
@@ -117,27 +125,43 @@ const ChatDetailScreen = props => {
   };
 
   const scrollToIndex = index => {
-    flatRef.current.scrollToIndex({animated: false, index: index});
+    if (flatRef.current) {
+      flatRef.current._listRef.scrollToIndex({
+        // animated: true,
+        index: index,
+      });
+    }
   };
   //  For moving chat on search index
   useEffect(() => {
     if (chatReducer?.chatHistory && chatReducer?.chatHistory.length) {
-      if (initialLoad) {
+      if (initialLoad && flatRef.current) {
         const findIndex = chatReducer?.chatHistory?.findIndex(
           (item, index) => item.id === chat_item.id,
         );
+        console.log('findIndex', findIndex);
+
         if (findIndex >= 1) {
-          scrollToIndex(findIndex);
-          setInitialLoad(false);
+          flatRef.current._listRef?.scrollToOffset({
+            offset: findIndex * 1000,
+            // animated: true,
+          });
+          const wait = new Promise(resolve => setTimeout(resolve, 2000));
+          wait
+            .then(() => {
+              scrollToIndex(findIndex);
+              setInitialLoad(false);
+            })
+            .catch(err => {
+              console.log('errrr', err);
+            });
         }
-      } else {
-        scrollToIndex(0);
       }
     }
   }, [chatReducer, initialLoad]);
 
   // const reversedData = (chatReducer?.chatHistory ?? []).slice().reverse();
-
+  const modifyData = transformedMessages(chatReducer?.chatHistory);
   return (
     <Container
       style={{
@@ -150,42 +174,44 @@ const ChatDetailScreen = props => {
         chat_item={chat_item}
         {...props}
       />
-      <FlatList
-        inverted={chatReducer?.chatHistory.length ? true : false}
-        ref={flatRef}
-        data={chatReducer?.chatHistory ?? []}
-        contentContainerStyle={styles.flatlist_container}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item, index}) =>
-          RenderItem({
-            item,
-            index,
-            currentUser: authReducer?.userProfileDetails,
-            setFullImageVisible: setFullImageVisible,
-          })
-        }
-        ListEmptyComponent={EmptyList}
-        ItemSeparatorComponent={<Spacer />}
-        onScrollToIndexFailed={({index}) => {
-          flatRef.current?.scrollToOffset({
-            offset: index * 1000,
-            animated: true,
-          });
-          const wait = new Promise(resolve => setTimeout(resolve, 500));
-          wait.then(() => {
-            scrollToIndex(index);
-          });
-        }}
-        // onEndReachedThreshold={0.5}
-        // onEndReached={loadMore}
-        // ListFooterComponent={FooterList}
-      />
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <GiftedChat
+          messageContainerRef={ref => (flatRef.current = ref)}
+          keyboardShouldPersistTaps="never"
+          messages={modifyData}
+          listViewProps={{
+            contentContainerStyle: {
+              margin: 0,
+              padding: 0,
+            },
+          }}
+          renderComposer={null}
+          bottomOffset={0}
+          renderAvatar={null}
+          renderActions={() => null}
+          renderChatFooter={() => null}
+          renderSend={() => null}
+          renderBubble={props => {
+            return RenderItem1({
+              ...props,
+              setFullImageVisible: setFullImageVisible,
+            });
+          }}
+          user={{
+            _id: `${authReducer?.userProfileDetails?.id}`,
+          }}
+          minInputToolbarHeight={5}
+          renderInputToolbar={props => {}}
+        />
+      </View>
       <ActionContainer
         onAttachmentClick={sendAttachment}
         onSendMessageClick={sendMessage}
         onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
       />
-
       {/* Image Modal */}
       <ImageModal
         modalVisible={imageModalVisible}

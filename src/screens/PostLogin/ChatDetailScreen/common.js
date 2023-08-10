@@ -65,6 +65,52 @@ export function RenderItem({item, index, currentUser, setFullImageVisible}) {
   );
 }
 
+export function RenderItem1(props) {
+  const {currentMessage, position, currentUser, setFullImageVisible} = props;
+  const isSelf = position === 'right' ?? false;
+  return (
+    <View style={{width: '80%', margin: 10}}>
+      <View
+        style={{
+          backgroundColor: isSelf ? '#00958C' : '#00000010',
+          flexDirection: 'row',
+          alignSelf: isSelf ? 'flex-end' : 'flex-start',
+          borderTopRightRadius: isSelf ? 0 : 30,
+          borderBottomLeftRadius: isSelf ? 30 : 0,
+          borderBottomRightRadius: 30,
+          borderTopLeftRadius: 30,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+        }}>
+        {currentMessage?.image !== null ? (
+          <Pressable
+            onPress={() =>
+              setFullImageVisible({visible: true, uri: currentMessage?.image})
+            }>
+            <Image
+              source={{uri: currentMessage?.image}}
+              style={{
+                height: 200,
+                width: 200,
+              }}
+            />
+          </Pressable>
+        ) : (
+          <CustomText>{currentMessage?.text}</CustomText>
+        )}
+      </View>
+      <View
+        style={{
+          alignSelf: isSelf ? 'flex-end' : 'flex-start',
+        }}>
+        <CustomText style={styles.timestamp}>
+          {moment(currentMessage?.createdAt).format('HH:mm A')}
+        </CustomText>
+      </View>
+    </View>
+  );
+}
+
 export function common() {
   return (
     <View>
