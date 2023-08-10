@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
-import {IMAGES, SPACING} from '@app/resources';
+import { IMAGES, SPACING } from '@app/resources';
 import store from '@app/store';
 // import {logoutAction} from '@app/store/authSlice/auth.slice';
-import {RoutesName} from '@app/helper/strings';
+import { RoutesName } from '@app/helper/strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
@@ -18,14 +18,15 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
-import {SharedPreference} from '@app/helper';
-import {useDispatch, useSelector} from 'react-redux';
-import {logoutAction} from '@app/store/authSlice';
-import {useState} from 'react';
-import {Container, Spacer} from '@app/components';
-import {Avatar} from 'react-native-paper';
-import {AssestsConst} from '@app/assets/assets';
+import { SharedPreference } from '@app/helper';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '@app/store/authSlice';
+import { useState } from 'react';
+import { Container, CustomIcon, Spacer } from '@app/components';
+import { Avatar } from 'react-native-paper';
+import { AssestsConst } from '@app/assets/assets';
 import NavigationService from '@app/navigations/NavigationService';
+import { ICON_TYPE } from '@app/components/CustomIcon';
 
 const MyProfileScreen = props => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -56,9 +57,9 @@ const MyProfileScreen = props => {
           style: 'cancel',
           onPress: () => setIsLoggingOut(false),
         },
-        {text: 'Logout', style: 'destructive', onPress: () => performLogout()},
+        { text: 'Logout', style: 'destructive', onPress: () => performLogout() },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   };
 
@@ -71,7 +72,7 @@ const MyProfileScreen = props => {
   };
   return (
     <Container useSafeAreaView={Platform.OS === 'ios' ? true : false}>
-      <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1, paddingBottom: 10 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             width: '100%',
@@ -135,11 +136,11 @@ const MyProfileScreen = props => {
 
               <View>
                 <View style={styles.VerificationViewStyle}>
-                  <Image source={IMAGES.check} style={{alignSelf: 'center'}} />
+                  <Image source={IMAGES.check} style={{ alignSelf: 'center' }} />
                   <Text style={styles.VerificationStyle}> Email Verified</Text>
                 </View>
                 <View style={styles.VerificationViewStyle}>
-                  <Image source={IMAGES.cross} style={{alignSelf: 'center'}} />
+                  <Image source={IMAGES.cross} style={{ alignSelf: 'center' }} />
                   <Text style={styles.VerificationStyle}>
                     {' '}
                     SingPass verification Pending
@@ -243,11 +244,33 @@ const MyProfileScreen = props => {
 
           <View style={styles.LineView} />
 
-          <TouchableOpacity activeOpacity={1} onPress={() => {}}>
+          <TouchableOpacity activeOpacity={1} onPress={() => { }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.about} />
                 <Text style={styles.NavigationText}>About</Text>
+              </View>
+              <View style={styles.NavigationImageStyle}>
+                <Image resizeMode="contain" source={IMAGES.Arrow} />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.LineView} />
+
+          <TouchableOpacity activeOpacity={1} onPress={() => {
+            NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
+              userId: profileData.id,
+            });
+          }}>
+            <View style={styles.NavigationView}>
+              <View style={styles.NavigationViewInner}>
+                <CustomIcon
+                  origin={ICON_TYPE.MATERIAL_ICONS}
+                  name={'history'}
+                  color={'black'}
+                  size={30}
+                />
+                <Text style={styles.NavigationText}>Product History</Text>
               </View>
               <View style={styles.NavigationImageStyle}>
                 <Image resizeMode="contain" source={IMAGES.Arrow} />

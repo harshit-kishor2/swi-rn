@@ -26,6 +26,8 @@ import { BuyCoins } from '@app/screens/PostLogin/Coin/BuyCoins';
 
 import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
 import ChangePassword from '@app/screens/PostLogin/ChangePassword';
+import ProductHistory from '@app/screens/PostLogin/History';
+import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -116,6 +118,16 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.REVIEW_RATING_SCREEN}
         component={RatingAndReviews}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={RoutesName.PRODUCT_HISTORY}
+        component={ProductHistory}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={RoutesName.RATE_USER}
+        component={RateUser}
         options={{ headerShown: false }}
       />
 
