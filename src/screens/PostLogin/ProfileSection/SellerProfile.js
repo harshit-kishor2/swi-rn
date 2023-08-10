@@ -35,6 +35,7 @@ const SellerProfile = props => {
         <ProductCard
           key={index}
           item={item}
+          isActionButton={true}
           onSoldClick={() => {
             onChangeProductStatus({
               product_id: item.id,

@@ -67,7 +67,7 @@ const ProfileSection = props => {
                   size={30}
                 />
               </Pressable>
-              <Pressable
+              {/* <Pressable
                 style={styles.button}
                 onPress={() => {
                   navigation?.navigate(RoutesName.PROFILE_QR_SCREEN, {
@@ -80,7 +80,7 @@ const ProfileSection = props => {
                   color={'black'}
                   size={30}
                 />
-              </Pressable>
+              </Pressable> */}
             </View>
           ) : isSeller ? null : (
             <Pressable style={styles.button} onPress={() => {}}>
