@@ -19,18 +19,11 @@ export function FooterList() {
   return <ActivityIndicator size={20} />;
 }
 
-export function RenderItem({item, index, currentUser, setFullImageVisible}) {
-  const isSelf = currentUser?.id == item?.sender_id ?? false;
+export function RenderItem(props) {
+  const {currentMessage, position, currentUser, setFullImageVisible} = props;
+  const isSelf = position === 'right' ?? false;
   return (
-    <>
-      <View
-        style={{
-          alignSelf: isSelf ? 'flex-end' : 'flex-start',
-        }}>
-        <CustomText style={styles.timestamp}>
-          {moment(item?.created_at).format('HH:mm A')}
-        </CustomText>
-      </View>
+    <View style={{width: '80%', margin: 10}}>
       <View
         style={{
           backgroundColor: isSelf ? '#00958C' : '#00000010',
@@ -42,15 +35,14 @@ export function RenderItem({item, index, currentUser, setFullImageVisible}) {
           borderTopLeftRadius: 30,
           paddingHorizontal: 20,
           paddingVertical: 10,
-          maxWidth: '90%',
         }}>
-        {item.type === 'image' ? (
+        {currentMessage?.image !== null ? (
           <Pressable
             onPress={() =>
-              setFullImageVisible({visible: true, uri: item?.docs})
+              setFullImageVisible({visible: true, uri: currentMessage?.image})
             }>
             <Image
-              source={{uri: item?.docs}}
+              source={{uri: currentMessage?.image}}
               style={{
                 height: 200,
                 width: 200,
@@ -58,10 +50,18 @@ export function RenderItem({item, index, currentUser, setFullImageVisible}) {
             />
           </Pressable>
         ) : (
-          <CustomText>{item?.message}</CustomText>
+          <CustomText>{currentMessage?.text}</CustomText>
         )}
       </View>
-    </>
+      <View
+        style={{
+          alignSelf: isSelf ? 'flex-end' : 'flex-start',
+        }}>
+        <CustomText style={styles.timestamp}>
+          {moment(currentMessage?.createdAt).format('HH:mm A')}
+        </CustomText>
+      </View>
+    </View>
   );
 }
 

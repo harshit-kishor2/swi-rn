@@ -67,10 +67,11 @@ export function RenderItem({item, index}) {
 
   return (
     <Swipeable
-      renderRightActions={() => RenderRightAction(item)}
-      onSwipeableOpen={() => closeRow(index)}
+      // renderRightActions={() => RenderRightAction(item)}
+      // onSwipeableOpen={() => closeRow(index)}
       ref={ref => (row[index] = ref)}
-      rightOpenValue={-50}>
+      // rightOpenValue={-50}
+    >
       <Pressable style={styles.render_container} onPress={onRowClick}>
         <Avatar.Image
           style={{marginHorizontal: 5}}
