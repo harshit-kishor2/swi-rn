@@ -56,9 +56,12 @@ const ChatDetailScreen = props => {
     uri: '',
   });
 
-  const {chat_item} = route.params;
+  const {chat_item, isOffer} = route.params;
   useSocket(updateNewMessage);
   useEffect(() => {
+    if (isOffer) {
+      setOfferModalVisible(true);
+    }
     getChatDetails({
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,
@@ -113,6 +116,9 @@ const ChatDetailScreen = props => {
     }
   };
 
+  const scrollToIndex = index => {
+    flatRef.current.scrollToIndex({animated: false, index: index});
+  };
   //  For moving chat on search index
   useEffect(() => {
     if (chatReducer?.chatHistory && chatReducer?.chatHistory.length) {
@@ -121,14 +127,11 @@ const ChatDetailScreen = props => {
           (item, index) => item.id === chat_item.id,
         );
         if (findIndex >= 1) {
-          flatRef.current.scrollToIndex({animated: false, index: findIndex});
+          scrollToIndex(findIndex);
           setInitialLoad(false);
         }
       } else {
-        flatRef.current.scrollToIndex({
-          animated: false,
-          index: 0,
-        });
+        scrollToIndex(0);
       }
     }
   }, [chatReducer, initialLoad]);
@@ -170,7 +173,7 @@ const ChatDetailScreen = props => {
           });
           const wait = new Promise(resolve => setTimeout(resolve, 500));
           wait.then(() => {
-            flatRef.current?.scrollToIndex({index, animated: true});
+            scrollToIndex(index);
           });
         }}
         // onEndReachedThreshold={0.5}

@@ -16,7 +16,7 @@ const FreshFindScreen = props => {
   const {exploreProduct, onFreshFinds} = props;
   const [searchQuery, onChangeSearch] = useState('');
   const query = useDebounce(searchQuery, 1000);
-console.log(props)
+
   useEffect(() => {
     onFreshFinds({keyWord: query});
   }, [query]);
@@ -24,7 +24,7 @@ console.log(props)
   const renderItem = ({item, index}) => {
     return <ProductCard key={index} item={item} />;
   };
-  console.log('exploreProduct.freshFindLoadingStatus ', searchQuery);
+
   return (
     <Container useSafeAreaView={true}>
       <View
@@ -44,7 +44,7 @@ console.log(props)
         />
         <Pressable
           onPress={() => {
-            Alert.alert('Bell clicked');
+            props.navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
           }}
           style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
           <Image source={IMAGES.notificationBell} />

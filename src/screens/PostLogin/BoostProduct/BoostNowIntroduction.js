@@ -13,10 +13,18 @@ import {BackHeader, Custombutton, NavigationBar, Spacer} from '@app/components';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
+import {connect} from 'react-redux';
+import {userProfile} from '@app/store/authSlice';
 
 const BoostNowIntroduction = props => {
+  const {authReducer, userProfile} = props;
+  console.log(
+    authReducer?.userProfileDetails?.coins,
+    userProfile,
+    'get started boost coins',
+  );
   console.log('product id==>>', props?.route?.params?.product_id);
-  const isCoins = true;
+  const isCoins = authReducer?.userProfileDetails?.coins === 0 ? false : true;
   return (
     <View style={styles.MainContainer}>
       <BackHeader />
@@ -97,4 +105,17 @@ const BoostNowIntroduction = props => {
   );
 };
 
-export default BoostNowIntroduction;
+const mapStateToProps = state => {
+  return {
+    authReducer: state?.authReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  userProfile: params => dispatch(userProfile(params)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BoostNowIntroduction);

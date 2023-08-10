@@ -1,7 +1,12 @@
 import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {apiAction} from './actions';
 import {LoadingStatus} from '../../helper/strings';
-import {boostPlans, boostProduct, coinPlans} from './boostProduct.action';
+import {
+  boostPlans,
+  boostProduct,
+  coinPlans,
+  purchaseCoins,
+} from './boostProduct.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -21,6 +26,9 @@ const initialState = entityAdapter.getInitialState({
   coinsPlansLoading: LoadingStatus.NOT_LOADED,
   coinPlansData: {},
   coinsPlansError: null,
+  purchaseCoinsLoading: LoadingStatus.NOT_LOADED,
+  purchaseCoinsData: {},
+  purchaseCoinsError: null,
 });
 
 /**
@@ -73,6 +81,18 @@ const reduxSlice = createSlice({
       .addCase(coinPlans.rejected, (state, action) => {
         state.coinsPlansLoading = LoadingStatus.FAILED;
         state.coinsPlansError = action.payload;
+      })
+      .addCase(purchaseCoins.pending, state => {
+        state.purchaseCoinsLoading = LoadingStatus.LOADING;
+      })
+      .addCase(purchaseCoins.fulfilled, (state, action) => {
+        console.log(action.payload, '===>>>coinsPlanspayload');
+        state.purchaseCoinsLoading = LoadingStatus.LOADED;
+        state.purchaseCoinsData = action.payload;
+      })
+      .addCase(purchaseCoins.rejected, (state, action) => {
+        state.coinsPlansLoading = LoadingStatus.FAILED;
+        state.purchaseCoinsError = action.payload;
       });
   },
 });

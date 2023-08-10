@@ -22,10 +22,10 @@ import BoostNowIntroduction from '@app/screens/PostLogin/BoostProduct/BoostNowIn
 import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
 import PurchaseCoin from '@app/screens/PostLogin/Coin/PurchaseCoin';
-import {BuyCoins} from '@app/screens/PostLogin/Coin/BuyCoins';
 
-import {ChangePassword} from '@app/screens/PostLogin/ChangePassword';
 import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
+import ChangePassword from '@app/screens/PostLogin/ChangePassword';
+import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {

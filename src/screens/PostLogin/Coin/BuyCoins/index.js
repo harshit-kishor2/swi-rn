@@ -20,6 +20,15 @@ import {
 import {IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {connect} from 'react-redux';
+import {
+  boostProduct,
+  coinPlans,
+  purchaseCoins,
+} from '@app/store/exploreProductSlice/boostProduct.action';
+import {useEffect} from 'react';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
 
 //   };
 const DATA = [
@@ -37,8 +46,19 @@ const DATA = [
   },
 ];
 
-export const BuyCoins = props => {
+const BuyCoins = props => {
+  console.log(props?.route?.params, '=========<<<<<<<<<');
+  const {boostProductReducer, boostProduct, purchaseCoins, coinPlans} = props;
   const [selected, setSelected] = useState();
+  const [purchaseCoinId, setPurchaseCoinId] = useState();
+  console.log(
+    boostProductReducer?.coinPlansData,
+    'sdfghjkl;lkjhgfghj===========>>',
+  );
+
+  useEffect(() => {
+    coinPlans();
+  }, []);
   return (
     <Container>
       <View style={{margin: 10}}>
@@ -71,65 +91,92 @@ export const BuyCoins = props => {
             <Text style={styles.TextStyle1}>Get it Now</Text>
           </TouchableOpacity>
         </View>
-
-        <FlatList
-          data={DATA}
-          renderItem={({item, index}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  setSelected(index);
-                  console.log(index);
-                }}>
-                <View
-                  style={[
-                    styles.cardStyle,
-                    index === selected && styles.highlightedLine,
-                  ]}>
+        {boostProductReducer?.coinPlansData?.data?.length != 0 ? (
+          <FlatList
+            data={boostProductReducer?.coinPlansData?.data}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setSelected(index);
+                    console.log(index);
+                    setPurchaseCoinId(item.id);
+                  }}>
                   <View
-                    style={{
-                      justifyContent: 'space-between',
-                      flexDirection: 'row',
-                    }}>
-                    <Text style={styles.outerText}>
-                      Get
-                      <Image source={IMAGES.coin} style={{marginLeft: 2}} />
-                      <Text style={styles.innerText}> {item.coinNumber} </Text>
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontFamily: 'OpenSans-SemiBold',
-                          color: '#7C7C7C',
-                        }}>
-                        for
+                    style={[
+                      styles.cardStyle,
+                      index === selected && styles.highlightedLine,
+                    ]}>
+                    <View
+                      style={{
+                        justifyContent: 'space-between',
+                        flexDirection: 'row',
+                      }}>
+                      <Text style={styles.outerText}>
+                        Get
+                        <Image source={IMAGES.coin} style={{marginLeft: 2}} />
+                        <Text style={styles.innerText}>
+                          {' '}
+                          {item.coins_value}{' '}
+                        </Text>
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: 'OpenSans-SemiBold',
+                            color: '#7C7C7C',
+                          }}>
+                          for
+                        </Text>
                       </Text>
-                    </Text>
 
-                    <View style={styles.CardCoinStyle}>
-                      <CustomIcon
-                        origin={ICON_TYPE.FOUNDATION}
-                        name={'dollar'}
-                        color={'#00958C'}
-                        size={30}
-                        style={{marginTop: -8}}
-                      />
-                      <Text style={styles.NumberStyle}>{item.price}</Text>
+                      <View style={styles.CardCoinStyle}>
+                        <CustomIcon
+                          origin={ICON_TYPE.FOUNDATION}
+                          name={'dollar'}
+                          color={'#00958C'}
+                          size={30}
+                          style={{marginTop: -8}}
+                        />
+                        <Text style={styles.NumberStyle}>{item.cost}</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                </TouchableOpacity>
+              );
+            }}
+          />
+        ) : (
+          <View>
+            <Text>No Data</Text>
+          </View>
+        )}
 
         <View>
           <Custombutton
-            title="Pay Now"
+            title="Pay now"
             marginTop={10}
             height={50}
             width={'100%'}
             marginHorizontal={20}
-            // onPress={() => { Alert.alert("") }}
+            onPress={() => {
+              if (purchaseCoinId) {
+                purchaseCoins({planid: purchaseCoinId}).then(result => {
+                  if (
+                    result?.payload?.message === 'Coins purchased successfully.'
+                  ) {
+                    if (props?.route?.params) {
+                      setTimeout(() => {
+                        boostProduct(props?.route?.params).then(() => {
+                          props?.navigation?.navigate(
+                            RoutesName.BOOST_PRODUCT_SUCCESS,
+                          );
+                        });
+                      }, 100);
+                    }
+                  }
+                });
+              }
+            }}
           />
         </View>
 
@@ -151,3 +198,17 @@ export const BuyCoins = props => {
     </Container>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    boostProductReducer: state?.boostProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  boostProduct: params => dispatch(boostProduct(params)),
+  coinPlans: params => dispatch(coinPlans(params)),
+  purchaseCoins: params => dispatch(purchaseCoins(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BuyCoins);

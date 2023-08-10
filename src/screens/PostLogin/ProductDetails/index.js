@@ -665,15 +665,21 @@ const ProductDetails = props => {
                   // backgroundColor: 'red',
                 }}>
                 <Custombutton
-                  onPress={() => {}}
+                  onPress={() => {
+                    NavigationService.navigate(RoutesName.CHAT_DETAIL_SCREEN, {
+                      chat_item: {
+                        product_id: productDetailData?.data?.id,
+                        user_id: productDetailData?.data?.user?.id,
+                        id: 0,
+                        user_image: productDetailData?.data?.user?.image,
+                        user_name: productDetailData?.data?.user?.name,
+                      },
+                      isOffer: true,
+                    });
+                  }}
                   title="Make Offer"
-                  //marginTop={50}
                   height={SPACING.SCALE_50}
                   width={SPACING.SCALE_160}
-                  // marginHorizontal={20}
-                  // onPress={() => {
-                  // // Alert.alert('Make an Offer');
-                  // }}
                 />
                 <Custombutton2
                   onPress={() =>

@@ -66,3 +66,23 @@ export const coinPlans = createAsyncThunk(
     }
   },
 );
+export const purchaseCoins = createAsyncThunk(
+  'boostProduct/purchasecoins',
+  async ({planid}, thunkAPI) => {
+    console.log('purchaseCoins----->>>Params', planid);
+
+    try {
+      const result = await axiosRequest({
+        url: `/purchase-coins?planid=${planid}`,
+        method: 'POST',
+        //planid: planid,
+      });
+      console.log('purchaseCoins----->>>result==>>>', result);
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

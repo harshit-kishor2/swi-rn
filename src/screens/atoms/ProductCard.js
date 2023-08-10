@@ -10,12 +10,13 @@ import {
 import React, {useState} from 'react';
 import {Avatar, Button, Card, Divider, Menu} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import {FontsConst} from '@app/assets/assets';
+import {AssestsConst, FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {IMAGES, SPACING} from '@app/resources';
 import {
   addEllipsis,
   formatTimestamp,
+  getTimeDifferenceString,
   showAlert,
 } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
@@ -83,7 +84,7 @@ const ProductCard = ({
             source={
               item?.user?.image && item?.user?.image !== ''
                 ? {uri: item?.user?.image}
-                : IMAGES.Dollar
+                : AssestsConst.AVATAR
             }
           />
           <Spacer width={5} />
@@ -96,16 +97,19 @@ const ProductCard = ({
           </View>
         </View>
         <CustomText style={styles.duration}>
-          {formatTimestamp(item?.created_at)}
+          Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
         {isSelf ? (
           <Pressable
             style={styles.boostButton}
             onPress={() => {
-              NavigationService.navigate(RoutesName.B, {
-                product_id: item.id,
-              });
+              NavigationService.navigate(
+                RoutesName.BOOST_PRODUCT_INTRODUCTION,
+                {
+                  product_id: item.id,
+                },
+              );
             }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>

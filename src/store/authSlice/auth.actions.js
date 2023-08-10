@@ -1,8 +1,8 @@
 //! ======================== Redux : Async Thunk Actions ============================
 
-import {SharedPreference} from '@app/helper';
+import { SharedPreference } from '@app/helper';
 import axiosRequest from '@app/helper/axiosRequest';
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 /**
  * Api Action
@@ -85,7 +85,7 @@ export const forgotPasswordAction = createAsyncThunk(
         url: `/forgot-password`,
         method: 'POST',
         data: params,
-        params: {type: 'user'},
+        params: { type: 'user' },
       });
       return response;
     } catch (error) {
@@ -154,6 +154,31 @@ export const updateProfileAction = createAsyncThunk(
         },
       });
       SharedPreference.setItem(SharedPreference.keys.IS_AUTHENTICATE, 'true');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+
+
+/**
+ * Api Action
+ */
+export const changePasswordAction = createAsyncThunk(
+  `auth/changePasswordAction`,
+  async (params, thunkAPI) => {
+    console.log(params, "params action=====")
+    try {
+      const response = await axiosRequest({
+        url: `/change-password`,
+        method: 'POST',
+        data: params,
+        // params: {type: 'user'},
+      });
+      console.log(response, "response===========")
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(
