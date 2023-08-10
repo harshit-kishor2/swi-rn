@@ -103,9 +103,9 @@ const ProductCard = ({
           <Pressable
             style={styles.boostButton}
             onPress={() => {
-              // NavigationService.navigate(RoutesName.B, {
-              //   product_id: item.id,
-              // });
+              NavigationService.navigate(RoutesName.B, {
+                product_id: item.id,
+              });
             }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>

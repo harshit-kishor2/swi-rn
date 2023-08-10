@@ -10,7 +10,7 @@ export const boostProduct = createAsyncThunk(
   'boostProduct/now',
   async (params, thunkAPI) => {
     console.log('boostNowProduct----->>>Params', params);
-    debugger;
+
     try {
       const result = await axiosRequest({
         url: '/boost-product',
@@ -18,6 +18,46 @@ export const boostProduct = createAsyncThunk(
         params: params,
       });
       console.log('boostNowProduct', result);
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);
+export const boostPlans = createAsyncThunk(
+  'boostProduct/boostPlans',
+  async thunkAPI => {
+    //console.log('boostPlasn----->>>Params', params);
+
+    try {
+      const result = await axiosRequest({
+        url: '/boost-plans',
+        method: 'GET',
+        // params: params,
+      });
+      console.log('boostPlans result ==>>>', result);
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);
+export const coinPlans = createAsyncThunk(
+  'boostProduct/coinPlans',
+  async thunkAPI => {
+    //console.log('boostPlasn----->>>Params', params);
+
+    try {
+      const result = await axiosRequest({
+        url: '/coins-plans',
+        method: 'GET',
+        // params: params,
+      });
+      console.log('coins plans result ==>>>', result);
       return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(
