@@ -6,6 +6,9 @@ import {
   SubmitButton,
 } from '@app/components';
 import { ICON_TYPE } from '@app/components/CustomIcon';
+import { showAlert } from '@app/helper/commonFunction';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
 import { COLORS, IMAGES } from '@app/resources';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
 import { changePasswordAction } from '@app/store/authSlice';
@@ -16,7 +19,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 
-export const ChangePassword = (props) => {
+const ChangePassword = (props) => {
   const { updatePassword, authReducer } = props;
   console.log(props)
   const validationSchema = Yup.object({
@@ -61,17 +64,34 @@ export const ChangePassword = (props) => {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: val => {
-      console.log('VAlues =========================', val);
+      console.log('VAlues =========================', val, typeof updatePassword);
 
       updatePassword({
         current_password: val?.current_password,
         new_password: val?.new_password,
         confirm_password: val?.confirm_password
-      })
+      }).then(res => {
+        if (res?.type.includes('fulfilled')) {
+          showAlert({
+            title: 'success',
+            message: res?.payload?.message ?? ' Password Updated Successfully!',
+          });
+          NavigationService.navigate(RoutesName.ACCOUNT_SETTING_SCREEN);
+        }
+        if (res?.type.includes('rejected')) {
+          // setButtonDisabled(false);
+          showAlert({
+            title: 'Error',
+            message: res?.payload?.message ?? 'Internal server error!',
+          });
+        }
+      });
+    }
 
-
-    },
   });
+
+
+
   // console.log(values);
 
   return (
@@ -146,7 +166,7 @@ export const ChangePassword = (props) => {
               />
             }
           />
-          <SubmitButton lable="Change" onPress={handleSubmit} />
+          <SubmitButton loading={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} disabled={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} lable="Change" onPress={handleSubmit} />
           {/* <Pressable style={{ justifyContent: 'center', alignItems: 'center', borderWidth: 1, height: 50, borderRadius: 20, backgroundColor: 'black' }}
             onPress={handleSubmit}>
             <Text style={{ fontFamily: 'OpenSans-SemiBold', color: 'white' }}>Change Password</Text>
