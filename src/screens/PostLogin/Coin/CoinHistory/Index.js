@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {
   View,
@@ -26,8 +27,8 @@ import {connect, useSelector} from 'react-redux';
 import {EmptyList} from '../../ChatScreen/commn';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {Seprator} from '../../Interestlist/common';
-import {RoutesName} from '@app/helper/strings';
-import {useIsFocused} from '@react-navigation/native';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
 
 const CoinHistory = props => {
   const isFocus = useIsFocused();
@@ -41,56 +42,65 @@ const CoinHistory = props => {
       getCoinHistory();
     }
   }, [isFocus]);
-  const renderItem = ({item, index}) => (
-    <View
-      style={{
-        //width: '90%',
-        //alignItems: 'center',
-        justifyContent: 'space-between',
-        //height: 60,
-        paddingVertical: 5,
-        paddingHorizontal: 20,
-      }}>
+  const renderItem = ({item, index}) => {
+    return (
       <View
         style={{
-          flexDirection: 'row',
+          //width: '90%',
+          //alignItems: 'center',
           justifyContent: 'space-between',
+          //height: 60,
+          paddingVertical: 5,
+          paddingHorizontal: 20,
         }}>
-        <Text
+        <View
           style={{
-            fontSize: 15,
-            fontFamily: 'OpenSans-SemiBold',
-            color: 'black',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}>
-          {item?.description}
-        </Text>
-        <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-          <Image source={IMAGES.coin} />
           <Text
             style={{
-              marginHorizontal: 10,
-              fontFamily: 'OpenSans-SemiBold',
               fontSize: 15,
+              fontFamily: 'OpenSans-SemiBold',
               color: 'black',
             }}>
-            {item?.type == 'debit' ? item?.coins_value : item?.coins_value}
+            {item?.description}
           </Text>
-          {item?.type == 'credit' && (
-            <Image source={IMAGES.GreenTriangle} style={{marginTop: 5}} />
-          )}
-          {item?.type == 'debit' && (
-            <Image source={IMAGES.RedTriangle} style={{marginTop: 5}} />
-          )}
+          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+            <Image source={IMAGES.coin} />
+            <Text
+              style={{
+                marginHorizontal: 10,
+                fontFamily: 'OpenSans-SemiBold',
+                fontSize: 15,
+                color: 'black',
+              }}>
+              {item?.type == 'debit'
+                ? item?.coins_value * -1
+                : item?.coins_value}
+            </Text>
+            {item?.type == 'credit' && (
+              <Image source={IMAGES.GreenTriangle} style={{marginTop: 5}} />
+            )}
+            {item?.type == 'debit' && (
+              <Image source={IMAGES.RedTriangle} style={{marginTop: 5}} />
+            )}
+          </View>
         </View>
+        <Text
+          style={{fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10}}>
+          {item?.created_at_dis}
+        </Text>
       </View>
-      <Text
-        style={{fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10}}>
-        {item?.created_at_dis}
-      </Text>
-    </View>
-  );
+    );
+  };
   return (
-    <Container useSafeAreaView={true}>
+    <Container
+      useSafeAreaView={true}
+      loading={
+        sellersProfileReducer.CoinHistoryActionLoadingStatus ==
+        LoadingStatus.LOADED
+      }>
       <Spacer height={20} />
       <BackHeader />
       <View style={{flexDirection: 'row'}}>

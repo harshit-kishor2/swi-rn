@@ -4,17 +4,30 @@ import {
   CustomIcon,
   CustomInput,
   NavigationBar,
+  Spacer,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {LoadingStatus} from '@app/helper/strings';
 import {COLORS, IMAGES} from '@app/resources';
 import ProductCard from '@app/screens/atoms/ProductCard';
+import {productInsights} from '@app/store/exploreProductSlice';
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {useEffect} from 'react';
+import {FlatList, ScrollView} from 'react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {BarChart} from 'react-native-chart-kit';
 import {Dropdown} from 'react-native-element-dropdown';
+import {connect} from 'react-redux';
 
-export const Insight = props => {
+const Insight = props => {
+  const {exploreProduct, productInsights} = props;
+  // console.log(
+  //   exploreProduct.productInsightsInfo,
+  //   productInsights,
+  //   'Insights data<<=====',
+  // );
+
+  console.log(exploreProduct, '^^^^^^^^');
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
@@ -64,8 +77,18 @@ export const Insight = props => {
     },
   ];
 
+  useEffect(() => {
+    if (props?.route?.params?.productId) {
+      productInsights(props?.route?.params);
+    }
+  }, []);
+
   return (
-    <Container>
+    <Container
+      loading={
+        exploreProduct?.productInsightsInfoLoadingStatus ===
+        LoadingStatus.LOADING
+      }>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: 20}}>
           <NavigationBar
@@ -125,8 +148,7 @@ export const Insight = props => {
                 color: '#797979',
                 marginLeft: 5,
               }}>
-              You reached +6.9% more clicks in the last 7 days as compared to
-              May 30- June 5
+              {exploreProduct?.productInsightsInfo?.click?.summary}
             </Text>
           </View>
 
@@ -139,8 +161,10 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Total Impressions</Text>
               <View>
-                <Text style={style.impressionClickText}>14.2 K</Text>
-                <Text style={style.impressionClickPercent}>+6.1 %</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.impressions?.total}
+                </Text>
+                <Text style={style.impressionClickPercent}>{'fghjk'}</Text>
               </View>
             </View>
             <View
@@ -154,7 +178,9 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Number of click</Text>
               <View>
-                <Text style={style.impressionClickText}>10.9 K</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.click?.total}
+                </Text>
                 <Text style={style.impressionClickPercent}>+3.9 %</Text>
               </View>
             </View>
@@ -169,7 +195,9 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Number of chats</Text>
               <View>
-                <Text style={style.impressionClickText}>1.1 K</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.chat?.total}
+                </Text>
                 <Text style={style.impressionClickPercent}>+2.7%</Text>
               </View>
             </View>
@@ -345,13 +373,39 @@ export const Insight = props => {
           </View>
           <View>
             {/* Boosted Product Component Call by saket */}
-            <ProductCard />
+            <Spacer height={15} />
+            <FlatList
+              data={exploreProduct?.productInsightsInfo?.boosted_products}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({index, item}) => {
+                return (
+                  <ProductCard
+                    toShowUserDetail={false}
+                    item={item}
+                    key={index}
+                  />
+                );
+              }}
+            />
           </View>
         </View>
       </ScrollView>
     </Container>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    exploreProduct: state?.exploreProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  productInsights: params => dispatch(productInsights(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Insight);
 
 const style = StyleSheet.create({
   dropdown: {

@@ -17,7 +17,7 @@ import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 import MainTabNavigator from './MainTabNavigator';
-import {Insight} from '@app/screens/PostLogin/Insight/Index';
+import Insight from '@app/screens/PostLogin/Insight/Index';
 import BoostNowIntroduction from '@app/screens/PostLogin/BoostProduct/BoostNowIntroduction';
 import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
@@ -25,6 +25,8 @@ import PurchaseCoin from '@app/screens/PostLogin/Coin/PurchaseCoin';
 
 import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
 import ChangePassword from '@app/screens/PostLogin/ChangePassword';
+import ProductHistory from '@app/screens/PostLogin/History';
+import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
 
 const Stack = createNativeStackNavigator();
@@ -116,6 +118,16 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.REVIEW_RATING_SCREEN}
         component={RatingAndReviews}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.PRODUCT_HISTORY}
+        component={ProductHistory}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.RATE_USER}
+        component={RateUser}
         options={{headerShown: false}}
       />
 

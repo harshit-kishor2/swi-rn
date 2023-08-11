@@ -32,12 +32,13 @@ const ProductCard = ({
   onDeleteClick,
   callBack,
   isActionButton = false,
+  toShowUserDetail = true,
 }) => {
   const [visible, setVisible] = useState(false);
   const [inWishlist, setInWishlist] = useState(item?.isInWishlist);
   const dispatch = useDispatch();
   const authReducer = useSelector(state => state.authReducer);
-  const isSelf = authReducer?.userProfileDetails?.id === item.user_id ?? false;
+  const isSelf = authReducer?.userProfileDetails?.id === item?.user_id ?? false;
 
   // On wishlist click
   const onWishlistClick = () => {
@@ -79,24 +80,26 @@ const ProductCard = ({
         </View>
       </Card.Content>
       <Card.Content>
-        <View style={styles.user_image}>
-          <Avatar.Image
-            size={24}
-            source={
-              item?.user?.image && item?.user?.image !== ''
-                ? {uri: item?.user?.image}
-                : AssestsConst.AVATAR
-            }
-          />
-          <Spacer width={5} />
-          <View style={{}}>
-            <CustomText style={styles.name}>
-              {item?.user?.name.length > 13
-                ? addEllipsis(item?.user?.name, 13)
-                : item?.user?.name}
-            </CustomText>
+        {toShowUserDetail && (
+          <View style={styles.user_image}>
+            <Avatar.Image
+              size={24}
+              source={
+                item?.user?.image && item?.user?.image !== ''
+                  ? {uri: item?.user?.image}
+                  : AssestsConst.AVATAR
+              }
+            />
+            <Spacer width={5} />
+            <View style={{}}>
+              <CustomText style={styles.name}>
+                {item?.user?.name.length > 13
+                  ? addEllipsis(item?.user?.name, 13)
+                  : item?.user?.name}
+              </CustomText>
+            </View>
           </View>
-        </View>
+        )}
         <CustomText style={styles.duration}>
           Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>

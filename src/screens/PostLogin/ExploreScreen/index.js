@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react/react-in-jsx-scope */
 import {Container, CustomIcon, CustomText} from '@app/components';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import SearchHeader from '@app/screens/atoms/SearchHeader';

@@ -12,6 +12,7 @@ import {
   getTopNotchWatchAction,
   getTopNotchWatchSearchingAction,
   getTrendyWatchAction,
+  productInsights,
 } from './exploreProduct.action';
 
 // =============================== Redux : Test Slice ==================================
@@ -63,6 +64,10 @@ const initialState = entityAdapter.getInitialState({
 
   addWishListLoadingStatus: LoadingStatus.NOT_LOADED,
   addWishListError: null,
+
+  productInsightsInfoLoadingStatus: LoadingStatus.NOT_LOADED,
+  productInsightsInfo: [],
+  productInsightsInfoError: null,
 });
 
 /**
@@ -217,6 +222,17 @@ const reduxSlice = createSlice({
       .addCase(freshFindsSearchingAction.rejected, (state, action) => {
         state.freshFindSearchingLoadingStatus = LoadingStatus.FAILED;
         state.freshFindsSearchingError = action.payload;
+      })
+      .addCase(productInsights.pending, state => {
+        state.productInsightsInfoLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(productInsights.fulfilled, (state, action) => {
+        (state.productInsightsInfoLoadingStatus = LoadingStatus.LOADED),
+          (state.productInsightsInfo = action.payload.data);
+      })
+      .addCase(productInsights.rejected, (state, action) => {
+        state.productInsightsInfoLoadingStatus = LoadingStatus.FAILED;
+        state.productInsightsInfoError = action.payload;
       });
   },
 });
