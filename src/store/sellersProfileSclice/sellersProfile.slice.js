@@ -1,7 +1,7 @@
-import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
-import {apiAction} from './actions';
-import {LoadingStatus} from '../../helper/strings';
-import { CoinHistoryAction, sellerProductListingAction} from "../sellersProfileSclice/sellersProfile.action"
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { apiAction } from './actions';
+import { LoadingStatus } from '../../helper/strings';
+import { CoinHistoryAction, sellerProductListingAction } from "../sellersProfileSclice/sellersProfile.action"
 
 // =============================== Redux : Test Slice ==================================
 
@@ -15,6 +15,9 @@ const initialState = entityAdapter.getInitialState({
   sellerProductListingActionLoadingStatus: LoadingStatus.NOT_LOADED,
   sellerProductListingAction: [],
   sellerProductListingActionError: null,
+  CoinHistoryActionLoadingStatus: LoadingStatus.NOT_LOADED,
+  CoinHistoryAction: [],
+  CoinHistoryActionError: null,
 });
 
 /**
@@ -33,7 +36,7 @@ const sellerSlice = createSlice({
   extraReducers: builder => {
     builder
 
-    //product Details
+      //product Details
       .addCase(sellerProductListingAction.pending, state => {
         state.sellerProductListingActionLoadingStatus = LoadingStatus.LOADING;
       })
@@ -43,9 +46,9 @@ const sellerSlice = createSlice({
       })
       .addCase(sellerProductListingAction.rejected, (state, action) => {
         state.sellerProductListingAction = LoadingStatus.FAILED;
-        state.sellerProductListingActionError= action.payload;
+        state.sellerProductListingActionError = action.payload;
       })
-    //Coin History
+      //Coin History
       .addCase(CoinHistoryAction.pending, state => {
         state.CoinHistoryActionLoadingStatus = LoadingStatus.LOADING;
       })
@@ -54,7 +57,7 @@ const sellerSlice = createSlice({
         state.CoinHistoryAction = action.payload;
       })
       .addCase(CoinHistoryAction.rejected, (state, action) => {
-        state.CoinHistoryActionError= action.payload;
+        state.CoinHistoryActionError = action.payload;
       });
   },
 });
@@ -63,6 +66,6 @@ const sellerSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = sellerSlice.actions;
+export const { resetSliceState } = sellerSlice.actions;
 
 export const sellersProfileReducer = sellerSlice.reducer;

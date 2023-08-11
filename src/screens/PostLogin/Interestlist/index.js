@@ -1,30 +1,31 @@
-import {BackHeader, Container, Spacer} from '@app/components';
+import { BackHeader, Container, Spacer } from '@app/components';
 
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import ClearableSearch from '../../atoms/ClearableSearch';
-import {EmptyList, FooterList, RenderItem} from './common';
-import {InterestListAction} from '@app/store/wishlistSlice';
-import {connect} from 'react-redux';
+import { EmptyList, FooterList, RenderItem } from './common';
+import { InterestListAction } from '@app/store/wishlistSlice';
+import { connect } from 'react-redux';
+import { LoadingStatus } from '@app/helper/strings';
 
 const InterestList = props => {
   const [search, setSearch] = useState('');
-  const {getInterestList, wishlistReducer} = props;
+  const { getInterestList, wishlistReducer } = props;
   console.log(
     props?.wishlistReducer?.InterestListAction?.data,
     'For interest list ==========>>>>>>>>>>>',
   );
   const item = props?.wishlistReducer?.InterestListAction?.data;
   useEffect(() => {
-    getInterestList({type: 'interest_list', search: search});
+    getInterestList({ type: 'interest_list', search: search });
   }, [search]);
 
-  const onLoadMore = () => {};
+  const onLoadMore = () => { };
   console.log('Search Value Check =>>>>>>>>>>>>>>>>>', search);
   return (
-    <Container useSafeAreaView={true}>
+    <Container useSafeAreaView={true} loading={wishlistReducer.InterestListActionLoadingStatus === LoadingStatus.LOADING}>
       <Spacer height={20} />
       <BackHeader />
       <PageTitle title={'Interest List'} />
@@ -41,9 +42,9 @@ const InterestList = props => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={RenderItem}
         ListEmptyComponent={EmptyList}
-        // onEndReachedThreshold={0.2}
-        // onEndReached={onLoadMore}
-        // ListFooterComponent={FooterList}
+      // onEndReachedThreshold={0.2}
+      // onEndReached={onLoadMore}
+      // ListFooterComponent={FooterList}
       />
     </Container>
   );

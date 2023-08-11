@@ -37,7 +37,7 @@ const RateUser = (props) => {
 
   const [description, setDescription] = useState('')
   const data = props?.ratingReviewReducer?.ratingReviewAction?.data;
-  console.log(item, "props value rate user===============")
+  console.log(data, "props value rate user===============")
   const userid = props?.route?.params?.id;
   // console.log(values);
 
