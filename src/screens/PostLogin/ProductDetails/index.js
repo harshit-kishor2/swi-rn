@@ -274,12 +274,13 @@ const ProductDetails = props => {
               {capitalizeFirstLetter(productDetailData?.data?.product_status)}
             </Text>
           </View>
-          {productDetailData?.data?.product_status !== 'available' && (
-            <SubmitButton
-              buttonStyle={{width: '85%', alignSelf: 'center'}}
-              lable="I'm interested in this product"
-            />
-          )}
+          {productDetailData?.data?.product_status !== 'available' &&
+            !isSelf && (
+              <SubmitButton
+                buttonStyle={{width: '85%', alignSelf: 'center'}}
+                lable="I'm interested in this product"
+              />
+            )}
 
           {/* Seller Details */}
 

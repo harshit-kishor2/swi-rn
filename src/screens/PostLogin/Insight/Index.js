@@ -32,15 +32,6 @@ const Insight = props => {
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
 
-  const graphData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-    datasets: [
-      {
-        data: [1, 2, 3, 5],
-      },
-    ],
-  };
-
   const chartConfig = {
     // backgroundColor: '#F0F2FA',
     backgroundGradientFrom: '#F0F2FA',
@@ -164,7 +155,10 @@ const Insight = props => {
                 <Text style={style.impressionClickText}>
                   {exploreProduct?.productInsightsInfo?.impressions?.total}
                 </Text>
-                <Text style={style.impressionClickPercent}>{'fghjk'}</Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.impressions?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
             <View
@@ -181,7 +175,10 @@ const Insight = props => {
                 <Text style={style.impressionClickText}>
                   {exploreProduct?.productInsightsInfo?.click?.total}
                 </Text>
-                <Text style={style.impressionClickPercent}>+3.9 %</Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.click?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
             <View
@@ -198,7 +195,10 @@ const Insight = props => {
                 <Text style={style.impressionClickText}>
                   {exploreProduct?.productInsightsInfo?.chat?.total}
                 </Text>
-                <Text style={style.impressionClickPercent}>+2.7%</Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.chat?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
           </View>
@@ -208,6 +208,7 @@ const Insight = props => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               marginTop: 20,
+              //backgroundColor: 'red',
               // width: '90%'
             }}>
             <View style={{width: '30%'}}>
@@ -294,6 +295,7 @@ const Insight = props => {
                   height: 16,
                   marginRight: 10,
                 }}
+                disable={true}
                 selectedTextStyle={style.selectedText}
                 placeholderStyle={style.selectedText}
                 iconStyle={{
@@ -322,40 +324,109 @@ const Insight = props => {
 
           {select === 'Impressions' && (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 365,
+                  height: 196,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.impressions?.chart
+                  .length !== 0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.impressions?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.impressions
+                              ?.chart?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           )}
           {select === 'Clicks' ? (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 359,
+                  height: 196,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.click?.chart.length !==
+                0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.click?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.click?.chart
+                              ?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    // withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           ) : null}
           {select === 'Chats' ? (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 359,
+                  height: 196,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.chat?.chart.length !==
+                0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.chat?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.chat?.chart
+                              ?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           ) : null}
