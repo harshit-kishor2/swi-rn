@@ -1,7 +1,10 @@
 import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {
+  addDraftInInterestListAction,
+  addIntersetListOnChat,
   getChatHistoryAction,
   getChatListAction,
+  getInteresteListOnChat,
   sendMessageAction,
   socketJoinAction,
 } from './chat.action';
@@ -28,6 +31,15 @@ const initialState = entityAdapter.getInitialState({
 
   socketJoinLoadingStatus: LoadingStatus.NOT_LOADED,
   socketJoin: null,
+
+  getIntersetListLoadingStatus: LoadingStatus.NOT_LOADED,
+  getIntersetList: [],
+
+  addInIntersetListLoadingStatus: LoadingStatus.NOT_LOADED,
+  addInIntersetList: null,
+
+  addDraftInIntersetListLoadingStatus: LoadingStatus.NOT_LOADED,
+  addDraftInInterset: null,
 });
 
 /**
@@ -86,6 +98,41 @@ const reduxSlice = createSlice({
       })
       .addCase(sendMessageAction.rejected, (state, action) => {
         state.sendMessageLoadingStatus = LoadingStatus.FAILED;
+      })
+
+      .addCase(getInteresteListOnChat.pending, state => {
+        state.getIntersetListLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getInteresteListOnChat.fulfilled, (state, action) => {
+        state.getIntersetListLoadingStatus = LoadingStatus.LOADED;
+        state.getIntersetList = action.payload?.data;
+      })
+      .addCase(getInteresteListOnChat.rejected, (state, action) => {
+        state.getIntersetListLoadingStatus = LoadingStatus.FAILED;
+      })
+
+      .addCase(addDraftInInterestListAction.pending, state => {
+        state.getIntersetListLoadingStatus = LoadingStatus.NOT_LOADED;
+        state.addDraftInIntersetListLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addDraftInInterestListAction.fulfilled, (state, action) => {
+        state.addDraftInIntersetListLoadingStatus = LoadingStatus.LOADED;
+        state.addDraftInInterset = action.payload?.data;
+      })
+      .addCase(addDraftInInterestListAction.rejected, (state, action) => {
+        state.addDraftInIntersetListLoadingStatus = LoadingStatus.FAILED;
+      })
+
+      .addCase(addIntersetListOnChat.pending, state => {
+        state.getIntersetListLoadingStatus = LoadingStatus.NOT_LOADED;
+        state.addInIntersetListLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addIntersetListOnChat.fulfilled, (state, action) => {
+        state.addInIntersetListLoadingStatus = LoadingStatus.LOADED;
+        state.getIntersetList = action.payload?.data;
+      })
+      .addCase(addIntersetListOnChat.rejected, (state, action) => {
+        state.addInIntersetListLoadingStatus = LoadingStatus.FAILED;
       });
   },
 });

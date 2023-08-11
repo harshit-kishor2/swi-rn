@@ -27,7 +27,7 @@ import {EmptyList} from '../../ChatScreen/commn';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import {Seprator} from '../../Interestlist/common';
 import {RoutesName} from '@app/helper/strings';
-import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 
 const CoinHistory = props => {
   const isFocus = useIsFocused();

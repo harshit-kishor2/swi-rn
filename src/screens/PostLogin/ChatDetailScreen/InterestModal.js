@@ -1,50 +1,133 @@
 import {FontsConst} from '@app/assets/assets';
-import {
-  CustomIcon,
-  CustomText,
-  Search,
-  Spacer,
-  SubmitButton,
-} from '@app/components';
+import {CustomIcon, CustomText, SubmitButton} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import SearchBarComponent from '@app/components/SearchBarComponent';
-import {showAlert} from '@app/helper/commonFunction';
-import {useState} from 'react';
-import {Image, Modal, Pressable, StyleSheet, View} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
-import ImageCropPicker from 'react-native-image-crop-picker';
-import {Card, TextInput} from 'react-native-paper';
+import {LoadingStatus} from '@app/helper/strings';
+import useDebounce from '@app/hooks/useDebounce';
+import {useEffect, useState} from 'react';
+import {
+  FlatList,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {TextInput} from 'react-native-paper';
 import {EmptyList} from '../ChatScreen/commn';
-const IMAGE = {
-  uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
-};
-const InterestModal = ({modalVisible, setModalVisible}) => {
+
+const InterestModal = props => {
+  const {
+    setAddModalVisible,
+    modalVisible,
+    setModalVisible,
+    authReducer,
+    exploreProduct,
+    route,
+    getIntersetList,
+    chatReducer,
+    onAddIntersetList,
+  } = props;
+  const {chat_item} = route.params;
+  console.log(
+    'IDSSSS',
+    chat_item,
+    chatReducer.getIntersetList,
+    authReducer.userProfileDetails,
+    exploreProduct.productDetails,
+    authReducer.userProfileDetails.id,
+  );
   const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+
+  const query = useDebounce(search);
+
+  const sellerID = exploreProduct?.productDetails?.user?.id;
+  const userID =
+    authReducer.userProfileDetails.id ===
+    exploreProduct?.productDetails?.user?.id
+      ? chat_item.user_id
+      : authReducer.userProfileDetails.id;
+
+  const isSeller =
+    exploreProduct?.productDetails?.user?.id ===
+    authReducer.userProfileDetails.id;
+
+  useEffect(() => {
+    getIntersetList({
+      seller_id: sellerID,
+      user_id: userID,
+      keyword: search,
+    });
+  }, [query]);
+
+  useEffect(() => {
+    if (
+      chatReducer.getIntersetListLoadingStatus === LoadingStatus.LOADED ||
+      chatReducer.addInIntersetListLoadingStatus === LoadingStatus.LOADED
+    ) {
+      setData(chatReducer.getIntersetList?.data);
+    }
+  }, [chatReducer]);
+
+  const addIntersetList = () => {
+    // seller_id=36&user_id=5&all_selected=_2,149_1,152_4&selected[0]=152_4&selected[1]=155_&keyword=test
+    const params = {
+      seller_id: sellerID,
+      user_id: userID,
+      all_selected: chatReducer.getIntersetList?.all_selected,
+      keyword: search,
+    };
+
+    const selectedItems = {};
+
+    data.forEach((item, index) => {
+      if (item.checked === true) {
+        selectedItems[`selected[${index}]`] = item.p_interest;
+      }
+    });
+    const dataToSent = {...params, ...selectedItems};
+    onAddIntersetList(dataToSent);
+    setModalVisible(false);
+  };
+
+  const onUpdateRow = item => {
+    const updatedArray = data.map(a => {
+      if (a.id === item.id) {
+        return {...a, checked: !item.checked};
+      }
+      return a;
+    });
+    setData(updatedArray);
+  };
 
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.listContainer}>
-        <Pressable style={styles.checkBoxContainer} onPress={() => {}}>
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => onUpdateRow(item)}>
           <CustomIcon
             origin={ICON_TYPE.MATERIAL_ICONS}
-            name={true ? 'check-box' : 'check-box-outline-blank'}
-            color={true ? '#00958C' : '#868686'}
+            name={item?.checked ? 'check-box' : 'check-box-outline-blank'}
+            color={item?.checked ? '#00958C' : '#868686'}
             size={20}
           />
         </Pressable>
         <View style={styles.product}>
-          <Image style={styles.avatar} source={IMAGE} />
+          <Image style={styles.avatar} source={{uri: item?.thumb_image}} />
           <View
             style={{
               paddingLeft: 15,
             }}>
-            <CustomText style={styles.brandtext}>
-              2020 Fossil Analog Watch
-            </CustomText>
+            <CustomText style={styles.brandtext}>{item?.title}</CustomText>
             <View style={styles.price_row}>
-              <CustomText style={styles.price}>$12500</CustomText>
+              <CustomText style={styles.price}>${item?.price}</CustomText>
               <View style={styles.circle} />
-              <CustomText style={styles.condition}>Brand New</CustomText>
+              <CustomText style={styles.condition}>
+                {item?.watch_condition === 'brand_new'
+                  ? 'Brand New'
+                  : 'Pre Owned'}
+              </CustomText>
             </View>
           </View>
         </View>
@@ -58,11 +141,15 @@ const InterestModal = ({modalVisible, setModalVisible}) => {
       visible={modalVisible}
       onRequestClose={() => {
         setModalVisible(!modalVisible);
+        setData(chatReducer.getIntersetList?.data);
       }}>
       <View style={styles.container}>
         <Pressable
           style={styles.backdrop}
-          onPress={() => setModalVisible(!modalVisible)}
+          onPress={() => {
+            setModalVisible(!modalVisible);
+            setData(chatReducer.getIntersetList?.data);
+          }}
         />
         <View style={styles.card_container}>
           <View style={styles.border} />
@@ -109,13 +196,66 @@ const InterestModal = ({modalVisible, setModalVisible}) => {
           </View>
           <FlatList
             contentContainerStyle={styles.flatListContainer}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+            data={data}
             renderItem={renderItem}
             ListEmptyComponent={EmptyList}
+            ListHeaderComponent={
+              isSeller
+                ? () => {
+                    return (
+                      <View style={[styles.listContainer]}>
+                        <View
+                          style={styles.checkBoxContainer}
+                          // onPress={() => onUpdateRow(item)}
+                        >
+                          <CustomIcon
+                            origin={ICON_TYPE.MATERIAL_ICONS}
+                            name={
+                              true ? 'check-box' : 'check-box-outline-blank'
+                            }
+                            color={true ? '#00958C' : '#868686'}
+                            size={20}
+                          />
+                        </View>
+                        <Pressable
+                          onPress={() => setAddModalVisible(true)}
+                          style={[
+                            styles.product,
+                            {
+                              borderColor: '#00958C',
+                              borderWidth: 1,
+                              borderRadius: 10,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            },
+                          ]}>
+                          <View
+                            style={{
+                              paddingLeft: 15,
+                            }}>
+                            <CustomText
+                              style={[styles.brandtext, {color: '#00958C'}]}>
+                              {'+ Add New Product'}
+                            </CustomText>
+                          </View>
+                        </Pressable>
+                      </View>
+                    );
+                  }
+                : null
+            }
           />
-          <SubmitButton lable="Add to interest list" onPress={() => {}} />
+          <SubmitButton
+            lable="Add to interest list"
+            onPress={addIntersetList}
+          />
         </View>
       </View>
+      {/* <AddInterestModal
+        modalVisible={addModalVisible}
+        setModalVisible={setAddModalVisible}
+        {...props}
+      /> */}
     </Modal>
   );
 };
@@ -196,6 +336,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+    paddingRight: 10,
   },
   flatListContainer: {
     flexGrow: 1,
