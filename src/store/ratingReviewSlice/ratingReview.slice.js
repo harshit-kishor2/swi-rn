@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { apiAction } from './actions';
 import { LoadingStatus } from '../../helper/strings';
-import { ratingReviewAction, ratingReviewAsBuyerAction } from './ratingReview.action';
+import { RateUserAction, purchaseProductListingAction, ratingReviewAction, ratingReviewAsBuyerAction } from './ratingReview.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -19,6 +19,16 @@ const initialState = entityAdapter.getInitialState({
     ratingReviewAsBuyerActionLoadingStatus: LoadingStatus.NOT_LOADED,
     ratingReviewAsBuyerAction: [],
     ratingReviewAsBuyerActionError: null,
+
+
+    purchaseProductListingActionLoadingStatus: LoadingStatus.NOT_LOADED,
+    purchaseProductListingAction: [],
+    purchaseProductListingActionError: null,
+
+
+    RateUserActionLoadingStatus: LoadingStatus.NOT_LOADED,
+    RateUserAction: [],
+    RateUserActionError: null,
 });
 
 /**
@@ -61,6 +71,36 @@ const reduxSlice = createSlice({
             .addCase(ratingReviewAsBuyerAction.rejected, (state, action) => {
                 state.ratingReviewAsBuyerAction = LoadingStatus.FAILED;
                 state.ratingReviewAsBuyerActionError = action.payload;
+            })
+            //Purchase Product Listing as buyer
+            .addCase(purchaseProductListingAction.pending, state => {
+                state.purchaseProductListingActionLoadingStatus = LoadingStatus.LOADING;
+
+            })
+            .addCase(purchaseProductListingAction.fulfilled, (state, action) => {
+                state.purchaseProductListingActionLoadingStatus = LoadingStatus.LOADED;
+
+                state.purchaseProductListingAction = action.payload;
+            })
+            .addCase(purchaseProductListingAction.rejected, (state, action) => {
+                state.ratingReviewAsBuyerAction = LoadingStatus.FAILED;
+                state.purchaseProductListingActionError = action.payload;
+
+            })
+            //Add rating
+            .addCase(RateUserAction.pending, state => {
+                state.RateUserActionLoadingStatus = LoadingStatus.LOADING;
+                console.log("loading")
+            })
+            .addCase(RateUserAction.fulfilled, (state, action) => {
+                state.RateUserActionLoadingStatus = LoadingStatus.LOADED;
+                console.log("loaded")
+                state.RateUserAction = action.payload;
+            })
+            .addCase(RateUserAction.rejected, (state, action) => {
+                state.RateUserAction = LoadingStatus.FAILED;
+                state.RateUserActionError = action.payload;
+                console.log("Error")
             });
 
     },
