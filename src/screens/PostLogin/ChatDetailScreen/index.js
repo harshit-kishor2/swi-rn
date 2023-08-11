@@ -97,7 +97,10 @@ const ChatDetailScreen = props => {
 
   //  Send text message
   const sendMessage = ({type = 'text', message}) => {
-    scrollToIndex(0);
+    if (chatReducer?.chatHistory?.length >= 1) {
+      scrollToIndex(0);
+    }
+
     const formData = new FormData();
     formData.append('receiver_id', chat_item?.user_id);
     formData.append('type', type);

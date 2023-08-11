@@ -14,6 +14,8 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {EmptyList} from '../ChatScreen/commn';
+import ClearableSearch from '@app/screens/atoms/ClearableSearch';
+import {IMAGES} from '@app/resources';
 
 const InterestModal = props => {
   const {
@@ -38,6 +40,7 @@ const InterestModal = props => {
   );
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
+  const [draftData, setdraftData] = useState([]);
 
   const query = useDebounce(search);
 
@@ -66,6 +69,7 @@ const InterestModal = props => {
       chatReducer.addInIntersetListLoadingStatus === LoadingStatus.LOADED
     ) {
       setData(chatReducer.getIntersetList?.data);
+      setdraftData(chatReducer.getIntersetList?.drafts);
     }
   }, [chatReducer]);
 
@@ -80,7 +84,7 @@ const InterestModal = props => {
 
     const selectedItems = {};
 
-    data.forEach((item, index) => {
+    [...data, ...draftData].forEach((item, index) => {
       if (item.checked === true) {
         selectedItems[`selected[${index}]`] = item.p_interest;
       }
@@ -91,13 +95,20 @@ const InterestModal = props => {
   };
 
   const onUpdateRow = item => {
-    const updatedArray = data.map(a => {
+    const updatedDataArray = data.map(a => {
       if (a.id === item.id) {
         return {...a, checked: !item.checked};
       }
       return a;
     });
-    setData(updatedArray);
+    const updatedDraftArray = draftData.map(a => {
+      if (a.id === item.id) {
+        return {...a, checked: !item?.checked};
+      }
+      return a;
+    });
+    setData(updatedDataArray);
+    setdraftData(updatedDraftArray);
   };
 
   const renderItem = ({item, index}) => {
@@ -134,6 +145,84 @@ const InterestModal = props => {
       </View>
     );
   };
+
+  const renderDraftItem = ({item, index}) => {
+    return (
+      <View key={index} style={styles.listContainer}>
+        <Pressable
+          style={styles.checkBoxContainer}
+          onPress={() => onUpdateRow(item)}>
+          <CustomIcon
+            origin={ICON_TYPE.MATERIAL_ICONS}
+            name={item?.checked ? 'check-box' : 'check-box-outline-blank'}
+            color={item?.checked ? '#00958C' : '#868686'}
+            size={20}
+          />
+        </Pressable>
+        <View style={styles.product}>
+          <CustomIcon name={'picture'} origin={ICON_TYPE.ANT_ICON} size={40} />
+          <View
+            style={{
+              paddingLeft: 15,
+            }}>
+            <CustomText style={styles.brandtext}>
+              {item?.brand_name} - {item?.model_name}
+            </CustomText>
+            <View style={styles.price_row}>
+              <CustomText style={styles.price}>
+                {item?.price ? '$ ' + item.price : 'Draft'}
+              </CustomText>
+              <View style={styles.circle} />
+              <CustomText style={styles.condition}>
+                {item?.watch_condition === 'brand_new'
+                  ? 'Brand New'
+                  : 'Pre Owned'}
+              </CustomText>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const addButton = () => {
+    return (
+      <View style={[styles.listContainer]}>
+        <View
+          style={styles.checkBoxContainer}
+          // onPress={() => onUpdateRow(item)}
+        >
+          <CustomIcon
+            origin={ICON_TYPE.MATERIAL_ICONS}
+            name={true ? 'check-box' : 'check-box-outline-blank'}
+            color={true ? '#00958C' : '#868686'}
+            size={20}
+          />
+        </View>
+        <Pressable
+          onPress={() => setAddModalVisible(true)}
+          style={[
+            styles.product,
+            {
+              borderColor: '#00958C',
+              borderWidth: 1,
+              borderRadius: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+            },
+          ]}>
+          <View
+            style={{
+              paddingLeft: 15,
+            }}>
+            <CustomText style={[styles.brandtext, {color: '#00958C'}]}>
+              {'+ Add New Product'}
+            </CustomText>
+          </View>
+        </Pressable>
+      </View>
+    );
+  };
   return (
     <Modal
       animationType="slide"
@@ -142,6 +231,7 @@ const InterestModal = props => {
       onRequestClose={() => {
         setModalVisible(!modalVisible);
         setData(chatReducer.getIntersetList?.data);
+        setdraftData(chatReducer.getIntersetList?.drafts);
       }}>
       <View style={styles.container}>
         <Pressable
@@ -149,6 +239,7 @@ const InterestModal = props => {
           onPress={() => {
             setModalVisible(!modalVisible);
             setData(chatReducer.getIntersetList?.data);
+            setdraftData(chatReducer.getIntersetList?.drafts);
           }}
         />
         <View style={styles.card_container}>
@@ -157,93 +248,25 @@ const InterestModal = props => {
             Select watch to which user mark their interest
           </CustomText>
           <View style={styles.input}>
-            <TextInput
-              mode="outlined"
-              value={search}
-              onChangeText={v => setSearch(v)}
-              activeOutlineColor=""
-              outlineStyle={{
-                borderRadius: 10,
-              }}
-              left={
-                <TextInput.Icon
-                  forceTextInputFocus={false}
-                  icon={() => (
-                    <CustomIcon
-                      name={'search'}
-                      origin={ICON_TYPE.MATERIAL_ICONS}
-                      size={25}
-                    />
-                  )}
-                />
-              }
-              right={
-                search.length ? (
-                  <TextInput.Icon
-                    forceTextInputFocus={false}
-                    onPress={() => setSearch('')}
-                    icon={() => (
-                      <CustomIcon
-                        name={'clear'}
-                        origin={ICON_TYPE.MATERIAL_ICONS}
-                        size={25}
-                      />
-                    )}
-                  />
-                ) : null
-              }
-            />
+            <ClearableSearch search={search} setSearch={setSearch} />
           </View>
           <FlatList
+            keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.flatListContainer}
             data={data}
             renderItem={renderItem}
             ListEmptyComponent={EmptyList}
-            ListHeaderComponent={
-              isSeller
-                ? () => {
-                    return (
-                      <View style={[styles.listContainer]}>
-                        <View
-                          style={styles.checkBoxContainer}
-                          // onPress={() => onUpdateRow(item)}
-                        >
-                          <CustomIcon
-                            origin={ICON_TYPE.MATERIAL_ICONS}
-                            name={
-                              true ? 'check-box' : 'check-box-outline-blank'
-                            }
-                            color={true ? '#00958C' : '#868686'}
-                            size={20}
-                          />
-                        </View>
-                        <Pressable
-                          onPress={() => setAddModalVisible(true)}
-                          style={[
-                            styles.product,
-                            {
-                              borderColor: '#00958C',
-                              borderWidth: 1,
-                              borderRadius: 10,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            },
-                          ]}>
-                          <View
-                            style={{
-                              paddingLeft: 15,
-                            }}>
-                            <CustomText
-                              style={[styles.brandtext, {color: '#00958C'}]}>
-                              {'+ Add New Product'}
-                            </CustomText>
-                          </View>
-                        </Pressable>
-                      </View>
-                    );
-                  }
-                : null
-            }
+            ListHeaderComponent={() => {
+              return (
+                <>
+                  {isSeller ? addButton() : null}
+                  {draftData &&
+                    draftData.map((item, index) => {
+                      return renderDraftItem({item, index});
+                    })}
+                </>
+              );
+            }}
           />
           <SubmitButton
             lable="Add to interest list"

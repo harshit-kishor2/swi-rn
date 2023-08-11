@@ -15,11 +15,12 @@ const AddInterestModal = props => {
     productReducer,
     getAllProductModel,
     onAddDraftInteresetList,
+    getIntersetList,
   } = props;
   const {chat_item} = route.params;
 
-  const [brand, setBrand] = useState();
-  const [model, setModel] = useState();
+  const [brand, setBrand] = useState(null);
+  const [model, setModel] = useState(null);
   const [watchCondition, setWatchCondition] = useState('brand_new');
 
   useEffect(() => {
@@ -40,7 +41,6 @@ const AddInterestModal = props => {
     authReducer.userProfileDetails.id;
 
   const addDraftIntersetList = () => {
-    console.log('Hello', brand, model, watchCondition);
     if (brand.brand_id && model.model_id) {
       onAddDraftInteresetList({
         seller_id: sellerID,
@@ -48,8 +48,18 @@ const AddInterestModal = props => {
         model_id: model.model_id,
         brand_id: brand.brand_id,
         condition: watchCondition,
+      }).then(res => {
+        if (res?.type.includes('fulfilled')) {
+          getIntersetList({
+            seller_id: sellerID,
+            user_id: userID,
+            keyword: '',
+          });
+          setBrand(null);
+          setModel(null);
+          setModalVisible(false);
+        }
       });
-      setModalVisible(false);
     } else {
       showAlert({
         title: 'Alert!',
