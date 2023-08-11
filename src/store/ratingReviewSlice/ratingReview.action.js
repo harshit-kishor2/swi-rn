@@ -98,3 +98,27 @@ export const RateUserAction = createAsyncThunk(
         }
     }
 )
+
+export const singleUserRatingDetailsAction = createAsyncThunk(
+    'ratingReview/singleUserRatingDetailsAction',
+    async (params, thunkAPI) => {
+        try {
+            console.log(params, "at add rating action====>>>>")
+
+            const result = await axiosRequest({
+
+                url: `/single-product-rating`,
+                method: 'GET',
+                params: params,
+            })
+
+            console.log(result, 'add rating Result ==========')
+            return result
+        } catch (error) {
+            console.log(error, 'add rating Error=========>>>>>')
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response?.data : error.data
+            )
+        }
+    }
+)
