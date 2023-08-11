@@ -17,7 +17,7 @@ import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 import MainTabNavigator from './MainTabNavigator';
-import {Insight} from '@app/screens/PostLogin/Insight/Index';
+import Insight from '@app/screens/PostLogin/Insight/Index';
 import BoostNowIntroduction from '@app/screens/PostLogin/BoostProduct/BoostNowIntroduction';
 import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
