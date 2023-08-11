@@ -7,6 +7,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import {Card} from 'react-native-paper';
 
 const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
+  // Open Gallery for image
   const launchGallery = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -29,7 +30,73 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       });
   };
 
+  // OPen Camera for image
   const launchCamera = () => {
+    ImageCropPicker.openCamera({
+      width: 300,
+      height: 400,
+      cropping: true,
+    })
+      .then(image => {
+        if (image?.size <= 5242880) {
+          sendMessage({type: 'image', message: image});
+          setModalVisible(!modalVisible);
+        } else {
+          showAlert({
+            title: 'Alert!',
+            message: 'Image size exceed 5MB',
+          });
+        }
+      })
+      .catch(err => {
+        console.log('Error==', err);
+      });
+  };
+
+  // Open camera for video
+  const launchCameraVideo = () => {
+    ImageCropPicker.openCamera({
+      mediaType: 'video',
+    })
+      .then(video => {
+        if (video?.size <= 10485760) {
+          sendMessage({type: 'video', message: video});
+          setModalVisible(!modalVisible);
+        } else {
+          showAlert({
+            title: 'Alert!',
+            message: 'Video size exceed 10MB',
+          });
+        }
+      })
+      .catch(err => {
+        console.log('Error==', err);
+      });
+  };
+
+  // OPen gallwery for video
+  const launchGalleryVideo = () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'video',
+    })
+      .then(video => {
+        if (video?.size <= 5242880) {
+          sendMessage({type: 'video', message: video});
+          setModalVisible(!modalVisible);
+        } else {
+          showAlert({
+            title: 'Alert!',
+            message: 'Video size exceed 10MB',
+          });
+        }
+      })
+      .catch(err => {
+        console.log('Error==', err);
+      });
+  };
+
+  // Open gallery for pdf
+  const launchGalleryPDF = () => {
     ImageCropPicker.openCamera({
       width: 300,
       height: 400,
@@ -66,25 +133,77 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
         />
         <Card style={styles.card_container}>
           <View style={styles.border} />
-          <CustomText style={styles.upload_text}>Upload Image</CustomText>
-          <View style={styles.button_container}>
-            <Pressable onPress={launchCamera} style={styles.icon_container}>
-              <CustomIcon
-                name={'camera-plus'}
-                origin={ICON_TYPE.MATERIAL_COMMUNITY}
-                size={70}
-                color={'#ffffff'}
-              />
-            </Pressable>
-            <Pressable onPress={launchGallery} style={styles.icon_container}>
-              <CustomIcon
-                name={'picture'}
-                origin={ICON_TYPE.FONTISTO}
-                size={50}
-                color={'#ffffff'}
-              />
-            </Pressable>
-          </View>
+          <>
+            <View style={{padding: 20}}>
+              <CustomText style={styles.upload_text}>Upload Image</CustomText>
+              <Spacer />
+              <View style={{flexDirection: 'row', paddingLeft: 30}}>
+                <Pressable onPress={launchCamera} style={styles.icon_container}>
+                  <CustomIcon
+                    name={'camera-plus'}
+                    origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                    size={30}
+                    color={'#ffffff'}
+                  />
+                </Pressable>
+                <Spacer width={50} />
+                <Pressable
+                  onPress={launchGallery}
+                  style={styles.icon_container}>
+                  <CustomIcon
+                    name={'picture-o'}
+                    origin={ICON_TYPE.FONT_AWESOME}
+                    size={30}
+                    color={'#ffffff'}
+                  />
+                </Pressable>
+              </View>
+            </View>
+            <View style={{padding: 20}}>
+              <CustomText style={styles.upload_text}>Upload Video</CustomText>
+              <Spacer />
+              <View style={{flexDirection: 'row', paddingLeft: 30}}>
+                <Pressable
+                  onPress={launchCameraVideo}
+                  style={styles.icon_container}>
+                  <CustomIcon
+                    name={'video'}
+                    origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                    size={30}
+                    color={'#ffffff'}
+                  />
+                </Pressable>
+                <Spacer width={50} />
+
+                <Pressable
+                  onPress={launchGalleryVideo}
+                  style={styles.icon_container}>
+                  <CustomIcon
+                    name={'video-collection'}
+                    origin={ICON_TYPE.MATERIAL_ICONS}
+                    size={30}
+                    color={'#ffffff'}
+                  />
+                </Pressable>
+              </View>
+            </View>
+            <View style={{padding: 20}}>
+              <CustomText style={styles.upload_text}>Upload PDF</CustomText>
+              <Spacer />
+              <View style={{flexDirection: 'row', paddingLeft: 30}}>
+                <Pressable
+                  onPress={launchGalleryPDF}
+                  style={styles.icon_container}>
+                  <CustomIcon
+                    name={'picture-as-pdf'}
+                    origin={ICON_TYPE.MATERIAL_ICONS}
+                    size={30}
+                    color={'#ffffff'}
+                  />
+                </Pressable>
+              </View>
+            </View>
+          </>
         </Card>
       </View>
     </Modal>
@@ -99,7 +218,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#00000040',
   },
   backdrop: {
-    height: '70%',
+    height: '30%',
   },
   border: {
     width: 60,
@@ -112,11 +231,10 @@ const styles = StyleSheet.create({
   upload_text: {
     color: '#00958C',
     fontFamily: FontsConst.OpenSans_SemiBold,
-    alignSelf: 'center',
     fontSize: 16,
   },
   card_container: {
-    height: '30%',
+    height: '70%',
     width: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 0,
@@ -129,9 +247,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon_container: {
-    height: 100,
-    width: 100,
-    borderRadius: 15,
+    height: 60,
+    width: 60,
+    borderRadius: 10,
     backgroundColor: '#00958C',
     justifyContent: 'center',
     alignItems: 'center',
