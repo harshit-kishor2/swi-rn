@@ -4,6 +4,7 @@ import {
   CustomIcon,
   CustomInput,
   CustomText,
+  Spacer,
   SubmitButton,
 } from '@app/components';
 import { ICON_TYPE } from '@app/components/CustomIcon';
@@ -216,6 +217,7 @@ const RateUser = (props) => {
             <Text style={{ fontFamily: 'OpenSans-SemiBold', color: 'white', fontSize: 20 }}>Rate Now</Text>
           </Pressable>}
         </View>
+        <Spacer />
       </ScrollView>
     </Container>
   );

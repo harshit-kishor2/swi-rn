@@ -72,7 +72,7 @@ const MyProfileScreen = props => {
   };
   return (
     <Container useSafeAreaView={Platform.OS === 'ios' ? true : false}>
-      <ScrollView style={{ flex: 1, paddingBottom: 10 }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             width: '100%',
@@ -290,6 +290,8 @@ const MyProfileScreen = props => {
           </TouchableOpacity>
         </View>
         {/* <Button title="logout"  /> */}
+        <Spacer height={50} />
+
       </ScrollView>
     </Container>
   );
