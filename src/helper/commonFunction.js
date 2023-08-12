@@ -142,6 +142,10 @@ export const transformedMessages = messages => {
       _id: message.sender_id,
     },
     image: message.type === 'image' ? message?.docs : null,
+    video: message.type === 'video' ? message?.docs : null,
+    file: {
+      url: message.type === 'pdf' ? message?.docs : null,
+    },
     createdAt: new Date(message.created_at),
   }));
   return transformed;
