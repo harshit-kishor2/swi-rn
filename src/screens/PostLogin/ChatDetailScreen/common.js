@@ -1,8 +1,10 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
-import {CustomText} from '@app/components';
+import {CustomIcon, CustomText, Spacer} from '@app/components';
 import moment from 'moment';
+import Video from 'react-native-video';
+import {ICON_TYPE} from '@app/components/CustomIcon';
 
 export function EmptyList() {
   return (
@@ -20,7 +22,7 @@ export function FooterList() {
 }
 
 export function RenderItem(props) {
-  const {currentMessage, position, currentUser, setFullImageVisible} = props;
+  const {currentMessage, position, setFullImageVisible} = props;
   const isSelf = position === 'right' ?? false;
   return (
     <View style={{width: '80%', margin: 10}}>
@@ -39,7 +41,11 @@ export function RenderItem(props) {
         {currentMessage?.image !== null ? (
           <Pressable
             onPress={() =>
-              setFullImageVisible({visible: true, uri: currentMessage?.image})
+              setFullImageVisible({
+                visible: true,
+                uri: currentMessage?.image,
+                type: 'image',
+              })
             }>
             <Image
               source={{uri: currentMessage?.image}}
@@ -48,6 +54,58 @@ export function RenderItem(props) {
                 width: 200,
               }}
             />
+          </Pressable>
+        ) : currentMessage?.video !== null ? (
+          <Pressable
+            onPress={() =>
+              setFullImageVisible({
+                visible: true,
+                uri: currentMessage?.video,
+                type: 'video',
+              })
+            }>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <CustomIcon
+                name={'video'}
+                origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                size={20}
+                color={'#000'}
+              />
+              <Spacer width={10} />
+              <CustomText>{'Uploaded Video'}</CustomText>
+            </View>
+            <CustomText>{'Tap to see video'}</CustomText>
+          </Pressable>
+        ) : currentMessage?.file?.url !== null ? (
+          <Pressable
+            onPress={() =>
+              setFullImageVisible({
+                visible: true,
+                uri: currentMessage?.file?.url,
+                type: 'pdf',
+              })
+            }>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <CustomIcon
+                name={'video'}
+                origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                size={20}
+                color={'#000'}
+              />
+              <Spacer width={10} />
+              <CustomText>{'Uploaded PDF'}</CustomText>
+            </View>
+            <CustomText>{'Tap to see pdf'}</CustomText>
           </Pressable>
         ) : (
           <CustomText>{currentMessage?.text}</CustomText>

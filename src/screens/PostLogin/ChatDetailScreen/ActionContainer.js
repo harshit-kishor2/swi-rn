@@ -10,9 +10,15 @@ const ActionContainer = ({
   onSendMessageClick,
   onAttachmentClick,
   onMakeOfferClick,
+  exploreProduct,
+  authReducer,
 }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const [message, setMessage] = useState('');
+  const isSeller =
+    exploreProduct?.productDetails?.user?.id ===
+    authReducer.userProfileDetails.id;
+  console.log('isSeller', isSeller);
 
   return (
     <>

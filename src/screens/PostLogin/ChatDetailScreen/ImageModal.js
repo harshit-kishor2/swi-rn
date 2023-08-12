@@ -2,10 +2,11 @@ import {FontsConst} from '@app/assets/assets';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {showAlert} from '@app/helper/commonFunction';
+import {useCallback} from 'react';
 import {Modal, Pressable, StyleSheet, View} from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import {Card} from 'react-native-paper';
-
+import DocumentPicker from 'react-native-document-picker';
 const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
   // Open Gallery for image
   const launchGallery = () => {
@@ -96,27 +97,27 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
   };
 
   // Open gallery for pdf
-  const launchGalleryPDF = () => {
-    ImageCropPicker.openCamera({
-      width: 300,
-      height: 400,
-      cropping: true,
-    })
-      .then(image => {
-        if (image?.size <= 5242880) {
-          sendMessage({type: 'image', message: image});
+  const launchGalleryPDF = useCallback(async () => {
+    try {
+      DocumentPicker.pick({
+        presentationStyle: 'fullScreen',
+        type: [DocumentPicker.types.pdf],
+      }).then(pdf => {
+        console.log('PD', pdf);
+        if (pdf[0]?.size <= 5242880) {
+          sendMessage({type: 'pdf', message: pdf[0]});
           setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
-            message: 'Image size exceed 5MB',
+            message: 'PDF size exceed 10MB',
           });
         }
-      })
-      .catch(err => {
-        console.log('Error==', err);
       });
-  };
+    } catch (err) {
+      console.warn(err);
+    }
+  }, []);
 
   return (
     <Modal
