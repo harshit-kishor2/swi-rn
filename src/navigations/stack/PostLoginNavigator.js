@@ -1,6 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {
-  AccountSetting,
   ChatDetailScreen,
   InterestList,
   MyFavourites,
@@ -17,7 +16,11 @@ import CoinHistory from '@app/screens/PostLogin/Coin/CoinHistory/Index';
 import ItemComparison from '@app/screens/PostLogin/ItemComparison';
 import SearchScreen from '@app/screens/PostLogin/Searching/SearchScreen';
 import MainTabNavigator from './MainTabNavigator';
+<<<<<<< HEAD
+import {Insight} from '@app/screens/PostLogin/Insight/Index';
+=======
 import Insight from '@app/screens/PostLogin/Insight/Index';
+>>>>>>> 294b597dabe2c0f7bc61ad15c81c727b34e315b2
 import BoostNowIntroduction from '@app/screens/PostLogin/BoostProduct/BoostNowIntroduction';
 import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
@@ -28,6 +31,7 @@ import ChangePassword from '@app/screens/PostLogin/ChangePassword';
 import ProductHistory from '@app/screens/PostLogin/History';
 import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
+import AccountSetting from '@app/screens/PostLogin/AccountSetting';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {

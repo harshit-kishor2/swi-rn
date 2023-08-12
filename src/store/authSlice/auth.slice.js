@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 
 import {
   forgotPasswordAction,
@@ -8,9 +8,11 @@ import {
   userProfile,
   userSigninAction,
   userSignupAction,
-  changePasswordAction
+  changePasswordAction,
+  getNotificationPermission,
+  updateNotificationPermission,
 } from './auth.actions';
-import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 
 // =============================== Redux : Auth Slice ==================================
@@ -40,7 +42,6 @@ const initialState = entityAdapter.getInitialState({
   changePasswordLoadingStatus: LoadingStatus.NOT_LOADED,
   changePasswordError: null,
 
-
   logoutLoadingStatus: LoadingStatus.NOT_LOADED,
   logoutError: null,
 
@@ -50,6 +51,15 @@ const initialState = entityAdapter.getInitialState({
 
   updateProfileLoadingStatus: LoadingStatus.NOT_LOADED,
   updateProfileError: null,
+
+  // Notification Permission
+  getNotificationPermissionLoadingStatus: LoadingStatus.NOT_LOADED,
+  getNotificationDetails: null,
+  getNotificationError: null,
+
+  updateNotificationPermissionLoadingStatus: LoadingStatus.NOT_LOADED,
+  updateNotificationDetails: null,
+  updateNotificationError: null,
 });
 
 /**
@@ -161,6 +171,30 @@ const reduxSlice = createSlice({
       .addCase(updateProfileAction.rejected, (state, action) => {
         state.updateProfileLoadingStatus = LoadingStatus.FAILED;
         state.updateProfileError = action.payload;
+      })
+      .addCase(getNotificationPermission.pending, (state, action) => {
+        state.getNotificationPermissionLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getNotificationPermission.fulfilled, (state, action) => {
+        state.getNotificationPermissionLoadingStatus = LoadingStatus.LOADED;
+        state.getNotificationDetails = action.payload.data;
+      })
+      .addCase(getNotificationPermission.rejected, (state, action) => {
+        state.getNotificationPermissionLoadingStatus = LoadingStatus.FAILED;
+        state.getNotificationError = LoadingStatus.FAILED;
+        state.getNotificationError = action.payload;
+      })
+      .addCase(updateNotificationPermission.pending, (state, action) => {
+        state.updateProfileLoadingStatus == LoadingStatus.LOADING;
+      })
+      .addCase(updateNotificationPermission.fulfilled, (state, action) => {
+        state.updateNotificationPermissionLoadingStatus = LoadingStatus.LOADED;
+        state.updateNotificationDetails = action.payload.data;
+      })
+      .addCase(updateNotificationPermission.rejected, (state, action) => {
+        state.updateNotificationPermissionLoadingStatus = LoadingStatus.FAILED;
+        state.updateNotificationError = LoadingStatus.FAILED;
+        state.updateNotificationError = action.payload;
       });
   },
 });
@@ -169,6 +203,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const { resetSliceState } = reduxSlice.actions;
+export const {resetSliceState} = reduxSlice.actions;
 
 export const authReducer = reduxSlice.reducer;

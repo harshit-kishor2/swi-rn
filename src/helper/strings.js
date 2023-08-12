@@ -31,7 +31,7 @@ export const RoutesName = {
   ITEM_COMPARISON: 'ItemComparison',
   SEARCH_SCREEN: 'SearchScreen',
   PROFILE_QR_SCREEN: 'Profile QR Screen',
-  ACCOUNT_SETTING_SCREEN: 'Account Setting Screen',
+  ACCOUNT_SETTING_SCREEN: 'Account Setting',
   PROFILE_SECTION_SCREEN: 'Profile Section Screen',
   VIEW_INSIGHTS: 'Insight',
   BOOST_PRODUCT_INTRODUCTION: 'Boost product introduction',
