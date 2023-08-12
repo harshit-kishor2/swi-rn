@@ -8,19 +8,65 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import {COLORS, IMAGES} from '@app/resources';
-import {stayLoginAction} from '@app/store/authSlice';
-import React, {useState} from 'react';
+import {
+  getNotificationPermission,
+  updateNotificationPermission,
+} from '@app/store/authSlice';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
+import {connect} from 'react-redux';
 import ToggleSwitch from 'toggle-switch-react-native';
 
-const AccountSetting = () => {
-  const [switchOn, setSwitch] = useState(true);
-  const [emailToggle, setEmailToggle] = useState(false);
+const AccountSetting = props => {
+  const {
+    navigation,
+    route,
+    authReducer,
+    getNotificationPermission,
+    getNotification,
+    updateNotificationPermission,
+    updateNotification,
+  } = props;
+  const item = props?.authReducer?.getNotificationDetails;
+
+  useEffect(() => {
+    getNotification().then(e => {
+      setSwitch(item?.push_notifications);
+      setEmailToggle(item?.email_notifications);
+
+      console.log(e, 'fkdhfkdjahfkjdahfadfdahkjfhakhfkafhkadskfaskh');
+    });
+  }, [
+    props?.authReducer?.getNotificationDetails?.push_notifications,
+    props?.authReducer?.getNotificationDetails?.email_notifications,
+  ]);
+
+  const [switchOn, setSwitch] = useState(item?.push_notifications);
+  const [emailToggle, setEmailToggle] = useState(item?.email_notifications);
+
   const onToggleNotification = () => {
+    var paramsNotification = {
+      type: 'push_notifications',
+      action: switchOn,
+    };
+    console.log('sdfghjk');
     setSwitch(!switchOn);
+
+    updateNotification(paramsNotification).then(res => {
+      if (res.message === 'Notification status updated successfully.') {
+        getNotification;
+      }
+      console.log(res, '======>>dfghjhgfgf');
+    });
   };
   const onToggleEmail = () => {
+    var paramsEmail = {
+      type: 'email_notifications',
+      action: emailToggle,
+    };
     setEmailToggle(!emailToggle);
+
+    updateNotification(paramsEmail);
   };
   return (
     <Container useSafeAreaView={true}>
@@ -38,7 +84,16 @@ const AccountSetting = () => {
           <View>
             <ToggleSwitch
               isOn={switchOn}
-              onToggle={onToggleNotification}
+              onToggle={e => {
+                console.log(e);
+                setSwitch(e);
+                var paramsNotification = {
+                  type: 'push_notifications',
+                  action: e,
+                };
+
+                updateNotification(paramsNotification);
+              }}
               onColor={'#00958C'}
               offColor={'#ACACAC'}
             />
@@ -69,7 +124,17 @@ const AccountSetting = () => {
           <View>
             <ToggleSwitch
               isOn={emailToggle}
-              onToggle={onToggleEmail}
+              onToggle={e => {
+                console.log(e);
+                setEmailToggle(e);
+                var paramsEmail = {
+                  type: 'email_notifications',
+                  action: e,
+                };
+                setEmailToggle(e);
+
+                updateNotification(paramsEmail);
+              }}
               onColor={'#00958C'}
               offColor={'#ACACAC'}
             />
@@ -109,7 +174,6 @@ const AccountSetting = () => {
   );
 };
 
-export default AccountSetting;
 const style = StyleSheet.create({
   Notification: {
     flexDirection: 'row',
@@ -132,3 +196,14 @@ const style = StyleSheet.create({
     opacity: 0.2,
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getNotification: params => dispatch(getNotificationPermission()),
+  updateNotification: params => dispatch(updateNotificationPermission(params)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(AccountSetting);
