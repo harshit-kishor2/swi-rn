@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { apiAction } from './actions';
 import { LoadingStatus } from '../../helper/strings';
-import { RateUserAction, purchaseProductListingAction, ratingReviewAction, ratingReviewAsBuyerAction } from './ratingReview.action';
+import { RateUserAction, purchaseProductListingAction, ratingReviewAction, ratingReviewAsBuyerAction, singleUserRatingDetailsAction } from './ratingReview.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -29,6 +29,11 @@ const initialState = entityAdapter.getInitialState({
     RateUserActionLoadingStatus: LoadingStatus.NOT_LOADED,
     RateUserAction: [],
     RateUserActionError: null,
+
+
+    singleUserRatingDetailsActionLoadingStatus: LoadingStatus.NOT_LOADED,
+    singleUserRatingDetailsAction: [],
+    singleUserRatingDetailsActionError: null,
 });
 
 /**
@@ -100,6 +105,21 @@ const reduxSlice = createSlice({
             .addCase(RateUserAction.rejected, (state, action) => {
                 state.RateUserAction = LoadingStatus.FAILED;
                 state.RateUserActionError = action.payload;
+                console.log("Error")
+            })
+            //Add Get rating
+            .addCase(singleUserRatingDetailsAction.pending, state => {
+                state.singleUserRatingDetailsActionLoadingStatus = LoadingStatus.LOADING;
+                console.log("loading")
+            })
+            .addCase(singleUserRatingDetailsAction.fulfilled, (state, action) => {
+                state.singleUserRatingDetailsActionLoadingStatus = LoadingStatus.LOADED;
+                console.log("loaded")
+                state.singleUserRatingDetailsAction = action.payload;
+            })
+            .addCase(singleUserRatingDetailsAction.rejected, (state, action) => {
+                state.singleUserRatingDetailsAction = LoadingStatus.FAILED;
+                state.singleUserRatingDetailsActionError = action.payload;
                 console.log("Error")
             });
 

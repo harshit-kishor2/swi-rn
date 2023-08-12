@@ -17,7 +17,6 @@ import {
   updateSellerProfile,
 } from '@app/store/testSellerEditProfile/sellerProfileEdit.action';
 import {useEffect, useState} from 'react';
-// import { CheckBox } from 'react-native-elements';
 import {
   FlatList,
   Image,
@@ -46,32 +45,15 @@ const EditSellerProfile = props => {
   const userId = route.params?.userId;
   const item = updateSellerProfileReducer?.getSellerProfile;
 
-  const [social_media, setSocial_media] = useState([{id: 0, value: ''}]);
-  const addTextInput = () => {
-    const newInput = {id: social_media.length, value: ''};
-    setSocial_media([...social_media, newInput]);
-  };
-  const handleInputChange = (id, text) => {
-    const updatedInputs = social_media.map(input =>
-      input.id === id ? {...input, value: text} : input,
-    );
-    setSocial_media(updatedInputs);
-  };
-
-  const [IsChecked, setIsChecked] = useState(true);
-  const [checkboxValue, setCheckBoxValue] = useState([]);
-  // console.log('IsCHECKED USESTATS_______________*********', IsChecked);
-  // console.log('CHECHBOX VALUE USESTATE#####################', checkboxValue);
-
-  // console.log('API ITEM VALUE=============>>>>>>>>>>>>>>>>>', item);
+  console.log('API ITEM VALUE=============>>>>>>>>>>>>>>>>>', item);
 
   const updateItem = updateSellerProfileReducer.updateSellerProfile;
+  // console.log('Social MEdia ------------------------>', social_media);
 
   useEffect(() => {
     getUpdateProfile();
   }, []);
 
-  // const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [opening_hours, setOpening_hours] = useState([
     {
@@ -128,12 +110,13 @@ const EditSellerProfile = props => {
     location: item.additional_info?.location ?? '',
     opening_hours: item.additional_info?.opening_hours ?? opening_hours ?? [],
     website: item.additional_info?.website ?? '',
-    social_media: social_media ?? [],
-    payment_method: item.master_payment_method ?? [],
+    social_media: item.additional_info?.social_media ?? [],
+    get_payment_method: item?.master_payment_method ?? [],
+    payment_method: item.additional_info?.payment_method ?? [],
     announcement: item.additional_info?.announcement ?? '',
     announcement_end: item.additional_info?.announcement_end ?? '',
   };
-
+  console.log('INITIAL VALUES========================>', initialValues);
   const {
     handleChange,
     handleSubmit,
@@ -146,7 +129,7 @@ const EditSellerProfile = props => {
     enableReinitialize: true,
     onSubmit: values => {
       try {
-        // console.log('USER ONSUBMIT VALUES========================>', values);
+        console.log('USER ONSUBMIT VALUES========================>', values);
         updateSellerProfile(values).then(res => {
           if (res?.type.include('fulfilled')) {
             showAlert({
@@ -162,14 +145,11 @@ const EditSellerProfile = props => {
           }
         });
       } catch (error) {
-        // console.log('OnPost Error Message==================>', error.message);
+        console.log('OnPost Error Message==================>', error.message);
       }
       // updateSellerProfileReducer();
     },
   });
-  console.log('================>Values ONSubmit ', values);
-
-  console.log('=>>>>>>>>initial Values', initialValues);
 
   return (
     <Container useSafeAreaView={true}>
@@ -351,35 +331,36 @@ const EditSellerProfile = props => {
               />
               <View>
                 <Text style={style.text}>Social Media Links</Text>
-                {/* <FlatList
+                <FlatList
                   data={values.social_media}
                   keyExtractor={item => item.id}
-                  renderItem={(val, index) => {
-                    // console.log('&&&&&&&&&&&&&&&SOCILAMEDIDA', val?.item);
+                  renderItem={(item, index) => {
+                    console.log('&&&&&&&&&&&&&&&SOCILAMEDIDA', item);
                     return (
                       <View key={index}>
                         <CustomInput
-                          value={val?.item?.value}
-                          onChangeText={value =>
-                            setFieldValue('social_media', value)
+                          value={item?.item}
+                          onChangeText={
+                            value => setFieldValue('social_media', value)
+                            // handleInputChange(item.id, value)
                           }
                         />
                       </View>
                     );
                   }}
-                /> */}
-                {social_media.map((item, index) => (
+                />
+                {/* {social_media.map((item, index) => (
                   <CustomInput
                     key={index}
-                    value={item}
+                    value={item.value}
                     onChangeText={text => handleInputChange(item.id, text)}
                     // onChangeText={value => setFieldValue('social_media', value)}
                   />
-                ))}
+                ))} */}
               </View>
 
               <View style={{alignSelf: 'flex-end'}}>
-                <TouchableOpacity onPress={addTextInput}>
+                <TouchableOpacity onPress={addInput}>
                   <Text
                     style={{
                       fontFamily: 'OpenSans-SemiBold',
@@ -395,11 +376,11 @@ const EditSellerProfile = props => {
               <View
                 style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
                 <FlatList
-                  data={values.payment_method}
+                  data={values.get_payment_method}
                   numColumns={3}
                   keyExtractor={item => item.id}
                   renderItem={({item, index}) => {
-                    // console.log('Item==', item);
+                    console.log('PAYMENT_METHOD Item==', item);
                     return (
                       <View
                         style={{
@@ -409,28 +390,21 @@ const EditSellerProfile = props => {
                         }}>
                         <CheckBox
                           disabled={false}
-                          value={item.isCheck}
-                          // onValueChange={}
+                          value={item.isChecked}
                           onValueChange={val => {
-                            const temp = values.payment_method.filter(
-                              (aa, i) => {
-                                const a = Object.assign({}, aa);
-                                if (a.id === item.id) {
-                                  a.isCheck = val;
-                                  return a;
-                                } else {
-                                  return a;
-                                }
-                              },
-                            );
-                            // console.log('Temp====', temp);
+                            const temp = values.payment_method.map(a => ({
+                              ...a,
+                              isChecked:
+                                a.option_value === item.option_value
+                                  ? val
+                                  : false,
+                            }));
+                            console.log('Payment Method VAL ', val);
+                            console.log('Payment Method TEMP ', temp);
                             setFieldValue('payment_method', temp);
-                            // setIsChecked(val);
-                            // if (val) {
-                            //   setCheckBoxValue(item.option_value);
-                            // }
                           }}
                         />
+
                         <Text style={[{marginTop: 6}, style.text]}>
                           {item.option_value}
                         </Text>

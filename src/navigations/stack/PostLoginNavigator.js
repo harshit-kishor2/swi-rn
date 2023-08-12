@@ -1,6 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {
-  AccountSetting,
   ChatDetailScreen,
   InterestList,
   MyFavourites,
@@ -28,6 +27,7 @@ import ChangePassword from '@app/screens/PostLogin/ChangePassword';
 import ProductHistory from '@app/screens/PostLogin/History';
 import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
+import AccountSetting from '@app/screens/PostLogin/AccountSetting';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {

@@ -31,7 +31,7 @@ export function RenderItem({ item, index }) {
     const price = item?.product?.price;
     const productList = item?.product?.title;
     const watch_condition = item?.product?.watch_condition;
-    console.log(item, "Item==================");
+    console.log(item?.product?.id, "Item==================");
     console.log(user_Data, '---------------')
     return (
         <Pressable onPress={onRowClick} style={styles.product}>
@@ -78,7 +78,7 @@ export function RenderItem({ item, index }) {
                 /> */}
                 <TouchableOpacity onPress={() => {
 
-                    NavigationService.navigate(RoutesName.RATE_USER, user_Data
+                    NavigationService.navigate(RoutesName.RATE_USER, { userData: user_Data, product_id: item?.product?.id }
                     )
                 }} style={{ height: 30, width: 100, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: COLORS.APPGREEN, }}>
 

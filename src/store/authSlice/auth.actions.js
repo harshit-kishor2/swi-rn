@@ -1,8 +1,8 @@
 //! ======================== Redux : Async Thunk Actions ============================
 
-import { SharedPreference } from '@app/helper';
+import {SharedPreference} from '@app/helper';
 import axiosRequest from '@app/helper/axiosRequest';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 /**
  * Api Action
@@ -85,7 +85,7 @@ export const forgotPasswordAction = createAsyncThunk(
         url: `/forgot-password`,
         method: 'POST',
         data: params,
-        params: { type: 'user' },
+        params: {type: 'user'},
       });
       return response;
     } catch (error) {
@@ -163,14 +163,13 @@ export const updateProfileAction = createAsyncThunk(
   },
 );
 
-
 /**
  * Api Action
  */
 export const changePasswordAction = createAsyncThunk(
   `auth/changePasswordAction`,
   async (params, thunkAPI) => {
-    console.log(params, "params action=====")
+    console.log(params, 'params action=====');
     try {
       const response = await axiosRequest({
         url: `/change-password`,
@@ -178,7 +177,49 @@ export const changePasswordAction = createAsyncThunk(
         data: params,
         // params: {type: 'user'},
       });
-      console.log(response, "response===========")
+      console.log(response, 'response===========');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+/**
+ * Api Action GET Notification Permission
+ */
+export const getNotificationPermission = createAsyncThunk(
+  `auth/getNotificationPermission`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/get-notification-status`,
+        method: 'GET',
+        // data: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+/**
+ * Api Action Update Notification Permission
+ */
+
+export const updateNotificationPermission = createAsyncThunk(
+  `auth/updateNotificationPermission`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/update-notification-status`,
+        method: 'POST',
+        data: params,
+      });
+      console.log(response, 'response from update notification');
       return response;
     } catch (error) {
       return thunkAPI.rejectWithValue(

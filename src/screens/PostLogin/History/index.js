@@ -18,7 +18,7 @@ const ProductHistory = (props) => {
     console.log(item, "==========================>>>>>>>>>>>>>>>>>>>>>>item")
 
     return (
-        <Container useSafeAreaView={true} loading={ratingReviewReducer.RateUserActionLoadingStatus == LoadingStatus.LOADED}>
+        <Container useSafeAreaView={true} >
             <Spacer height={20} />
             <BackHeader />
             <PageTitle title={'Product History'} />

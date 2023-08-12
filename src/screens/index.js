@@ -21,7 +21,6 @@ import ChatDetailScreen from './PostLogin/ChatDetailScreen';
 import InterestList from './PostLogin/Interestlist/index';
 import MyFavourites from './PostLogin/MyFavourites/Index';
 import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
-import AccountSetting from './PostLogin/AccountSetting/index';
 import ProfileSection from './PostLogin/ProfileSection/index';
 import RatingAndReviews from './PostLogin/RatingAndReviews';
 
@@ -50,7 +49,6 @@ export {
   SellerProfileQR,
   InterestList,
   MyFavourites,
-  AccountSetting,
   ProfileSection,
   RatingAndReviews,
 };
