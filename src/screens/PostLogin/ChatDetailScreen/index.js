@@ -19,8 +19,11 @@ import MakeOfferModal from './MakeOfferModal';
 import InterestModal from './InterestModal';
 import {connect} from 'react-redux';
 import {
+  addDraftInInterestListAction,
+  addIntersetListOnChat,
   getChatHistoryAction,
   getChatListAction,
+  getInteresteListOnChat,
   onNewMessageUpdate,
   sendMessageAction,
   socketJoinAction,
@@ -34,6 +37,11 @@ import {Modal} from 'react-native-paper';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {GiftedChat, InputToolbar} from 'react-native-gifted-chat';
 import {transformedMessages} from '../../../helper/commonFunction';
+import AddInterestModal from './AddInterestModal';
+import {
+  getAllBrandAction,
+  getAllProductModelAction,
+} from '@app/store/productSlice';
 
 const ChatDetailScreen = props => {
   const {
@@ -45,6 +53,7 @@ const ChatDetailScreen = props => {
     updateSocketId,
     getChatHistory,
     updateNewMessage,
+    getAllBrand,
     navigation,
     route,
   } = props;
@@ -54,6 +63,7 @@ const ChatDetailScreen = props => {
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [interestModalVisible, setInterestModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const [fullImageVisible, setFullImageVisible] = useState({
     visible: false,
     uri: '',
@@ -73,6 +83,7 @@ const ChatDetailScreen = props => {
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,
     });
+    getAllBrand();
     getProductDetails({
       product_id: chat_item?.product_id,
     });
@@ -86,7 +97,10 @@ const ChatDetailScreen = props => {
 
   //  Send text message
   const sendMessage = ({type = 'text', message}) => {
-    scrollToIndex(0);
+    if (chatReducer?.chatHistory?.length >= 1) {
+      scrollToIndex(0);
+    }
+
     const formData = new FormData();
     formData.append('receiver_id', chat_item?.user_id);
     formData.append('type', type);
@@ -141,7 +155,7 @@ const ChatDetailScreen = props => {
         );
         console.log('findIndex', findIndex);
 
-        if (findIndex >= 1) {
+        if (findIndex >= 0) {
           flatRef.current._listRef?.scrollToOffset({
             offset: findIndex * 1000,
             // animated: true,
@@ -228,6 +242,14 @@ const ChatDetailScreen = props => {
       <InterestModal
         modalVisible={interestModalVisible}
         setModalVisible={setInterestModalVisible}
+        setAddModalVisible={setAddModalVisible}
+        {...props}
+      />
+      {/* Add New Watch Modal */}
+      <AddInterestModal
+        modalVisible={addModalVisible}
+        setModalVisible={setAddModalVisible}
+        {...props}
       />
       {/* Full Screen Image Modal */}
 
@@ -294,17 +316,23 @@ const mapStateToProps = state => {
     chatReducer: state?.chatReducer,
     authReducer: state?.authReducer,
     exploreProduct: state?.exploreProductReducer,
+    productReducer: state?.productReducer,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   getChatDetails: params => dispatch(getChatHistoryAction(params)),
   getChatHistory: params => dispatch(getChatListAction(params)),
-
+  getAllBrand: params => dispatch(getAllBrandAction(params)),
+  getAllProductModel: params => dispatch(getAllProductModelAction(params)),
   getProductDetails: params => dispatch(getProductDetailsAction(params)),
   updateSocketId: params => dispatch(socketJoinAction(params)),
   sendChatMessage: params => dispatch(sendMessageAction(params)),
   updateNewMessage: params => dispatch(onNewMessageUpdate(params)),
+  getIntersetList: params => dispatch(getInteresteListOnChat(params)),
+  onAddDraftInteresetList: params =>
+    dispatch(addDraftInInterestListAction(params)),
+  onAddIntersetList: params => dispatch(addIntersetListOnChat(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatDetailScreen);

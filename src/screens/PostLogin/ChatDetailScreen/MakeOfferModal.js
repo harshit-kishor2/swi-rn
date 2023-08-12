@@ -16,7 +16,7 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
       return;
     } else {
       const numericValue = amount?.replace(/[^0-9.]/g, '');
-      sendMessage({message: numericValue, type: 'offer'});
+      sendMessage({message: numericValue, type: 'make_offer'});
       setAmount('');
       setModalVisible(false);
     }

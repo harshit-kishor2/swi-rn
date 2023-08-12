@@ -13,7 +13,7 @@ import NavigationService from '@app/navigations/NavigationService';
 import { COLORS, IMAGES } from '@app/resources';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
 import { changePasswordAction } from '@app/store/authSlice';
-import { RateUserAction, purchaseProductListingAction, ratingReviewAction } from '@app/store/ratingReviewSlice';
+import { RateUserAction, purchaseProductListingAction, ratingReviewAction, singleUserRatingDetailsAction } from '@app/store/ratingReviewSlice';
 import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { Image, Pressable, Text, TextInput, View } from 'react-native';
@@ -23,27 +23,27 @@ import { connect } from 'react-redux';
 import * as Yup from 'yup';
 
 const RateUser = (props) => {
-  // const { updatePassword, authReducer } = props;
-  // console.log(props)
-  const { getReview, ratingReviewReducer, postData } = props;
 
+  const { getReview, ratingReviewReducer, postData, getCurrentReview } = props;
 
+  const product_id = props?.route?.params?.product_id;
 
-  const item = props?.route?.params;
+  const item = props?.route?.params?.userData;
+  const userid = item?.id;
   useEffect(() => {
 
     getReview({ type: "user", user_id: item?.id, filter: '' })
+    getCurrentReview({ product_id: product_id, user_id: item?.id })
   }, [])
 
   const [description, setDescription] = useState('')
   const data = props?.ratingReviewReducer?.ratingReviewAction?.data;
-  console.log(item, "props value rate user===============")
-  const userid = props?.route?.params?.id;
-  // console.log(values);
+
+
+
 
   const [rating, setRating] = useState(0);
-
-  console.log(userid, "============================..................>>>>>>>>>>>>>>>>>")
+  const RatingValue = props?.ratingReviewReducer?.singleUserRatingDetailsAction?.data;
   const [validation, setValidation] = useState(false);
   const handleRating = (rating) => {
     // Handle the selected rating here
@@ -51,7 +51,6 @@ const RateUser = (props) => {
     setValidation(false)
 
   };
-  console.log(description, "Description========================");
   return (
     <Container useSafeAreaView={true}>
       <ScrollView style={{ margin: 15 }} showsVerticalScrollIndicator={false}>
@@ -130,8 +129,8 @@ const RateUser = (props) => {
             <AirbnbRating
               count={5}
               reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
-              defaultRating={0}
-
+              defaultRating={RatingValue?.id ? RatingValue?.rating : 0}
+              isDisabled={RatingValue?.rating ? true : false}
               size={30}
               onFinishRating={handleRating}
             />
@@ -158,19 +157,21 @@ const RateUser = (props) => {
                 paddingBottom: 20,
                 height: 150,
                 borderColor: COLORS.APPGREEN,
-                borderBottomWidth: 0.5,
+                borderBottomWidth: RatingValue?.id ? null : 0.5,
 
 
               }}
+              fontSize={16}
+              fontFamily={'OpenSans-Regular'}
               maxLength={500}
               multiline={true}
               numberOfLines={5}
-              value={description}
-
+              value={RatingValue?.id ? RatingValue?.description : description}
+              editable={RatingValue?.description ? false : true}
               placeholder="Enter description..."
               onChangeText={(val) => { setDescription(val) }}
             />
-            <View
+            {RatingValue?.id ? null : <View
               style={{
                 position: 'absolute',
                 bottom: 5,
@@ -180,7 +181,7 @@ const RateUser = (props) => {
               <CustomText style={{ color: '#00958C' }}>
                 {description.length}/500
               </CustomText>
-            </View>
+            </View>}
           </View>
 
 
@@ -188,13 +189,13 @@ const RateUser = (props) => {
 
 
           {/* <SubmitButton loading={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} disabled={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} lable="Change" onPress={handleSubmit} /> */}
-          <Pressable style={{ justifyContent: 'center', alignItems: 'center', borderWidth: 1, height: 50, borderRadius: 20, backgroundColor: 'black' }}
+          {RatingValue?.id ? null : <Pressable style={{ justifyContent: 'center', alignItems: 'center', borderWidth: 1, height: 50, borderRadius: 20, backgroundColor: 'black' }}
             onPress={() => {
               if (rating == 0 || rating == null) {
                 setValidation(true)
               }
               else {
-                postData({ user_id: userid, rating: rating, description: description }).then(res => {
+                postData({ user_id: userid, rating: rating, description: description, product_id: product_id }).then(res => {
                   if (res?.type.includes('fulfilled')) {
                     showAlert({
                       title: 'success',
@@ -213,7 +214,7 @@ const RateUser = (props) => {
               }
             }}>
             <Text style={{ fontFamily: 'OpenSans-SemiBold', color: 'white', fontSize: 20 }}>Rate Now</Text>
-          </Pressable>
+          </Pressable>}
         </View>
       </ScrollView>
     </Container>
@@ -233,6 +234,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   postData: params => dispatch(RateUserAction(params)),
   getReview: params => dispatch(ratingReviewAction(params)),
+  getCurrentReview: params => dispatch(singleUserRatingDetailsAction(params)),
 
 });
 

@@ -5,6 +5,7 @@ import PageTitle from '@app/screens/atoms/PageTitle'
 import { EmptyList, RenderItem } from './historyCard'
 import { connect } from 'react-redux'
 import { purchaseProductListingAction } from '@app/store/ratingReviewSlice'
+import { LoadingStatus } from '@app/helper/strings'
 
 const ProductHistory = (props) => {
     const { getProductList, authReducer, ratingReviewReducer } = props;
@@ -17,7 +18,7 @@ const ProductHistory = (props) => {
     console.log(item, "==========================>>>>>>>>>>>>>>>>>>>>>>item")
 
     return (
-        <Container useSafeAreaView={true}>
+        <Container useSafeAreaView={true} >
             <Spacer height={20} />
             <BackHeader />
             <PageTitle title={'Product History'} />

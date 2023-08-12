@@ -1,24 +1,24 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React, {useEffect} from 'react';
-import {BackHeader, Container, NavigationBar, Spacer} from '@app/components';
-import {COLORS, IMAGES} from '@app/resources';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { BackHeader, Container, NavigationBar, Spacer } from '@app/components';
+import { COLORS, IMAGES } from '@app/resources';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {RoutesName} from '@app/helper/strings';
-import {wishlistAction} from '@app/store/wishlistSlice/wishlist.action';
-import {connect} from 'react-redux';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import { wishlistAction } from '@app/store/wishlistSlice/wishlist.action';
+import { connect } from 'react-redux';
 import ProductCardFav from '@app/screens/atoms/ProductCardFav';
-import {EmptyList} from '../ChatScreen/commn';
-import {addWishListAction} from '@app/store/exploreProductSlice';
-import {showAlert} from '@app/helper/commonFunction';
+import { EmptyList } from '../ChatScreen/commn';
+import { addWishListAction } from '@app/store/exploreProductSlice';
+import { showAlert } from '@app/helper/commonFunction';
 
 const MyFavourites = props => {
-  const {getProductList, wishlistReducer, removeWishlist} = props;
+  const { getProductList, wishlistReducer, removeWishlist } = props;
   const item = wishlistReducer?.wishlistAction?.data;
   useEffect(() => {
     getProductList();
   }, []);
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <ProductCardFav
         key={index}
@@ -44,7 +44,7 @@ const MyFavourites = props => {
     );
   };
   return (
-    <Container useSafeAreaView={true}>
+    <Container useSafeAreaView={true} loading={wishlistReducer.wishlistActionLoadingStatus === LoadingStatus.LOADING}>
       <View>
         <Spacer height={20} />
         <BackHeader />

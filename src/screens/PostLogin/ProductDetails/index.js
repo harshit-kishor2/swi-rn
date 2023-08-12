@@ -49,6 +49,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import ReadMore from '@app/components/ReadMore';
 import ProductImageDetail from './ProductImageDetail';
 import NavigationService from '@app/navigations/NavigationService';
+import {changeProductStatusAction} from '@app/store/profileSectionSlice';
 
 const selectKey = [
   {id: 1, name: 'Last 7 Days', key: 'seven_days'},
@@ -59,7 +60,12 @@ const selectKey = [
 
 const ProductDetails = props => {
   const [fullImageModalVisible, setfullImageModalVisible] = useState(false);
-  const {onAddToProductCompare, addToCompareReducer, authReducer} = props;
+  const {
+    onAddToProductCompare,
+    addToCompareReducer,
+    authReducer,
+    onChangeProductStatus,
+  } = props;
   const [isChartDropDown, setIsChartDropDown] = useState(false);
   const [selectFilteredValue, setSelectFilteredValue] = useState({
     id: 1,
@@ -81,6 +87,7 @@ const ProductDetails = props => {
 
   const {productDetailLoading, productDetailData, productDetailError} =
     useSelector(state => state?.exploreReducer);
+  console.log(productDetailData?.data?.id, 'ProductDetail loading');
 
   const isSelf =
     authReducer?.userProfileDetails?.id === productDetailData?.data?.user_id
@@ -201,14 +208,16 @@ const ProductDetails = props => {
                   source={IMAGES.share}
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomIcon
-                  size={30}
-                  color={'#000000'}
-                  origin={ICON_TYPE.MATERIAL_ICONS}
-                  name="bookmark-outline"
-                />
-              </TouchableOpacity>
+              {!isSelf && (
+                <TouchableOpacity>
+                  <CustomIcon
+                    size={30}
+                    color={'#000000'}
+                    origin={ICON_TYPE.MATERIAL_ICONS}
+                    name="bookmark-outline"
+                  />
+                </TouchableOpacity>
+              )}
             </View>
           </View>
           <ProductImageDetail
@@ -254,6 +263,7 @@ const ProductDetails = props => {
           <View
             style={{
               backgroundColor: '#F0F2FA',
+              //backgroundColor: 'red',
               justifyContent: 'center',
               alignItems: 'center',
               height: 40,
@@ -264,6 +274,13 @@ const ProductDetails = props => {
               {capitalizeFirstLetter(productDetailData?.data?.product_status)}
             </Text>
           </View>
+          {productDetailData?.data?.product_status !== 'available' &&
+            !isSelf && (
+              <SubmitButton
+                buttonStyle={{width: '85%', alignSelf: 'center'}}
+                lable="I'm interested in this product"
+              />
+            )}
 
           {/* Seller Details */}
 
@@ -599,7 +616,36 @@ const ProductDetails = props => {
                 style={{
                   width: '48%',
                 }}>
-                <SubmitButton lable="Mark as sold" />
+                <SubmitButton
+                  disabled={
+                    productDetailData?.data?.product_status === 'sold_out'
+                  }
+                  onPress={() => {
+                    onChangeProductStatus({
+                      product_id: productDetailData?.data?.id,
+                      product_status: 'sold_out',
+                    }).then(res => {
+                      if (res?.type.includes('fulfilled')) {
+                        if (props.route?.params?.product_id) {
+                          dispatch(
+                            exploreProductDetail({
+                              product_id: props.route.params.product_id,
+                            }),
+                          );
+                        }
+                        showAlert({
+                          title: 'Success !',
+                          message: 'Product status changed as sold.',
+                        });
+                      } else if (res?.type.includes('rejected')) {
+                        showAlert({
+                          title: 'Server error !',
+                        });
+                      }
+                    });
+                  }}
+                  lable="Mark as sold"
+                />
               </View>
               <View
                 style={{
@@ -607,7 +653,11 @@ const ProductDetails = props => {
                 }}>
                 <SubmitButton
                   onPress={() => {
-                    props.navigation.navigate(RoutesName.VIEW_INSIGHTS);
+                    if (productDetailData?.data?.id) {
+                      props.navigation.navigate(RoutesName.VIEW_INSIGHTS, {
+                        productId: productDetailData?.data?.id,
+                      });
+                    }
                   }}
                   type="outlined"
                   lable="View Insights"
@@ -917,6 +967,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onAddToProductCompare: params => dispatch(onAddToProductCompare(params)),
+  onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

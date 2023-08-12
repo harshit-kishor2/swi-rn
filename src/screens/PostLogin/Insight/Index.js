@@ -4,29 +4,33 @@ import {
   CustomIcon,
   CustomInput,
   NavigationBar,
+  Spacer,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {LoadingStatus} from '@app/helper/strings';
 import {COLORS, IMAGES} from '@app/resources';
 import ProductCard from '@app/screens/atoms/ProductCard';
+import {productInsights} from '@app/store/exploreProductSlice';
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {useEffect} from 'react';
+import {FlatList, ScrollView} from 'react-native';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {BarChart} from 'react-native-chart-kit';
 import {Dropdown} from 'react-native-element-dropdown';
+import {connect} from 'react-redux';
 
-export const Insight = props => {
+const Insight = props => {
+  const {exploreProduct, productInsights} = props;
+  // console.log(
+  //   exploreProduct.productInsightsInfo,
+  //   productInsights,
+  //   'Insights data<<=====',
+  // );
+
+  console.log(exploreProduct, '^^^^^^^^');
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
-
-  const graphData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-    datasets: [
-      {
-        data: [1, 2, 3, 5],
-      },
-    ],
-  };
 
   const chartConfig = {
     // backgroundColor: '#F0F2FA',
@@ -64,8 +68,18 @@ export const Insight = props => {
     },
   ];
 
+  useEffect(() => {
+    if (props?.route?.params?.productId) {
+      productInsights(props?.route?.params);
+    }
+  }, []);
+
   return (
-    <Container>
+    <Container
+      loading={
+        exploreProduct?.productInsightsInfoLoadingStatus ===
+        LoadingStatus.LOADING
+      }>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{margin: 20}}>
           <NavigationBar
@@ -125,8 +139,7 @@ export const Insight = props => {
                 color: '#797979',
                 marginLeft: 5,
               }}>
-              You reached +6.9% more clicks in the last 7 days as compared to
-              May 30- June 5
+              {exploreProduct?.productInsightsInfo?.click?.summary}
             </Text>
           </View>
 
@@ -139,8 +152,13 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Total Impressions</Text>
               <View>
-                <Text style={style.impressionClickText}>14.2 K</Text>
-                <Text style={style.impressionClickPercent}>+6.1 %</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.impressions?.total}
+                </Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.impressions?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
             <View
@@ -154,8 +172,13 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Number of click</Text>
               <View>
-                <Text style={style.impressionClickText}>10.9 K</Text>
-                <Text style={style.impressionClickPercent}>+3.9 %</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.click?.total}
+                </Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.click?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
             <View
@@ -169,8 +192,13 @@ export const Insight = props => {
               }}>
               <Text style={style.impressionClick}>Number of chats</Text>
               <View>
-                <Text style={style.impressionClickText}>1.1 K</Text>
-                <Text style={style.impressionClickPercent}>+2.7%</Text>
+                <Text style={style.impressionClickText}>
+                  {exploreProduct?.productInsightsInfo?.chat?.total}
+                </Text>
+                <Text style={style.impressionClickPercent}>
+                  {exploreProduct?.productInsightsInfo?.chat?.upDown}
+                  {'%'}
+                </Text>
               </View>
             </View>
           </View>
@@ -180,6 +208,7 @@ export const Insight = props => {
               flexDirection: 'row',
               justifyContent: 'space-evenly',
               marginTop: 20,
+              //backgroundColor: 'red',
               // width: '90%'
             }}>
             <View style={{width: '30%'}}>
@@ -266,6 +295,7 @@ export const Insight = props => {
                   height: 16,
                   marginRight: 10,
                 }}
+                disable={true}
                 selectedTextStyle={style.selectedText}
                 placeholderStyle={style.selectedText}
                 iconStyle={{
@@ -294,40 +324,109 @@ export const Insight = props => {
 
           {select === 'Impressions' && (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 365,
+                  height: 196,
+                  marginTop: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.impressions?.chart
+                  .length !== 0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.impressions?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.impressions
+                              ?.chart?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           )}
           {select === 'Clicks' ? (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 359,
+                  height: 196,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.click?.chart.length !==
+                0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.click?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.click?.chart
+                              ?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    // withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           ) : null}
           {select === 'Chats' ? (
             <View>
-              <View style={{width: 359, height: 196, marginTop: 20}}>
-                <BarChart
-                  data={graphData}
-                  width={359}
-                  withInnerLines={false}
-                  height={200}
-                  chartConfig={chartConfig}
-                />
+              <View
+                style={{
+                  width: 359,
+                  height: 196,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {exploreProduct?.productInsightsInfo?.chat?.chart.length !==
+                0 ? (
+                  <BarChart
+                    data={{
+                      labels:
+                        exploreProduct?.productInsightsInfo?.chat?.chart
+                          ?.label ?? [],
+                      datasets: [
+                        {
+                          data:
+                            exploreProduct?.productInsightsInfo?.chat?.chart
+                              ?.value ?? [],
+                        },
+                      ],
+                    }}
+                    width={359}
+                    withInnerLines={false}
+                    height={200}
+                    chartConfig={chartConfig}
+                  />
+                ) : (
+                  <Text>No record found</Text>
+                )}
               </View>
             </View>
           ) : null}
@@ -345,13 +444,39 @@ export const Insight = props => {
           </View>
           <View>
             {/* Boosted Product Component Call by saket */}
-            <ProductCard />
+            <Spacer height={15} />
+            <FlatList
+              data={exploreProduct?.productInsightsInfo?.boosted_products}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({index, item}) => {
+                return (
+                  <ProductCard
+                    toShowUserDetail={false}
+                    item={item}
+                    key={index}
+                  />
+                );
+              }}
+            />
           </View>
         </View>
       </ScrollView>
     </Container>
   );
 };
+
+const mapStateToProps = state => {
+  return {
+    exploreProduct: state?.exploreProductReducer,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  productInsights: params => dispatch(productInsights(params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Insight);
 
 const style = StyleSheet.create({
   dropdown: {
