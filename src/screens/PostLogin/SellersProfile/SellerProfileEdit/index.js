@@ -36,7 +36,7 @@ const EditSellerProfile = props => {
   const {
     navigation,
     route,
-    authReducer,
+    // authReducer,
     updateSellerProfileReducer,
     getUpdateProfile,
     updateSellerProfile,

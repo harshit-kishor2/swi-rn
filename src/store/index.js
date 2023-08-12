@@ -10,6 +10,7 @@ import {productReducer, productStateReducer} from './productSlice';
 import sellersProfileReducer from './sellersProfileSclice';
 import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
+import generalProfileReducer from './GeneralProfile';
 import profileSectionReducer from './profileSectionSlice';
 import {updateSellerProfileReducer} from './testSellerEditProfile';
 import ratingReviewReducer from './ratingReviewSlice';
@@ -30,6 +31,7 @@ const combinedReducer = combineReducers({
   updateSellerProfileReducer,
   ratingReviewReducer,
   boostProductReducer,
+  generalProfileReducer,
 });
 
 const rootReducers = (state, action) => {

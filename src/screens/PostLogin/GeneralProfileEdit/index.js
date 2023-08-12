@@ -7,21 +7,26 @@ import {
   SubmitButton,
 } from '@app/components';
 import {COLORS, IMAGES} from '@app/resources';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
 import {Image} from 'react-native';
-import ImageContainer from './imageContainer';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {HelperText} from 'react-native-paper';
+import {
+  getGeneralProfile,
+  updateGeneralProfile,
+} from '@app/store/GeneralProfile/GeneralProfile.action';
+import {connect} from 'react-redux';
+import {showAlert} from '@app/helper/commonFunction';
+import ImageContainer from './imageContainer';
 
 // validation Schema
 
@@ -32,18 +37,29 @@ const validationSchema = Yup.object({
   name: Yup.string()
     .required('Name is required.')
     .max(30, 'Name cannot exceed more than 30 characters.'),
-  phone: Yup.string()
+  mobile: Yup.string()
     .required('Phone Number is required.')
     .matches(/^[0-9]{8,14}$/, 'Enter valid phone number.'),
 });
 
 const GeneralProfileEdit = props => {
+  const {
+    navigation,
+    route,
+    getGeneralProfile,
+    updateGeneralProfile,
+    generalProfileReducer,
+  } = props;
+  const item = generalProfileReducer?.getGeneralProfile;
+
+  console.log('GENERAL_PROFILE===>', props);
+  console.log('SDVSGEDGSRES ITME', item);
   initialValues = {
-    name: '',
-    email: '',
-    mobile: '',
-    bio: '',
-    path: '',
+    name: item?.name,
+    email: item?.email,
+    mobile: item?.mobile,
+    bio: item?.bio,
+    path: item?.image,
     serverError: '',
   };
   const {
@@ -61,14 +77,57 @@ const GeneralProfileEdit = props => {
     validationSchema: validationSchema,
     onSubmit: async (val, {setErrors}) => {
       console.log('Onsubmit Button VALUE IS ', val);
-      // try{
-      //   Keyboard.dismiss();
-      //   const formData = new FormData();
-      //   if(values)
-
-      // }
+      try {
+        Keyboard.dismiss();
+        if (!values.path) {
+          showAlert({
+            title: 'Please upload profile Picture.',
+          });
+          return;
+        } else {
+          const formData = new FormData();
+          if (values?.image) {
+            const d = values.image?.path?.split('/');
+            const name = d[d.length - 1];
+            formData.append('image', {
+              name: name ?? 'Image ' + 'index' + '.jpg',
+              type: values.image?.mime,
+              uri:
+                Platform === 'ios'
+                  ? values.image?.path.replace('file://', '')
+                  : values.image?.path,
+            });
+          }
+          formData.append('name', values.name);
+          formData.append('email', values.email);
+          formData.append('mobile', values.mobile);
+          formData.append('bio', val.bio);
+          updateGeneralProfile(formData).then(res => {
+            if (res?.type.includes('fulfilled')) {
+              showAlert({
+                title: 'Success',
+                message: 'Update Successfully',
+              });
+            }
+            if (res?.type.includes('rejected')) {
+              showAlert({
+                title: 'Error',
+                message: res?.payload?.message ?? 'Internal server error!',
+              });
+            }
+          });
+        }
+      } catch (err) {
+        console.log('Erroe', err);
+        setErrors({serverError: err.message});
+      }
     },
   });
+
+  useEffect(() => {
+    getGeneralProfile();
+  }, []);
+
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
@@ -90,8 +149,10 @@ const GeneralProfileEdit = props => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Image source={IMAGES.Ellipse7} />
-              {/* <ImageContainer value={rIMAGES.Ellipse7}></ImageContainer> */}
+              <ImageContainer
+                handleChange={setFieldValue}
+                value={values.path}
+              />
             </View>
             <View style={{}}>
               <Text style={style.text}>Name</Text>
@@ -100,7 +161,7 @@ const GeneralProfileEdit = props => {
                 placeholder="Enter your Name"
                 keyboardType="email-address"
                 returnKeyType="next"
-                onChangeText={value => setFieldValue('name', value)}
+                onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
                 error={errors?.name && touched?.name}
@@ -123,12 +184,12 @@ const GeneralProfileEdit = props => {
                 placeholder="+65 6549796565"
                 keyboardType="phone-pad"
                 returnKeyType="next"
-                onChangeText={handleChange('phone')}
-                onBlur={handleBlur('phone')}
-                value={values.phone}
+                onChangeText={handleChange('mobile')}
+                onBlur={handleBlur('mobile')}
+                value={values.mobile}
                 //maxLength={12}
-                error={errors?.phone && touched?.phone}
-                errorText={errors?.phone}
+                error={errors?.mobile && touched?.mobile}
+                errorText={errors?.mobile}
                 style={{
                   backgroundColor: '#fff',
                   paddingHorizontal: 0,
@@ -137,8 +198,6 @@ const GeneralProfileEdit = props => {
               {/* <HelperText type="error" visible={errors.phone && touched?.phone}>
                 {errors.phone}
               </HelperText> */}
-
-              <Text style={style.text}>About</Text>
               <CustomInput
                 label="About (Max 500 words)"
                 placeholder="Enter about"
@@ -148,7 +207,7 @@ const GeneralProfileEdit = props => {
                 onBlur={handleBlur('bio')}
                 value={values.bio}
                 error={errors?.bio && touched?.bio}
-                errorText={errors?.about}
+                errorText={errors?.bio}
                 multiline={true}
                 maxLength={500}
               />
@@ -191,4 +250,14 @@ const style = StyleSheet.create({
   },
 });
 
-export default GeneralProfileEdit;
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+    generalProfileReducer: state.generalProfileReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getGeneralProfile: params => dispatch(getGeneralProfile()),
+  updateGeneralProfile: params => dispatch(updateGeneralProfile(params)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(GeneralProfileEdit);

@@ -55,10 +55,15 @@ const ProfileSection = props => {
               <Pressable
                 style={styles.button}
                 onPress={() => {
-                  navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
-                    userId: userId,
-                    isSelf: isSelf,
-                  });
+                  isSeller
+                    ? navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
+                        userId: userId,
+                        isSelf: isSelf,
+                      })
+                    : navigation?.navigate(RoutesName.GENERAL_PROFILE_EDIT, {
+                        userId: userId,
+                        isSelf: isSelf,
+                      });
                 }}>
                 <CustomIcon
                   origin={ICON_TYPE.OCTICONS}

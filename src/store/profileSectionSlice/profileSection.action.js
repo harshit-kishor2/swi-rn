@@ -36,6 +36,7 @@ export const profileAboutAction = createAsyncThunk(
         method: 'GET',
         params: params, //userId
       });
+      console.log('TTTTTTTTTTTTTTTTT', result);
       return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(
