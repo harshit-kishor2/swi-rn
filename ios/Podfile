@@ -1,9 +1,5 @@
-# use_modular_headers!
-use_frameworks! :linkage => :static
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-# pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec', :modular_headers => false
-# pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec', :modular_headers => false
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
 pod 'Firebase', :modular_headers => true
@@ -11,7 +7,6 @@ pod 'FirebaseCoreInternal', :modular_headers => true
 pod 'GoogleUtilities', :modular_headers => true
 pod 'FirebaseCore', :modular_headers => true
 pod 'GoogleSignIn',:modular_headers => true
-
 
 permissions_path = '../node_modules/react-native-permissions/ios'
 pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
@@ -35,7 +30,6 @@ if linkage != nil
 end
 
 target 'SWI' do
-
   config = use_native_modules!
 
   # Flags change depending on the env values.
@@ -52,7 +46,7 @@ target 'SWI' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    # :flipper_configuration => flipper_config,
+    :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )

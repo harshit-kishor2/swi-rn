@@ -22,14 +22,15 @@
 		335C88E5AFBB4A13813C0AB9 /* Cabin-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6006CA0CD26B437695566356 /* Cabin-Medium.ttf */; };
 		33CAA884D07B4ED7A0F6DDAE /* Cabin-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78E8950C075544D3AFC6DE56 /* Cabin-Italic.ttf */; };
 		43C63FC02A52C24100414451 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43C63FBF2A52C24100414451 /* GoogleService-Info.plist */; };
-		537DF48B3CE9ABA30676F395 /* Pods_SWI_SWITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F4AC14DEFF35DBF58A4C3B7 /* Pods_SWI_SWITests.framework */; };
 		6143A6B5AF7447B28548AEC0 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1225584DFC04FD0BFBB3576 /* OpenSans-SemiBoldItalic.ttf */; };
 		64ECCA9632E14EC9B09A3A6B /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11BB598EEDC44C8A57D4487 /* OpenSans-Medium.ttf */; };
 		69E20144D47B4BAE9BAC14D3 /* Cabin-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F31DFB24D9F44879B3620A5F /* Cabin-MediumItalic.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8593F9011EB144AB9D40A470 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2886AE62F9544612A5B8495E /* OpenSans-Bold.ttf */; };
+		8BDC009C8E086F47B9EE7735 /* libPods-SWI-SWITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32C53188BA140AC2A9419599 /* libPods-SWI-SWITests.a */; };
 		90FDA706954A43F1A4007A15 /* OpenSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6C9943E3CC9641ABBE408304 /* OpenSans-MediumItalic.ttf */; };
 		AAF17311F1D9417D96F92E7B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DF72BD2F5C44AD697F2E819 /* OpenSans-Light.ttf */; };
+		B0B3CB6F813B50592C453474 /* libPods-SWI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE17B5D28A1A8B33C98FD48E /* libPods-SWI.a */; };
 		B1B4D8052A665AD800BCD61E /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D7F52A665AD700BCD61E /* Fontisto.ttf */; };
 		B1B4D8062A665AD800BCD61E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D7F62A665AD700BCD61E /* Octicons.ttf */; };
 		B1B4D8072A665AD800BCD61E /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D7F72A665AD700BCD61E /* Feather.ttf */; };
@@ -46,7 +47,6 @@
 		B1B4D8122A665AD800BCD61E /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D8022A665AD700BCD61E /* EvilIcons.ttf */; };
 		B1B4D8132A665AD800BCD61E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D8032A665AD700BCD61E /* SimpleLineIcons.ttf */; };
 		B1B4D8142A665AD800BCD61E /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B1B4D8042A665AD700BCD61E /* MaterialIcons.ttf */; };
-		C8245610887558C5199E5C28 /* Pods_SWI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 337B8FCAD32BB7D6E7F487AC /* Pods_SWI.framework */; };
 		D680FA50ED7B45CDAF7C44BC /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E5AC323768F4957A8D28383 /* OpenSans-Italic.ttf */; };
 		DB025B2DE65744CB9D555874 /* Cabin-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 349E20EC0E3F44C69D28790C /* Cabin-Regular.ttf */; };
 		F3437ECB8E3043F58AB0DA30 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEBC97B2DB124E428A48C041 /* OpenSans-SemiBold.ttf */; };
@@ -77,14 +77,13 @@
 		18162DEF2A4BFCC800776248 /* SWI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SWI.entitlements; path = SWI/SWI.entitlements; sourceTree = "<group>"; };
 		23355249BF67448380B08CAD /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		2886AE62F9544612A5B8495E /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		337B8FCAD32BB7D6E7F487AC /* Pods_SWI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		32C53188BA140AC2A9419599 /* libPods-SWI-SWITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SWI-SWITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		349E20EC0E3F44C69D28790C /* Cabin-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-Regular.ttf"; path = "../src/assets/fonts/Cabin-Regular.ttf"; sourceTree = "<group>"; };
 		433E5ABF1E965DC561A590A1 /* Pods-SWI-SWITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI-SWITests.release.xcconfig"; path = "Target Support Files/Pods-SWI-SWITests/Pods-SWI-SWITests.release.xcconfig"; sourceTree = "<group>"; };
 		43C63FBF2A52C24100414451 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4FE151AB94EB476EBA95D087 /* Cabin-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-SemiBold.ttf"; path = "../src/assets/fonts/Cabin-SemiBold.ttf"; sourceTree = "<group>"; };
 		6006CA0CD26B437695566356 /* Cabin-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-Medium.ttf"; path = "../src/assets/fonts/Cabin-Medium.ttf"; sourceTree = "<group>"; };
 		6C9943E3CC9641ABBE408304 /* OpenSans-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-MediumItalic.ttf"; path = "../src/assets/fonts/OpenSans-MediumItalic.ttf"; sourceTree = "<group>"; };
-		6F4AC14DEFF35DBF58A4C3B7 /* Pods_SWI_SWITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWI_SWITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75DCC63536AB8CE2AA33FCB8 /* Pods-SWI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI.release.xcconfig"; path = "Target Support Files/Pods-SWI/Pods-SWI.release.xcconfig"; sourceTree = "<group>"; };
 		78E8950C075544D3AFC6DE56 /* Cabin-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-Italic.ttf"; path = "../src/assets/fonts/Cabin-Italic.ttf"; sourceTree = "<group>"; };
 		7F03924D34A29E8FC09F44BC /* Pods-SWI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWI.debug.xcconfig"; path = "Target Support Files/Pods-SWI/Pods-SWI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +111,7 @@
 		B1B4D8032A665AD700BCD61E /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		B1B4D8042A665AD700BCD61E /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		BEBC97B2DB124E428A48C041 /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBold.ttf"; path = "../src/assets/fonts/OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
+		DE17B5D28A1A8B33C98FD48E /* libPods-SWI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SWI.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBE4E9FA55344C00BA01AD21 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F09EB7F2B1AB4EE18FD82906 /* Cabin-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Cabin-Bold.ttf"; path = "../src/assets/fonts/Cabin-Bold.ttf"; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				537DF48B3CE9ABA30676F395 /* Pods_SWI_SWITests.framework in Frameworks */,
+				8BDC009C8E086F47B9EE7735 /* libPods-SWI-SWITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8245610887558C5199E5C28 /* Pods_SWI.framework in Frameworks */,
+				B0B3CB6F813B50592C453474 /* libPods-SWI.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,8 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				337B8FCAD32BB7D6E7F487AC /* Pods_SWI.framework */,
-				6F4AC14DEFF35DBF58A4C3B7 /* Pods_SWI_SWITests.framework */,
+				DE17B5D28A1A8B33C98FD48E /* libPods-SWI.a */,
+				32C53188BA140AC2A9419599 /* libPods-SWI-SWITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -313,7 +313,6 @@
 				537B368BF93913DC8C4AE955 /* [CP] Embed Pods Frameworks */,
 				117974A3938212FFFA86B376 /* [CP] Copy Pods Resources */,
 				7FDDDE36498D45B9D4199DF2 /* [CP-User] [RNFB] Core Configuration */,
-				4B0E8A9D17A68AC3C7FD8952 /* [CP-User] [RNFB] Crashlytics Configuration */,
 			);
 			buildRules = (
 			);
@@ -471,20 +470,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		4B0E8A9D17A68AC3C7FD8952 /* [CP-User] [RNFB] Crashlytics Configuration */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
-			);
-			name = "[CP-User] [RNFB] Crashlytics Configuration";
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/usr/bin/env bash\n#\n# Copyright (c) 2016-present Invertase Limited & Contributors\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this library except in compliance with the License.\n# You may obtain a copy of the License at\n#\n#   http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n#\nset -e\n\nif [[ ${PODS_ROOT} ]]; then\n  echo \"info: Exec FirebaseCrashlytics Run from Pods\"\n  \"${PODS_ROOT}/FirebaseCrashlytics/run\"\nelse\n  echo \"info: Exec FirebaseCrashlytics Run from framework\"\n  \"${PROJECT_DIR}/FirebaseCrashlytics.framework/run\"\nfi\n";
 		};
 		537B368BF93913DC8C4AE955 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
