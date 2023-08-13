@@ -60,6 +60,7 @@ export const RoutesName = {
   CHAT_LIST_SCREEN: 'Chat List Screen',
   PRODUCT_HISTORY: 'Product History',
   RATE_USER: 'Rate User',
+  GENERAL_PROFILE_EDIT: 'GeneralProfileEdit',
 };
 
 export const Messages = {

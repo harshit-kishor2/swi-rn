@@ -1,3 +1,5 @@
+import {act} from 'react-test-renderer';
+
 const {createEntityAdapter, createSlice} = require('@reduxjs/toolkit');
 const {
   updateSellerProfile,
@@ -40,6 +42,7 @@ const reduxSlice = createSlice({
       })
       .addCase(getSellerProfile.rejected, (state, action) => {
         state.getSellerProfileLoadingStatus = LoadingStatus.FAILED;
+        state.getSellerProfileError = action.payload;
       })
 
       .addCase(updateSellerProfile.pending, state => {
@@ -51,6 +54,7 @@ const reduxSlice = createSlice({
       })
       .addCase(updateSellerProfile.rejected, (state, action) => {
         state.updateSellerProfileLoadingStatus = LoadingStatus.FAILED;
+        state.updateSellerProfileError = action.payload;
       });
   },
 });

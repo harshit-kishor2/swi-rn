@@ -164,18 +164,35 @@ const BuyCoins = props => {
                   if (
                     result?.payload?.message === 'Coins purchased successfully.'
                   ) {
-                    if (props?.route?.params) {
-                      setTimeout(() => {
-                        boostProduct(props?.route?.params).then(() => {
-                          props?.navigation?.navigate(
-                            RoutesName.BOOST_PRODUCT_SUCCESS,
-                          );
-                        });
-                      }, 100);
+                    if (props?.route?.params?.from === 'coin history') {
+                      props?.navigation?.navigate(
+                        RoutesName.BOOST_PRODUCT_SUCCESS,
+                        {
+                          from: props?.route?.params?.from,
+                        },
+                      );
                     } else {
-                      props?.navigation?.goBack();
+                      if (props?.route?.params?.pid) {
+                        boostProduct(props?.route?.params).then(res => {
+                          //console.log(res, 'first');
+                          if (
+                            res?.payload?.message ===
+                            'Your product has been successfully boosted.'
+                          ) {
+                            props?.navigation?.navigate(
+                              RoutesName.BOOST_PRODUCT_SUCCESS,
+                            );
+                          }
+                          //
+                        });
+                      }
                     }
                   }
+                });
+              } else {
+                showAlert({
+                  title: 'Alert',
+                  message: 'Please select a plan.',
                 });
               }
             }}

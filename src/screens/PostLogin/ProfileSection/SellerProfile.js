@@ -114,7 +114,7 @@ const SellerProfile = props => {
           columnWrapperStyle={{
             flex: 1,
             justifyContent: 'flex-start',
-            paddingHorizontal: 10,
+            // paddingHorizontal: 10,
             paddingBottom: 10,
           }}
           onEndReachedThreshold={0.3}

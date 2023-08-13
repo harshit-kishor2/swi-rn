@@ -131,7 +131,9 @@ const CoinHistory = props => {
           lable="Purchase Coins"
           onPress={() => {
             console.log('fghjk');
-            props?.navigation?.navigate(RoutesName.PAY_NOW);
+            props?.navigation?.navigate(RoutesName.PAY_NOW, {
+              from: 'coin history',
+            });
           }}
         />
       </View>

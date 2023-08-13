@@ -36,7 +36,7 @@ const EditSellerProfile = props => {
   const {
     navigation,
     route,
-    authReducer,
+    // authReducer,
     updateSellerProfileReducer,
     getUpdateProfile,
     updateSellerProfile,
@@ -360,7 +360,7 @@ const EditSellerProfile = props => {
               </View>
 
               <View style={{alignSelf: 'flex-end'}}>
-                <TouchableOpacity onPress={addInput}>
+                <TouchableOpacity>
                   <Text
                     style={{
                       fontFamily: 'OpenSans-SemiBold',

@@ -2,6 +2,7 @@ import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 
 import {LoadingStatus} from '@app/helper/strings';
 import {
+  addPriceAlert,
   addWishListAction,
   freshFindsAction,
   freshFindsSearchingAction,
@@ -13,6 +14,7 @@ import {
   getTopNotchWatchSearchingAction,
   getTrendyWatchAction,
   productInsights,
+  removePriceAlert,
 } from './exploreProduct.action';
 
 // =============================== Redux : Test Slice ==================================
@@ -68,6 +70,14 @@ const initialState = entityAdapter.getInitialState({
   productInsightsInfoLoadingStatus: LoadingStatus.NOT_LOADED,
   productInsightsInfo: [],
   productInsightsInfoError: null,
+
+  priceAlertLoadingStatus: LoadingStatus.NOT_LOADED,
+  priceAlert: {},
+  priceAlertError: null,
+
+  removePriceAlertLoadingStatus: LoadingStatus.NOT_LOADED,
+  removePriceAlert: {},
+  removePriceAlertError: null,
 });
 
 /**
@@ -233,6 +243,28 @@ const reduxSlice = createSlice({
       .addCase(productInsights.rejected, (state, action) => {
         state.productInsightsInfoLoadingStatus = LoadingStatus.FAILED;
         state.productInsightsInfoError = action.payload;
+      })
+      .addCase(addPriceAlert.pending, state => {
+        state.priceAlertLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addPriceAlert.fulfilled, (state, action) => {
+        (state.priceAlertLoadingStatus = LoadingStatus.LOADED),
+          (state.priceAlert = action.payload.data);
+      })
+      .addCase(addPriceAlert.rejected, (state, action) => {
+        state.priceAlertLoadingStatus = LoadingStatus.FAILED;
+        state.priceAlertError = action.payload;
+      })
+      .addCase(removePriceAlert.pending, state => {
+        state.removePriceAlertLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(removePriceAlert.fulfilled, (state, action) => {
+        (state.removePriceAlertLoadingStatus = LoadingStatus.LOADED),
+          (state.removePriceAlert = action.payload.data);
+      })
+      .addCase(removePriceAlert.rejected, (state, action) => {
+        state.removePriceAlertLoadingStatus = LoadingStatus.FAILED;
+        state.removePriceAlertError = action.payload;
       });
   },
 });
