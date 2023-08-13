@@ -40,8 +40,12 @@ import {exploreProductDetail, productChart} from '@app/store/explore.slice';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import Chartdemo from './chartdemo';
 import styles from './styles';
-import {RoutesName} from '@app/helper/strings';
-import {onAddToProductCompare} from '@app/store/exploreProductSlice';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import {
+  addPriceAlert,
+  onAddToProductCompare,
+  removePriceAlert,
+} from '@app/store/exploreProductSlice';
 import Video from 'react-native-video';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import ProductCard from '@app/screens/atoms/ProductCard';
@@ -65,6 +69,9 @@ const ProductDetails = props => {
     addToCompareReducer,
     authReducer,
     onChangeProductStatus,
+    addPriceAlert,
+    exploreProduct,
+    removePriceAlert,
   } = props;
   const [isChartDropDown, setIsChartDropDown] = useState(false);
   const [selectFilteredValue, setSelectFilteredValue] = useState({
@@ -85,8 +92,12 @@ const ProductDetails = props => {
   const navigation = useNavigation();
   const buoRef = useRef();
 
-  const {productDetailLoading, productDetailData, productDetailError} =
-    useSelector(state => state?.exploreReducer);
+  const {
+    productDetailLoading,
+    productDetailData,
+    productDetailError,
+    removePriceAlertLoadingStatus,
+  } = useSelector(state => state?.exploreReducer);
   console.log(productDetailData?.data?.id, 'ProductDetail loading');
 
   const isSelf =
@@ -220,7 +231,7 @@ const ProductDetails = props => {
               )}
             </View>
           </View>
-          <ProductImageDetail
+          {/* <ProductImageDetail
             data={productDetailData?.data}
             onVideoClick={e => {
               console.log('e==', e);
@@ -230,7 +241,7 @@ const ProductDetails = props => {
               });
               videoRef.current?.presentFullscreenPlayer();
             }}
-          />
+          /> */}
           {/* MOdel, Brand, Price, condition */}
 
           <View
@@ -759,15 +770,20 @@ const ProductDetails = props => {
               <View
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-evenly',
+                  //justifyContent: 'space-evenly',
                   marginTop: 20,
                   marginBottom: 20,
                   //backgroundColor: 'green',
+                  width: '90%',
+                  alignSelf: 'center',
                 }}>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-around',
+                    // backgroundColor: 'red',
+                    width: '50.3%',
+                    alignItems: 'center',
                   }}>
                   {console.log(
                     'Test===',
@@ -819,7 +835,7 @@ const ProductDetails = props => {
                             }
                           }
                         }}>
-                        <Text style={{marginLeft: 10}}>Add to compare</Text>
+                        <Text style={{marginLeft: 0}}>Add to compare</Text>
                       </TouchableOpacity>
                     </>
                   ) : (
@@ -836,19 +852,104 @@ const ProductDetails = props => {
                     flexShrink: 1,
                   }}
                 />
-                <View>
-                  <TouchableOpacity
-                    onPress={() => {
-                      // Alert.alert('Price Alert');
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'Cabin-SemiBold',
-                        color: COLORS.HYPERLINK,
-                      }}>
-                      Price Alert
-                    </Text>
-                  </TouchableOpacity>
+                <View
+                  style={{
+                    width: '48%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  {productDetailData?.data?.alert === true ? (
+                    <>
+                      {exploreProduct?.removePriceAlertLoadingStatus ===
+                      LoadingStatus.LOADING ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (productDetailData?.data?.id) {
+                              removePriceAlert(
+                                productDetailData?.data?.id,
+                              ).then(res => {
+                                if (
+                                  res?.payload?.message ===
+                                  'Price Alert for Product removed'
+                                ) {
+                                  showAlert({
+                                    title: 'Success',
+                                    message: res?.payload?.message,
+                                  });
+                                  if (props.route?.params?.product_id) {
+                                    dispatch(
+                                      exploreProductDetail({
+                                        product_id:
+                                          props.route.params.product_id,
+                                      }),
+                                    );
+                                  }
+                                } else {
+                                  showAlert({
+                                    title: 'Error',
+                                    message: 'Somthing went wrong',
+                                  });
+                                }
+                              });
+                            }
+                          }}
+                          style={{justifyContent: 'center'}}>
+                          <Text style={{color: 'red'}}>
+                            Product already {'\n'} added for alert.
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </>
+                  ) : (
+                    <View>
+                      {exploreProduct?.priceAlertLoadingStatus ===
+                      LoadingStatus.LOADING ? (
+                        <ActivityIndicator />
+                      ) : (
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (productDetailData?.data?.id) {
+                              addPriceAlert(productDetailData?.data?.id).then(
+                                res => {
+                                  if (
+                                    res?.payload?.message ===
+                                    'Price Alert for Product created'
+                                  ) {
+                                    showAlert({
+                                      title: 'Success',
+                                      message: res?.payload?.message,
+                                    });
+                                    if (props.route?.params?.product_id) {
+                                      dispatch(
+                                        exploreProductDetail({
+                                          product_id:
+                                            props.route.params.product_id,
+                                        }),
+                                      );
+                                    }
+                                  } else {
+                                    showAlert({
+                                      title: 'Error',
+                                      message: 'Somthing went wrong!',
+                                    });
+                                  }
+                                },
+                              );
+                            }
+                          }}>
+                          <Text
+                            style={{
+                              fontFamily: 'Cabin-SemiBold',
+                              color: COLORS.HYPERLINK,
+                            }}>
+                            Price Alert
+                          </Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  )}
                 </View>
               </View>
             </View>
@@ -962,12 +1063,15 @@ const mapStateToProps = state => {
   return {
     authReducer: state?.authReducer,
     addToCompareReducer: state?.addToCompareReducer,
+    exploreProduct: state?.exploreProductReducer,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
   onAddToProductCompare: params => dispatch(onAddToProductCompare(params)),
   onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
+  addPriceAlert: params => dispatch(addPriceAlert(params)),
+  removePriceAlert: params => dispatch(removePriceAlert(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
