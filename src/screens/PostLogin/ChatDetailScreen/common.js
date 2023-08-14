@@ -1,10 +1,11 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
-import {CustomIcon, CustomText, Spacer} from '@app/components';
+import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import moment from 'moment';
 import Video from 'react-native-video';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {FontsConst} from '@app/assets/assets';
 
 export function EmptyList() {
   return (
@@ -22,7 +23,13 @@ export function FooterList() {
 }
 
 export function RenderItem(props) {
-  const {currentMessage, position, setFullImageVisible} = props;
+  const {
+    currentMessage,
+    position,
+    setFullImageVisible,
+    isSeller,
+    onAcceptReject,
+  } = props;
   const isSelf = position === 'right' ?? false;
   return (
     <View style={{width: '80%', margin: 10}}>
@@ -107,6 +114,40 @@ export function RenderItem(props) {
             </View>
             <CustomText>{'Tap to see pdf'}</CustomText>
           </Pressable>
+        ) : currentMessage?.quickReplies !== null ? (
+          <View>
+            <CustomText
+              style={{
+                fontFamily: FontsConst.Cabin_Bold,
+                alignSelf: 'center',
+              }}>
+              {' '}
+              Make an offer
+            </CustomText>
+            <CustomText
+              style={{
+                fontFamily: FontsConst.Cabin_Bold,
+                fontSize: 20,
+                alignSelf: 'center',
+              }}>
+              {currentMessage?.text}
+            </CustomText>
+            {isSeller && !isSelf ? (
+              <View style={{flexDirection: 'row'}}>
+                <SubmitButton
+                  disabled={!isSeller}
+                  lable="Accept"
+                  onPress={() => onAcceptReject('accepted')}
+                />
+                <SubmitButton
+                  disabled={!isSeller}
+                  type="outlined"
+                  lable="Reject"
+                  onPress={() => onAcceptReject('rejected')}
+                />
+              </View>
+            ) : null}
+          </View>
         ) : (
           <CustomText>{currentMessage?.text}</CustomText>
         )}
