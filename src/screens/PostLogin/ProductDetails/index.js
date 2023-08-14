@@ -142,51 +142,51 @@ const ProductDetails = props => {
 
   // uncomment code to enable share option with deep linking
   const onShareClick = async () => {
-    // let linkProperties = {
-    // feature: 'share',
-    // channel: 'RNApp',
-    // campaign: `Product ID - ${props.route.params.product_id}`,
-    // };
-    // let shareOptions = {
-    // messageHeader: 'Check this out',
-    // messageBody: 'No really, check this out!',
-    // };
-    // let controlParams = {
-    // $desktop_url: 'https://www.google.com',
-    // };
-    // let eventParams = {
-    // ptest: 'hello',
-    // };
-    // buoRef.current = await branch.createBranchUniversalObject(
-    // `product/${props.route.params.product_id}`,
-    // {
-    // title: 'Product Title',
-    // contentDescription: 'Product Description',
-    // canonicalUrl: '',
-    // contentMetadata: {
-    // customMetadata: {
-    // productID: `${props.route.params.product_id}`,
-    // },
-    // },
-    // },
-    // );
-    // let event = new BranchEvent(
-    // BranchEvent.ViewItem,
-    // [buoRef.current],
-    // eventParams,
-    // );
-    // event.logEvent();
-    // let {url} = await buoRef.current?.generateShortUrl(
-    // linkProperties,
-    // controlParams,
-    // );
-    // console.log('url', url);
-    // let {channel, completed, error} = await buoRef.current?.showShareSheet(
-    // shareOptions,
-    // linkProperties,
-    // controlParams,
-    // );
-    // console.log('test', {channel, completed, error});
+    let linkProperties = {
+      feature: 'share',
+      channel: 'RNApp',
+      campaign: `Product ID - ${props.route.params.product_id}`,
+    };
+    let shareOptions = {
+      messageHeader: 'Check this out',
+      messageBody: 'No really, check this out!',
+    };
+    let controlParams = {
+      $desktop_url: 'https://www.google.com',
+    };
+    let eventParams = {
+      ptest: 'hello',
+    };
+    buoRef.current = await branch.createBranchUniversalObject(
+      `product/${props.route.params.product_id}`,
+      {
+        title: 'Product Title',
+        contentDescription: 'Product Description',
+        canonicalUrl: '',
+        contentMetadata: {
+          customMetadata: {
+            productID: `${props.route.params.product_id}`,
+          },
+        },
+      },
+    );
+    let event = new BranchEvent(
+      BranchEvent.ViewItem,
+      [buoRef.current],
+      eventParams,
+    );
+    event.logEvent();
+    let {url} = await buoRef.current?.generateShortUrl(
+      linkProperties,
+      controlParams,
+    );
+    console.log('url', url);
+    let {channel, completed, error} = await buoRef.current?.showShareSheet(
+      shareOptions,
+      linkProperties,
+      controlParams,
+    );
+    console.log('test', {channel, completed, error});
   };
 
   return (
