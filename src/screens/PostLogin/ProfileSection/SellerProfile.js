@@ -149,7 +149,7 @@ const SellerProfile = props => {
                 width: '80%',
               }}>
               <SubmitButton
-                lable={userDetail.isFollowed ? 'Unfollow' : '+ Follow'}
+                lable={userDetail?.isFollowed ? 'Unfollow' : '+ Follow'}
                 onPress={onClickFollow}
               />
             </View>
