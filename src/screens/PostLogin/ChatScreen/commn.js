@@ -76,7 +76,7 @@ export function RenderItem({item, index}) {
         <Avatar.Image
           style={{marginHorizontal: 5}}
           source={{
-            uri: item?.image,
+            uri: item?.user_image,
           }}
           size={35}
         />
