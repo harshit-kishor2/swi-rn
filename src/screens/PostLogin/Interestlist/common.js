@@ -26,9 +26,9 @@ export function RenderItem({ item, index }) {
   const profilePic = item?.user?.image;
   const price = item?.price;
   const watch_title = item?.title;
-  const watch_condition = item?.watch_condition;
-  console.log(item, "Item==================");
-  console.log(profilePic, '---------------')
+  const watch_condition = item?.lists_condition;
+  // console.log(item, "Item==================");
+  // console.log(profilePic, '---------------')
   return (
     <Pressable onPress={onRowClick} style={styles.product}>
       <View
@@ -43,7 +43,7 @@ export function RenderItem({ item, index }) {
         </CustomText>
       </View>
       <CustomText style={styles.branddescriptiontext}>
-        {watch_title}
+        {item.p_id == null ? item?.brand?.name + " " + item?.brandmodel?.name : watch_title}
       </CustomText>
       <View
         style={{
@@ -53,7 +53,7 @@ export function RenderItem({ item, index }) {
           width: '100%',
         }}>
         <View style={styles.price_row}>
-          <CustomText style={styles.price}>${price}</CustomText>
+          <CustomText style={styles.price}>${item.p_id == null ? 0 : price}</CustomText>
           <View style={styles.circle} />
           <CustomText style={styles.condition}>{watch_condition}</CustomText>
         </View>

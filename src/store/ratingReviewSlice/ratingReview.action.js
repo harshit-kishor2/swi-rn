@@ -122,3 +122,25 @@ export const singleUserRatingDetailsAction = createAsyncThunk(
         }
     }
 )
+
+export const aboutListingAction = createAsyncThunk(
+    'ratingReview/aboutListingAction',
+    async (params, thunkAPI) => {
+
+        try {
+            console.log(params.key, "at action====>>>>")
+            const result = await axiosRequest({
+                url: `/get-static-content?key=${params.key}`,
+                method: 'GET',
+                // params: params,
+            })
+            console.log(result, 'asdfghjklkjhgfdsdfghjklkjhgfdfghjk')
+            return result
+        } catch (error) {
+            console.log(error, '=========>>>>>')
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response?.data : error.data
+            )
+        }
+    }
+)

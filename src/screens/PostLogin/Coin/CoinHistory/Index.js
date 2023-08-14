@@ -8,7 +8,7 @@ import {
   Alert,
   FlatList,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   BackHeader,
   Container,
@@ -19,20 +19,20 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {IMAGES} from '@app/resources';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { IMAGES } from '@app/resources';
 import styles from './styles';
-import {CoinHistoryAction} from '@app/store/sellersProfileSclice';
-import {connect, useSelector} from 'react-redux';
-import {EmptyList} from '../../ChatScreen/commn';
+import { CoinHistoryAction } from '@app/store/sellersProfileSclice';
+import { connect, useSelector } from 'react-redux';
+import { EmptyList } from '../../ChatScreen/commn';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {Seprator} from '../../Interestlist/common';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
-import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import { Seprator } from '../../Interestlist/common';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 
 const CoinHistory = props => {
   const isFocus = useIsFocused();
-  const {getCoinHistory, sellersProfileReducer} = props;
+  const { getCoinHistory, sellersProfileReducer } = props;
   const Data = sellersProfileReducer?.CoinHistoryAction?.data?.history;
   const Coins = sellersProfileReducer?.CoinHistoryAction?.data?.total_coins;
 
@@ -42,7 +42,7 @@ const CoinHistory = props => {
       getCoinHistory();
     }
   }, [isFocus]);
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <View
         style={{
@@ -66,7 +66,7 @@ const CoinHistory = props => {
             }}>
             {item?.description}
           </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
             <Image source={IMAGES.coin} />
             <Text
               style={{
@@ -80,15 +80,15 @@ const CoinHistory = props => {
                 : item?.coins_value}
             </Text>
             {item?.type == 'credit' && (
-              <Image source={IMAGES.GreenTriangle} style={{marginTop: 5}} />
+              <Image source={IMAGES.GreenTriangle} style={{ marginTop: 5 }} />
             )}
             {item?.type == 'debit' && (
-              <Image source={IMAGES.RedTriangle} style={{marginTop: 5}} />
+              <Image source={IMAGES.RedTriangle} style={{ marginTop: 5 }} />
             )}
           </View>
         </View>
         <Text
-          style={{fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10}}>
+          style={{ fontFamily: 'OpenSans-Regular', fontSize: 12, marginTop: 10 }}>
           {item?.created_at_dis}
         </Text>
       </View>
@@ -99,13 +99,13 @@ const CoinHistory = props => {
       useSafeAreaView={true}
       loading={
         sellersProfileReducer.CoinHistoryActionLoadingStatus ==
-        LoadingStatus.LOADED
+        LoadingStatus.LOADING
       }>
       <Spacer height={20} />
       <BackHeader />
-      <View style={{flexDirection: 'row'}}>
-        <View style={{margin: 10, marginTop: 30}}>
-          <Image source={IMAGES.CoinHistory} style={{height: 72, width: 92}} />
+      <View style={{ flexDirection: 'row' }}>
+        <View style={{ margin: 10, marginTop: 30 }}>
+          <Image source={IMAGES.CoinHistory} style={{ height: 72, width: 92 }} />
         </View>
         <View>
           <CustomText
@@ -115,7 +115,7 @@ const CoinHistory = props => {
             }}>
             {coinValue}
           </CustomText>
-          <View style={{height: 100, width: 200}}>
+          <View style={{ height: 100, width: 200 }}>
             <CustomText style={styles.TextStyle1}>
               You have {<Image source={IMAGES.coin} />} {coinValue} coins with
               you now

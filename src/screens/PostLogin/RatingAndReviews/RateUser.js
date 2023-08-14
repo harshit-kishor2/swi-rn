@@ -45,6 +45,8 @@ const RateUser = (props) => {
 
   const [rating, setRating] = useState(0);
   const RatingValue = props?.ratingReviewReducer?.singleUserRatingDetailsAction?.data;
+  const descriptionValue = RatingValue?.description?.replace(/\n\s*\n/g, '\n');
+  console.log(descriptionValue, "======DescriptionValue")
   const [validation, setValidation] = useState(false);
   const handleRating = (rating) => {
     // Handle the selected rating here
@@ -52,8 +54,10 @@ const RateUser = (props) => {
     setValidation(false)
 
   };
+
+
   return (
-    <Container useSafeAreaView={true}>
+    <Container useSafeAreaView={true} loading={ratingReviewReducer.singleUserRatingDetailsAction == LoadingStatus.LOADING}>
       <ScrollView style={{ margin: 15 }} showsVerticalScrollIndicator={false}>
         <BackHeader />
 
@@ -167,7 +171,7 @@ const RateUser = (props) => {
               maxLength={500}
               multiline={true}
               numberOfLines={5}
-              value={RatingValue?.id ? RatingValue?.description : description}
+              value={RatingValue?.id ? descriptionValue : description}
               editable={RatingValue?.description ? false : true}
               placeholder="Enter description..."
               onChangeText={(val) => { setDescription(val) }}

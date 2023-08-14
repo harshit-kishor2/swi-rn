@@ -244,7 +244,7 @@ const MyProfileScreen = props => {
 
           <View style={styles.LineView} />
 
-          <TouchableOpacity activeOpacity={1} onPress={() => { }}>
+          <TouchableOpacity activeOpacity={1} onPress={() => { NavigationService.navigate(RoutesName.About_Page) }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.about} />

@@ -57,6 +57,7 @@ const sellerSlice = createSlice({
         state.CoinHistoryAction = action.payload;
       })
       .addCase(CoinHistoryAction.rejected, (state, action) => {
+        state.CoinHistoryActionLoadingStatus = LoadingStatus.FAILED;
         state.CoinHistoryActionError = action.payload;
       });
   },

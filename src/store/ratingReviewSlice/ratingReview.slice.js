@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { apiAction } from './actions';
 import { LoadingStatus } from '../../helper/strings';
-import { RateUserAction, purchaseProductListingAction, ratingReviewAction, ratingReviewAsBuyerAction, singleUserRatingDetailsAction } from './ratingReview.action';
+import { RateUserAction, purchaseProductListingAction, ratingReviewAction, ratingReviewAsBuyerAction, singleUserRatingDetailsAction, aboutListingAction } from './ratingReview.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -31,9 +31,11 @@ const initialState = entityAdapter.getInitialState({
     RateUserActionError: null,
 
 
-    singleUserRatingDetailsActionLoadingStatus: LoadingStatus.NOT_LOADED,
-    singleUserRatingDetailsAction: [],
-    singleUserRatingDetailsActionError: null,
+    aboutListingActionLoadingStatus: LoadingStatus.NOT_LOADED,
+    aboutListingAction: [],
+    aboutListingActionError: null,
+
+
 });
 
 /**
@@ -95,32 +97,41 @@ const reduxSlice = createSlice({
             //Add rating
             .addCase(RateUserAction.pending, state => {
                 state.RateUserActionLoadingStatus = LoadingStatus.LOADING;
-                console.log("loading")
             })
             .addCase(RateUserAction.fulfilled, (state, action) => {
                 state.RateUserActionLoadingStatus = LoadingStatus.LOADED;
-                console.log("loaded")
                 state.RateUserAction = action.payload;
             })
             .addCase(RateUserAction.rejected, (state, action) => {
                 state.RateUserAction = LoadingStatus.FAILED;
                 state.RateUserActionError = action.payload;
-                console.log("Error")
             })
             //Add Get rating
             .addCase(singleUserRatingDetailsAction.pending, state => {
                 state.singleUserRatingDetailsActionLoadingStatus = LoadingStatus.LOADING;
-                console.log("loading")
             })
             .addCase(singleUserRatingDetailsAction.fulfilled, (state, action) => {
                 state.singleUserRatingDetailsActionLoadingStatus = LoadingStatus.LOADED;
-                console.log("loaded")
                 state.singleUserRatingDetailsAction = action.payload;
             })
             .addCase(singleUserRatingDetailsAction.rejected, (state, action) => {
                 state.singleUserRatingDetailsAction = LoadingStatus.FAILED;
                 state.singleUserRatingDetailsActionError = action.payload;
-                console.log("Error")
+            })
+            //Get Static Content
+            .addCase(aboutListingAction.pending, state => {
+                state.aboutListingActionLoadingStatus = LoadingStatus.LOADING;
+                console.log("loading=============>>>>>>")
+            })
+            .addCase(aboutListingAction.fulfilled, (state, action) => {
+                state.aboutListingActionLoadingStatus = LoadingStatus.LOADED;
+                console.log("loaded==============>>>>>>")
+                state.aboutListingAction = action.payload;
+            })
+            .addCase(aboutListingAction.rejected, (state, action) => {
+                state.aboutListingActionLoadingStatus = LoadingStatus.FAILED;
+                state.aboutListingActionError = action.payload;
+                console.log("Error===============>>>>>>>")
             });
 
     },
