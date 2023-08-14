@@ -8,11 +8,13 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import {
   changeProductStatusAction,
+  onFollowClickAction,
   profileAboutAction,
   sellerProductListingAction,
 } from '@app/store/profileSectionSlice';
 import {addWishListAction} from '@app/store/exploreProductSlice';
 import {useIsFocused} from '@react-navigation/native';
+import {showAlert} from '@app/helper/commonFunction';
 
 const ProfileSection = props => {
   const {
@@ -22,6 +24,7 @@ const ProfileSection = props => {
     profileSectionReducer,
     getProfileAbout,
     getProfileListing,
+    followClickAction,
   } = props;
   const isFocused = useIsFocused();
 
@@ -38,6 +41,28 @@ const ProfileSection = props => {
       getProfileListing({userId: userId});
     }
   }, [isFocused]);
+
+  const onClickFollow = () => {
+    followClickAction({
+      user_id: userId,
+      followed_visited_by: authReducer?.userProfileDetails?.id,
+      type: 'follow',
+    }).then(res => {
+      if (res?.type.includes('fulfilled')) {
+        getProfileAbout({userId: userId});
+        showAlert({
+          title: 'Success',
+          message: res?.payload?.message,
+        });
+      }
+      if (res?.type.includes('rejected')) {
+        showAlert({
+          title: 'Error',
+          message: res?.payload?.message ?? 'Internal server error!',
+        });
+      }
+    });
+  };
 
   return (
     <Container
@@ -100,7 +125,11 @@ const ProfileSection = props => {
       />
       <Spacer />
       {isSeller ? (
-        <SellerProfile isSelf={isSelf} {...props} />
+        <SellerProfile
+          isSelf={isSelf}
+          onClickFollow={onClickFollow}
+          {...props}
+        />
       ) : (
         <NormalProfile isSelf={isSelf} {...props} />
       )}
@@ -121,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
   getProfileListing: params => dispatch(sellerProductListingAction(params)),
   onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
   onWishlistClick: params => dispatch(addWishListAction(params)),
+  followClickAction: params => dispatch(onFollowClickAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSection);
