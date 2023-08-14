@@ -114,7 +114,7 @@ const SellerProfile = props => {
           columnWrapperStyle={{
             flex: 1,
             justifyContent: 'flex-start',
-            paddingHorizontal: 10,
+            // paddingHorizontal: 10,
             paddingBottom: 10,
           }}
           onEndReachedThreshold={0.3}
@@ -167,32 +167,45 @@ const SellerProfile = props => {
             <View>
               {userDetail?.additional_info?.opening_hours?.map(
                 (item, index) => {
-                  return item.onOff === 'on' ? (
-                    <CustomText>
-                      {item?.day} - {item?.timing}
-                    </CustomText>
-                  ) : null;
+                  return (
+                    item.isEnable === 'true' && (
+                      <CustomText>
+                        {item?.lable} - {item?.text}
+                      </CustomText>
+                    )
+                  );
                 },
-              )}
+              ) ?? <CustomText>{'-'}</CustomText>}
             </View>
           }
         />
         <AboutRow title={'Contact'} value={`${userDetail?.mobile ?? '-'}`} />
         <AboutRow
           title={'Website'}
-          value={`${userDetail?.additional_info?.location ?? '-'}`}
+          value={`${userDetail?.additional_info?.website ?? '-'}`}
         />
         <AboutRow
           title={'Socials'}
-          value={`${userDetail?.additional_info?.location ?? '-'}`}
+          value={
+            <View>
+              {userDetail?.additional_info?.social_media?.map((item, index) => {
+                return item.value ? <CustomText>{item.value}</CustomText> : '-';
+              }) ?? <CustomText>{'-'}</CustomText>}
+            </View>
+          }
         />
         <AboutRow
           title={'Payment Mode'}
-          value={`${userDetail?.additional_info?.location ?? '-'}`}
+          value={`${
+            userDetail?.additional_info?.payment_method
+              ?.filter((item, index) => item.isEnable === 'true')
+              ?.map((item, index) => item.type)
+              ?.join(',') ?? '-'
+          }`}
         />
         <AboutRow
           title={'Joined since'}
-          value={`${userDetail?.additional_info?.location ?? '-'}`}
+          value={`${userDetail?.craeted_at ?? '-'}`}
         />
       </View>
     );

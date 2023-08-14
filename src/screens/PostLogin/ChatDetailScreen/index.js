@@ -1,23 +1,6 @@
-import {Container, CustomIcon, CustomText, Spacer} from '@app/components';
-import {useEffect, useRef, useState} from 'react';
-import {
-  FlatList,
-  Image,
-  Keyboard,
-  Platform,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
-import ActionContainer from './ActionContainer';
-import Header from './Header';
-import ImageModal from './ImageModal';
-import {AndroidCameraPermission} from '../../../../androidcamerapermission';
+import {Container} from '@app/components';
 import {showAlert} from '@app/helper/commonFunction';
-import {EmptyList, FooterList, RenderItem, RenderItem1} from './common';
-import MakeOfferModal from './MakeOfferModal';
-import InterestModal from './InterestModal';
-import {connect} from 'react-redux';
+import {LoadingStatus} from '@app/helper/strings';
 import {
   addDraftInInterestListAction,
   addIntersetListOnChat,
@@ -28,20 +11,28 @@ import {
   sendMessageAction,
   socketJoinAction,
 } from '@app/store/chatSlice';
-import {LoadingStatus} from '@app/helper/strings';
 import {getProductDetailsAction} from '@app/store/exploreProductSlice';
+import {useEffect, useRef, useState} from 'react';
+import {Platform, StyleSheet, View} from 'react-native';
+import {connect} from 'react-redux';
+import {AndroidCameraPermission} from '../../../../androidcamerapermission';
+import ActionContainer from './ActionContainer';
+import Header from './Header';
+import ImageModal from './ImageModal';
+import InterestModal from './InterestModal';
+import MakeOfferModal from './MakeOfferModal';
+import {RenderItem} from './common';
 
-import useSocket from '@app/hooks/useSocket';
 import socket from '@app/helper/socket';
-import {Modal} from 'react-native-paper';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {GiftedChat, InputToolbar} from 'react-native-gifted-chat';
-import {transformedMessages} from '../../../helper/commonFunction';
-import AddInterestModal from './AddInterestModal';
+import useSocket from '@app/hooks/useSocket';
 import {
   getAllBrandAction,
   getAllProductModelAction,
 } from '@app/store/productSlice';
+import {GiftedChat} from 'react-native-gifted-chat';
+import {transformedMessages} from '../../../helper/commonFunction';
+import FullScreenModal from '../../atoms/FullScreenModal';
+import AddInterestModal from './AddInterestModal';
 
 const ChatDetailScreen = props => {
   const {
@@ -67,6 +58,7 @@ const ChatDetailScreen = props => {
   const [fullImageVisible, setFullImageVisible] = useState({
     visible: false,
     uri: '',
+    type: '',
   });
 
   const {chat_item, isOffer} = route.params;
@@ -106,10 +98,16 @@ const ChatDetailScreen = props => {
     formData.append('type', type);
     formData.append('product_id', chat_item?.product_id);
 
-    if (type !== 'image') {
+    if (type === 'text' || type === 'make_offer') {
       formData.append('message', message);
-    }
-    if (type === 'image') {
+    } else if (type === 'pdf') {
+      formData.append(`media`, {
+        name: message?.name ?? 'PDF' + Date.now() + '.pdf',
+        type: message.type,
+        uri: message?.uri,
+      });
+      formData.append('message', 'PDF uploaded');
+    } else if (type === 'image' || type === 'video') {
       const d = message?.path?.split('/');
       const name = d[d.length - 1];
       formData.append(`media`, {
@@ -120,7 +118,7 @@ const ChatDetailScreen = props => {
             ? message.path.replace('file://', '')
             : message.path,
       });
-      formData.append('message', 'Uploaded Image');
+      formData.append('message', 'Image/Video uploaded');
     }
     sendChatMessage(formData);
   };
@@ -153,7 +151,6 @@ const ChatDetailScreen = props => {
         const findIndex = chatReducer?.chatHistory?.findIndex(
           (item, index) => item.id === chat_item.id,
         );
-        console.log('findIndex', findIndex);
 
         if (findIndex >= 0) {
           flatRef.current._listRef?.scrollToOffset({
@@ -225,6 +222,7 @@ const ChatDetailScreen = props => {
         onAttachmentClick={sendAttachment}
         onSendMessageClick={sendMessage}
         onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
+        {...props}
       />
       {/* Image Modal */}
       <ImageModal
@@ -253,60 +251,16 @@ const ChatDetailScreen = props => {
       />
       {/* Full Screen Image Modal */}
 
-      <Modal
-        visible={fullImageVisible.visible}
-        presentationStyle="fullScreen"
-        onRequestClose={() => {
+      <FullScreenModal
+        selectedFile={fullImageVisible}
+        onClose={() => {
           setFullImageVisible({
             visible: false,
             uri: '',
+            type: '',
           });
         }}
-        hardwareAccelerated>
-        <View
-          style={{
-            height: '100%',
-            backgroundColor: '#000',
-          }}>
-          <View
-            style={{
-              flexDirection: 'row-reverse',
-              height: 50,
-              alignItems: 'center',
-              paddingHorizontal: 20,
-            }}>
-            <Pressable
-              onPress={() => {
-                setFullImageVisible({
-                  visible: false,
-                  uri: '',
-                });
-              }}>
-              <CustomIcon
-                name={'close'}
-                origin={ICON_TYPE.MATERIAL_ICONS}
-                size={25}
-                color={'#fff'}
-              />
-            </Pressable>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              width: '100%',
-              paddingHorizontal: 10,
-              paddingVertical: 10,
-            }}>
-            <Image
-              resizeMode="contain"
-              source={{uri: fullImageVisible.uri}}
-              style={{
-                flex: 1,
-              }}
-            />
-          </View>
-        </View>
-      </Modal>
+      />
     </Container>
   );
 };

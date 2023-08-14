@@ -79,7 +79,7 @@ const BoostNow = props => {
             {authReducer?.userProfileDetails?.coins} coins with you now
           </Text>
         </View>
-        {boostProductReducer?.boostPlansData?.data?.length != 0 ? (
+        {boostProductReducer?.boostPlansData?.data?.length !== 0 ? (
           <FlatList
             data={boostProductReducer?.boostPlansData?.data}
             renderItem={({item, index}) => {
@@ -124,7 +124,7 @@ const BoostNow = props => {
           />
         ) : (
           <View>
-            <ActivityIndicator size={20} />
+            <ActivityIndicator size={40} />
           </View>
         )}
 

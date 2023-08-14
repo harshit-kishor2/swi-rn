@@ -98,7 +98,7 @@ const PendingProfileScreen = props => {
           formData.append('name', values.name);
           formData.append('email', values.email);
           formData.append('mobile', values.phone);
-          formData.append('about', values.about);
+          formData.append('bio', values.about);
           console.log('Test====', formData);
           // const params = {
           //   name: values.name,
@@ -178,37 +178,6 @@ const PendingProfileScreen = props => {
               editable={false}
               disabled={true}
             />
-            {/* <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                borderBottomColor: 'balck',
-                borderBottomWidth: 1,
-                alignItems: 'center',
-                paddingVertical: 15,
-              }}>
-              <CustomText>+91</CustomText>
-              <CustomIcon
-                name={'arrow-drop-down'}
-                origin={ICON_TYPE.MATERIAL_ICONS}
-                size={20}
-              />
-            </View>
-            <CustomInput
-              placeholder="Enter phone number"
-              keyboardType="phone-pad"
-              returnKeyType="next"
-              onChangeText={handleChange('phone')}
-              onBlur={handleBlur('phone')}
-              value={values.phone}
-              error={errors?.phone && touched?.phone}
-              errorText={errors?.phone}
-            />
-          </View> */}
 
             <View
               style={{

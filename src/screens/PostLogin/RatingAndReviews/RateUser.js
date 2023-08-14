@@ -57,7 +57,7 @@ const RateUser = (props) => {
 
 
   return (
-    <Container useSafeAreaView={true} loading={ratingReviewReducer.singleUserRatingDetailsAction == LoadingStatus.LOADING}>
+    <Container useSafeAreaView={true} loading={ratingReviewReducer.singleUserRatingDetailsActionLoadingStatus == LoadingStatus.LOADING}>
       <ScrollView style={{ margin: 15 }} showsVerticalScrollIndicator={false}>
         <BackHeader />
 
@@ -151,31 +151,36 @@ const RateUser = (props) => {
             <CustomText style={{ color: '#000000', fontFamily: 'OpenSans-SemiBold', fontSize: 18 }}>
               Description
             </CustomText>
-            <TextInput
-              style={{
-                backgroundColor: '#fff',
-                minWidth: '45%',
-                textAlignVertical: 'top',
-                paddingBottom: 10,
-                paddingHorizontal: 0,
-                borderBottomEndRadius: 1,
-                paddingBottom: 20,
-                height: 150,
-                borderColor: COLORS.APPGREEN,
-                borderBottomWidth: RatingValue?.id ? null : 0.5,
+
+            {RatingValue?.id ? <Text>{descriptionValue}</Text> :
+              <TextInput
+                style={{
+                  backgroundColor: '#fff',
+                  minWidth: '45%',
+                  textAlignVertical: 'top',
+                  paddingBottom: 10,
+                  paddingHorizontal: 0,
+                  borderBottomEndRadius: 1,
+                  paddingBottom: 20,
+                  height: 150,
+                  borderColor: COLORS.APPGREEN,
+                  //  borderBottomWidth: RatingValue?.id ? null : 0.5,
+                  borderBottomWidth: 0.5,
 
 
-              }}
-              fontSize={16}
-              fontFamily={'OpenSans-Regular'}
-              maxLength={500}
-              multiline={true}
-              numberOfLines={5}
-              value={RatingValue?.id ? descriptionValue : description}
-              editable={RatingValue?.description ? false : true}
-              placeholder="Enter description..."
-              onChangeText={(val) => { setDescription(val) }}
-            />
+                }}
+                fontSize={16}
+                fontFamily={'OpenSans-Regular'}
+                maxLength={500}
+                multiline={true}
+                numberOfLines={5}
+                value={description}
+                //  editable={RatingValue?.description ? false : true}
+                placeholder="Enter description..."
+                onChangeText={(val) => { setDescription(val) }}
+              />
+            }
+
             {RatingValue?.id ? null : <View
               style={{
                 position: 'absolute',

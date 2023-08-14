@@ -72,7 +72,9 @@ const MyProfileScreen = props => {
   };
   return (
     <Container useSafeAreaView={Platform.OS === 'ios' ? true : false}>
-      <ScrollView style={{ flex: 1, }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={{ flex: 1, paddingBottom: 10 }}
+        showsVerticalScrollIndicator={false}>
         <View
           style={{
             width: '100%',
@@ -244,7 +246,11 @@ const MyProfileScreen = props => {
 
           <View style={styles.LineView} />
 
-          <TouchableOpacity activeOpacity={1} onPress={() => { NavigationService.navigate(RoutesName.About_Page) }}>
+          <TouchableOpacity activeOpacity={1} onPress={() => {
+            NavigationService.navigate(RoutesName.About_Page, {
+
+            });
+          }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.about} />
@@ -257,11 +263,13 @@ const MyProfileScreen = props => {
           </TouchableOpacity>
           <View style={styles.LineView} />
 
-          <TouchableOpacity activeOpacity={1} onPress={() => {
-            NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
-              userId: profileData.id,
-            });
-          }}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
+                userId: profileData.id,
+              });
+            }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <CustomIcon

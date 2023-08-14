@@ -33,6 +33,8 @@ export const RoutesName = {
   PROFILE_QR_SCREEN: 'Profile QR Screen',
   ACCOUNT_SETTING_SCREEN: 'Account Setting',
   PROFILE_SECTION_SCREEN: 'Profile Section Screen',
+  EDIT_PROFILE_SECTION_SCREEN: 'Edit Profile Section Screen',
+
   VIEW_INSIGHTS: 'Insight',
   BOOST_PRODUCT_INTRODUCTION: 'Boost product introduction',
   BOOST_NOW: 'Boost now',
@@ -59,6 +61,7 @@ export const RoutesName = {
   PRODUCT_HISTORY: 'Product History',
   RATE_USER: 'Rate User',
   About_Page: 'About',
+  GENERAL_PROFILE_EDIT: 'GeneralProfileEdit',
 };
 
 export const Messages = {

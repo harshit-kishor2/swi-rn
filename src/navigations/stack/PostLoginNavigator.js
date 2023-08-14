@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {
   ChatDetailScreen,
+  EditProfile,
   InterestList,
   MyFavourites,
   NotificationScreen,
@@ -29,6 +30,7 @@ import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
 import AccountSetting from '@app/screens/PostLogin/AccountSetting';
 import About from '@app/screens/PostLogin/About/About';
+import GeneralProfileEdit from '@app/screens/PostLogin/GeneralProfileEdit';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -74,6 +76,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PROFILE_SECTION_SCREEN}
         component={ProfileSection}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={RoutesName.EDIT_PROFILE_SECTION_SCREEN}
+        component={EditProfile}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -134,6 +141,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.About_Page}
         component={About}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={RoutesName.GENERAL_PROFILE_EDIT}
+        component={GeneralProfileEdit}
         options={{ headerShown: false }}
       />
 

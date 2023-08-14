@@ -234,3 +234,39 @@ export const productInsights = createAsyncThunk(
     }
   },
 );
+export const addPriceAlert = createAsyncThunk(
+  'exploreProduct/addPriceAlert',
+  async (params, thunkAPI) => {
+    console.log(params, 'params for price alert ');
+    try {
+      const response = await axiosRequest({
+        url: `add-price-alert/${params}`,
+        method: 'GET',
+        //params: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+export const removePriceAlert = createAsyncThunk(
+  'exploreProduct/removePriceAlert',
+  async (params, thunkAPI) => {
+    console.log(params, 'params for price alert ');
+    try {
+      const response = await axiosRequest({
+        url: `remove-price-alert/${params}`,
+        method: 'GET',
+        //params: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);

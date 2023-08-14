@@ -8,9 +8,14 @@ import NavigationService from '@app/navigations/NavigationService';
 import {RoutesName} from '@app/helper/strings';
 
 const BoostProductSuccess = props => {
+  console.log(props?.route?.params?.from, '====from=====');
   useEffect(() => {
     setTimeout(() => {
-      NavigationService.navigateAndReset(RoutesName.MAIN_TAB_NAVIGATOR);
+      NavigationService.navigateAndReset(
+        props?.route?.params?.from === 'coin history'
+          ? RoutesName.COIN_HISTORY
+          : RoutesName.MAIN_TAB_NAVIGATOR,
+      );
     }, 500);
   }, []);
   return (
@@ -27,7 +32,9 @@ const BoostProductSuccess = props => {
           fontWeight: 'bold',
           color: COLORS.BLACK,
         }}>
-        Your post has been
+        {props?.route?.params?.from === 'coin history'
+          ? 'Successfully purchased'
+          : 'Your post has been'}
       </Text>
       <Text
         style={{
@@ -36,7 +43,9 @@ const BoostProductSuccess = props => {
           fontWeight: 'bold',
           color: COLORS.BLACK,
         }}>
-        successfully boosted.
+        {props?.route?.params?.from === 'coin history'
+          ? 'coins.'
+          : 'successfully boosted.'}
       </Text>
     </Container>
   );

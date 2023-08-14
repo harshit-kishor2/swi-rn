@@ -23,6 +23,7 @@ import MyFavourites from './PostLogin/MyFavourites/Index';
 import SellerProfileQR from './PostLogin/SellersProfile/SellerProfileQR/Index';
 import ProfileSection from './PostLogin/ProfileSection/index';
 import RatingAndReviews from './PostLogin/RatingAndReviews';
+import EditProfile from './PostLogin/ProfileSection/EditProfile/index';
 
 export {
   // PreLogin
@@ -50,5 +51,6 @@ export {
   InterestList,
   MyFavourites,
   ProfileSection,
+  EditProfile,
   RatingAndReviews,
 };
