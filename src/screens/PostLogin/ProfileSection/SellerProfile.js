@@ -1,5 +1,5 @@
 import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
@@ -14,6 +14,7 @@ import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {RoutesName} from '@app/helper/strings';
 import {showAlert} from '@app/helper/commonFunction';
+import useDebounce from '@app/hooks/useDebounce';
 
 const SellerProfile = props => {
   const {
@@ -28,6 +29,10 @@ const SellerProfile = props => {
   const [activeTab, setActiveTab] = useState('Listings');
   const [search, setSearch] = useState('');
   const userDetail = profileSectionReducer?.profileAbout;
+  const query = useDebounce(search);
+  useEffect(() => {
+    getProfileListing({userId: userDetail.id, keyword: query});
+  }, [query]);
 
   const getListings = () => {
     const renderItem = ({item, index}) => {
@@ -228,9 +233,10 @@ const SellerProfile = props => {
           }}>
           <Image
             source={IMAGES.coverSellerProfile}
-            resizeMode="stretch"
+            resizeMode="cover"
             style={{
               height: 150,
+              width: '100%',
             }}
           />
         </View>

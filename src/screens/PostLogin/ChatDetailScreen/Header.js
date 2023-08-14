@@ -9,7 +9,7 @@ import NavigationService from '@app/navigations/NavigationService';
 import {Avatar} from 'react-native-paper';
 import moment from 'moment';
 import {RoutesName} from '@app/helper/strings';
-const Header = ({onInterestClick, chat_item, exploreProduct, navigation}) => {
+const Header = ({onFollowClick, chat_item, exploreProduct, navigation}) => {
   const isKeyboardVisible = useKeyboardVisible();
 
   const _goBack = () => {
@@ -39,7 +39,7 @@ const Header = ({onInterestClick, chat_item, exploreProduct, navigation}) => {
             {chat_item?.user_name}
           </CustomText>
         </Pressable>
-        <Pressable style={styles.follow_button} onPress={() => {}}>
+        <Pressable style={styles.follow_button} onPress={onFollowClick}>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
             name={'user-plus'}

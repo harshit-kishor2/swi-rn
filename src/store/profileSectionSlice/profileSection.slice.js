@@ -4,6 +4,7 @@ import {LoadingStatus} from '../../helper/strings';
 import {
   changeProductStatusAction,
   coinHistoryAction,
+  onFollowClickAction,
   profileAboutAction,
   sellerProductListingAction,
 } from './profileSection.action';
@@ -32,6 +33,9 @@ const initialState = entityAdapter.getInitialState({
   changeProductStatusLoadingStatus: LoadingStatus.NOT_LOADED,
   changeProductStatus: [],
   changeProductStatusError: null,
+
+  followLoadingStatus: LoadingStatus.NOT_LOADED,
+  followError: null,
 });
 
 /**
@@ -92,6 +96,17 @@ const reduxSlice = createSlice({
       .addCase(changeProductStatusAction.rejected, (state, action) => {
         state.changeProductStatusLoadingStatus = LoadingStatus.FAILED;
         state.changeProductStatusError = action.payload;
+      })
+      .addCase(onFollowClickAction.pending, state => {
+        state.followLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(onFollowClickAction.fulfilled, (state, action) => {
+        state.followLoadingStatus = LoadingStatus.LOADED;
+        // state.changeProductStatus = action.payload?.data;
+      })
+      .addCase(onFollowClickAction.rejected, (state, action) => {
+        state.followLoadingStatus = LoadingStatus.FAILED;
+        state.followError = action.payload;
       });
   },
 });

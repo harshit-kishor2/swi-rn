@@ -81,3 +81,21 @@ export const changeProductStatusAction = createAsyncThunk(
     }
   },
 );
+
+export const onFollowClickAction = createAsyncThunk(
+  'profileSection/onFollowClickAction',
+  async (params, thunkAPI) => {
+    console.log('PARAMS+++', params);
+    try {
+      const result = await AxiosRequest({
+        url: `follow-visit/${params?.user_id}`,
+        method: 'POST',
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

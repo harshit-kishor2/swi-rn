@@ -33,6 +33,7 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import {transformedMessages} from '../../../helper/commonFunction';
 import FullScreenModal from '../../atoms/FullScreenModal';
 import AddInterestModal from './AddInterestModal';
+import {onFollowClickAction} from '@app/store/profileSectionSlice';
 
 const ChatDetailScreen = props => {
   const {
@@ -47,6 +48,7 @@ const ChatDetailScreen = props => {
     getAllBrand,
     navigation,
     exploreProduct,
+    followClickAction,
     route,
   } = props;
   const flatRef = useRef();
@@ -157,6 +159,27 @@ const ChatDetailScreen = props => {
     }
   };
 
+  const onFollowClick = () => {
+    followClickAction({
+      followed_visited_by: chat_item?.user_id,
+      user_id: authReducer?.userProfileDetails?.id,
+      type: 'follow',
+    }).then(res => {
+      if (res?.type.includes('fulfilled')) {
+        showAlert({
+          title: 'Success',
+          message: 'Followed successfully.',
+        });
+      }
+      if (res?.type.includes('rejected')) {
+        showAlert({
+          title: 'Error',
+          message: res?.payload?.message ?? 'Internal server error!',
+        });
+      }
+    });
+  };
+
   const scrollToIndex = index => {
     if (flatRef.current) {
       flatRef.current._listRef.scrollToIndex({
@@ -206,7 +229,7 @@ const ChatDetailScreen = props => {
       }}
       useSafeAreaView={true}
       loading={chatReducer.chatHistoryLoadingStatus === LoadingStatus.LOADING}>
-      <Header chat_item={chat_item} {...props} />
+      <Header chat_item={chat_item} onFollowClick={onFollowClick} {...props} />
       <View
         style={{
           flex: 1,
@@ -231,6 +254,7 @@ const ChatDetailScreen = props => {
             return RenderItem({
               ...props,
               isSeller: isSeller,
+              hasEnabledObject: hasEnabledObject,
               onAcceptReject: onAcceptReject,
               setFullImageVisible: setFullImageVisible,
             });
@@ -312,6 +336,7 @@ const mapDispatchToProps = dispatch => ({
   sendChatMessage: params => dispatch(sendMessageAction(params)),
   updateNewMessage: params => dispatch(onNewMessageUpdate(params)),
   getIntersetList: params => dispatch(getInteresteListOnChat(params)),
+  followClickAction: params => dispatch(onFollowClickAction(params)),
   onAddDraftInteresetList: params =>
     dispatch(addDraftInInterestListAction(params)),
   onAddIntersetList: params => dispatch(addIntersetListOnChat(params)),
