@@ -29,6 +29,7 @@ export function RenderItem(props) {
     setFullImageVisible,
     isSeller,
     onAcceptReject,
+    hasEnabledObject,
   } = props;
   const isSelf = position === 'right' ?? false;
   return (
@@ -137,13 +138,17 @@ export function RenderItem(props) {
                 <SubmitButton
                   disabled={!isSeller}
                   lable="Accept"
-                  onPress={() => onAcceptReject('accepted')}
+                  onPress={() =>
+                    hasEnabledObject ? null : onAcceptReject('accepted')
+                  }
                 />
                 <SubmitButton
                   disabled={!isSeller}
                   type="outlined"
                   lable="Reject"
-                  onPress={() => onAcceptReject('rejected')}
+                  onPress={() =>
+                    hasEnabledObject ? null : onAcceptReject('rejected')
+                  }
                 />
               </View>
             ) : null}

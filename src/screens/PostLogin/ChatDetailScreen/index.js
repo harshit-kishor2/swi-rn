@@ -231,6 +231,7 @@ const ChatDetailScreen = props => {
             return RenderItem({
               ...props,
               isSeller: isSeller,
+              hasEnabledObject: hasEnabledObject,
               onAcceptReject: onAcceptReject,
               setFullImageVisible: setFullImageVisible,
             });
