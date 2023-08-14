@@ -1,6 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import {getFCMToken} from './firebaseServices';
-import {PermissionsAndroid} from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 
 import notifee from '@notifee/react-native';
 
@@ -55,6 +55,12 @@ export const notificationListner = async () => {
 
   messaging().onMessage(async remoteMessage => {
     console.log('received in forground', remoteMessage);
+    if (remoteMessage?.notification) {
+      onDisplayNotification(
+        remoteMessage?.notification.title,
+        remoteMessage?.notification.body,
+      );
+    }
     // const jsonData = JSON.parse(remoteMessage.data.default);
     // const again = JSON.parse(jsonData.GCM);
 
@@ -63,8 +69,9 @@ export const notificationListner = async () => {
     // const body = again.data.body;
     // console.log(title, 'fghjkl');
     // console.log(body, 'fghjkl');
-
-    onDisplayNotification('dfghjkl', 'fghjkl');
+    // if (Platform.OS === 'android') {
+    //   onDisplayNotification('dfghjkl', 'fghjkl');
+    // }
   });
 
   messaging()
