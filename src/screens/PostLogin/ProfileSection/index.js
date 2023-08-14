@@ -12,6 +12,7 @@ import {
   sellerProductListingAction,
 } from '@app/store/profileSectionSlice';
 import {addWishListAction} from '@app/store/exploreProductSlice';
+import {useIsFocused} from '@react-navigation/native';
 
 const ProfileSection = props => {
   const {
@@ -22,6 +23,7 @@ const ProfileSection = props => {
     getProfileAbout,
     getProfileListing,
   } = props;
+  const isFocused = useIsFocused();
 
   const userId = route.params?.userId;
   const isSelf = userId === authReducer?.userProfileDetails?.id ?? false;
@@ -31,9 +33,11 @@ const ProfileSection = props => {
   const useDetail = profileSectionReducer?.profileAbout;
 
   useEffect(() => {
-    getProfileAbout({userId: userId});
-    getProfileListing({userId: userId});
-  }, []);
+    if (isFocused) {
+      getProfileAbout({userId: userId});
+      getProfileListing({userId: userId});
+    }
+  }, [isFocused]);
 
   return (
     <Container
@@ -55,15 +59,10 @@ const ProfileSection = props => {
               <Pressable
                 style={styles.button}
                 onPress={() => {
-                  isSeller
-                    ? navigation?.navigate(RoutesName.EDIT_SELLER_PROFILE, {
-                        userId: userId,
-                        isSelf: isSelf,
-                      })
-                    : navigation?.navigate(RoutesName.GENERAL_PROFILE_EDIT, {
-                        userId: userId,
-                        isSelf: isSelf,
-                      });
+                  navigation?.navigate(RoutesName.EDIT_PROFILE_SECTION_SCREEN, {
+                    userId: userId,
+                    isSeller: isSeller,
+                  });
                 }}>
                 <CustomIcon
                   origin={ICON_TYPE.OCTICONS}

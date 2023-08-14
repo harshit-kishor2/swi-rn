@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {
   ChatDetailScreen,
+  EditProfile,
   InterestList,
   MyFavourites,
   NotificationScreen,
@@ -74,6 +75,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.PROFILE_SECTION_SCREEN}
         component={ProfileSection}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.EDIT_PROFILE_SECTION_SCREEN}
+        component={EditProfile}
         options={{headerShown: false}}
       />
       <Stack.Screen

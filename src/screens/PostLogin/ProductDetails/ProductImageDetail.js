@@ -101,6 +101,9 @@ const ProductImageDetail = ({data, onVideoClick}) => {
       </View>
     );
   };
+
+  console.log(data?.files, '-----');
+
   return (
     <View>
       <FlatList
@@ -119,7 +122,7 @@ const ProductImageDetail = ({data, onVideoClick}) => {
           flexGrow: 1,
         }}
       />
-      {data?.files.length && (
+      {data?.files.length > 0 && (
         <Pagination
           data={data?.files ?? []}
           currentPage={currentPage}

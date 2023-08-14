@@ -98,17 +98,16 @@ const ChatDetailScreen = props => {
     formData.append('type', type);
     formData.append('product_id', chat_item?.product_id);
 
-    if (type === 'text') {
+    if (type === 'text' || type === 'make_offer') {
       formData.append('message', message);
     } else if (type === 'pdf') {
-      console.log('Message==', message);
       formData.append(`media`, {
         name: message?.name ?? 'PDF' + Date.now() + '.pdf',
         type: message.type,
         uri: message?.uri,
       });
       formData.append('message', 'PDF uploaded');
-    } else {
+    } else if (type === 'image' || type === 'video') {
       const d = message?.path?.split('/');
       const name = d[d.length - 1];
       formData.append(`media`, {
@@ -119,7 +118,7 @@ const ChatDetailScreen = props => {
             ? message.path.replace('file://', '')
             : message.path,
       });
-      formData.append('message', 'Attachment uploaded');
+      formData.append('message', 'Image/Video uploaded');
     }
     sendChatMessage(formData);
   };

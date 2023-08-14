@@ -43,6 +43,8 @@ import styles from './styles';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import {
   addPriceAlert,
+  addProductInterestList,
+  addWishListAction,
   onAddToProductCompare,
   removePriceAlert,
 } from '@app/store/exploreProductSlice';
@@ -72,6 +74,8 @@ const ProductDetails = props => {
     addPriceAlert,
     exploreProduct,
     removePriceAlert,
+    addProductInterestList,
+    addWishListAction,
   } = props;
   const [isChartDropDown, setIsChartDropDown] = useState(false);
   const [selectFilteredValue, setSelectFilteredValue] = useState({
@@ -99,6 +103,7 @@ const ProductDetails = props => {
     removePriceAlertLoadingStatus,
   } = useSelector(state => state?.exploreReducer);
   console.log(productDetailData, 'ProductDetail loading');
+  console.log(exploreProduct, 'explore product =========>>>>>>>');
 
   const isSelf =
     authReducer?.userProfileDetails?.id === productDetailData?.data?.user_id
@@ -132,6 +137,8 @@ const ProductDetails = props => {
       );
     }
   }, [selectFilteredValue, props.route.params.product_id]);
+
+  console.log(productDetailData?.data?.isInWishlist, 'product wish list data ');
 
   // uncomment code to enable share option with deep linking
   const onShareClick = async () => {
@@ -220,18 +227,74 @@ const ProductDetails = props => {
                 />
               </TouchableOpacity>
               {!isSelf && (
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={async () => {
+                    try {
+                      if (productDetailData?.data?.id) {
+                        const res = await addWishListAction({
+                          product_id: productDetailData?.data?.id,
+                        });
+                        console.log(res, 'fgdsgfdskjfdsgfjkdshfkh------');
+                        if (
+                          res?.payload?.message === 'Product added to wishlist'
+                        ) {
+                          showAlert({
+                            title: 'Success',
+                            message: res?.payload?.message,
+                          });
+
+                          if (props.route?.params?.product_id) {
+                            dispatch(
+                              exploreProductDetail({
+                                product_id: props.route.params.product_id,
+                              }),
+                            );
+                          }
+                        } else if (
+                          res?.payload?.message === 'Item removed from wishlist'
+                        ) {
+                          showAlert({
+                            title: 'Success',
+                            message: res?.payload?.message,
+                          });
+                        }
+                        if (props.route?.params?.product_id) {
+                          dispatch(
+                            exploreProductDetail({
+                              product_id: props.route.params.product_id,
+                            }),
+                          );
+                        }
+                      } else {
+                        showAlert({
+                          title: 'Error',
+                          message: 'Something went wrong.',
+                        });
+                      }
+                    } catch (error) {
+                      console.error('Error:', error);
+                      showAlert({
+                        title: 'Error',
+                        message:
+                          'An error occurred while adding to the interest list.',
+                      });
+                    }
+                  }}>
                   <CustomIcon
                     size={30}
                     color={'#000000'}
                     origin={ICON_TYPE.MATERIAL_ICONS}
-                    name="bookmark-outline"
+                    name={
+                      productDetailData?.data?.isInWishlist
+                        ? 'bookmark'
+                        : 'bookmark-outline'
+                    }
                   />
                 </TouchableOpacity>
               )}
             </View>
           </View>
-          {/* <ProductImageDetail
+          <ProductImageDetail
             data={productDetailData?.data}
             onVideoClick={e => {
               console.log('e==', e);
@@ -241,7 +304,7 @@ const ProductDetails = props => {
               });
               videoRef.current?.presentFullscreenPlayer();
             }}
-          /> */}
+          />
           {/* MOdel, Brand, Price, condition */}
 
           <View
@@ -288,6 +351,36 @@ const ProductDetails = props => {
           {productDetailData?.data?.product_status !== 'available' &&
             !isSelf && (
               <SubmitButton
+                disabled={productDetailData?.data?.interest_lists === true}
+                onPress={() => {
+                  if (productDetailData?.data?.id) {
+                    addProductInterestList(productDetailData?.data?.id).then(
+                      res => {
+                        if (
+                          res?.payload?.message ===
+                          'Interest List added successfully.'
+                        ) {
+                          showAlert({
+                            title: 'Success',
+                            message: res?.payload?.message,
+                          });
+                          if (props.route?.params?.product_id) {
+                            dispatch(
+                              exploreProductDetail({
+                                product_id: props.route.params.product_id,
+                              }),
+                            );
+                          }
+                        } else {
+                          showAlert({
+                            title: 'Error',
+                            message: 'Somthing went wrong.',
+                          });
+                        }
+                      },
+                    );
+                  }
+                }}
                 buttonStyle={{width: '85%', alignSelf: 'center'}}
                 lable="I'm interested in this product"
               />
@@ -629,7 +722,7 @@ const ProductDetails = props => {
                 }}>
                 <SubmitButton
                   disabled={
-                    productDetailData?.data?.product_status === 'sold_out'
+                    productDetailData?.data?.product_status === 'sold out'
                   }
                   onPress={() => {
                     onChangeProductStatus({
@@ -1072,6 +1165,8 @@ const mapDispatchToProps = dispatch => ({
   onChangeProductStatus: params => dispatch(changeProductStatusAction(params)),
   addPriceAlert: params => dispatch(addPriceAlert(params)),
   removePriceAlert: params => dispatch(removePriceAlert(params)),
+  addProductInterestList: params => dispatch(addProductInterestList(params)),
+  addWishListAction: params => dispatch(addWishListAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);
