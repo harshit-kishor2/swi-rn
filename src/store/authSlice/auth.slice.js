@@ -1,4 +1,4 @@
-import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 
 import {
   forgotPasswordAction,
@@ -11,8 +11,9 @@ import {
   changePasswordAction,
   getNotificationPermission,
   updateNotificationPermission,
+  NotificationListing,
 } from './auth.actions';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 
 // =============================== Redux : Auth Slice ==================================
@@ -60,6 +61,12 @@ const initialState = entityAdapter.getInitialState({
   updateNotificationPermissionLoadingStatus: LoadingStatus.NOT_LOADED,
   updateNotificationDetails: null,
   updateNotificationError: null,
+
+  //Notification Listing
+
+  NotificationListingLoadingStatus: LoadingStatus.NOT_LOADED,
+  NotificationListingError: null,
+  NotificationListing: [],
 });
 
 /**
@@ -195,6 +202,18 @@ const reduxSlice = createSlice({
         state.updateNotificationPermissionLoadingStatus = LoadingStatus.FAILED;
         state.updateNotificationError = LoadingStatus.FAILED;
         state.updateNotificationError = action.payload;
+      })
+      // Notification Listing Action
+      .addCase(NotificationListing.pending, (state, action) => {
+        state.NotificationListingLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(NotificationListing.fulfilled, (state, action) => {
+        state.NotificationListingLoadingStatus = LoadingStatus.LOADED;
+        state.NotificationListing = action.payload;
+      })
+      .addCase(NotificationListing.rejected, (state, action) => {
+        state.NotificationListingLoadingStatus = LoadingStatus.FAILED;
+        state.NotificationListingError = action.payload;
       });
   },
 });
@@ -203,6 +222,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const { resetSliceState } = reduxSlice.actions;
 
 export const authReducer = reduxSlice.reducer;

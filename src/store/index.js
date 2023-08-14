@@ -12,7 +12,6 @@ import wishlistReducer from './wishlistSlice';
 import chatReducer from './chatSlice';
 import generalProfileReducer from './GeneralProfile';
 import profileSectionReducer from './profileSectionSlice';
-import {updateSellerProfileReducer} from './testSellerEditProfile';
 import ratingReviewReducer from './ratingReviewSlice';
 import {boostProductReducer} from './exploreProductSlice/boostProduct.slice';
 
@@ -28,9 +27,9 @@ const combinedReducer = combineReducers({
   sellersProfileReducer,
   wishlistReducer,
   chatReducer,
-  updateSellerProfileReducer,
   ratingReviewReducer,
   boostProductReducer,
+
   generalProfileReducer,
 });
 

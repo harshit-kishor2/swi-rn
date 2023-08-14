@@ -46,6 +46,7 @@ const ChatDetailScreen = props => {
     updateNewMessage,
     getAllBrand,
     navigation,
+    exploreProduct,
     route,
   } = props;
   const flatRef = useRef();
@@ -62,7 +63,7 @@ const ChatDetailScreen = props => {
   });
 
   const {chat_item, isOffer} = route.params;
-
+  console.log('============chat_item=============', chat_item);
   //  Use socket
   useSocket(updateNewMessage);
 
@@ -87,6 +88,10 @@ const ChatDetailScreen = props => {
     };
   }, []);
 
+  const isSeller =
+    exploreProduct?.productDetails?.user?.id ===
+    authReducer.userProfileDetails.id;
+  console.log('IsSeller==', isSeller);
   //  Send text message
   const sendMessage = ({type = 'text', message}) => {
     if (chatReducer?.chatHistory?.length >= 1) {
@@ -120,6 +125,22 @@ const ChatDetailScreen = props => {
       });
       formData.append('message', 'Image/Video uploaded');
     }
+    sendChatMessage(formData);
+  };
+
+  const onAcceptReject = type => {
+    if (chatReducer?.chatHistory?.length >= 1) {
+      scrollToIndex(0);
+    }
+
+    const formData = new FormData();
+    formData.append('receiver_id', chat_item?.user_id);
+    formData.append('buyer_id', chat_item?.user_id);
+    formData.append('type', 'make_offer');
+    formData.append('product_id', chat_item?.product_id);
+    formData.append('message', type === 'accepted' ? 'Accepted' : 'Rejected');
+    formData.append('isOfferAccepted', type);
+    formData.append('seller_id', exploreProduct?.productDetails?.user?.id);
     sendChatMessage(formData);
   };
 
@@ -173,6 +194,11 @@ const ChatDetailScreen = props => {
 
   // const reversedData = (chatReducer?.chatHistory ?? []).slice().reverse();
   const modifyData = transformedMessages(chatReducer?.chatHistory);
+  const hasEnabledObject = chatReducer?.chatHistory.some(
+    obj => obj.isOfferAccepted === 'accepted',
+  );
+  console.log('hasEnabledObject===', hasEnabledObject);
+
   return (
     <Container
       style={{
@@ -180,11 +206,7 @@ const ChatDetailScreen = props => {
       }}
       useSafeAreaView={true}
       loading={chatReducer.chatHistoryLoadingStatus === LoadingStatus.LOADING}>
-      <Header
-        onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
-        chat_item={chat_item}
-        {...props}
-      />
+      <Header chat_item={chat_item} {...props} />
       <View
         style={{
           flex: 1,
@@ -208,6 +230,9 @@ const ChatDetailScreen = props => {
           renderBubble={props => {
             return RenderItem({
               ...props,
+              isSeller: isSeller,
+              hasEnabledObject: hasEnabledObject,
+              onAcceptReject: onAcceptReject,
               setFullImageVisible: setFullImageVisible,
             });
           }}
@@ -218,12 +243,16 @@ const ChatDetailScreen = props => {
           renderInputToolbar={props => {}}
         />
       </View>
-      <ActionContainer
-        onAttachmentClick={sendAttachment}
-        onSendMessageClick={sendMessage}
-        onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
-        {...props}
-      />
+      {hasEnabledObject ? null : (
+        <ActionContainer
+          isSeller={isSeller}
+          onAttachmentClick={sendAttachment}
+          onSendMessageClick={sendMessage}
+          onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
+          onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
+          {...props}
+        />
+      )}
       {/* Image Modal */}
       <ImageModal
         modalVisible={imageModalVisible}

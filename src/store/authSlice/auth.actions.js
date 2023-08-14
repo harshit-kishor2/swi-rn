@@ -1,8 +1,8 @@
 //! ======================== Redux : Async Thunk Actions ============================
 
-import {SharedPreference} from '@app/helper';
+import { SharedPreference } from '@app/helper';
 import axiosRequest from '@app/helper/axiosRequest';
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 /**
  * Api Action
@@ -85,7 +85,7 @@ export const forgotPasswordAction = createAsyncThunk(
         url: `/forgot-password`,
         method: 'POST',
         data: params,
-        params: {type: 'user'},
+        params: { type: 'user' },
       });
       return response;
     } catch (error) {
@@ -218,6 +218,28 @@ export const updateNotificationPermission = createAsyncThunk(
         url: `/update-notification-status`,
         method: 'POST',
         data: params,
+      });
+      console.log(response, 'response from update notification');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+/**
+ * Api Action Update Notification Listing
+ */
+
+export const NotificationListing = createAsyncThunk(
+  `auth/NotificationListing`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/get-user-notification-list`,
+        method: 'GET',
+        // data: params,
       });
       console.log(response, 'response from update notification');
       return response;

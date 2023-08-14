@@ -8,7 +8,6 @@ import {
   ProductDetails,
   ProfileSection,
   RatingAndReviews,
-  SellerProfileQR,
 } from '@app/screens';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
@@ -23,12 +22,12 @@ import BoostNow from '@app/screens/PostLogin/Coin/BoostScreens/BoostNow';
 import BoostProductSuccess from '@app/screens/PostLogin/BoostProductSucess';
 import PurchaseCoin from '@app/screens/PostLogin/Coin/PurchaseCoin';
 
-import SellerProfileEdit from '@app/screens/PostLogin/SellersProfile/SellerProfileEdit';
 import ChangePassword from '@app/screens/PostLogin/ChangePassword';
 import ProductHistory from '@app/screens/PostLogin/History';
 import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
 import AccountSetting from '@app/screens/PostLogin/AccountSetting';
+import About from '@app/screens/PostLogin/About/About';
 import GeneralProfileEdit from '@app/screens/PostLogin/GeneralProfileEdit';
 
 const Stack = createNativeStackNavigator();
@@ -58,10 +57,7 @@ const PostLoginNavigator = () => {
       />
       <Stack.Screen name={RoutesName.MY_FAVOURITES} component={MyFavourites} />
       <Stack.Screen name={RoutesName.SEARCH_SCREEN} component={SearchScreen} />
-      <Stack.Screen
-        name={RoutesName.PROFILE_QR_SCREEN}
-        component={SellerProfileQR}
-      />
+
       <Stack.Screen
         name={RoutesName.NOTIFICATION_SCREEN}
         component={NotificationScreen}
@@ -117,11 +113,7 @@ const PostLoginNavigator = () => {
         component={ChangePassword}
         options={{headerShown: false}}
       />
-      <Stack.Screen
-        name={RoutesName.EDIT_SELLER_PROFILE}
-        component={SellerProfileEdit}
-        options={{headerShown: false}}
-      />
+
       <Stack.Screen
         name={RoutesName.REVIEW_RATING_SCREEN}
         component={RatingAndReviews}
@@ -135,6 +127,11 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.RATE_USER}
         component={RateUser}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name={RoutesName.About_Page}
+        component={About}
         options={{headerShown: false}}
       />
       <Stack.Screen

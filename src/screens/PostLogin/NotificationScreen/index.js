@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   Image,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import {COLORS, IMAGES, SPACING} from '@app/resources';
+import { COLORS, IMAGES, SPACING } from '@app/resources';
 import {
   BackHeader,
   Container,
@@ -20,12 +20,15 @@ import {
 } from '@app/components';
 import NotificationCard from '@app/screens/atoms/NotificationCard';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {FontsConst} from '@app/assets/assets';
-import {Avatar} from 'react-native-paper';
-import {RoutesName} from '@app/helper/strings';
+import { FontsConst } from '@app/assets/assets';
+import { Avatar } from 'react-native-paper';
+import { RoutesName } from '@app/helper/strings';
+import { connect } from 'react-redux';
+import { NotificationListing } from '@app/store/authSlice';
 
 const NotificationScreen = props => {
-  const {navigation, route} = props;
+  console.log(props, "=================>>>>>>>>>>>>>")
+  const { navigation, route, getNotificationList } = props;
   const DATA = [
     {
       title: 'Today',
@@ -36,7 +39,7 @@ const NotificationScreen = props => {
       data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
     },
     {
-      title: 'Date',
+      title: 'Older',
       data: ['Water', 'Coke', 'Beer'],
     },
   ];
@@ -49,14 +52,17 @@ const NotificationScreen = props => {
         break;
     }
   };
+  useEffect(() => {
+    getNotificationList();
+  }, [])
 
-  const renderSection = ({section: {title}}) => (
+  const renderSection = ({ section: { title } }) => (
     <View style={styles.section}>
       <CustomText style={styles.titleText}>{title}</CustomText>
     </View>
   );
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <Pressable onPress={() => onRowClick()} style={styles.row}>
       <Avatar.Image source={{}} size={50} />
       <View
@@ -90,7 +96,7 @@ const NotificationScreen = props => {
   );
 };
 
-export default NotificationScreen;
+
 const styles = StyleSheet.create({
   section_container: {
     flexGrow: 1,
@@ -121,3 +127,14 @@ const styles = StyleSheet.create({
     color: '#00000080',
   },
 });
+
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getNotificationList: params => dispatch(NotificationListing()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationScreen);

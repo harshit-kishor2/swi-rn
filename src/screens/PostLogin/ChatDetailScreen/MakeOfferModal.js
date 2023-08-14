@@ -1,5 +1,6 @@
 import {FontsConst} from '@app/assets/assets';
 import {CustomText, Spacer, SubmitButton} from '@app/components';
+import {showAlert} from '@app/helper/commonFunction';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 import {useState} from 'react';
 import {Keyboard, Modal, Pressable, StyleSheet, View} from 'react-native';
@@ -15,10 +16,25 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
     } else if (amount <= 0) {
       return;
     } else {
-      const numericValue = amount?.replace(/[^0-9.]/g, '');
-      sendMessage({message: numericValue, type: 'make_offer'});
-      setAmount('');
-      setModalVisible(false);
+      showAlert({
+        title: 'Make an offer',
+        message: '',
+        actions: [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Confirm',
+            onPress: () => {
+              const numericValue = amount?.replace(/[^0-9.]/g, '');
+              sendMessage({message: numericValue, type: 'make_offer'});
+              setAmount('');
+              setModalVisible(false);
+            },
+          },
+        ],
+      });
     }
   };
 

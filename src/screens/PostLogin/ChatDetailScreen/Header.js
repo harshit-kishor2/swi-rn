@@ -49,7 +49,13 @@ const Header = ({onInterestClick, chat_item, exploreProduct, navigation}) => {
         </Pressable>
       </View>
       {!isKeyboardVisible ? (
-        <Pressable onPress={onInterestClick} style={styles.product}>
+        <Pressable
+          onPress={() => {
+            NavigationService.navigate(RoutesName.PRODUCT_DETAILS, {
+              product_id: exploreProduct?.productDetails?.id,
+            });
+          }}
+          style={styles.product}>
           <Image
             style={styles.avatar}
             source={{uri: exploreProduct?.productDetails?.thumb_image}}

@@ -23,7 +23,7 @@ const InterestList = props => {
   }, [search]);
 
   const onLoadMore = () => { };
-  console.log('Search Value Check =>>>>>>>>>>>>>>>>>', search);
+  // console.log('Search Value Check =>>>>>>>>>>>>>>>>>', search);
   return (
     <Container useSafeAreaView={true} loading={wishlistReducer.InterestListActionLoadingStatus === LoadingStatus.LOADING}>
       <Spacer height={20} />
