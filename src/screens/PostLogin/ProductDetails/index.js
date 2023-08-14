@@ -227,70 +227,79 @@ const ProductDetails = props => {
                 />
               </TouchableOpacity>
               {!isSelf && (
-                <TouchableOpacity
-                  onPress={async () => {
-                    try {
-                      if (productDetailData?.data?.id) {
-                        const res = await addWishListAction({
-                          product_id: productDetailData?.data?.id,
-                        });
-                        console.log(res, 'fgdsgfdskjfdsgfjkdshfkh------');
-                        if (
-                          res?.payload?.message === 'Product added to wishlist'
-                        ) {
-                          showAlert({
-                            title: 'Success',
-                            message: res?.payload?.message,
-                          });
+                <>
+                  {exploreProduct.addWishListLoadingStatus ===
+                  LoadingStatus.LOADING ? (
+                    <ActivityIndicator />
+                  ) : (
+                    <TouchableOpacity
+                      onPress={async () => {
+                        try {
+                          if (productDetailData?.data?.id) {
+                            const res = await addWishListAction({
+                              product_id: productDetailData?.data?.id,
+                            });
 
-                          if (props.route?.params?.product_id) {
-                            dispatch(
-                              exploreProductDetail({
-                                product_id: props.route.params.product_id,
-                              }),
-                            );
+                            if (
+                              res?.payload?.message ===
+                              'Product added to wishlist'
+                            ) {
+                              showAlert({
+                                title: 'Success',
+                                message: res?.payload?.message,
+                              });
+
+                              if (props.route?.params?.product_id) {
+                                dispatch(
+                                  exploreProductDetail({
+                                    product_id: props.route.params.product_id,
+                                  }),
+                                );
+                              }
+                            } else if (
+                              res?.payload?.message ===
+                              'Item removed from wishlist'
+                            ) {
+                              showAlert({
+                                title: 'Success',
+                                message: res?.payload?.message,
+                              });
+                            }
+                            if (props.route?.params?.product_id) {
+                              dispatch(
+                                exploreProductDetail({
+                                  product_id: props.route.params.product_id,
+                                }),
+                              );
+                            }
+                          } else {
+                            showAlert({
+                              title: 'Error',
+                              message: 'Something went wrong.',
+                            });
                           }
-                        } else if (
-                          res?.payload?.message === 'Item removed from wishlist'
-                        ) {
+                        } catch (error) {
+                          console.error('Error:', error);
                           showAlert({
-                            title: 'Success',
-                            message: res?.payload?.message,
+                            title: 'Error',
+                            message:
+                              'An error occurred while adding to the interest list.',
                           });
                         }
-                        if (props.route?.params?.product_id) {
-                          dispatch(
-                            exploreProductDetail({
-                              product_id: props.route.params.product_id,
-                            }),
-                          );
+                      }}>
+                      <CustomIcon
+                        size={30}
+                        color={'#000000'}
+                        origin={ICON_TYPE.MATERIAL_ICONS}
+                        name={
+                          productDetailData?.data?.isInWishlist
+                            ? 'bookmark'
+                            : 'bookmark-outline'
                         }
-                      } else {
-                        showAlert({
-                          title: 'Error',
-                          message: 'Something went wrong.',
-                        });
-                      }
-                    } catch (error) {
-                      console.error('Error:', error);
-                      showAlert({
-                        title: 'Error',
-                        message:
-                          'An error occurred while adding to the interest list.',
-                      });
-                    }
-                  }}>
-                  <CustomIcon
-                    size={30}
-                    color={'#000000'}
-                    origin={ICON_TYPE.MATERIAL_ICONS}
-                    name={
-                      productDetailData?.data?.isInWishlist
-                        ? 'bookmark'
-                        : 'bookmark-outline'
-                    }
-                  />
-                </TouchableOpacity>
+                      />
+                    </TouchableOpacity>
+                  )}
+                </>
               )}
             </View>
           </View>
