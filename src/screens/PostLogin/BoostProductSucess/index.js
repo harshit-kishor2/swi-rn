@@ -11,11 +11,11 @@ const BoostProductSuccess = props => {
   console.log(props?.route?.params?.from, '====from=====');
   useEffect(() => {
     setTimeout(() => {
-      NavigationService.navigateAndReset(
-        props?.route?.params?.from === 'coin history'
-          ? RoutesName.COIN_HISTORY
-          : RoutesName.MAIN_TAB_NAVIGATOR,
-      );
+      if (props?.route?.params?.from === 'coin history') {
+        props?.navigation?.navigate(RoutesName.COIN_HISTORY);
+      } else {
+        NavigationService.navigateAndReset(RoutesName.MAIN_TAB_NAVIGATOR);
+      }
     }, 500);
   }, []);
   return (

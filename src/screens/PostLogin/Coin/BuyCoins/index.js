@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {
@@ -30,22 +31,6 @@ import {useEffect} from 'react';
 import {showAlert} from '@app/helper/commonFunction';
 import {RoutesName} from '@app/helper/strings';
 
-//   };
-const DATA = [
-  {
-    coinNumber: 300,
-    price: 30,
-  },
-  {
-    coinNumber: 500,
-    price: 50,
-  },
-  {
-    coinNumber: 800,
-    price: 80,
-  },
-];
-
 const BuyCoins = props => {
   console.log(props?.route?.params, '=========<<<<<<<<<');
   const {boostProductReducer, boostProduct, purchaseCoins, coinPlans} = props;
@@ -60,10 +45,15 @@ const BuyCoins = props => {
     coinPlans();
   }, []);
   return (
-    <Container>
-      <View style={{margin: 10}}>
-        <BackHeader />
-
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 40,
+        }}>
         <View style={styles.CoinContainer}>
           <ImageBackground
             source={IMAGES.bag}
@@ -87,9 +77,7 @@ const BuyCoins = props => {
         </View>
 
         <View style={{alignItems: 'center', marginBottom: 20}}>
-          <TouchableOpacity>
-            <Text style={styles.TextStyle1}>Get it Now</Text>
-          </TouchableOpacity>
+          <Text style={styles.TextStyle1}>Get it Now</Text>
         </View>
         {boostProductReducer?.coinPlansData?.data?.length != 0 ? (
           <FlatList
@@ -99,7 +87,6 @@ const BuyCoins = props => {
                 <TouchableOpacity
                   onPress={() => {
                     setSelected(index);
-                    console.log(index);
                     setPurchaseCoinId(item.id);
                   }}>
                   <View
@@ -206,14 +193,11 @@ const BuyCoins = props => {
               color: '#00958C',
               fontFamily: 'OpenSans-Regular',
               textDecorationLine: 'underline',
-            }}
-            onPress={() => {
-              // Alert.alert('in process');
             }}>
             Not now, I'll do it later
           </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     </Container>
   );
 };
