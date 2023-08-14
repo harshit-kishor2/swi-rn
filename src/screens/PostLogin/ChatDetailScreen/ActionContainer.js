@@ -12,6 +12,7 @@ const ActionContainer = ({
   onMakeOfferClick,
   exploreProduct,
   authReducer,
+  onInterestClick,
 }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const [message, setMessage] = useState('');
@@ -24,9 +25,11 @@ const ActionContainer = ({
     <>
       {!isKeyboardVisible ? (
         <View style={styles.offer_row}>
-          <Pressable onPress={onMakeOfferClick} style={styles.dollor_container}>
+          <Pressable
+            onPress={isSeller ? onInterestClick : onMakeOfferClick}
+            style={styles.dollor_container}>
             <CustomIcon
-              name={'attach-money'}
+              name={isSeller ? 'favorite' : 'attach-money'}
               origin={ICON_TYPE.MATERIAL_ICONS}
               size={30}
               color={'#ffffff'}
@@ -34,7 +37,9 @@ const ActionContainer = ({
           </Pressable>
           <View style={styles.offer_container}>
             <View style={styles.offer_text}>
-              <CustomText>Make an offer</CustomText>
+              <CustomText>
+                {isSeller ? 'Add interest list' : 'Make an offer'}
+              </CustomText>
             </View>
             <View style={styles.triangle} />
           </View>

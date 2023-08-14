@@ -146,6 +146,27 @@ export const transformedMessages = messages => {
     file: {
       url: message.type === 'pdf' ? message?.docs : null,
     },
+    quickReplies:
+      message.type === 'make_offer'
+        ? {
+            type: 'radio', // or 'checkbox',
+            keepIt: true,
+            values: [
+              {
+                title: '😋 Yes',
+                value: 'yes',
+              },
+              {
+                title: '📷 Yes, let me show you with a picture!',
+                value: 'yes_picture',
+              },
+              {
+                title: '😞 Nope. What?',
+                value: 'no',
+              },
+            ],
+          }
+        : null,
     createdAt: new Date(message.created_at),
   }));
   return transformed;
