@@ -98,7 +98,7 @@ const ProductDetails = props => {
     productDetailError,
     removePriceAlertLoadingStatus,
   } = useSelector(state => state?.exploreReducer);
-  console.log(productDetailData?.data?.id, 'ProductDetail loading');
+  console.log(productDetailData, 'ProductDetail loading');
 
   const isSelf =
     authReducer?.userProfileDetails?.id === productDetailData?.data?.user_id
@@ -231,7 +231,7 @@ const ProductDetails = props => {
               )}
             </View>
           </View>
-          <ProductImageDetail
+          {/* <ProductImageDetail
             data={productDetailData?.data}
             onVideoClick={e => {
               console.log('e==', e);
@@ -241,7 +241,7 @@ const ProductDetails = props => {
               });
               videoRef.current?.presentFullscreenPlayer();
             }}
-          />
+          /> */}
           {/* MOdel, Brand, Price, condition */}
 
           <View

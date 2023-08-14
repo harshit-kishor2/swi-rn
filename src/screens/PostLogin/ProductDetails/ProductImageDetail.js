@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable react-native/no-inline-styles */
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import React, {useEffect, useRef} from 'react';
@@ -8,6 +10,7 @@ import {
   Pressable,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
 import ImageView from 'react-native-image-viewing';
 import Pagination from './Pagination';
@@ -99,7 +102,7 @@ const ProductImageDetail = ({data, onVideoClick}) => {
     );
   };
   return (
-    <View style={{}}>
+    <View>
       <FlatList
         horizontal
         ref={flatlistRef}
