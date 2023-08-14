@@ -270,3 +270,21 @@ export const removePriceAlert = createAsyncThunk(
     }
   },
 );
+export const addProductInterestList = createAsyncThunk(
+  'exploreProduct/addProductInterestList',
+  async (params, thunkAPI) => {
+    console.log(params, 'params for add to interest list  ');
+    try {
+      const response = await axiosRequest({
+        url: `add-product-interest-list/${params}`,
+        method: 'GET',
+        //params: params,
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);

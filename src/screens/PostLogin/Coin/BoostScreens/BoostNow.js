@@ -149,7 +149,7 @@ const BoostNow = props => {
                 });
               } else {
                 showAlert({
-                  title: 'Error',
+                  title: 'Alert',
                   message: 'Please select one plan.',
                 });
               }

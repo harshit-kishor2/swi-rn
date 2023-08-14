@@ -3,6 +3,7 @@ import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {LoadingStatus} from '@app/helper/strings';
 import {
   addPriceAlert,
+  addProductInterestList,
   addWishListAction,
   freshFindsAction,
   freshFindsSearchingAction,
@@ -78,6 +79,10 @@ const initialState = entityAdapter.getInitialState({
   removePriceAlertLoadingStatus: LoadingStatus.NOT_LOADED,
   removePriceAlert: {},
   removePriceAlertError: null,
+
+  addProductInterestListLoadingStatus: LoadingStatus.NOT_LOADED,
+  addProductInterestList: {},
+  addProductInterestListError: null,
 });
 
 /**
@@ -265,6 +270,17 @@ const reduxSlice = createSlice({
       .addCase(removePriceAlert.rejected, (state, action) => {
         state.removePriceAlertLoadingStatus = LoadingStatus.FAILED;
         state.removePriceAlertError = action.payload;
+      })
+      .addCase(addProductInterestList.pending, state => {
+        state.addProductInterestListLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(addProductInterestList.fulfilled, (state, action) => {
+        (state.addProductInterestListLoadingStatus = LoadingStatus.LOADED),
+          (state.addProductInterestList = action.payload.data);
+      })
+      .addCase(addProductInterestList.rejected, (state, action) => {
+        state.addProductInterestListLoadingStatus = LoadingStatus.FAILED;
+        state.addProductInterestListError = action.payload;
       });
   },
 });

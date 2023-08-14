@@ -69,7 +69,7 @@ const ProductCard = ({
       </Pressable>
       <Card.Content>
         <CustomText style={styles.title}>
-          {addEllipsis(item?.title, 12)}
+          {addEllipsis(item?.title, 10)}
         </CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
