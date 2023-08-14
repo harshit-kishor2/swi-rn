@@ -9,12 +9,20 @@ import NavigationService from '@app/navigations/NavigationService';
 import {Avatar} from 'react-native-paper';
 import moment from 'moment';
 import {RoutesName} from '@app/helper/strings';
-const Header = ({onFollowClick, chat_item, exploreProduct, navigation}) => {
+const Header = ({
+  onFollowClick,
+  chat_item,
+  exploreProduct,
+  chatReducer,
+  navigation,
+}) => {
   const isKeyboardVisible = useKeyboardVisible();
 
   const _goBack = () => {
     NavigationService.goBack();
   };
+  const userDetail = chatReducer?.chatUserDetail;
+  console.log('chatUserDetail===', chatReducer, userDetail);
   return (
     <>
       <View style={styles.rowContainer}>
@@ -42,7 +50,7 @@ const Header = ({onFollowClick, chat_item, exploreProduct, navigation}) => {
         <Pressable style={styles.follow_button} onPress={onFollowClick}>
           <CustomIcon
             origin={ICON_TYPE.FEATHER_ICONS}
-            name={'user-plus'}
+            name={userDetail?.isFollowed ? 'user-minus' : 'user-plus'}
             color={'black'}
             size={25}
           />

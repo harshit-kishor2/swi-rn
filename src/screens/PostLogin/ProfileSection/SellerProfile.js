@@ -25,6 +25,7 @@ const SellerProfile = props => {
     onChangeProductStatus,
     getProfileListing,
     onWishlistClick,
+    onClickFollow,
   } = props;
   const [activeTab, setActiveTab] = useState('Listings');
   const [search, setSearch] = useState('');
@@ -147,7 +148,10 @@ const SellerProfile = props => {
               style={{
                 width: '80%',
               }}>
-              <SubmitButton lable="+ Follow" onPress={() => {}} />
+              <SubmitButton
+                lable={userDetail.isFollowed ? 'Unfollow' : '+ Follow'}
+                onPress={onClickFollow}
+              />
             </View>
             <Pressable style={styles.sharebutton} onPress={() => {}}>
               <CustomIcon

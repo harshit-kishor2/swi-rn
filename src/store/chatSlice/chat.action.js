@@ -147,3 +147,24 @@ export const addDraftInInterestListAction = createAsyncThunk(
     }
   },
 );
+
+/**
+ * Api Action
+ */
+export const chatUserDetailAction = createAsyncThunk(
+  'profileSection/chatUserDetailAction',
+  async (params, thunkAPI) => {
+    try {
+      const result = await axiosRequest({
+        url: `/user-profile`,
+        method: 'GET',
+        params: params, //userId
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

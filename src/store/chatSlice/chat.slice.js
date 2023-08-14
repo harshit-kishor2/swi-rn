@@ -2,6 +2,7 @@ import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
 import {
   addDraftInInterestListAction,
   addIntersetListOnChat,
+  chatUserDetailAction,
   getChatHistoryAction,
   getChatListAction,
   getInteresteListOnChat,
@@ -40,6 +41,9 @@ const initialState = entityAdapter.getInitialState({
 
   addDraftInIntersetListLoadingStatus: LoadingStatus.NOT_LOADED,
   addDraftInInterset: null,
+
+  chatUserDetailLoadingStatus: LoadingStatus.NOT_LOADED,
+  chatUserDetail: null,
 });
 
 /**
@@ -133,6 +137,17 @@ const reduxSlice = createSlice({
       })
       .addCase(addIntersetListOnChat.rejected, (state, action) => {
         state.addInIntersetListLoadingStatus = LoadingStatus.FAILED;
+      })
+
+      .addCase(chatUserDetailAction.pending, state => {
+        state.chatUserDetailLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(chatUserDetailAction.fulfilled, (state, action) => {
+        state.chatUserDetailLoadingStatus = LoadingStatus.LOADED;
+        state.chatUserDetail = action.payload?.data;
+      })
+      .addCase(chatUserDetailAction.rejected, (state, action) => {
+        state.chatUserDetailLoadingStatus = LoadingStatus.FAILED;
       });
   },
 });

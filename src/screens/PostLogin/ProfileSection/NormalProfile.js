@@ -83,7 +83,7 @@ const NormalProfile = props => {
               paddingHorizontal: 20,
             }}>
             <List.Item
-              title={`${'42'} Followings`}
+              title={`${useDetail.total_following} Followings`}
               titleStyle={{
                 fontFamily: FontsConst.OpenSans_Regular,
                 fontSize: 16,

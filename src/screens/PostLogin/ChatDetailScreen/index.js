@@ -4,6 +4,7 @@ import {LoadingStatus} from '@app/helper/strings';
 import {
   addDraftInInterestListAction,
   addIntersetListOnChat,
+  chatUserDetailAction,
   getChatHistoryAction,
   getChatListAction,
   getInteresteListOnChat,
@@ -33,7 +34,10 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import {transformedMessages} from '../../../helper/commonFunction';
 import FullScreenModal from '../../atoms/FullScreenModal';
 import AddInterestModal from './AddInterestModal';
-import {onFollowClickAction} from '@app/store/profileSectionSlice';
+import {
+  onFollowClickAction,
+  profileAboutAction,
+} from '@app/store/profileSectionSlice';
 
 const ChatDetailScreen = props => {
   const {
@@ -50,6 +54,7 @@ const ChatDetailScreen = props => {
     exploreProduct,
     followClickAction,
     route,
+    getProfile,
   } = props;
   const flatRef = useRef();
   const [initialLoad, setInitialLoad] = useState(true);
@@ -77,6 +82,9 @@ const ChatDetailScreen = props => {
     getChatDetails({
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,
+    });
+    getProfile({
+      userId: chat_item?.user_id,
     });
     getAllBrand();
     getProductDetails({
@@ -161,14 +169,17 @@ const ChatDetailScreen = props => {
 
   const onFollowClick = () => {
     followClickAction({
-      followed_visited_by: chat_item?.user_id,
-      user_id: authReducer?.userProfileDetails?.id,
+      user_id: chat_item?.user_id,
+      followed_visited_by: authReducer?.userProfileDetails?.id,
       type: 'follow',
     }).then(res => {
       if (res?.type.includes('fulfilled')) {
+        getProfile({
+          userId: chat_item?.user_id,
+        });
         showAlert({
           title: 'Success',
-          message: 'Followed successfully.',
+          message: res?.payload?.message,
         });
       }
       if (res?.type.includes('rejected')) {
@@ -323,6 +334,7 @@ const mapStateToProps = state => {
     authReducer: state?.authReducer,
     exploreProduct: state?.exploreProductReducer,
     productReducer: state?.productReducer,
+    profileSectionReducer: state?.profileSectionReducer,
   };
 };
 
@@ -340,6 +352,7 @@ const mapDispatchToProps = dispatch => ({
   onAddDraftInteresetList: params =>
     dispatch(addDraftInInterestListAction(params)),
   onAddIntersetList: params => dispatch(addIntersetListOnChat(params)),
+  getProfile: params => dispatch(chatUserDetailAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatDetailScreen);

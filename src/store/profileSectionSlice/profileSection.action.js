@@ -36,7 +36,6 @@ export const profileAboutAction = createAsyncThunk(
         method: 'GET',
         params: params, //userId
       });
-      console.log('TTTTTTTTTTTTTTTTT', result);
       return result;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -90,6 +89,7 @@ export const onFollowClickAction = createAsyncThunk(
       const result = await AxiosRequest({
         url: `follow-visit/${params?.user_id}`,
         method: 'POST',
+        data: params,
       });
       return result;
     } catch (error) {
