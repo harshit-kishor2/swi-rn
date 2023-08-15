@@ -28,7 +28,6 @@ import RateUser from '@app/screens/PostLogin/RatingAndReviews/RateUser';
 import BuyCoins from '@app/screens/PostLogin/Coin/BuyCoins';
 import AccountSetting from '@app/screens/PostLogin/AccountSetting';
 import About from '@app/screens/PostLogin/About/About';
-import GeneralProfileEdit from '@app/screens/PostLogin/GeneralProfileEdit';
 
 const Stack = createNativeStackNavigator();
 const PostLoginNavigator = () => {
@@ -132,11 +131,6 @@ const PostLoginNavigator = () => {
       <Stack.Screen
         name={RoutesName.About_Page}
         component={About}
-        options={{headerShown: false}}
-      />
-      <Stack.Screen
-        name={RoutesName.GENERAL_PROFILE_EDIT}
-        component={GeneralProfileEdit}
         options={{headerShown: false}}
       />
 

@@ -9,7 +9,6 @@ import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import App from './src/App';
 import 'react-native-reanimated';
-import GeneralProfileEdit from '@app/screens/PostLogin/GeneralProfileEdit';
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('Message handle======d in the background!', remoteMessage);
 });

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   Image,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { COLORS, IMAGES, SPACING } from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
 import {
   BackHeader,
   Container,
@@ -21,31 +21,15 @@ import {
 } from '@app/components';
 import NotificationCard from '@app/screens/atoms/NotificationCard';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import { FontsConst } from '@app/assets/assets';
-import { Avatar } from 'react-native-paper';
-import { LoadingStatus, RoutesName } from '@app/helper/strings';
-import { connect } from 'react-redux';
-import authReducer, { NotificationListing } from '@app/store/authSlice';
-import { ICON_TYPE } from '@app/components/CustomIcon';
+import {FontsConst} from '@app/assets/assets';
+import {Avatar, Divider} from 'react-native-paper';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import {connect} from 'react-redux';
+import authReducer, {NotificationListing} from '@app/store/authSlice';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {EmptyList} from '../ChatScreen/commn';
+import moment from 'moment';
 
-
-
-
-
-function formatDate(inputDate) {
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
-
-  const dateParts = inputDate.split('T')[0].split('-');
-  const year = parseInt(dateParts[0]);
-  const monthIndex = parseInt(dateParts[1]) - 1;
-  const day = parseInt(dateParts[2]);
-
-  const formattedDate = `${day} ${months[monthIndex]}, ${year}`;
-  return formattedDate;
-}
 export function getTimeDifferenceString(date) {
   const now = new Date();
   const timestamp = new Date(date);
@@ -63,36 +47,15 @@ export function getTimeDifferenceString(date) {
   } else if (timeDifferenceInSeconds < 172800) {
     // 24 * 60 * 60 seconds in a day
     return 'yesterday';
-  } else if (timeDifferenceInSeconds < 604800) {
-    const days = Math.floor(timeDifferenceInSeconds / 86400);
-    return `${days} ${days === 1 ? 'day' : 'days'} ago`;
-  } else if (timeDifferenceInSeconds < 2419200) {
-    const weeks = Math.floor(timeDifferenceInSeconds / 604800);
-    return formatDate(date);
+  } else {
+    return moment(date).format('D MMM YYYY');
   }
 }
 
-
 const NotificationScreen = props => {
-  console.log(props?.authReducer?.NotificationListing?.data, "=================>>>>>>>>>>>>>")
+  const {navigation, route, getNotificationList} = props;
 
-  const { navigation, route, getNotificationList } = props;
-  const DATA = [
-    {
-      title: 'Today',
-      data: ['Pizza', 'Burger', 'Risotto'],
-    },
-    {
-      title: 'This Week',
-      data: ['French Fries', 'Onion Rings', 'Fried Shrimps'],
-    },
-    {
-      title: 'Older',
-      data: ['Water', 'Coke', 'Beer'],
-    },
-  ];
-
-  const onRowClick = (type) => {
+  const onRowClick = type => {
     switch (type) {
       case 'price-alert':
         navigation.navigate(RoutesName.PRODUCT_DETAILS);
@@ -102,7 +65,7 @@ const NotificationScreen = props => {
   };
   useEffect(() => {
     getNotificationList();
-  }, [])
+  }, []);
 
   // Function to categorize notifications
   function categorizeNotifications(notifications) {
@@ -115,7 +78,7 @@ const NotificationScreen = props => {
 
       // Calculate the time difference in days
       const timeDiff = (Date.now() - createdAt) / (1000 * 60 * 60 * 24);
-
+      console.log('timeDiff', timeDiff, createdAt);
       if (timeDiff <= 0) {
         today.push(notification);
       } else if (timeDiff <= 7) {
@@ -126,46 +89,53 @@ const NotificationScreen = props => {
     });
 
     // return { today, thisWeek, older };
-
-    return [
-      {
+    const newArr = [];
+    if (today.length) {
+      newArr.push({
         title: 'Today',
         data: today,
-      },
-      {
+      });
+    }
+    if (thisWeek.length) {
+      newArr.push({
         title: 'This Week',
         data: thisWeek,
-      },
-      {
+      });
+    }
+    if (older.length) {
+      newArr.push({
         title: 'Older',
         data: older,
-      },
-    ];
+      });
+    }
+
+    return newArr;
   }
 
-  const modified = categorizeNotifications(props?.authReducer?.NotificationListing?.data?.notifications ?? [])
-  console.log("modified", modified)
-
-  const renderSection = (item) => {
-    const { section: { title, data } } = item
-    console.log(title, "==================>>>>>>>>>>.titile", item)
+  const modified = categorizeNotifications(
+    props?.authReducer?.NotificationListing?.data?.notifications ?? [],
+  );
+  console.log('Modified==', modified);
+  const renderSection = item => {
+    const {
+      section: {title, data},
+    } = item;
     if (data.length)
       return (
         <View style={styles.section}>
           <CustomText style={styles.titleText}>{title}</CustomText>
         </View>
       );
-  }
+  };
 
-  const renderItem = ({ item }) => {
-    console.log(item, "itme--------------------->>>>>>>>>>")
+  const renderItem = ({item}) => {
     return (
-      // <Pressable onPress={() => onRowClick(`${item?.type}`)} style={styles.row}>
       <View>
         <Pressable onPress={() => onRowClick()} style={styles.row}>
-          <Avatar.Image source={
-            {}
-          } size={50} />
+          <Avatar.Image
+            source={{uri: props?.authReducer?.NotificationListing?.data?.image}}
+            size={50}
+          />
           <View
             style={{
               flex: 1,
@@ -174,18 +144,20 @@ const NotificationScreen = props => {
             <CustomText style={styles.notification_title}>
               {item?.message}
             </CustomText>
-            <CustomText style={styles.notification_price}>{getTimeDifferenceString(`${item?.created_at}`)}</CustomText>
+            <CustomText style={styles.notification_price}>
+              {getTimeDifferenceString(`${item?.created_at}`)}
+            </CustomText>
           </View>
-
         </Pressable>
-        <View style={{ height: 1, width: '90%', backgroundColor: 'black', margin: 10, opacity: 0.2 }} />
+        <Divider style={{marginVertical: 10}} />
       </View>
-    )
-  }
+    );
+  };
 
   return (
-    <Container useSafeAreaView={true} loading={authReducer.NotificationListing ==
-      LoadingStatus.LOADING} >
+    <Container
+      useSafeAreaView={true}
+      loading={authReducer.NotificationListing == LoadingStatus.LOADING}>
       <BackHeader />
 
       <PageTitle title={'Notifications'} />
@@ -196,11 +168,11 @@ const NotificationScreen = props => {
         keyExtractor={(item, index) => item + index}
         renderItem={renderItem}
         renderSectionHeader={renderSection}
+        ListEmptyComponent={EmptyList}
       />
     </Container>
   );
 };
-
 
 const styles = StyleSheet.create({
   section_container: {
@@ -210,7 +182,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 16,
     fontFamily: FontsConst.Cabin_Bold,
-    marginBottom: 10
+    marginBottom: 10,
   },
   section: {
     justifyContent: 'center',

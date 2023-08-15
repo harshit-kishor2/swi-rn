@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react/react-in-jsx-scope */
-import { IMAGES, SPACING } from '@app/resources';
+import {IMAGES, SPACING} from '@app/resources';
 import store from '@app/store';
 // import {logoutAction} from '@app/store/authSlice/auth.slice';
-import { RoutesName } from '@app/helper/strings';
+import {RoutesName} from '@app/helper/strings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Alert,
@@ -18,23 +18,24 @@ import {
   View,
 } from 'react-native';
 import styles from './styles';
-import { SharedPreference } from '@app/helper';
-import { useDispatch, useSelector } from 'react-redux';
-import { logoutAction } from '@app/store/authSlice';
-import { useState } from 'react';
-import { Container, CustomIcon, Spacer } from '@app/components';
-import { Avatar } from 'react-native-paper';
-import { AssestsConst } from '@app/assets/assets';
+import {SharedPreference} from '@app/helper';
+import {useDispatch, useSelector} from 'react-redux';
+import {logoutAction, userProfile} from '@app/store/authSlice';
+import {useEffect, useState} from 'react';
+import {Container, CustomIcon, Spacer} from '@app/components';
+import {Avatar} from 'react-native-paper';
+import {AssestsConst} from '@app/assets/assets';
 import NavigationService from '@app/navigations/NavigationService';
-import { ICON_TYPE } from '@app/components/CustomIcon';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {useIsFocused} from '@react-navigation/native';
 
 const MyProfileScreen = props => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isFocused = useIsFocused();
 
   const profileData = useSelector(
     state => state.authReducer?.userProfileDetails,
   );
-  console.log('Profiledata===', profileData);
   const dispatch = useDispatch();
 
   const logout = async () => {
@@ -57,9 +58,9 @@ const MyProfileScreen = props => {
           style: 'cancel',
           onPress: () => setIsLoggingOut(false),
         },
-        { text: 'Logout', style: 'destructive', onPress: () => performLogout() },
+        {text: 'Logout', style: 'destructive', onPress: () => performLogout()},
       ],
-      { cancelable: false },
+      {cancelable: false},
     );
   };
 
@@ -70,10 +71,16 @@ const MyProfileScreen = props => {
     setIsLoggingOut(false);
     // Add your logout logic here
   };
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(userProfile({userId: profileData?.id}));
+    }
+  }, [isFocused]);
+
   return (
     <Container useSafeAreaView={Platform.OS === 'ios' ? true : false}>
       <ScrollView
-        style={{ flex: 1, paddingBottom: 10 }}
+        style={{flexGrow: 1, paddingBottom: 10}}
         showsVerticalScrollIndicator={false}>
         <View
           style={{
@@ -138,11 +145,11 @@ const MyProfileScreen = props => {
 
               <View>
                 <View style={styles.VerificationViewStyle}>
-                  <Image source={IMAGES.check} style={{ alignSelf: 'center' }} />
+                  <Image source={IMAGES.check} style={{alignSelf: 'center'}} />
                   <Text style={styles.VerificationStyle}> Email Verified</Text>
                 </View>
                 <View style={styles.VerificationViewStyle}>
-                  <Image source={IMAGES.cross} style={{ alignSelf: 'center' }} />
+                  <Image source={IMAGES.cross} style={{alignSelf: 'center'}} />
                   <Text style={styles.VerificationStyle}>
                     {' '}
                     SingPass verification Pending
@@ -246,11 +253,11 @@ const MyProfileScreen = props => {
 
           <View style={styles.LineView} />
 
-          <TouchableOpacity activeOpacity={1} onPress={() => {
-            NavigationService.navigate(RoutesName.About_Page, {
-
-            });
-          }}>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              NavigationService.navigate(RoutesName.About_Page, {});
+            }}>
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.about} />
@@ -299,7 +306,6 @@ const MyProfileScreen = props => {
         </View>
         {/* <Button title="logout"  /> */}
         <Spacer height={50} />
-
       </ScrollView>
     </Container>
   );

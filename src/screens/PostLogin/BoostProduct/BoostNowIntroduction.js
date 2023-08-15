@@ -10,7 +10,15 @@ import {
   ScrollView,
 } from 'react-native';
 import React from 'react';
-import {BackHeader, Custombutton, NavigationBar, Spacer} from '@app/components';
+import {
+  BackHeader,
+  Container,
+  CustomText,
+  Custombutton,
+  NavigationBar,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
 import {COLORS, IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
 import {RoutesName} from '@app/helper/strings';
@@ -24,35 +32,36 @@ const BoostNowIntroduction = props => {
     userProfile,
     'get started boost coins',
   );
-  console.log('product id==>>', props?.route?.params?.product_id);
-  const isCoins = authReducer?.userProfileDetails?.coins === 0 ? false : true;
+  console.log(
+    'product id==>>',
+    props?.route?.params?.product_id,
+    authReducer?.userProfileDetails,
+  );
+  const isCoins = authReducer?.userProfileDetails?.coins === '0' ? false : true;
   return (
-    <View style={styles.MainContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <BackHeader />
+    <Container useSafeAreaView={true}>
+      <BackHeader />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 20,
+          alignItems: 'center',
+        }}>
+        <ImageBackground
+          source={IMAGES.BoostNowShade1}
+          style={styles.ImageBackgroudContainer}>
+          <Image
+            style={{top: SPACING.SCALE__30}}
+            source={IMAGES.CoinBoostNow}
+          />
+        </ImageBackground>
 
-        <View style={styles.CoinContainer}>
-          <ImageBackground
-            source={IMAGES.BoostNowShade1}
-            style={styles.ImageBackgroudContainer}>
-            <Image
-              style={{top: SPACING.SCALE__30}}
-              source={IMAGES.CoinBoostNow}
-            />
-          </ImageBackground>
-        </View>
+        <CustomText style={styles.BoostTextStyle}>
+          Sell your watch faster Boost it now
+        </CustomText>
+        <Spacer height={20} />
 
-        <View
-          style={{
-            justifyContent: 'center',
-            alignSelf: 'center',
-            width: SPACING.SCALE_300,
-            margin: 30,
-          }}>
-          <Text style={styles.BoostTextStyle}>
-            Sell your watch faster Boost it now
-          </Text>
-        </View>
         <View style={styles.contentMainStyle}>
           <View style={styles.GroupContainerStyle}>
             <View style={styles.GroupStyle}>
@@ -84,32 +93,30 @@ const BoostNowIntroduction = props => {
           </View>
         </View>
         <Spacer height={36} />
-        <View style={styles.contentMainStyle}>
-          <Custombutton
-            title={'Get Started'}
-            width={'80%'}
-            fontSize={SPACING.SCALE_20}
-            onPress={() => {
-              if (props?.route?.params?.product_id) {
-                props?.navigation?.navigate(
-                  isCoins
-                    ? RoutesName.BOOST_NOW
-                    : RoutesName.BOOST_PURCHASE_COIN,
-                  {
-                    product_id: props?.route?.params?.product_id,
-                  },
-                );
-              }
-            }}
-          />
-          <Pressable
-            style={styles.pressableStyle}
-            onPress={() => Alert.alert('Dab gya')}>
-            <Text style={styles.hyperlinkStyle}>Not now, I’ll do it later</Text>
-          </Pressable>
-        </View>
+        <SubmitButton
+          buttonStyle={{
+            width: '80%',
+          }}
+          lable="Get Started"
+          onPress={() => {
+            console.log('Icsoins==', isCoins);
+            if (props?.route?.params?.product_id) {
+              props?.navigation?.navigate(
+                isCoins ? RoutesName.BOOST_NOW : RoutesName.BOOST_PURCHASE_COIN,
+                {
+                  product_id: props?.route?.params?.product_id,
+                },
+              );
+            }
+          }}
+        />
+        <Pressable
+          style={styles.pressableStyle}
+          onPress={() => props?.navigation?.goBack()}>
+          <Text style={styles.hyperlinkStyle}>Not now, I’ll do it later</Text>
+        </Pressable>
       </ScrollView>
-    </View>
+    </Container>
   );
 };
 

@@ -16,6 +16,7 @@ import {
   Custombutton,
   NavigationBar,
   Spacer,
+  SubmitButton,
 } from '@app/components';
 import {IMAGES, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
@@ -29,38 +30,24 @@ const PurchaseCoin = props => {
   const {boostPlans, boostProductReducer} = props;
   const [selected, setSelected] = useState();
   const [selectedPladId, setSelectedPlanId] = useState();
-
-  const DATA = [
-    {
-      week_days: '1 Week',
-      number_of_coins: 18,
-    },
-    {
-      week_days: '15 days',
-      number_of_coins: 50,
-    },
-    {
-      week_days: '1 Month',
-      number_of_coins: 80,
-    },
-  ];
-
   useEffect(() => {
     boostPlans();
   }, []);
 
-  console.log(props, 'props===========');
-  console.log(props?.route?.params?.product_id, 'props===========');
   const boostProductDetail = {
     pid: props?.route?.params?.product_id,
     planid: selectedPladId,
   };
   return (
-    <Container style={{flex: 1}}>
+    <Container useSafeAreaView={true}>
+      <BackHeader />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{margin: 10, flex: 1}}>
-        <BackHeader />
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 40,
+          paddingTop: 10,
+        }}>
         <View style={styles.CoinContainer}>
           <ImageBackground
             source={IMAGES.sandWatch}
@@ -95,9 +82,7 @@ const PurchaseCoin = props => {
                   style={{}}
                   onPress={() => {
                     setSelected(index);
-                    console.log(index);
-                    setSelectedPlanId(item.id);
-                    //boostProductDetail.planId = item.id;
+                    setSelectedPlanId(item);
                   }}>
                   <View
                     style={[
@@ -135,28 +120,25 @@ const PurchaseCoin = props => {
           </View>
         )}
         <Spacer height={40} />
-        <View>
-          <Custombutton
-            title="Purchase Coins"
-            //marginTop={10}
-            height={50}
-            width={'90%'}
-            //marginHorizontal={20}
-            onPress={() => {
-              if (boostProductDetail.planid) {
-                props.navigation.navigate(
-                  RoutesName.PAY_NOW,
-                  boostProductDetail,
-                );
-              } else {
-                showAlert({
-                  title: 'Error',
-                  message: 'Please select one plan to boost product.',
-                });
-              }
-            }}
-          />
-        </View>
+        <SubmitButton
+          buttonStyle={{
+            width: '80%',
+            alignSelf: 'center',
+          }}
+          lable="Purchase Coins"
+          onPress={() => {
+            if (boostProductDetail.planid) {
+              props.navigation.navigate(RoutesName.PAY_NOW, {
+                boostProductDetail,
+              });
+            } else {
+              showAlert({
+                title: 'Error',
+                message: 'Please select one plan to boost product.',
+              });
+            }
+          }}
+        />
 
         <TouchableOpacity style={{alignSelf: 'center', marginTop: 30}}>
           <Text
@@ -167,7 +149,8 @@ const PurchaseCoin = props => {
               textDecorationLine: 'underline',
             }}
             onPress={() => {
-              // Alert.alert('in process');
+              props?.navigation?.goBack();
+              props?.navigation?.goBack();
             }}>
             Not now, I'll do it later
           </Text>

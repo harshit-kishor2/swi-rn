@@ -4,14 +4,9 @@
 import {View, Text, StyleSheet, PixelRatio} from 'react-native';
 import React from 'react';
 import {COLORS, SPACING} from '../../../resources';
+import {FontsConst} from '@app/assets/assets';
 
 export default styles = StyleSheet.create({
-  MainContainer: {
-    //marginVertical: SPACING.SCALE_25,
-    padding: SPACING.SCALE_10,
-    backgroundColor: '#fff',
-    flex: 1,
-  },
   NavigationContainer: {
     marginLeft: SPACING.SCALE_10,
   },
@@ -24,12 +19,14 @@ export default styles = StyleSheet.create({
   ImageBackgroudContainer: {
     height: SPACING.SCALE_100,
     width: SPACING.SCALE_100,
+    margin: 40,
   },
   BoostTextStyle: {
     fontSize: SPACING.SCALE_24,
-    fontFamily: 'OpenSans-SemiBold',
-    textAlign: 'center',
+    fontFamily: FontsConst.OpenSans_SemiBold,
     color: '#000000',
+    textAlign: 'center',
+    paddingHorizontal: 30,
   },
   GroupStyle: {
     backgroundColor: '#F4F4F4',

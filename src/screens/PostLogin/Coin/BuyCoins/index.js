@@ -32,14 +32,9 @@ import {showAlert} from '@app/helper/commonFunction';
 import {RoutesName} from '@app/helper/strings';
 
 const BuyCoins = props => {
-  console.log(props?.route?.params, '=========<<<<<<<<<');
   const {boostProductReducer, boostProduct, purchaseCoins, coinPlans} = props;
   const [selected, setSelected] = useState();
-  const [purchaseCoinId, setPurchaseCoinId] = useState();
-  console.log(
-    boostProductReducer?.coinPlansData,
-    'sdfghjkl;lkjhgfghj===========>>',
-  );
+  const [purchaseCoinItem, setPurchaseCoinItem] = useState();
 
   useEffect(() => {
     coinPlans();
@@ -87,7 +82,7 @@ const BuyCoins = props => {
                 <TouchableOpacity
                   onPress={() => {
                     setSelected(index);
-                    setPurchaseCoinId(item.id);
+                    setPurchaseCoinItem(item);
                   }}>
                   <View
                     style={[
@@ -146,47 +141,71 @@ const BuyCoins = props => {
             width={'100%'}
             marginHorizontal={20}
             onPress={() => {
-              if (purchaseCoinId) {
-                purchaseCoins({planid: purchaseCoinId}).then(result => {
-                  if (
-                    result?.payload?.message === 'Coins purchased successfully.'
-                  ) {
-                    if (props?.route?.params?.from === 'coin history') {
-                      props?.navigation?.navigate(
-                        RoutesName.BOOST_PRODUCT_SUCCESS,
-                        {
-                          from: props?.route?.params?.from,
-                        },
-                      );
-                    } else {
-                      if (props?.route?.params?.pid) {
-                        boostProduct(props?.route?.params).then(res => {
-                          //console.log(res, 'first');
-                          if (
-                            res?.payload?.message ===
-                            'Your product has been successfully boosted.'
-                          ) {
-                            props?.navigation?.navigate(
-                              RoutesName.BOOST_PRODUCT_SUCCESS,
-                            );
-                          }
-                          //
-                        });
-                      }
-                    }
-                  }
+              console.log('DATA+++++++', props.route.params, purchaseCoinItem);
+              if (
+                props.route.params?.boostProductDetail?.planid?.coins_value >
+                purchaseCoinItem.coins_value
+              ) {
+                showAlert({
+                  title: 'Please select another plan!',
+                  message:
+                    'There are less coins in this plan for boost your product.',
                 });
               } else {
-                showAlert({
-                  title: 'Alert',
-                  message: 'Please select a plan.',
-                });
+                if (purchaseCoinItem.id) {
+                  purchaseCoins({planid: purchaseCoinItem.id}).then(result => {
+                    if (
+                      result?.payload?.message ===
+                      'Coins purchased successfully.'
+                    ) {
+                      if (props?.route?.params?.from === 'coin history') {
+                        props?.navigation?.navigate(
+                          RoutesName.BOOST_PRODUCT_SUCCESS,
+                          {
+                            from: props?.route?.params?.from,
+                          },
+                        );
+                      } else {
+                        if (props?.route?.params?.boostProductDetail?.pid) {
+                          boostProduct({
+                            pid: props?.route?.params?.boostProductDetail?.pid,
+                            planid:
+                              props?.route?.params?.boostProductDetail?.planid
+                                ?.id,
+                          }).then(res => {
+                            if (
+                              res?.payload?.message ===
+                              'Your product has been successfully boosted.'
+                            ) {
+                              props?.navigation?.navigate(
+                                RoutesName.BOOST_PRODUCT_SUCCESS,
+                              );
+                            }
+                            //
+                          });
+                        }
+                      }
+                    }
+                  });
+                } else {
+                  showAlert({
+                    title: 'Alert',
+                    message: 'Please select a plan.',
+                  });
+                }
               }
             }}
           />
         </View>
 
-        <TouchableOpacity style={{alignSelf: 'center', marginTop: 30}}>
+        <TouchableOpacity
+          onPress={() => {
+            props?.navigation?.goBack();
+            if (props?.route?.params?.from !== 'coin history') {
+              props?.navigation?.goBack();
+            }
+          }}
+          style={{alignSelf: 'center', marginTop: 30}}>
           <Text
             style={{
               fontSize: 14,
