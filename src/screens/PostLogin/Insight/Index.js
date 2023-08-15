@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import {FontsConst} from '@app/assets/assets';
 import {
   Container,
   CustomIcon,
@@ -94,7 +95,7 @@ const Insight = props => {
           <Text
             style={{
               fontSize: 20,
-              fontFamily: 'Cabin Bold',
+              fontFamily: FontsConst.Cabin_Bold,
               color: COLORS.BLACK,
             }}>
             Insights Overview
@@ -108,7 +109,7 @@ const Insight = props => {
             }}
           />
 
-          <View style={{marginTop: 25, marginLeft: 5}}>
+          <View style={{marginTop: 25, marginLeft: 0}}>
             <Dropdown
               style={style.dropdown}
               selectedTextStyle={style.selectedText}
@@ -135,7 +136,7 @@ const Insight = props => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: 'OpenSans Regular',
+                fontFamily: FontsConst.OpenSans_Regular,
                 color: '#797979',
                 marginLeft: 5,
               }}>
@@ -283,7 +284,7 @@ const Insight = props => {
               style={{
                 marginBottom: 8,
                 fontSize: 15,
-                fontFamily: 'OpenSans Regular',
+                fontFamily: FontsConst.OpenSans_Regular,
                 color: '#7E7E7E',
               }}>
               Number of Clicks{' '}
@@ -300,7 +301,7 @@ const Insight = props => {
                 placeholderStyle={style.selectedText}
                 iconStyle={{
                   fontSize: 12,
-                  fontFamily: 'OpenSans Regular',
+                  fontFamily: FontsConst.OpenSans_Regular,
                   color: '#868686',
                 }}
                 labelField={'label'}
@@ -329,8 +330,12 @@ const Insight = props => {
                   width: 365,
                   height: 196,
                   marginTop: 20,
+                  marginLeft: -12,
+
+                  //paddingHorizontal: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
+                  //backgroundColor: 'red',
                 }}>
                 {exploreProduct?.productInsightsInfo?.impressions?.chart
                   .length !== 0 ? (
@@ -435,7 +440,7 @@ const Insight = props => {
             <Text
               style={{
                 fontSize: 20,
-                fontFamily: 'Cabin Bold',
+                fontFamily: FontsConst.Cabin_Bold,
                 fontWeight: 'bold',
                 color: COLORS.BLACK,
               }}>
@@ -485,7 +490,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     height: 50,
-    width: 345,
+    width: '99.6%',
   },
   selectedText: {
     fontSize: 16,
@@ -496,19 +501,19 @@ const style = StyleSheet.create({
   },
   impressionClick: {
     fontSize: 15,
-    fontFamily: 'OpenSans Bold',
+    fontFamily: FontsConst.OpenSans_Bold,
     fontWeight: 'bold',
     color: COLORS.BLACK,
   },
   impressionClickText: {
     fontSize: 14,
-    fontFamily: 'OpenSans Bold',
+    fontFamily: FontsConst.OpenSans_Bold,
     fontWeight: 'bold',
     color: COLORS.BLACK,
   },
   impressionClickPercent: {
     fontSize: 12,
-    fontFamily: 'OpenSans Bold',
+    fontFamily: FontsConst.OpenSans_Bold,
     fontWeight: 'bold',
     color: '#7DAF07',
     marginLeft: 7,
@@ -516,13 +521,13 @@ const style = StyleSheet.create({
   },
   OpacityText: {
     fontSize: 15,
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: FontsConst.OpenSans_Regular,
     color: '#868686',
     alignSelf: 'center',
   },
   OpacityTextHighlighted: {
     fontSize: 15,
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: FontsConst.OpenSans_Bold,
     color: '#00958C',
     alignSelf: 'center',
   },
