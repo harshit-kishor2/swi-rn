@@ -230,6 +230,7 @@ const SignupScreen = props => {
               NavigationService.navigate(RoutesName.LOGIN_OPTIONS_SCREEN);
             }}
           />
+          <Spacer height={30} />
         </ScrollView>
       </KeyboardAvoidingView>
     </Container>
