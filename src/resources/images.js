@@ -103,7 +103,7 @@ export const Seller_phone_call = require('../assets/images/Seller_phone-call.png
 export const Seller__Singpass = require('../assets/images/Seller_Singpass.png');
 
 // Boost Now Screen
-
+export const handDollor = require('../assets/images/hand.png');
 export const sandWatch = require('../assets/images/sandwatch/sandwatch.png');
 export const cancel = require('../assets/images/cancel.png');
 export const userProfile = require('../assets/images/userProfile/userProfile.png');

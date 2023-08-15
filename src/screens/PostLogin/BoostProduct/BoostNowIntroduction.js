@@ -69,7 +69,10 @@ const BoostNowIntroduction = props => {
           <Spacer height={25} />
           <View style={styles.GroupContainerStyle}>
             <View style={styles.GroupStyle}>
-              <Image source={IMAGES.handCoin} />
+              <Image
+                style={{height: 30, width: 30}}
+                source={IMAGES.handDollor}
+              />
             </View>
             <View style={styles.ContentTextStyle}>
               <Text style={styles.HedaerStyle}>Sell your watch faster </Text>

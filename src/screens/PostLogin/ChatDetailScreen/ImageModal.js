@@ -18,12 +18,12 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       .then(image => {
         if (image?.size <= 5242880) {
           sendMessage({type: 'image', message: image});
-          setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
             message: 'Image size exceed 5MB',
           });
+          setModalVisible(!modalVisible);
         }
       })
       .catch(err => {
@@ -41,13 +41,13 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       .then(image => {
         if (image?.size <= 5242880) {
           sendMessage({type: 'image', message: image});
-          setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
             message: 'Image size exceed 5MB',
           });
         }
+        setModalVisible(!modalVisible);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -62,13 +62,13 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       .then(video => {
         if (video?.size <= 10485760) {
           sendMessage({type: 'video', message: video});
-          setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
             message: 'Video size exceed 10MB',
           });
         }
+        setModalVisible(!modalVisible);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -83,13 +83,13 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       .then(video => {
         if (video?.size <= 5242880) {
           sendMessage({type: 'video', message: video});
-          setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
             message: 'Video size exceed 10MB',
           });
         }
+        setModalVisible(!modalVisible);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -103,16 +103,15 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
         presentationStyle: 'fullScreen',
         type: [DocumentPicker.types.pdf],
       }).then(pdf => {
-        console.log('PD', pdf);
         if (pdf[0]?.size <= 5242880) {
           sendMessage({type: 'pdf', message: pdf[0]});
-          setModalVisible(!modalVisible);
         } else {
           showAlert({
             title: 'Alert!',
             message: 'PDF size exceed 10MB',
           });
         }
+        setModalVisible(!modalVisible);
       });
     } catch (err) {
       console.warn(err);

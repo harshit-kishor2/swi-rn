@@ -5,14 +5,14 @@ import {
   NavigationBar,
 } from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import {RoutesName} from '@app/helper/strings';
+import {RoutesName, LoadingStatus} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import {COLORS, IMAGES} from '@app/resources';
 import {
   getNotificationPermission,
   updateNotificationPermission,
 } from '@app/store/authSlice';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
 import {connect} from 'react-redux';
 import ToggleSwitch from 'toggle-switch-react-native';
@@ -33,8 +33,6 @@ const AccountSetting = props => {
     getNotification().then(e => {
       setSwitch(item?.push_notifications);
       setEmailToggle(item?.email_notifications);
-
-      console.log(e, 'fkdhfkdjahfkjdahfadfdahkjfhakhfkafhkadskfaskh');
     });
   }, [
     props?.authReducer?.getNotificationDetails?.push_notifications,
@@ -69,7 +67,12 @@ const AccountSetting = props => {
     updateNotification(paramsEmail);
   };
   return (
-    <Container useSafeAreaView={true}>
+    <Container
+      useSafeAreaView={true}
+      loading={
+        authReducer?.getNotificationPermissionLoadingStatus ===
+        LoadingStatus.LOADING
+      }>
       <BackHeader />
       <View style={{paddingHorizontal: 20}}>
         <View style={style.Notification}>
