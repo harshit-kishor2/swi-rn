@@ -27,6 +27,8 @@ import {
 } from '@app/store/exploreProductSlice/addToCompare.slice';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {addEllipsis} from '@app/helper/commonFunction';
+import {FontsConst} from '@app/assets/assets';
+import PageTitle from '@app/screens/atoms/PageTitle';
 
 const ItemComparison = props => {
   const dispatch = useDispatch();
@@ -46,7 +48,7 @@ const ItemComparison = props => {
           <CustomText
             style={{
               fontSize: SPACING.SCALE_22,
-              fontWeight: 'bold',
+              fontFamily: FontsConst.Cabin_Bold,
               marginLeft: SPACING.SCALE_20,
             }}>
             Compare products

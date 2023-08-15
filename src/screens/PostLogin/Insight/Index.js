@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {FontsConst} from '@app/assets/assets';
 import {
+  BackHeader,
   Container,
   CustomIcon,
   CustomInput,
@@ -10,6 +11,7 @@ import {
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {LoadingStatus} from '@app/helper/strings';
 import {COLORS, IMAGES} from '@app/resources';
+import PageTitle from '@app/screens/atoms/PageTitle';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {productInsights} from '@app/store/exploreProductSlice';
 import React, {useState} from 'react';
@@ -77,38 +79,20 @@ const Insight = props => {
 
   return (
     <Container
+      useSafeAreaView={true}
       loading={
         exploreProduct?.productInsightsInfoLoadingStatus ===
         LoadingStatus.LOADING
       }>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{margin: 20}}>
-          <NavigationBar
-            leftSource={IMAGES.BACKARROW}
-            leftAction={() => {
-              console.log('first');
-              props.navigation.goBack();
-            }}
-            flexDirection="row"
-          />
-
-          <Text
-            style={{
-              fontSize: 20,
-              fontFamily: FontsConst.Cabin_Bold,
-              color: COLORS.BLACK,
-            }}>
-            Insights Overview
-          </Text>
-          <View
-            style={{
-              height: 4,
-              width: '10%',
-              marginTop: 10,
-              backgroundColor: '#00958C',
-            }}
-          />
-
+      <BackHeader />
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: 30,
+        }}
+        showsVerticalScrollIndicator={false}>
+        <PageTitle title={'Insights Overview'} />
+        <View style={{paddingHorizontal: 20}}>
           <View style={{marginTop: 25, marginLeft: 0}}>
             <Dropdown
               style={style.dropdown}
@@ -287,7 +271,7 @@ const Insight = props => {
                 fontFamily: FontsConst.OpenSans_Regular,
                 color: '#7E7E7E',
               }}>
-              Number of Clicks{' '}
+              Number of {select}
             </Text>
             <View>
               <Dropdown
