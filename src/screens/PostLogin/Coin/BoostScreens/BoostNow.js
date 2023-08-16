@@ -88,7 +88,14 @@ const BoostNow = props => {
                 <TouchableOpacity
                   onPress={() => {
                     params.planid = item.id;
-                    if (authReducer?.userProfileDetails?.coins >= item.coins) {
+                    console.log(
+                      'COINS==',
+                      authReducer?.userProfileDetails?.coins,
+                      item.coins_value,
+                    );
+                    if (
+                      authReducer?.userProfileDetails?.coins >= item.coins_value
+                    ) {
                       setSelected(index);
                       setSelectedPlan(item.id);
                     } else {
