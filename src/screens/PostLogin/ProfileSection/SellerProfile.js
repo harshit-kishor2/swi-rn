@@ -43,6 +43,7 @@ const SellerProfile = props => {
     };
   }, [query]);
 
+  console.log('USEr DEtails ========>', userDetail);
   const onSharePerson = async () => {
     let linkProperties = {
       feature: 'share',
@@ -309,25 +310,27 @@ const SellerProfile = props => {
           }}>
           {userDetail?.name}
         </CustomText>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Image
-            source={IMAGES.ProfileBadge}
-            style={{marginTop: 5, marginRight: 5}}
-          />
-          <CustomText
+        {userDetail?.premium_user === 'yes' ? (
+          <View
             style={{
-              fontFamily: FontsConst.Cabin_Bold,
-              color: '#737373',
-              fontSize: 14,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            Premium Seller
-          </CustomText>
-        </View>
+            <Image
+              source={IMAGES.ProfileBadge}
+              style={{marginTop: 5, marginRight: 5}}
+            />
+            <CustomText
+              style={{
+                fontFamily: FontsConst.Cabin_Bold,
+                color: '#737373',
+                fontSize: 14,
+              }}>
+              Premium Seller
+            </CustomText>
+          </View>
+        ) : null}
         <Pressable
           onPress={() =>
             navigation?.navigate(RoutesName.REVIEW_RATING_SCREEN, {
