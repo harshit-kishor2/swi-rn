@@ -1,84 +1,82 @@
-import { IMAGES } from '@app/resources';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { BackHeader, Container, Spacer } from '@app/components';
+import { LoadingStatus } from '@app/helper/strings';
+import PageTitle from '@app/screens/atoms/PageTitle';
+import { aboutListingAction } from '@app/store/ratingReviewSlice';
 
-import { NavigationBar, StoryScreen } from '@app/components';
+import { useEffect, useMemo } from 'react';
+import { Dimensions, View } from 'react-native';
+import AutoHeightWebView from 'react-native-autoheight-webview';
 
-const Item = ({ title, content, srno }) => {
-  return (
-    <View>
-      <View style={ { marginLeft: 15 } }>
-        <Text style={ styles.titleStyle }>{ srno }.{ title }</Text>
-      </View>
-      <View>
-        <Text style={ styles.contentStyle }>{ content }</Text>
-      </View>
+import { connect } from 'react-redux';
 
-    </View>
-  )
-}
+const TermsandcondtionScreen = props => {
+  const { getAbout, ratingReviewReducer, authReducer } = props;
 
-const DATA = [
-  {
-    srno: '1',
-    title: 'Terms',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-  },
-  {
-    srno: '2',
-    title: 'Use Licences',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-  },
-  {
-    srno: '3',
-    title: 'Terms of Use',
-    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-  },
-];
-const TermsandcondtionScreen = (props) => {
-  const renderItem = ({ item, index }) => (
-    <Item content={ item.content } title={ item.title } srno={ item.srno } index={ index } />
+  useEffect(() => {
+    getAbout({ key: 'terms-and-conditions' });
+  }, []);
+
+  const Data = props?.ratingReviewReducer?.aboutListingAction?.data;
+  console.log('first', Data)
+
+  const wrappedContent = useMemo(
+    () =>
+      Data?.message
+        ? `
+<!DOCTYPE html />
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    ${Data?.message}
+  </body>
+</html>
+  `
+        : '',
+    [Data],
   );
   return (
-    <StoryScreen>
-      <NavigationBar
-        leftSource={ IMAGES.BACKARROW }
-        leftAction={ () => {
-          props.navigation.goBack();
-        } }
-        flexDirection="row"
-      />
-      <Text style={ styles.HedaerTextStyle }> Terms And Conditions</Text>
-      <FlatList
-
-        data={ DATA }
-        renderItem={ renderItem }
-        showsVerticalScrollIndicator={ false } />
-
-
-
-    </StoryScreen>
+    <Container
+      useSafeAreaView={true}
+      style={{ flex: 1 }}
+      loading={
+        ratingReviewReducer.aboutListingActionLoadingStatus ==
+        LoadingStatus.LOADING
+      }>
+      <Spacer height={20} />
+      <BackHeader />
+      <PageTitle title={Data?.subject} />
+      <View
+        style={{
+          paddingHorizontal: 20,
+          flex: 1,
+        }}>
+        <AutoHeightWebView
+          style={{
+            width: Dimensions.get('window').width - 50,
+          }}
+          customScript={`document.body.style.background = 'white';`}
+          onSizeUpdated={size => console.log(size.height)}
+          source={{ html: wrappedContent }}
+          scalesPageToFit={true}
+          viewportContent={'width=device-width, user-scalable=no'}
+          scrollEnabled={false}
+        />
+      </View>
+    </Container>
   );
 };
 
-export default TermsandcondtionScreen;
-
-const styles = StyleSheet.create({
-  HedaerTextStyle: {
-    color: 'black',
-    fontSize: 20,
-    fontFamily: 'Cabin-Bold',
-    marginTop: 20,
-  },
-  titleStyle: {
-
-    fontFamily: 'Cabin-Bold',
-    fontSize: 15,
-    color: 'black',
-    marginTop: 30,
-  },
-  contentStyle: {
-    fontFamily: 'Open Sans',
-    width: 330,
-    alignSelf: 'center'
-  }
+const mapStateToProps = state => {
+  return {
+    authReducer: state.authReducer,
+    ratingReviewReducer: state.ratingReviewReducer,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+  getAbout: params => dispatch(aboutListingAction(params)),
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(TermsandcondtionScreen);
