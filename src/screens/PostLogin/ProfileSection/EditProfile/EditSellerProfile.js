@@ -135,7 +135,7 @@ const EditSellerProfile = props => {
           if (res?.type.includes('fulfilled')) {
             showAlert({
               title: 'Success',
-              message: 'Updated succesfully.',
+              message: 'Updated successfully.',
             });
             navigation?.goBack();
           }

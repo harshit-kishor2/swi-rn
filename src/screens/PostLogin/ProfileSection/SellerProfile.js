@@ -361,7 +361,7 @@ const SellerProfile = props => {
           </CustomText>
         </Pressable>
         <View style={styles.varify_container}>
-          <CustomText style={styles.verified_text}>Varified :</CustomText>
+          <CustomText style={styles.verified_text}>Verified :</CustomText>
           <Image
             source={IMAGES.Seller__Singpass}
             style={styles.verifiedImage}
