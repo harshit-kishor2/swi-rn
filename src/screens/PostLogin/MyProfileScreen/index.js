@@ -270,33 +270,29 @@ const MyProfileScreen = props => {
           </TouchableOpacity>
           <View style={styles.LineView} />
 
-          {profileData && profileData?.role !== 'seller' && (
-            <>
-              <TouchableOpacity
-                activeOpacity={1}
-                onPress={() => {
-                  NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
-                    userId: profileData?.id,
-                  });
-                }}>
-                <View style={styles.NavigationView}>
-                  <View style={styles.NavigationViewInner}>
-                    <CustomIcon
-                      origin={ICON_TYPE.MATERIAL_ICONS}
-                      name={'history'}
-                      color={'black'}
-                      size={30}
-                    />
-                    <Text style={styles.NavigationText}>Product History</Text>
-                  </View>
-                  <View style={styles.NavigationImageStyle}>
-                    <Image resizeMode="contain" source={IMAGES.Arrow} />
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.LineView} />
-            </>
-          )}
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
+                userId: profileData?.id,
+              });
+            }}>
+            <View style={styles.NavigationView}>
+              <View style={styles.NavigationViewInner}>
+                <CustomIcon
+                  origin={ICON_TYPE.MATERIAL_ICONS}
+                  name={'history'}
+                  color={'black'}
+                  size={30}
+                />
+                <Text style={styles.NavigationText}>Product History</Text>
+              </View>
+              <View style={styles.NavigationImageStyle}>
+                <Image resizeMode="contain" source={IMAGES.Arrow} />
+              </View>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.LineView} />
         </View>
         <View>
           <TouchableOpacity onPress={handleLogout}>
