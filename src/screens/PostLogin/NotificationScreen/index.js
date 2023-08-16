@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   Image,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import {COLORS, IMAGES, SPACING} from '@app/resources';
+import { COLORS, IMAGES, SPACING } from '@app/resources';
 import {
   BackHeader,
   Container,
@@ -21,13 +21,13 @@ import {
 } from '@app/components';
 import NotificationCard from '@app/screens/atoms/NotificationCard';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {FontsConst} from '@app/assets/assets';
-import {Avatar, Divider} from 'react-native-paper';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
-import {connect} from 'react-redux';
-import authReducer, {NotificationListing} from '@app/store/authSlice';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {EmptyList} from '../ChatScreen/commn';
+import { FontsConst } from '@app/assets/assets';
+import { Avatar, Divider } from 'react-native-paper';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import { connect } from 'react-redux';
+import authReducer, { NotificationListing } from '@app/store/authSlice';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { EmptyList } from '../ChatScreen/commn';
 import moment from 'moment';
 
 export function getTimeDifferenceString(date) {
@@ -53,7 +53,7 @@ export function getTimeDifferenceString(date) {
 }
 
 const NotificationScreen = props => {
-  const {navigation, route, getNotificationList} = props;
+  const { navigation, route, getNotificationList } = props;
 
   const onRowClick = type => {
     switch (type) {
@@ -118,7 +118,7 @@ const NotificationScreen = props => {
   console.log('Modified==', modified);
   const renderSection = item => {
     const {
-      section: {title, data},
+      section: { title, data },
     } = item;
     if (data.length)
       return (
@@ -128,12 +128,12 @@ const NotificationScreen = props => {
       );
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View>
         <Pressable onPress={() => onRowClick()} style={styles.row}>
           <Avatar.Image
-            source={{uri: props?.authReducer?.NotificationListing?.data?.image}}
+            source={{ uri: props?.authReducer?.NotificationListing?.data?.image }}
             size={50}
           />
           <View
@@ -149,7 +149,7 @@ const NotificationScreen = props => {
             </CustomText>
           </View>
         </Pressable>
-        <Divider style={{marginVertical: 10}} />
+        <Divider style={{ marginVertical: 10 }} />
       </View>
     );
   };
