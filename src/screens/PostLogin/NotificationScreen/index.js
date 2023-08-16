@@ -25,7 +25,7 @@ import { FontsConst } from '@app/assets/assets';
 import { Avatar, Divider } from 'react-native-paper';
 import { LoadingStatus, RoutesName } from '@app/helper/strings';
 import { connect } from 'react-redux';
-import authReducer, { NotificationListing } from '@app/store/authSlice';
+import authReducer, { NotificationListing, UpdateNotificationStatus } from '@app/store/authSlice';
 import { ICON_TYPE } from '@app/components/CustomIcon';
 import { EmptyList } from '../ChatScreen/commn';
 import moment from 'moment';
@@ -53,18 +53,23 @@ export function getTimeDifferenceString(date) {
 }
 
 const NotificationScreen = props => {
-  const { navigation, route, getNotificationList } = props;
+  const { navigation, route, getNotificationList, updateNotificationStatus } = props;
 
-  const onRowClick = type => {
-    switch (type) {
+  const onRowClick = item => {
+    switch (item.type) {
       case 'price-alert':
-        navigation.navigate(RoutesName.PRODUCT_DETAILS);
+        {
+          updateNotificationStatus({ id: item?.id })
+          console.log("clicked")
+          // navigation.navigate(RoutesName.PRODUCT_DETAILS);
+        }
       default:
         break;
     }
   };
   useEffect(() => {
     getNotificationList();
+
   }, []);
 
   // Function to categorize notifications
@@ -130,8 +135,11 @@ const NotificationScreen = props => {
 
   const renderItem = ({ item }) => {
     return (
-      <View>
-        <Pressable onPress={() => onRowClick()} style={styles.row}>
+      <View style={[item?.pivot?.read_status == "unread" && {
+        backgroundColor: '#F0F2FA'
+        // backgroundColor: 'red'
+      }]}>
+        < Pressable onPress={() => onRowClick(item)} style={styles.row} >
           <Avatar.Image
             source={{ uri: props?.authReducer?.NotificationListing?.data?.image }}
             size={50}
@@ -148,9 +156,9 @@ const NotificationScreen = props => {
               {getTimeDifferenceString(`${item?.created_at}`)}
             </CustomText>
           </View>
-        </Pressable>
-        <Divider style={{ marginVertical: 10 }} />
-      </View>
+        </Pressable >
+        <Divider style={{ marginTop: 10 }} />
+      </View >
     );
   };
 
@@ -213,6 +221,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   getNotificationList: params => dispatch(NotificationListing()),
+  updateNotificationStatus: params => dispatch(UpdateNotificationStatus()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationScreen);

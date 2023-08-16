@@ -232,6 +232,24 @@ export const updateNotificationPermission = createAsyncThunk(
  * Api Action Update Notification Listing
  */
 
+export const UpdateNotificationStatus = createAsyncThunk(
+  `auth/UpdateNotificationStatus`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/ update-notification-read-status/${params.id}`,
+        method: 'GET',
+        // data: params,
+      });
+      console.log(response, 'response from update notification');
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
 export const NotificationListing = createAsyncThunk(
   `auth/NotificationListing`,
   async (params, thunkAPI) => {

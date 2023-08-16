@@ -12,6 +12,7 @@ import {
   getNotificationPermission,
   updateNotificationPermission,
   NotificationListing,
+  UpdateNotificationStatus,
 } from './auth.actions';
 import { LoadingStatus, RoutesName } from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
@@ -67,6 +68,11 @@ const initialState = entityAdapter.getInitialState({
   NotificationListingLoadingStatus: LoadingStatus.NOT_LOADED,
   NotificationListingError: null,
   NotificationListing: [],
+  //Notification Status Update
+
+  UpdateNotificationStatusLoadingStatus: LoadingStatus.NOT_LOADED,
+  UpdateNotificationStatusError: null,
+  UpdateNotificationStatus: [],
 });
 
 /**
@@ -214,6 +220,18 @@ const reduxSlice = createSlice({
       .addCase(NotificationListing.rejected, (state, action) => {
         state.NotificationListingLoadingStatus = LoadingStatus.FAILED;
         state.NotificationListingError = action.payload;
+      })
+      // Notification Listing Action
+      .addCase(UpdateNotificationStatus.pending, (state, action) => {
+        state.UpdateNotificationStatusLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(UpdateNotificationStatus.fulfilled, (state, action) => {
+        state.UpdateNotificationStatusLoadingStatus = LoadingStatus.LOADED;
+        state.UpdateNotificationStatus = action.payload;
+      })
+      .addCase(UpdateNotificationStatus.rejected, (state, action) => {
+        state.UpdateNotificationStatusLoadingStatus = LoadingStatus.FAILED;
+        state.UpdateNotificationStatusError = action.payload;
       });
   },
 });
