@@ -88,7 +88,7 @@ const EditSellerProfile = props => {
           formData.append('image', val?.profileImage);
         }
         if (val?.coverImage) {
-          // formData.append('image', values?.profileImage);
+          formData.append('cover_image', values?.coverImage);
         }
         if (val?.postAdsImage?.length) {
           //

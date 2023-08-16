@@ -274,7 +274,7 @@ const MyProfileScreen = props => {
             activeOpacity={1}
             onPress={() => {
               NavigationService.navigate(RoutesName.PRODUCT_HISTORY, {
-                userId: profileData.id,
+                userId: profileData?.id,
               });
             }}>
             <View style={styles.NavigationView}>

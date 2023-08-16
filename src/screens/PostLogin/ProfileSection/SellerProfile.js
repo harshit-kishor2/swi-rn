@@ -285,7 +285,11 @@ const SellerProfile = props => {
             width: '100%',
           }}>
           <Image
-            source={IMAGES.coverSellerProfile}
+            source={
+              userDetail?.cover_image
+                ? {uri: userDetail?.cover_image}
+                : IMAGES.coverSellerProfile
+            }
             resizeMode="cover"
             style={{
               height: 150,
