@@ -138,8 +138,8 @@ const ProductCard = ({
                   />
                 </Pressable>
               }>
-              <Menu.Item onPress={() => {}} title="Edit Details" />
-              <Divider />
+              {/* <Menu.Item onPress={() => {}} title="Edit Details" />
+              <Divider /> */}
               <Menu.Item
                 onPress={
                   onSoldClick

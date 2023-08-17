@@ -28,6 +28,7 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
             text: 'Confirm',
             onPress: () => {
               const numericValue = amount?.replace(/[^0-9.]/g, '');
+              // sendMessage({message: 'I have make an offer.', type: 'text'});
               sendMessage({message: numericValue, type: 'make_offer'});
               setAmount('');
               setModalVisible(false);
