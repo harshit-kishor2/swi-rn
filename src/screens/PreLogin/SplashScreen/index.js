@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import Navigator from '@app//navigations/Navigator';
-import {stayLoginAction, userProfile} from '@app/store/authSlice';
+import { stayLoginAction, userProfile } from '@app/store/authSlice';
 import SplashView from './SplashView';
-import {SharedPreference} from '@app/helper';
+import { SharedPreference } from '@app/helper';
 import WalkThroughScreen from '../WalkThroughScreen';
-import {getFCMToken} from '@app/services/firebaseServices';
+import { getFCMToken } from '@app/services/firebaseServices';
 import {
   notificationListner,
   requestUserPermission,
 } from '@app/services/notificationService';
 
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 
 const SplashScreen = props => {
-  const {checkIsLoggedInUser, getUserProfile} = props;
+  const { checkIsLoggedInUser, getUserProfile } = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
@@ -34,7 +34,7 @@ const SplashScreen = props => {
 
   // useEffect(() => {
   //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //     Alert.alert('A new  message arrived!', JSON.stringify(remoteMessage));
   //   });
 
   //   return unsubscribe;
