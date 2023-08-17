@@ -16,6 +16,7 @@ import {RoutesName} from '@app/helper/strings';
 import {showAlert} from '@app/helper/commonFunction';
 import useDebounce from '@app/hooks/useDebounce';
 import branch from 'react-native-branch';
+import Banner from './EditProfile/common/Banner';
 
 const SellerProfile = props => {
   const {
@@ -374,6 +375,13 @@ const SellerProfile = props => {
           <Image source={IMAGES.Seller_facebook} style={styles.verifiedImage} />
         </View>
       </View>
+
+      <Spacer height={20} />
+
+      <Banner bannerData={userDetail?.additional_info?.post_adds ?? []} />
+
+      <Spacer height={20} />
+
       <View style={styles.tabcontainer}>
         <Pressable
           onPress={() => setActiveTab('Listings')}

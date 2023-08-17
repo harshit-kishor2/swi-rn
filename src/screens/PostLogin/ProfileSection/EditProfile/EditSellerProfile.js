@@ -57,7 +57,7 @@ const EditSellerProfile = props => {
     announcement: userDetail?.additional_info?.announcement ?? '',
     announcementEnd: userDetail?.additional_info?.announcement_end ?? '',
     postAdsImage: [],
-    postAdsImagePath: [],
+    postAdsImagePath: userDetail?.additional_info?.post_adds,
     profileImage: '',
     profileImagePath: userDetail?.image ?? '',
     coverImage: '',
@@ -91,6 +91,9 @@ const EditSellerProfile = props => {
           formData.append('cover_image', values?.coverImage);
         }
         if (val?.postAdsImage?.length) {
+          val.postAdsImage.forEach((item, index) => {
+            formData.append(`post_adds[${index}]`, item);
+          });
           //
         }
         if (val.openingHours.length) {

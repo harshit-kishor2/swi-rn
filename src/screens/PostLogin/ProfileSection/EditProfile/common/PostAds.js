@@ -44,8 +44,8 @@ const PostAds = ({postAdsImage, postAdsImagePath, setPostAds}) => {
 
   const choosePicFromCamera = () => {
     ImageCropPicker.openCamera({
-      width: 300,
-      height: 400,
+      width: 533,
+      height: 300,
       cropping: true,
     }).then(image => {
       if (image?.size <= 5242880) {
@@ -72,8 +72,8 @@ const PostAds = ({postAdsImage, postAdsImagePath, setPostAds}) => {
   };
   const choosePicFromGallery = () => {
     ImageCropPicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 533,
+      height: 300,
       cropping: true,
     }).then(image => {
       if (image?.size <= 5242880) {
