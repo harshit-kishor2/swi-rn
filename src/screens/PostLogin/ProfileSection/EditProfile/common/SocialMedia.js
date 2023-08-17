@@ -53,6 +53,7 @@ const SocialMedia = ({socialLinks, setSocialLinks}) => {
               setSocialLinks(newArr);
             }}
             value={item.value}
+            maxLength={100}
           />
         );
       })}

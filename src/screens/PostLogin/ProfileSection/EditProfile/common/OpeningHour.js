@@ -82,6 +82,7 @@ const OpeningHour = ({openingHours, setOpeningHours}) => {
                 }}
                 value={item?.text}
                 editable={item?.isEnable === 'true'}
+                maxLength={20}
               />
             </View>
           </View>

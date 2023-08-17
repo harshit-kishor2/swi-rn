@@ -288,6 +288,7 @@ const EditSellerProfile = props => {
             value={values.location}
             error={errors?.location && touched?.location}
             errorText={errors?.location}
+            maxLength={100}
           />
           <OpeningHour
             openingHours={values.openingHours}
@@ -305,6 +306,7 @@ const EditSellerProfile = props => {
             value={values.website}
             error={errors?.website && touched?.website}
             errorText={errors?.website}
+            maxLength={100}
           />
           <SocialMedia
             socialLinks={values.socialLinks}
@@ -334,6 +336,7 @@ const EditSellerProfile = props => {
             onChangeText={handleChange('announcement')}
             onBlur={handleBlur('announcement')}
             value={values.announcement}
+            maxLength={300}
           />
           <View
             style={{
@@ -352,8 +355,6 @@ const EditSellerProfile = props => {
                   </CustomText>
                 }
                 onChangeDate={d => {
-                  console.log('d', moment(d).format());
-
                   setFieldValue('announcementEnd', moment(d).format());
                 }}
               />
