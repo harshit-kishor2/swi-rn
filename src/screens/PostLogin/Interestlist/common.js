@@ -1,8 +1,9 @@
-import { FontsConst } from '@app/assets/assets';
-import { CustomIcon, CustomText, Spacer } from '@app/components';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { ActivityIndicator, Avatar } from 'react-native-paper';
+import {FontsConst} from '@app/assets/assets';
+import {CustomIcon, CustomText, Spacer} from '@app/components';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {showAlert} from '@app/helper/commonFunction';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Avatar} from 'react-native-paper';
 // const IMAGE = {
 //   uri: 'https://lh3.googleusercontent.com/ogw/AGvuzYbkLlIwF2xKG4QZq9aFTMRH7Orn1L39UADtLp70Eg=s64-c-mo',
 // };
@@ -18,10 +19,7 @@ export function EmptyList() {
   );
 }
 
-export function RenderItem({ item, index }) {
-  const onRowClick = () => {
-    //
-  };
+export function RenderItem({item, index, sendNotification, onCallback}) {
   const userName = item?.user?.name;
   const profilePic = item?.user?.image;
   const price = item?.price;
@@ -30,20 +28,39 @@ export function RenderItem({ item, index }) {
   // console.log(item, "Item==================");
   // console.log(profilePic, '---------------')
   return (
-    <Pressable onPress={onRowClick} style={styles.product}>
+    <Pressable
+      onPress={() => {
+        sendNotification({id: item?.lists_id}).then(res => {
+          if (res?.type.includes('fulfilled')) {
+            showAlert({
+              title: 'Success',
+              message: 'Notification sent succesfully.',
+            });
+            onCallback();
+            // resetForm();
+          }
+          if (res?.type.includes('rejected')) {
+            showAlert({
+              title: 'Error',
+              message: res?.payload?.message ?? 'Internal server error!',
+            });
+          }
+        });
+      }}
+      style={styles.product}>
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Avatar.Image size={30} source={{ uri: profilePic }} />
+        <Avatar.Image size={30} source={{uri: profilePic}} />
         <Spacer width={10} />
-        <CustomText style={styles.brandtext}>
-          {userName}
-        </CustomText>
+        <CustomText style={styles.brandtext}>{userName}</CustomText>
       </View>
       <CustomText style={styles.branddescriptiontext}>
-        {item.p_id == null ? item?.brand?.name + " " + item?.brandmodel?.name : watch_title}
+        {item.p_id == null
+          ? item?.brand?.name + ' ' + item?.brandmodel?.name
+          : watch_title}
       </CustomText>
       <View
         style={{
@@ -53,7 +70,9 @@ export function RenderItem({ item, index }) {
           width: '100%',
         }}>
         <View style={styles.price_row}>
-          <CustomText style={styles.price}>${item.p_id == null ? 0 : price}</CustomText>
+          <CustomText style={styles.price}>
+            ${item.p_id == null ? 0 : price}
+          </CustomText>
           <View style={styles.circle} />
           <CustomText style={styles.condition}>{watch_condition}</CustomText>
         </View>

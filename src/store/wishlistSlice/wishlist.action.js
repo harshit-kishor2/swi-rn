@@ -37,3 +37,20 @@ export const InterestListAction = createAsyncThunk(
     }
   },
 );
+
+export const sendNotificationnterestListAction = createAsyncThunk(
+  'wishlist/sendNotificationnterestListAction',
+  async (params, thunkAPI) => {
+    try {
+      const result = await axiosRequest({
+        url: `/send-interest-notification/${params?.id}`,
+        method: 'GET',
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);
