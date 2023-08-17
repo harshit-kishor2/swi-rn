@@ -76,6 +76,9 @@ export const sendMessageAction = createAsyncThunk(
         url: '/send-message',
         method: 'POST',
         data: val,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return result;
     } catch (error) {

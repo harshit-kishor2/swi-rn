@@ -36,7 +36,12 @@ const combinedReducer = combineReducers({
 const rootReducers = (state, action) => {
   if (action?.type === 'USER_LOGOUT') {
     console.log('401 Unauth');
-    SharedPreference.clearAllData();
+    // SharedPreference.clearAllData();
+    SharedPreference.multiRemove([
+      SharedPreference.keys.IS_AUTHENTICATE,
+      SharedPreference.keys.TOKEN,
+    ]);
+
     state = undefined;
   }
 
