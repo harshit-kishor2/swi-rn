@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
 import Navigator from '@app//navigations/Navigator';
-import { stayLoginAction, userProfile } from '@app/store/authSlice';
-import SplashView from './SplashView';
-import { SharedPreference } from '@app/helper';
+import {SharedPreference} from '@app/helper';
+import {stayLoginAction, userProfile} from '@app/store/authSlice';
+import {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import WalkThroughScreen from '../WalkThroughScreen';
-import { getFCMToken } from '@app/services/firebaseServices';
-import {
-  notificationListner,
-  requestUserPermission,
-} from '@app/services/notificationService';
-
-import { Alert } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+import SplashView from './SplashView';
 
 const SplashScreen = props => {
-  const { checkIsLoggedInUser, getUserProfile } = props;
+  const {checkIsLoggedInUser, getUserProfile} = props;
 
   const [isSplashEnd, setIsSplashEnd] = useState(false);
   const [walkthroughDisable, setWalkthroughDisable] = useState(false);
 
   useEffect(() => {
-    requestUserPermission();
-    notificationListner();
     SharedPreference.getItem(
       SharedPreference.keys.WALKTHROUGH_DISABLE,
       'false',
@@ -32,14 +22,6 @@ const SplashScreen = props => {
     });
   }, [walkthroughDisable]);
 
-  // useEffect(() => {
-  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
-  //     Alert.alert('A new  message arrived!', JSON.stringify(remoteMessage));
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
   useEffect(() => {
     setTimeout(() => {
       setIsSplashEnd(true);
@@ -47,7 +29,6 @@ const SplashScreen = props => {
     checkIsLoggedInUser();
     getUserProfile();
   }, []);
-  console.log('Hello', walkthroughDisable);
   return isSplashEnd ? (
     walkthroughDisable ? (
       <Navigator />

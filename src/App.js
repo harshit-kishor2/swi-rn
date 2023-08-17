@@ -6,12 +6,9 @@ import {PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import {SplashScreen as CustomSplash} from './screens';
 import store from './store';
+import {NotificationController} from './services/NotificationController';
 
 const App = () => {
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // }, []);
-
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <PaperProvider>
@@ -20,6 +17,7 @@ const App = () => {
             barStyle="light-content"
             // backgroundColor={'#00958C'}
           />
+          <NotificationController />
           <CustomSplash />
           <AlertBox />
         </Provider>
