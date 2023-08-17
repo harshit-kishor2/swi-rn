@@ -29,6 +29,7 @@ import authReducer, { NotificationListing, UpdateNotificationStatus } from '@app
 import { ICON_TYPE } from '@app/components/CustomIcon';
 import { EmptyList } from '../ChatScreen/commn';
 import moment from 'moment';
+import NavigationService from '@app/navigations/NavigationService';
 
 export function getTimeDifferenceString(date) {
   const now = new Date();
@@ -53,15 +54,23 @@ export function getTimeDifferenceString(date) {
 }
 
 const NotificationScreen = props => {
-  const { navigation, route, getNotificationList, updateNotificationStatus } = props;
-
+  const { navigation, route, getNotificationList, authReducer, updateNotificationStatus } = props;
+  console.log("=======================", props)
   const onRowClick = item => {
     switch (item.type) {
       case 'price-alert':
         {
           updateNotificationStatus({ id: item?.id })
+          // console.log("clicked")
+          NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+            userId: "item.id",
+          });
+        }
+      case 'follow-visit':
+        {
+          updateNotificationStatus({ id: item?.id })
           console.log("clicked")
-          // navigation.navigate(RoutesName.PRODUCT_DETAILS);
+          props.navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
         }
       default:
         break;
@@ -84,7 +93,7 @@ const NotificationScreen = props => {
       // Calculate the time difference in days
       const timeDiff = (Date.now() - createdAt) / (1000 * 60 * 60 * 24);
       console.log('timeDiff', timeDiff, createdAt);
-      if (timeDiff <= 0) {
+      if (timeDiff >= 0 && timeDiff < 1) {
         today.push(notification);
       } else if (timeDiff <= 7) {
         thisWeek.push(notification);
@@ -221,7 +230,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   getNotificationList: params => dispatch(NotificationListing()),
-  updateNotificationStatus: params => dispatch(UpdateNotificationStatus()),
+  updateNotificationStatus: params => dispatch(UpdateNotificationStatus(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationScreen);
