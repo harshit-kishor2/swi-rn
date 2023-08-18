@@ -13,7 +13,7 @@ import PageTitle from '@app/screens/atoms/PageTitle';
 import {EmptyList} from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {RoutesName} from '@app/helper/strings';
-import {showAlert} from '@app/helper/commonFunction';
+import {addEllipsis, showAlert} from '@app/helper/commonFunction';
 import useDebounce from '@app/hooks/useDebounce';
 import branch from 'react-native-branch';
 import Banner from './EditProfile/common/Banner';
@@ -157,7 +157,9 @@ const SellerProfile = props => {
           paddingHorizontal: 20,
         }}>
         <ClearableSearch search={search} setSearch={setSearch} />
-        <PageTitle title={`Watch Posted by ${userDetail?.name}`} />
+        <PageTitle
+          title={`Watch Posted by ${addEllipsis(userDetail?.name, 15)}`}
+        />
         <FlatList
           scrollEnabled={false}
           contentContainerStyle={{

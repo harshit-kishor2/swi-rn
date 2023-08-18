@@ -356,6 +356,7 @@ const EditSellerProfile = props => {
             <Text style={{}}>Announcement ends on</Text>
             <View style={styles.datePickerContainer}>
               <DatePicker
+                minimumDate={Date.now()}
                 Value={new Date()}
                 children={
                   <CustomText>
