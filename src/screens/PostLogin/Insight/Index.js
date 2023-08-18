@@ -30,10 +30,14 @@ const Insight = props => {
   //   'Insights data<<=====',
   // );
 
+  console.log('********++++++++>', props);
+
   console.log(exploreProduct, '^^^^^^^^');
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
+
+  console.log(value, ')))))))))))))))))))');
 
   const chartConfig = {
     // backgroundColor: '#F0F2FA',
@@ -55,19 +59,19 @@ const Insight = props => {
   const data = [
     {
       label: 'Last 7 days',
-      value: '1',
+      value: '',
     },
     {
-      label: 'Last 8 days',
-      value: '2',
+      label: 'Last 30 days',
+      value: 'lastdays',
     },
     {
-      label: 'Last 9 days',
-      value: '3',
+      label: 'Last 6 months',
+      value: 'lastmonths',
     },
     {
-      label: 'Last 10 days',
-      value: '4',
+      label: 'Last 1 Year',
+      value: 'lastyear',
     },
   ];
 
