@@ -4,24 +4,24 @@ import {
   CustomIcon,
   NavigationBar,
 } from '@app/components';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { COLORS, IMAGES } from '@app/resources';
-import { margin } from '@app/resources/mixins';
-import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, ScrollView } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Rating } from 'react-native-ratings';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {COLORS, IMAGES} from '@app/resources';
+import {margin} from '@app/resources/mixins';
+import React, {useEffect, useState} from 'react';
+import {Alert, FlatList, ScrollView} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Rating} from 'react-native-ratings';
 import styles from '../ItemComparison/styles';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
   ratingReviewAction,
   ratingReviewAsBuyerAction,
 } from '@app/store/ratingReviewSlice';
-import { RenderItem } from './RenderList';
-import { EmptyList } from '../ChatScreen/commn';
-import { RenderItemBuyer } from './RenderListBuyer';
-import { Button, Divider, Menu } from 'react-native-paper';
+import {RenderItem} from './RenderList';
+import {EmptyList} from '../ChatScreen/commn';
+import {RenderItemBuyer} from './RenderListBuyer';
+import {Button, Divider, Menu} from 'react-native-paper';
 import Filter from './Filter';
 
 const RatingAndReviews = props => {
@@ -64,7 +64,6 @@ const RatingAndReviews = props => {
       user_id: props?.route?.params?.userID,
       filter: filter,
     });
-
 
     // Implement your filter logic here based on the selected filter value
   };
@@ -118,7 +117,7 @@ const RatingAndReviews = props => {
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
-      <View style={{ marginHorizontal: 20, flex: 1 }}>
+      <View style={{marginHorizontal: 20, flex: 1}}>
         <View
           style={{
             flexDirection: 'row',
@@ -160,7 +159,7 @@ const RatingAndReviews = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10 }}>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
           <View
             style={[
               style.lineStyle,
@@ -190,7 +189,7 @@ const RatingAndReviews = props => {
             marginTop: 30,
           }}>
           <Image
-            source={{ uri: userPic }}
+            source={{uri: userPic}}
             style={{
               width: 90,
               height: 90,
@@ -234,7 +233,7 @@ const RatingAndReviews = props => {
         </View>
 
         {selected === 'seller' && (
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             <Text
               style={{
                 fontSize: 18,
@@ -269,7 +268,7 @@ const RatingAndReviews = props => {
                   </Text>
                 </Text>
               </View>
-              <View style={{ marginTop: 30 }}>
+              <View style={{marginTop: 30}}>
                 <Rating
                   type="star"
                   ratingCount={ratingCount}
@@ -312,7 +311,7 @@ const RatingAndReviews = props => {
                 handleFilterChange={handleFilterChange}
               />
             </View>
-            <View style={{ flex: 1, paddingBottom: 20 }}>
+            <View style={{flex: 1, paddingBottom: 20}}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                   data={show === true ? ratingList : sortData}
@@ -325,7 +324,7 @@ const RatingAndReviews = props => {
         )}
 
         {selected === 'buyer' && (
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             <Text
               style={{
                 fontSize: 18,
@@ -360,7 +359,7 @@ const RatingAndReviews = props => {
                   </Text>
                 </Text>
               </View>
-              <View style={{ marginTop: 30 }}>
+              <View style={{marginTop: 30}}>
                 <Rating
                   type="star"
                   ratingCount={ratingCount}
@@ -404,7 +403,7 @@ const RatingAndReviews = props => {
                 handleFilterChange={handleFilterChange}
               />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                   data={show === true ? ratingListBuyer : sortDataBuyer}

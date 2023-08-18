@@ -36,7 +36,7 @@ const NormalProfile = props => {
         </CustomText>
         <CustomText
           style={{
-            fontFamily: FontsConst.Cabin_Bold,
+            fontFamily: FontsConst.OpenSans_Regular,
             color: '#737373',
             fontSize: 14,
           }}>
@@ -44,11 +44,11 @@ const NormalProfile = props => {
         </CustomText>
         <CustomText
           style={{
-            fontFamily: FontsConst.Cabin_Bold,
+            fontFamily: FontsConst.OpenSans_Regular,
             color: '#737373',
             fontSize: 14,
           }}>
-          {useDetail?.mobile}
+          {'+65 ' + useDetail?.mobile}
         </CustomText>
       </View>
       <Divider style={styles.divider} />
@@ -68,7 +68,7 @@ const NormalProfile = props => {
         <CustomText
           style={{
             fontFamily: FontsConst.OpenSans_Regular,
-            color: '#454545',
+            color: '#000000',
             fontSize: 14,
           }}>
           {useDetail?.bio ?? '-'}
