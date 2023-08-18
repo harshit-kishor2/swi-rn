@@ -171,3 +171,24 @@ export const chatUserDetailAction = createAsyncThunk(
     }
   },
 );
+
+/**
+ * Api Action
+ */
+export const readUnreadAction = createAsyncThunk(
+  'profileSection/readUnreadAction',
+  async (params, thunkAPI) => {
+    try {
+      const result = await axiosRequest({
+        url: `/read-unread`,
+        method: 'GET',
+        params: params, //userId
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);

@@ -9,6 +9,7 @@ import {
   getChatListAction,
   getInteresteListOnChat,
   onNewMessageUpdate,
+  readUnreadAction,
   sendMessageAction,
   socketJoinAction,
 } from '@app/store/chatSlice';
@@ -55,6 +56,7 @@ const ChatDetailScreen = props => {
     followClickAction,
     route,
     getProfile,
+    readUnread,
   } = props;
   const flatRef = useRef();
   const [initialLoad, setInitialLoad] = useState(true);
@@ -80,6 +82,10 @@ const ChatDetailScreen = props => {
       setOfferModalVisible(true);
     }
     getChatDetails({
+      product_id: chat_item?.product_id,
+      receiver_id: chat_item?.user_id,
+    });
+    readUnread({
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,
     });
@@ -353,6 +359,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addDraftInInterestListAction(params)),
   onAddIntersetList: params => dispatch(addIntersetListOnChat(params)),
   getProfile: params => dispatch(chatUserDetailAction(params)),
+  readUnread: params => dispatch(readUnreadAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatDetailScreen);

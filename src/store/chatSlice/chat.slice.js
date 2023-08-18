@@ -6,6 +6,7 @@ import {
   getChatHistoryAction,
   getChatListAction,
   getInteresteListOnChat,
+  readUnreadAction,
   sendMessageAction,
   socketJoinAction,
 } from './chat.action';
@@ -44,6 +45,9 @@ const initialState = entityAdapter.getInitialState({
 
   chatUserDetailLoadingStatus: LoadingStatus.NOT_LOADED,
   chatUserDetail: null,
+
+  readUnreadLoadingStatus: LoadingStatus.NOT_LOADED,
+  readUnread: null,
 });
 
 /**
@@ -148,6 +152,16 @@ const reduxSlice = createSlice({
       })
       .addCase(chatUserDetailAction.rejected, (state, action) => {
         state.chatUserDetailLoadingStatus = LoadingStatus.FAILED;
+      })
+
+      .addCase(readUnreadAction.pending, state => {
+        state.readUnreadLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(readUnreadAction.fulfilled, (state, action) => {
+        state.readUnreadLoadingStatus = LoadingStatus.LOADED;
+      })
+      .addCase(readUnreadAction.rejected, (state, action) => {
+        state.readUnreadLoadingStatus = LoadingStatus.FAILED;
       });
   },
 });
