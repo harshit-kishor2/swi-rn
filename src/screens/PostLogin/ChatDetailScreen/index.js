@@ -100,6 +100,10 @@ const ChatDetailScreen = props => {
       socket_id: socket?.id,
     });
     return () => {
+      readUnread({
+        product_id: chat_item?.product_id,
+        receiver_id: chat_item?.user_id,
+      });
       getChatHistory();
     };
   }, []);
