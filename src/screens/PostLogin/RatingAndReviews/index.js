@@ -456,8 +456,8 @@ const RatingAndReviews = props => {
             </View>
           </ScrollView>
         )}
-        {((ratingListBuyer.length > 2 && selected === 'buyer') ||
-          (ratingList.length > 2 && selected === 'seller')) && (
+        {((ratingListBuyer?.length > 2 && selected === 'buyer') ||
+          (ratingList?.length > 2 && selected === 'seller')) && (
           <View
             style={{
               alignItems: 'center',
