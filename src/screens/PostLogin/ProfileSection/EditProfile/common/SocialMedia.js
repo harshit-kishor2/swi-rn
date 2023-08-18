@@ -2,6 +2,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {CustomInput, CustomText} from '@app/components';
 import {showAlert} from '@app/helper/commonFunction';
+import {TextInput} from 'react-native-paper';
 export const SOCIAL_LINKS = [
   {
     type: 'text',
@@ -40,7 +41,11 @@ const SocialMedia = ({socialLinks, setSocialLinks}) => {
       <Text style={{}}>Social Media Links</Text>
       {socialLinks.map((item, index) => {
         return (
-          <CustomInput
+          <TextInput
+            style={{
+              backgroundColor: '#fff',
+              marginBottom: 10,
+            }}
             key={index}
             placeholder="Enter links"
             keyboardType="email-address"
