@@ -9,6 +9,7 @@ import {RoutesName} from '@app/helper/strings';
 import {ActivityIndicator, Avatar} from 'react-native-paper';
 import {FontsConst} from '@app/assets/assets';
 import moment from 'moment';
+import {addEllipsis} from '@app/helper/commonFunction';
 
 export function Seprator() {
   return <View style={styles.seprator} />;
@@ -98,7 +99,7 @@ export function RenderItem({item, index}) {
         <View style={{flex: 1, paddingLeft: 5}}>
           <View style={styles.chat_container}>
             <CustomText style={styles.name_container}>
-              {item?.user_name}
+              {addEllipsis(item?.user_name, 15)}
             </CustomText>
             <CustomText style={styles.date_container}>
               {item?.created_at

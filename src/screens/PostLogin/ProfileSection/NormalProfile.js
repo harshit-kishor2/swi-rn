@@ -5,6 +5,7 @@ import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer} from '@app/components';
 import {AssestsConst, FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
+import {addEllipsis} from '@app/helper/commonFunction';
 
 const NormalProfile = props => {
   const {route, navigation, profileSectionReducer, isSelf} = props;
@@ -32,7 +33,7 @@ const NormalProfile = props => {
             color: '#000000',
             fontSize: 20,
           }}>
-          {useDetail?.name}
+          {addEllipsis(useDetail?.name, 15)}
         </CustomText>
         <CustomText
           style={{

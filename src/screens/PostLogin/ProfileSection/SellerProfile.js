@@ -317,6 +317,8 @@ const SellerProfile = props => {
             fontFamily: FontsConst.Cabin_Bold,
             color: '#000000',
             fontSize: 20,
+            alignSelf: 'center',
+            paddingHorizontal: 20,
           }}>
           {userDetail?.name}
         </CustomText>
