@@ -33,7 +33,7 @@ export async function requestUserPermission() {
   let r = PermissionsAndroid.request(
     PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
   );
-  console.log(r, 'dfghjklsdfghjkxcjkfghjkdfghj================....');
+
   const authStatus = await messaging().requestPermission();
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -53,7 +53,7 @@ export const notificationListner = async () => {
     );
   });
 
-  messaging().onMessage(async remoteMessage => {
+  const unsubscribe = messaging().onMessage(async remoteMessage => {
     console.log('received in forground', remoteMessage);
     if (remoteMessage?.notification) {
       onDisplayNotification(
@@ -61,17 +61,6 @@ export const notificationListner = async () => {
         remoteMessage?.notification.body,
       );
     }
-    // const jsonData = JSON.parse(remoteMessage.data.default);
-    // const again = JSON.parse(jsonData.GCM);
-
-    // // Access the title and body properties
-    // const title = again.data.title;
-    // const body = again.data.body;
-    // console.log(title, 'fghjkl');
-    // console.log(body, 'fghjkl');
-    // if (Platform.OS === 'android') {
-    //   onDisplayNotification('dfghjkl', 'fghjkl');
-    // }
   });
 
   messaging()

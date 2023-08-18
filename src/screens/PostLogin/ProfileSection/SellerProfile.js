@@ -17,6 +17,7 @@ import {showAlert} from '@app/helper/commonFunction';
 import useDebounce from '@app/hooks/useDebounce';
 import branch from 'react-native-branch';
 import Banner from './EditProfile/common/Banner';
+import moment from 'moment';
 
 const SellerProfile = props => {
   const {
@@ -264,7 +265,9 @@ const SellerProfile = props => {
         />
         <AboutRow
           title={'Joined since'}
-          value={`${userDetail?.craeted_at ?? '-'}`}
+          value={`${
+            moment(userDetail?.created_at).format('DD/MM/YYYY') ?? '-'
+          }`}
         />
       </View>
     );

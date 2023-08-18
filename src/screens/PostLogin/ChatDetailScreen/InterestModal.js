@@ -56,12 +56,14 @@ const InterestModal = props => {
     authReducer.userProfileDetails.id;
 
   useEffect(() => {
-    getIntersetList({
-      seller_id: sellerID,
-      user_id: userID,
-      keyword: search,
-    });
-  }, [query]);
+    if (exploreProduct?.productDetailsLoadingStatus === LoadingStatus.LOADED) {
+      getIntersetList({
+        seller_id: sellerID,
+        user_id: userID,
+        keyword: search,
+      });
+    }
+  }, [query, exploreProduct?.productDetailsLoadingStatus]);
 
   useEffect(() => {
     if (

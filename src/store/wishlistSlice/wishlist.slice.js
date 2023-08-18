@@ -1,7 +1,11 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { apiAction } from './actions';
-import { LoadingStatus } from '../../helper/strings';
-import { InterestListAction, wishlistAction } from "./wishlist.action"
+import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
+import {apiAction} from './actions';
+import {LoadingStatus} from '../../helper/strings';
+import {
+  InterestListAction,
+  sendNotificationnterestListAction,
+  wishlistAction,
+} from './wishlist.action';
 
 // =============================== Redux : Test Slice ==================================
 
@@ -18,6 +22,9 @@ const initialState = entityAdapter.getInitialState({
   InterestListActionLoadingStatus: LoadingStatus.NOT_LOADED,
   InterestListAction: [],
   InterestListActionError: null,
+
+  sendInterestListLoadingStatus: LoadingStatus.NOT_LOADED,
+  sendInterestListActionError: null,
 });
 
 /**
@@ -45,7 +52,7 @@ const reduxSlice = createSlice({
         state.wishlistAction = action.payload;
       })
       .addCase(wishlistAction.rejected, (state, action) => {
-        state.wishlistAction = LoadingStatus.FAILED;
+        state.wishlistActionLoadingStatus = LoadingStatus.FAILED;
         state.wishlistActionError = action.payload;
       })
       //Interest list
@@ -57,8 +64,18 @@ const reduxSlice = createSlice({
         state.InterestListAction = action.payload;
       })
       .addCase(InterestListAction.rejected, (state, action) => {
-        state.InterestListAction = LoadingStatus.FAILED;
+        state.InterestListActionLoadingStatus = LoadingStatus.FAILED;
         state.InterestListActionError = action.payload;
+      })
+
+      .addCase(sendNotificationnterestListAction.pending, state => {
+        state.sendInterestListLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(sendNotificationnterestListAction.fulfilled, (state, action) => {
+        state.sendInterestListLoadingStatus = LoadingStatus.LOADED;
+      })
+      .addCase(sendNotificationnterestListAction.rejected, (state, action) => {
+        state.sendInterestListLoadingStatus = LoadingStatus.FAILED;
       });
   },
 });
@@ -67,6 +84,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const { resetSliceState } = reduxSlice.actions;
+export const {resetSliceState} = reduxSlice.actions;
 
 export const wishlistReducer = reduxSlice.reducer;

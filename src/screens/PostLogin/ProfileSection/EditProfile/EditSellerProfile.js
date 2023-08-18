@@ -98,11 +98,14 @@ const EditSellerProfile = props => {
         }
         if (val.openingHours.length) {
           val.openingHours.forEach((item, index) => {
-            for (let key in item) {
-              formData.append(
-                `opening_hours[${index}][${key}]`,
-                item[key] ? item[key] : '',
-              );
+            console.log('Item---', item.text);
+            if (item?.text) {
+              for (let key in item) {
+                formData.append(
+                  `opening_hours[${index}][${key}]`,
+                  item[key] ? item[key] : '',
+                );
+              }
             }
           });
         }

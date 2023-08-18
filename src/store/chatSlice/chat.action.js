@@ -76,6 +76,9 @@ export const sendMessageAction = createAsyncThunk(
         url: '/send-message',
         method: 'POST',
         data: val,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       return result;
     } catch (error) {
@@ -157,6 +160,27 @@ export const chatUserDetailAction = createAsyncThunk(
     try {
       const result = await axiosRequest({
         url: `/user-profile`,
+        method: 'GET',
+        params: params, //userId
+      });
+      return result;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response?.data : error.data,
+      );
+    }
+  },
+);
+
+/**
+ * Api Action
+ */
+export const readUnreadAction = createAsyncThunk(
+  'profileSection/readUnreadAction',
+  async (params, thunkAPI) => {
+    try {
+      const result = await axiosRequest({
+        url: `/read-unread`,
         method: 'GET',
         params: params, //userId
       });

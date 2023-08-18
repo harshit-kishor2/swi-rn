@@ -101,6 +101,7 @@ const EditNormalProfile = props => {
                 message: 'Updated succesfully.',
               });
               // resetForm();
+              navigation?.goBack();
             }
             if (res?.type.includes('rejected')) {
               showAlert({

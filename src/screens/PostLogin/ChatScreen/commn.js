@@ -73,13 +73,28 @@ export function RenderItem({item, index}) {
       // rightOpenValue={-50}
     >
       <Pressable style={styles.render_container} onPress={onRowClick}>
-        <Avatar.Image
-          style={{marginHorizontal: 5}}
-          source={{
-            uri: item?.user_image,
-          }}
-          size={35}
-        />
+        <View>
+          <Avatar.Image
+            style={{marginHorizontal: 5}}
+            source={{
+              uri: item?.user_image,
+            }}
+            size={35}
+          />
+          {item?.read_unread_count !== 0 ? (
+            <View
+              style={{
+                position: 'absolute',
+                height: 20,
+                width: 20,
+                borderRadius: 10,
+                backgroundColor: 'green',
+                right: 0,
+                top: -10,
+              }}
+            />
+          ) : null}
+        </View>
         <View style={{flex: 1, paddingLeft: 5}}>
           <View style={styles.chat_container}>
             <CustomText style={styles.name_container}>
