@@ -43,8 +43,8 @@ export function RenderItem(props) {
           borderBottomLeftRadius: isSelf ? 30 : 0,
           borderBottomRightRadius: 30,
           borderTopLeftRadius: 30,
-          paddingHorizontal: 20,
-          paddingVertical: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 15,
         }}>
         {currentMessage?.image !== null ? (
           <Pressable
@@ -60,6 +60,7 @@ export function RenderItem(props) {
               style={{
                 height: 200,
                 width: 200,
+                borderRadius: 15,
               }}
             />
           </Pressable>
@@ -105,8 +106,8 @@ export function RenderItem(props) {
                 alignItems: 'center',
               }}>
               <CustomIcon
-                name={'video'}
-                origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                name={'picture-as-pdf'}
+                origin={ICON_TYPE.MATERIAL_ICONS}
                 size={20}
                 color={'#000'}
               />

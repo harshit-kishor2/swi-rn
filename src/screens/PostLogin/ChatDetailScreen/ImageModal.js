@@ -23,8 +23,8 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
             title: 'Alert!',
             message: 'Image size exceed 5MB',
           });
-          setModalVisible(!modalVisible);
         }
+        setModalVisible(false);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -47,7 +47,7 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
             message: 'Image size exceed 5MB',
           });
         }
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -68,7 +68,7 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
             message: 'Video size exceed 10MB',
           });
         }
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -89,7 +89,7 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
             message: 'Video size exceed 10MB',
           });
         }
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
       })
       .catch(err => {
         console.log('Error==', err);
@@ -111,7 +111,7 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
             message: 'PDF size exceed 10MB',
           });
         }
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
       });
     } catch (err) {
       console.warn(err);
@@ -124,12 +124,12 @@ const ImageModal = ({modalVisible, setModalVisible, sendMessage}) => {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
       }}>
       <View style={styles.container}>
         <Pressable
           style={styles.backdrop}
-          onPress={() => setModalVisible(!modalVisible)}
+          onPress={() => setModalVisible(false)}
         />
         <Card style={styles.card_container}>
           <View style={styles.border} />

@@ -337,11 +337,13 @@ const ChatDetailScreen = props => {
         sendMessage={sendMessage}
       />
       {/* Make Offer Modal */}
-      <MakeOfferModal
-        modalVisible={offerModalVisible}
-        setModalVisible={setOfferModalVisible}
-        sendMessage={sendMessage}
-      />
+      {hasEnabledObject ? null : (
+        <MakeOfferModal
+          modalVisible={offerModalVisible}
+          setModalVisible={setOfferModalVisible}
+          sendMessage={sendMessage}
+        />
+      )}
       {/* Interest List Modal */}
       <InterestModal
         modalVisible={interestModalVisible}
