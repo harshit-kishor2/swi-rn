@@ -111,7 +111,7 @@ export function RenderItem({item, index}) {
             {item?.product_title}
           </CustomText>
           <CustomText numberOfLines={2} style={styles.description_container}>
-            {item?.message}
+            {addEllipsis(item?.message, 50)}
           </CustomText>
         </View>
       </Pressable>

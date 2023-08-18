@@ -16,6 +16,7 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
     } else if (amount <= 0) {
       return;
     } else {
+      setModalVisible(false);
       showAlert({
         title: 'Make an offer',
         message: '',
@@ -30,12 +31,11 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
               const numericValue = amount?.replace(/[^0-9.]/g, '');
               // sendMessage({message: 'I have make an offer.', type: 'text'});
               sendMessage({message: numericValue, type: 'make_offer'});
-              setAmount('');
-              setModalVisible(false);
             },
           },
         ],
       });
+      setAmount('');
     }
   };
 
