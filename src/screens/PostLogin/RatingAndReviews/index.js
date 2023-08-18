@@ -283,7 +283,6 @@ const RatingAndReviews = props => {
                 </Text>
               </View>
               <View style={{marginTop: 30}}>
-<<<<<<< HEAD
                 <AirbnbRating
                   count={ratingCount}
                   showRating={false}
@@ -299,9 +298,6 @@ const RatingAndReviews = props => {
                   }}
                 />
                 {/* <Rating
-=======
-                <Rating
->>>>>>> 6c946085804fd6d0ad30a98adeef1d18a8fde601
                   type="star"
                   ratingCount={ratingCount}
                   startingValue={average}
@@ -392,7 +388,6 @@ const RatingAndReviews = props => {
                 </Text>
               </View>
               <View style={{marginTop: 30}}>
-<<<<<<< HEAD
                 <AirbnbRating
                   count={ratingCount}
                   showRating={false}
@@ -408,9 +403,6 @@ const RatingAndReviews = props => {
                   }}
                 />
                 {/* <Rating
-=======
-                <Rating
->>>>>>> 6c946085804fd6d0ad30a98adeef1d18a8fde601
                   type="star"
                   ratingCount={ratingCount}
                   startingValue={averageBuyer}
