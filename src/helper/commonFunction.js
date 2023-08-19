@@ -55,7 +55,6 @@ export const mergeArrays = (baseArray, newArray) => {
 
 export function addObjectAndUpdate(objArray, newObject) {
   const index = objArray.findIndex(obj => {
-    console.log('Hello==', objArray[0], newObject);
     return obj.id === newObject.id;
   });
 

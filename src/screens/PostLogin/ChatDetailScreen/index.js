@@ -76,7 +76,7 @@ const ChatDetailScreen = props => {
   const {chat_item, isOffer} = route.params;
   console.log('============chat_item=============', chat_item);
   //  Use socket
-  useSocket(updateNewMessage);
+  useSocket({updateNewMessage, chat_item});
 
   // First render
   useEffect(() => {
@@ -243,7 +243,11 @@ const ChatDetailScreen = props => {
   const hasEnabledObject = chatReducer?.chatHistory.some(
     obj => obj.isOfferAccepted === 'accepted',
   );
-  console.log('hasEnabledObject===', hasEnabledObject);
+  console.log(
+    'hasEnabledObject===',
+    hasEnabledObject,
+    chatReducer?.chatHistory,
+  );
 
   return (
     <Container

@@ -65,20 +65,26 @@ const NotificationScreen = props => {
     updateNotificationStatus,
   } = props;
 
-  console.log('=======================', props);
   const onRowClick = item => {
+    console.log('Alert===', item);
     switch (item.type) {
       case 'price-alert': {
-        updateNotificationStatus({id: item?.id});
-        // console.log("clicked")
         NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
           userId: 'item.id',
         });
+        break;
       }
       case 'follow-visit': {
-        updateNotificationStatus({id: item?.id});
-        console.log('clicked');
-        props.navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
+        props.navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+          userId: item?.followed_by?.id,
+        });
+        break;
+      }
+      case 'interest-list': {
+        props.navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+          userId: item?.followed_by?.id,
+        });
+        break;
       }
       default:
         break;
@@ -99,7 +105,6 @@ const NotificationScreen = props => {
 
       // Calculate the time difference in days
       const timeDiff = (Date.now() - createdAt) / (1000 * 60 * 60 * 24);
-      console.log('timeDiff', timeDiff, createdAt);
       if (timeDiff >= 0 && timeDiff < 1) {
         today.push(notification);
       } else if (timeDiff <= 7) {
@@ -136,7 +141,7 @@ const NotificationScreen = props => {
   const modified = categorizeNotifications(
     props?.authReducer?.NotificationListing?.data?.notifications ?? [],
   );
-  console.log('Modified==', modified);
+
   const renderSection = item => {
     const {
       section: {title, data},
@@ -150,7 +155,6 @@ const NotificationScreen = props => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item, 'kuxh====================');
     return (
       <View
         style={[
@@ -159,7 +163,14 @@ const NotificationScreen = props => {
             // backgroundColor: 'red'
           },
         ]}>
-        <Pressable onPress={() => onRowClick(item)} style={styles.row}>
+        <Pressable
+          onPress={() => {
+            if (item?.pivot?.read_status == 'unread') {
+              updateNotificationStatus({id: item?.id});
+            }
+            onRowClick(item);
+          }}
+          style={styles.row}>
           <Avatar.Image
             source={{
               uri: item?.followed_by?.image,
