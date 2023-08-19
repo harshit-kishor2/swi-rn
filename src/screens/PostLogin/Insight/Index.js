@@ -77,9 +77,12 @@ const Insight = props => {
 
   useEffect(() => {
     if (props?.route?.params?.productId) {
-      productInsights(props?.route?.params);
+      productInsights({
+        productId: props?.route?.params?.productId,
+        value: value,
+      });
     }
-  }, []);
+  }, [value]);
 
   return (
     <Container
@@ -277,7 +280,7 @@ const Insight = props => {
               }}>
               Number of {select}
             </Text>
-            <View>
+            {/* <View>
               <Dropdown
                 style={{
                   width: 130,
@@ -308,7 +311,7 @@ const Insight = props => {
                   />
                 )}
               />
-            </View>
+            </View> */}
           </View>
 
           {select === 'Impressions' && (
