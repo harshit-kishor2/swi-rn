@@ -270,3 +270,20 @@ export const NotificationListing = createAsyncThunk(
     }
   },
 );
+export const NotificationCount = createAsyncThunk(
+  `auth/NotificationCount`,
+  async (params, thunkAPI) => {
+    try {
+      const response = await axiosRequest({
+        url: `/get-user-unread-notification-count`,
+        method: 'GET',
+      });
+      console.log('Notification response', response);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);

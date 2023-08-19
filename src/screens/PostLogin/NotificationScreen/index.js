@@ -150,7 +150,7 @@ const NotificationScreen = props => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item?.followed_by?.image, 'kuxh====================');
+    console.log(item, 'kuxh====================');
     return (
       <View
         style={[
