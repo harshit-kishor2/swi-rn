@@ -30,14 +30,10 @@ const Insight = props => {
   //   'Insights data<<=====',
   // );
 
-  console.log('********++++++++>', props);
-
   console.log(exploreProduct, '^^^^^^^^');
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');
-
-  console.log(value, ')))))))))))))))))))');
 
   const chartConfig = {
     // backgroundColor: '#F0F2FA',
@@ -77,9 +73,12 @@ const Insight = props => {
 
   useEffect(() => {
     if (props?.route?.params?.productId) {
-      productInsights(props?.route?.params);
+      productInsights({
+        productId: props?.route?.params?.productId,
+        value: value,
+      });
     }
-  }, []);
+  }, [value]);
 
   return (
     <Container
@@ -277,7 +276,7 @@ const Insight = props => {
               }}>
               Number of {select}
             </Text>
-            <View>
+            {/* <View>
               <Dropdown
                 style={{
                   width: 130,
@@ -308,7 +307,7 @@ const Insight = props => {
                   />
                 )}
               />
-            </View>
+            </View> */}
           </View>
 
           {select === 'Impressions' && (

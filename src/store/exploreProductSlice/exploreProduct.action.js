@@ -224,7 +224,7 @@ export const productInsights = createAsyncThunk(
       const response = await axiosRequest({
         url: `insights-info/${params?.productId}`,
         method: 'GET',
-        params: params,
+        params: {duration: params?.value},
       });
       return response;
     } catch (error) {
