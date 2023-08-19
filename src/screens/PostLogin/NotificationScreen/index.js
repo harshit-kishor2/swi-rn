@@ -150,6 +150,7 @@ const NotificationScreen = props => {
   };
 
   const renderItem = ({item}) => {
+    console.log(item?.followed_by?.image, 'kuxh====================');
     return (
       <View
         style={[
@@ -160,7 +161,9 @@ const NotificationScreen = props => {
         ]}>
         <Pressable onPress={() => onRowClick(item)} style={styles.row}>
           <Avatar.Image
-            source={{uri: props?.authReducer?.NotificationListing?.data?.image}}
+            source={{
+              uri: item?.followed_by?.image,
+            }}
             size={50}
           />
           <View
