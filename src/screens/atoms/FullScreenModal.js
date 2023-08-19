@@ -1,4 +1,4 @@
-import {CustomIcon} from '@app/components';
+import {Container, CustomIcon} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {useRef, useState} from 'react';
 import {
@@ -35,7 +35,8 @@ const FullScreenModal = ({selectedFile, onClose}) => {
       onRequestClose={onScreenClose}
       supportedOrientations={['portrait']}
       hardwareAccelerated>
-      <View
+      <Container
+        useSafeAreaView={true}
         style={{
           flex: 1,
           backgroundColor: '#000000',
@@ -138,7 +139,7 @@ const FullScreenModal = ({selectedFile, onClose}) => {
             <ActivityIndicator size={30} color={'#fff'} />
           </View>
         )}
-      </View>
+      </Container>
     </Modal>
   );
 };
