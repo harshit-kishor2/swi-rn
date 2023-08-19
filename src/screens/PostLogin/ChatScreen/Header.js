@@ -1,19 +1,22 @@
 import {RoutesName} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
-import {IMAGES, SPACING} from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
 import {useFocusEffect} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
-import {Image, Pressable, StyleSheet, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 const Header = props => {
-  const {getChatHistory, navigation} = props;
+  const {getChatHistory, navigation, authReducer, getNotificationCount} = props;
+  const NotifyCount = props?.authReducer.NotificationCountStatus;
+  console.log('ABC', NotifyCount);
 
   const [search, setSearch] = useState('');
   const searchQuery = useDebounce(search);
 
   useEffect(() => {
     getChatHistory({keyword: searchQuery});
+    getNotificationCount();
   }, [searchQuery]);
 
   return (
@@ -31,6 +34,34 @@ const Header = props => {
         }}
         style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
         <Image source={IMAGES.notificationBell} />
+        {NotifyCount?.total_unread ? (
+          <View
+            style={{
+              height: 20,
+              width: 20,
+              borderRadius: 10,
+              backgroundColor: 'black',
+              position: 'absolute',
+              marginLeft: 15,
+              marginTop: -15,
+              justifyContent: 'center',
+              alignContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: COLORS.BLACK,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                // marginLeft: ,
+                alignSelf: 'center',
+                color: 'white',
+
+                // fontSize: 24,
+              }}>
+              1
+            </Text>
+          </View>
+        ) : null}
       </Pressable>
     </View>
   );
