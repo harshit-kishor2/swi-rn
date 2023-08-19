@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Video from 'react-native-video';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {FontsConst} from '@app/assets/assets';
@@ -163,7 +163,10 @@ export function RenderItem(props) {
           alignSelf: isSelf ? 'flex-end' : 'flex-start',
         }}>
         <CustomText style={styles.timestamp}>
-          {moment(currentMessage?.createdAt).format('HH:mm A')}
+          {moment
+            .tz(currentMessage?.createdAt, 'HH:mm A', 'Asia/Singapore')
+            .format('HH:mm A')}
+          {/* {moment(currentMessage?.createdAt).format('HH:mm A')} */}
         </CustomText>
       </View>
     </View>
