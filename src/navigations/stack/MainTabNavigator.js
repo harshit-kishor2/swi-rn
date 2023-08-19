@@ -17,6 +17,7 @@ import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 import SellStackNavigator from './SellStackNavigator';
 import {useDispatch, useSelector} from 'react-redux';
 import {userProfile} from '@app/store/authSlice';
+import ChatStackNavigator from './ChatStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -151,7 +152,7 @@ const MainTabNavigator = () => {
 
       <Tab.Screen
         name={RoutesName.CHAT_TAB}
-        component={ChatScreen}
+        component={ChatStackNavigator}
         listeners={{
           tabPress: e => {
             // Prevent default action

@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {BackHeader, Container, Spacer, SubmitButton} from '@app/components';
 import SocialLoginButton from '@app/components/SocialLogin';
+import {SharedPreference} from '@app/helper';
 import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
@@ -54,11 +55,16 @@ const LoginOptions = props => {
     console.log('Apple detail', {email, email_verified, is_private_email, sub});
 
     if (email && appleAuthRequestResponse.user) {
+      const deviceToken = await SharedPreference.getItem(
+        SharedPreference.keys.DEVICE_TOKEN,
+        '',
+      );
+      console.log(' Apple Login device token==', deviceToken);
       const params = {
         email: email,
         name: appleAuthRequestResponse?.fullName?.givenName ?? 'Anonymous',
         login_type: 'apple',
-        device_token: 'fcmToken',
+        device_token: deviceToken ?? 'fcmToken',
         device_type: Platform.OS,
         //name:durgesh
         //social_id:sdasdasd
@@ -107,14 +113,19 @@ const LoginOptions = props => {
             const profileRequest = new GraphRequest(
               '/me',
               {token, parameters: PROFILE_REQUEST_PARAMS},
-              (error, result) => {
+              async (error, result) => {
                 if (error) {
                   console.log('login info has error: ' + error);
                 } else {
+                  const deviceToken = await SharedPreference.getItem(
+                    SharedPreference.keys.DEVICE_TOKEN,
+                    '',
+                  );
+                  console.log(' Facebook Login device token==', deviceToken);
                   let params = {
                     email: result?.email,
                     device_type: Platform.OS,
-                    device_token: 'fcmToken',
+                    device_token: deviceToken ?? 'fcmToken',
                     login_type: 'facebook',
                     name: result?.name,
                     facebook_id: result?.id,
@@ -158,11 +169,16 @@ const LoginOptions = props => {
       await GoogleSignin.signOut();
       const userInfo = await GoogleSignin.signIn();
       console.log('Google Auth Value', userInfo?.user);
+      const deviceToken = await SharedPreference.getItem(
+        SharedPreference.keys.DEVICE_TOKEN,
+        '',
+      );
+      console.log(' Google Login device token==', deviceToken);
       if (userInfo) {
         let params = {
           email: userInfo?.user?.email,
           device_type: Platform.OS,
-          device_token: 'fcmToken',
+          device_token: deviceToken ?? 'fcmToken',
           login_type: 'google',
           name: userInfo?.user?.name,
           google_id: userInfo?.user?.id,

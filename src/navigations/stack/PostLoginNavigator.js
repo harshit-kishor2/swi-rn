@@ -1,6 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import {
   ChatDetailScreen,
+  ChatScreen,
   EditProfile,
   InterestList,
   MyFavourites,
@@ -37,6 +38,7 @@ const PostLoginNavigator = () => {
         name={RoutesName.MAIN_TAB_NAVIGATOR}
         component={MainTabNavigator}
       />
+      <Stack.Screen name={RoutesName.CHAT_LIST_SCREEN} component={ChatScreen} />
       <Stack.Screen
         name={RoutesName.CHAT_DETAIL_SCREEN}
         component={ChatDetailScreen}
