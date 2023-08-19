@@ -103,7 +103,7 @@ export function RenderItem({item, index}) {
             </CustomText>
             <CustomText style={styles.date_container}>
               {item?.created_at
-                ? moment(item?.created_at).format('DD MMM, YYYY')
+                ? moment(item?.created_at).format('DD MMM, YYYY') //.tz(time, 'HH:mm', 'Asia/Singapore').utc()
                 : '-'}
             </CustomText>
           </View>
