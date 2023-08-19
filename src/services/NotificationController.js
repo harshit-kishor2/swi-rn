@@ -59,17 +59,19 @@ export const NotificationController = () => {
   };
 
   useEffect(() => {
-    return notifee.onBackgroundEvent(({type, detail}) => {
+    const unsubscribe = notifee.onBackgroundEvent(async ({type, detail}) => {
       console.log('notifee.onBackgroundEvent', type, detail);
       onNotifiClick({type, detail});
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
-    return notifee.onForegroundEvent(({type, detail}) => {
+    const unsubscribe = notifee.onForegroundEvent(({type, detail}) => {
       console.log('notifee.onForegroundEvent', type, detail);
       onNotifiClick({type, detail});
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {

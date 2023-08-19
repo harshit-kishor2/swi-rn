@@ -5,6 +5,7 @@ import {isMountedRef, navigationRef} from './NavigationService';
 import PostLoginNavigator from './stack/PostLoginNavigator';
 import PreLoginNavigator from './stack/PreLoginNavigator';
 import {DeepLinkng} from '@app/components';
+import {NotificationController} from '@app/services/NotificationController';
 
 const Navigator = props => {
   const {authReducer} = props;
@@ -19,6 +20,7 @@ const Navigator = props => {
   return (
     <NavigationContainer ref={navigationRef}>
       <DeepLinkng />
+      <NotificationController />
       {authReducer?.isAuthenticate ? (
         <PostLoginNavigator />
       ) : (
