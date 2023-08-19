@@ -33,9 +33,10 @@ import Filter from './Filter';
 import useLocation from '@app/hooks/useLocation';
 import SearchBarComponent from '@app/components/SearchBarComponent';
 import NotificationIndicator from '@app/components/NotificationIndicator';
-import {IMAGES, SPACING} from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
 import {AssestsConst} from '@app/assets/assets';
 import {mergeArrays} from '@app/helper/commonFunction';
+import {NotificationCount} from '@app/store/authSlice';
 
 const ExploreScreen = props => {
   const {
@@ -46,8 +47,10 @@ const ExploreScreen = props => {
     getTopNotchWatch,
     onAddWishList,
     getAllBrands,
+    getNotificationCount,
   } = props;
-  // console.log(props.navigation,"props navigation")
+  const notifyCount = props?.authReducer?.NotificationCountStatus;
+  console.log(notifyCount, 'props====>');
   const [searchQuery, onChangeSearch] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -63,6 +66,7 @@ const ExploreScreen = props => {
     getBannerList();
     getTrendyWatch();
     getAllBrands();
+    getNotificationCount();
   }, []);
 
   useEffect(() => {
@@ -159,6 +163,34 @@ const ExploreScreen = props => {
                 marginTop: SPACING.SCALE_8,
               }}>
               <Image source={IMAGES.notificationBell} />
+              {notifyCount?.total_unread ? (
+                <View
+                  style={{
+                    height: 20,
+                    width: 20,
+                    borderRadius: 10,
+                    backgroundColor: 'black',
+                    position: 'absolute',
+                    marginLeft: 15,
+                    marginTop: -15,
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: COLORS.BLACK,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                      // marginLeft: ,
+                      alignSelf: 'center',
+                      color: 'white',
+
+                      // fontSize: 24,
+                    }}>
+                    {notifyCount?.total_unread}
+                  </Text>
+                </View>
+              ) : null}
             </Pressable>
           </View>
 
@@ -248,6 +280,7 @@ const mapDispatchToProps = dispatch => ({
   getAllBrands: params => dispatch(getBrandListingAction(params)),
 
   onAddWishList: params => dispatch(addWishListAction(params)),
+  getNotificationCount: params => dispatch(NotificationCount(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExploreScreen);
