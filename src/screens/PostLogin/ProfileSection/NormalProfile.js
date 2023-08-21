@@ -80,8 +80,9 @@ const NormalProfile = props => {
           <Divider style={styles.divider} />
           <View
             style={{
-              height: 50,
+              height: 70,
               paddingHorizontal: 20,
+              justifyContent: 'center',
             }}>
             <List.Item
               title={`${useDetail?.total_following} Followings`}
