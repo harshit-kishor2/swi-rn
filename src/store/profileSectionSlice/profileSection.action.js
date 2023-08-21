@@ -1,5 +1,5 @@
-import {AxiosRequest} from '@app/helper';
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { AxiosRequest } from '@app/helper';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 //! ======================== Redux : Async Thunk Actions ============================
 
@@ -9,6 +9,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 export const sellerProductListingAction = createAsyncThunk(
   'profileSection/sellerProductListingAction',
   async (params, thunkAPI) => {
+    console.log(params, "Seller params=================================")
     try {
       const result = await AxiosRequest({
         url: `/seller-products/${params.userId}`,
@@ -70,7 +71,7 @@ export const changeProductStatusAction = createAsyncThunk(
       const result = await AxiosRequest({
         url: `product-status/${params?.product_id}`,
         method: 'GET',
-        params: {product_status: params?.product_status},
+        params: { product_status: params?.product_status },
       });
       return result;
     } catch (error) {

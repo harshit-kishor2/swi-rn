@@ -1,10 +1,11 @@
-import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
-import {LoadingStatus} from '@app/helper/strings';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { LoadingStatus } from '@app/helper/strings';
 import {
   addProductDetailAction,
   addProductImageAction,
   addProductPriceAction,
   getAllBrandAction,
+  getAllDataAction,
   getAllProductDropdownAction,
   getAllProductModelAction,
 } from './addProduct.action';
@@ -41,6 +42,15 @@ const initialState = entityAdapter.getInitialState({
   addProductPriceLoadingStatus: LoadingStatus.NOT_LOADED,
   addProductPrice: null,
   addProductPriceError: null,
+
+  //############################################Edit Product #####################################################################################
+
+  // Get Product Details
+
+  getAllDataActionLoadingStatus: LoadingStatus.NOT_LOADED,
+  getAllDataAction: [],
+  getAllDataActionError: null,
+
 });
 
 /**
@@ -124,7 +134,24 @@ const reduxSlice = createSlice({
       })
       .addCase(addProductPriceAction.rejected, (state, action) => {
         state.addProductPriceLoadingStatus = LoadingStatus.FAILED;
+      })
+
+
+      // ############################ Edit Product Details ########################################
+
+      // addProductPriceAction
+      .addCase(getAllDataAction.pending, state => {
+        state.getAllDataActionLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(getAllDataAction.fulfilled, (state, action) => {
+        state.getAllDataActionLoadingStatus = LoadingStatus.LOADED;
+        state.getAllDataAction = action.payload?.data;
+      })
+      .addCase(getAllDataAction.rejected, (state, action) => {
+        state.getAllDataActionLoadingStatus = LoadingStatus.FAILED;
+        state.getAllDataActionError = action.payload;
       });
+
   },
 });
 
@@ -132,6 +159,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const {resetSliceState} = reduxSlice.actions;
+export const { resetSliceState } = reduxSlice.actions;
 
 export const productReducer = reduxSlice.reducer;

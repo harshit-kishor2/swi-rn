@@ -1,5 +1,5 @@
 import axiosRequest from '@app/helper/axiosRequest';
-import {createAsyncThunk} from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 //! ======================== Redux : Async Thunk Actions ============================
 
@@ -126,6 +126,39 @@ export const addProductPriceAction = createAsyncThunk(
       const response = await axiosRequest({
         url: `update-product-data/${params?.product_id}`,
         method: 'POST',
+        data: params,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
+        },
+        params: {
+          step: 'third',
+        },
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+
+
+
+//Edit Product Actions #############################################################################################
+
+/**
+ * Api Action
+ */
+export const getAllDataAction = createAsyncThunk(
+  `addProduct/getAllDataAction`,
+  async (params, thunkAPI) => {
+    console.log(params, "paramsid")
+    try {
+      const response = await axiosRequest({
+        url: `product-details/${params?.product_id}`,
+        method: 'GET',
         data: params,
         headers: {
           'Content-Type': 'multipart/form-data',

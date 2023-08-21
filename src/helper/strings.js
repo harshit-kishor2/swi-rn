@@ -61,6 +61,8 @@ export const RoutesName = {
   PRODUCT_HISTORY: 'Product History',
   RATE_USER: 'Rate User',
   About_Page: 'About',
+  // Edit Product Details
+  EDIT_PRODUCT: 'EditProduct',
 };
 
 export const Messages = {

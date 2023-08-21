@@ -7,12 +7,12 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
-import {Avatar, Button, Card, Divider, Menu} from 'react-native-paper';
-import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import {AssestsConst, FontsConst} from '@app/assets/assets';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {IMAGES, SPACING} from '@app/resources';
+import React, { useState } from 'react';
+import { Avatar, Button, Card, Divider, Menu } from 'react-native-paper';
+import { CustomIcon, CustomText, Spacer, SubmitButton } from '@app/components';
+import { AssestsConst, FontsConst } from '@app/assets/assets';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { IMAGES, SPACING } from '@app/resources';
 import {
   addEllipsis,
   formatTimestamp,
@@ -20,11 +20,11 @@ import {
   showAlert,
 } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
-import {RoutesName} from '@app/helper/strings';
-import {useDispatch, useSelector} from 'react-redux';
-import {addWishListAction} from '@app/store/exploreProductSlice';
+import { RoutesName } from '@app/helper/strings';
+import { useDispatch, useSelector } from 'react-redux';
+import { addWishListAction } from '@app/store/exploreProductSlice';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 const ProductCard = ({
   item,
   onSoldClick,
@@ -64,7 +64,7 @@ const ProductCard = ({
         <Image
           resizeMode="contain"
           style={styles.cover_style}
-          source={{uri: item?.thumb_image}}
+          source={{ uri: item?.thumb_image }}
         />
       </Pressable>
       <Card.Content>
@@ -86,7 +86,7 @@ const ProductCard = ({
               size={24}
               source={
                 item?.user?.image && item?.user?.image !== ''
-                  ? {uri: item?.user?.image}
+                  ? { uri: item?.user?.image }
                   : AssestsConst.AVATAR
               }
             />
@@ -138,15 +138,21 @@ const ProductCard = ({
                   />
                 </Pressable>
               }>
-              {/* <Menu.Item onPress={() => {}} title="Edit Details" />
-              <Divider /> */}
+              <Menu.Item onPress={() => {
+
+                NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
+                  product_id: item.id,
+                });
+                setVisible(false);
+              }} title="Edit Details" />
+              <Divider />
               <Menu.Item
                 onPress={
                   onSoldClick
                     ? () => {
-                        setVisible(false);
-                        onSoldClick();
-                      }
+                      setVisible(false);
+                      onSoldClick();
+                    }
                     : null
                 }
                 title="Mark as sold"
@@ -156,9 +162,9 @@ const ProductCard = ({
                 onPress={
                   onReservedClick
                     ? () => {
-                        setVisible(false);
-                        onReservedClick();
-                      }
+                      setVisible(false);
+                      onReservedClick();
+                    }
                     : null
                 }
                 title="Mark as Reserved"
@@ -168,9 +174,9 @@ const ProductCard = ({
                 onPress={
                   onDeleteClick
                     ? () => {
-                        setVisible(false);
-                        onDeleteClick();
-                      }
+                      setVisible(false);
+                      onDeleteClick();
+                    }
                     : null
                 }
                 title="Delete"
@@ -181,9 +187,9 @@ const ProductCard = ({
               onPress={
                 onWishlistClick
                   ? () => {
-                      setInWishlist(!inWishlist);
-                      onWishlistClick();
-                    }
+                    setInWishlist(!inWishlist);
+                    onWishlistClick();
+                  }
                   : null
               }>
               <CustomIcon
