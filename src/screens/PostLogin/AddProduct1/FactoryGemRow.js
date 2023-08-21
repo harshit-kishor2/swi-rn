@@ -18,7 +18,7 @@ const FactoryGemRow = ({
   const [otherText, setOtherText] = useState(null);
 
   const getSelectedRow = item => {
-    const filtered = descriptionValue.filter(dv => dv.id === item.id);
+    const filtered = descriptionValue.filter(dv => dv.id == item.id);
     return filtered.length ? true : false;
   };
   return (
