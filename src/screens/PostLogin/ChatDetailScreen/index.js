@@ -133,8 +133,8 @@ const ChatDetailScreen = props => {
         type: message.type,
         uri: message?.uri,
       });
-      formData.append('message', 'PDF uploaded');
-    } else if (type === 'image' || type === 'video') {
+      formData.append('message', 'PDF');
+    } else if (type === 'image') {
       const d = message?.path?.split('/');
       const name = d[d.length - 1];
       formData.append(`media`, {
@@ -145,7 +145,19 @@ const ChatDetailScreen = props => {
             ? message.path.replace('file://', '')
             : message.path,
       });
-      formData.append('message', 'Image/Video uploaded');
+      formData.append('message', 'Image');
+    } else if (type === 'video') {
+      const d = message?.path?.split('/');
+      const name = d[d.length - 1];
+      formData.append(`media`, {
+        name: name ?? 'Video' + Date.now() + '.mp4',
+        type: message.mime,
+        uri:
+          Platform.OS === 'ios'
+            ? message.path.replace('file://', '')
+            : message.path,
+      });
+      formData.append('message', 'Video');
     }
     sendChatMessage(formData);
   };

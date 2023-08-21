@@ -86,9 +86,8 @@ export function RenderItem(props) {
                 color={'#000'}
               />
               <Spacer width={10} />
-              <CustomText>{'Uploaded Video'}</CustomText>
+              <CustomText>{'Tap to see video'}</CustomText>
             </View>
-            <CustomText>{'Tap to see video'}</CustomText>
           </Pressable>
         ) : currentMessage?.file?.url !== null ? (
           <Pressable
@@ -112,9 +111,8 @@ export function RenderItem(props) {
                 color={'#000'}
               />
               <Spacer width={10} />
-              <CustomText>{'Uploaded PDF'}</CustomText>
+              <CustomText>{'Tap to see pdf'}</CustomText>
             </View>
-            <CustomText>{'Tap to see pdf'}</CustomText>
           </Pressable>
         ) : currentMessage?.quickReplies !== null ? (
           <View>

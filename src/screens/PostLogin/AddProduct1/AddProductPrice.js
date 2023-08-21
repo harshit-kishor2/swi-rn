@@ -15,6 +15,7 @@ const AddProductPrice = ({onNextClick, ...props}) => {
     onAddProductPrice,
     resetProductState,
   } = props;
+  console.log(productState?.productDetails, 'productState');
 
   const onButtonSubmit = () => {
     if (!productState?.productPrice) {
@@ -71,7 +72,8 @@ const AddProductPrice = ({onNextClick, ...props}) => {
             alignSelf: 'center',
             paddingBottom: 10,
           }}>
-          Men's Ferrata Watch with Leather Strap
+          {productState?.productDetails?.gender_type}{' '}
+          {productState?.productDetails?.title} Watch
         </CustomText>
         <CustomText
           style={{
