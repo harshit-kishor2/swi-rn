@@ -96,7 +96,7 @@ export function RenderItem({item, index}) {
             backgroundColor: COLORS.APPGREEN,
           }}>
           <Text style={{fontFamily: 'OpenSans-SemiBold', color: 'white'}}>
-            Rate User
+            {item?.isRated ? 'View Rating' : 'Rate User'}
           </Text>
         </TouchableOpacity>
       </View>
