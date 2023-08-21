@@ -137,7 +137,7 @@ export function groupMessagesByDate(messages, key) {
 
 // Transform the fetched messages into the GiftedChat format
 export const transformedMessages = messages => {
-  const transformed = messages.map(message => ({
+  const transformed = messages?.map(message => ({
     _id: message.id,
     text: message?.message,
     user: {
