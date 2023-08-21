@@ -251,7 +251,11 @@ const SellerProfile = props => {
           value={
             <View>
               {userDetail?.additional_info?.social_media?.map((item, index) => {
-                return item.value ? <CustomText>{item.value}</CustomText> : '-';
+                return item?.value ? (
+                  <CustomText>{item?.value}</CustomText>
+                ) : (
+                  '-'
+                );
               }) ?? <CustomText>{'-'}</CustomText>}
             </View>
           }
@@ -261,7 +265,7 @@ const SellerProfile = props => {
           value={`${
             userDetail?.additional_info?.payment_method
               ?.filter((item, index) => item.isEnable === 'true')
-              ?.map((item, index) => item.type)
+              ?.map((item, index) => item?.type)
               ?.join(',') ?? '-'
           }`}
         />

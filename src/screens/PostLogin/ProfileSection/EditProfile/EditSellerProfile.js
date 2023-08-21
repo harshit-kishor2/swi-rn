@@ -57,7 +57,7 @@ const EditSellerProfile = props => {
     announcement: userDetail?.additional_info?.announcement ?? '',
     announcementEnd: userDetail?.additional_info?.announcement_end ?? '',
     postAdsImage: [],
-    postAdsImagePath: userDetail?.additional_info?.post_adds,
+    postAdsImagePath: userDetail?.additional_info?.post_adds ?? [],
     profileImage: '',
     profileImagePath: userDetail?.image ?? '',
     coverImage: '',
@@ -97,7 +97,7 @@ const EditSellerProfile = props => {
           //
         }
         if (val.openingHours.length) {
-          const newArr = val.openingHours.map(elem => {
+          const newArr = val.openingHours?.map(elem => {
             return Object.assign(
               {},
               {
@@ -165,6 +165,9 @@ const EditSellerProfile = props => {
       }
     },
   });
+  console.log('===========', values.postAdsImagePath);
+  console.log('===========+++', values.postAdsImage);
+
   return (
     <>
       <BackHeader
