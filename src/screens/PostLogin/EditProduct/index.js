@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 
-import { Container } from '@app/components';
+import {Container} from '@app/components';
 import {
   addProductDetailAction,
   addProductImageAction,
@@ -10,32 +10,25 @@ import {
   getAllDataAction,
   getAllProductDropdownAction,
   getAllProductModelAction,
-  updateProductDetails,
-  updateProductImage,
-  updateProductPrice,
+  updateProductImageAction,
 } from '@app/store/productSlice';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
-import EditProductImage from './EditProductImage';
 import EditProductDetails from './EditProductDetail';
-import EditProductPrice from './EditProductPrice';
-import ProductHeader from '../AddProduct1/ProductHeader';
 import EditProductHeader from './EditProductHeader';
-import NavigationService from '@app/navigations/NavigationService';
-import { RoutesName } from '@app/helper/strings';
-const { height, width } = Dimensions.get('window');
+import EditProductImage from './EditProductImage';
+import EditProductPrice from './EditProductPrice';
+const {height, width} = Dimensions.get('window');
 
 const EditProduct = props => {
-  const { productReducer, getAllBrand, getAllProductDropdown, getAllProduct } =
-    props;
+  const {getAllBrand, getAllProductDropdown, getAllProduct} = props;
   const [currentPage, setCurrentPage] = React.useState(0);
-  const [isVisible, setIsVisible] = React.useState(true);
   const flatlistRef = useRef();
 
   useEffect(() => {
     getAllBrand();
     getAllProductDropdown();
-    getAllProduct({ product_id: props?.route?.params?.product_id });
+    getAllProduct({product_id: props?.route?.params?.product_id});
   }, []);
   const onPageNext = () => {
     if (currentPage < 2) {
@@ -57,9 +50,6 @@ const EditProduct = props => {
       });
       setCurrentPage(currentPage - 1);
     } else if (currentPage == 0) {
-      // NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
-      //     product_id: props?.route?.params?.product_id,
-      // });
       props?.navigation?.goBack();
     }
   };
@@ -70,7 +60,7 @@ const EditProduct = props => {
     setCurrentPage(page);
   };
 
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({item, index}) => {
     return (
       <View
         key={index}
@@ -78,7 +68,6 @@ const EditProduct = props => {
           width: width,
         }}>
         {currentPage == 0 ? (
-          // <Page1 onPress={onPageNext} />
           <EditProductImage onNextClick={onPageNext} {...props} />
         ) : currentPage == 1 ? (
           <EditProductDetails onNextClick={onPageNext} {...props} />
@@ -127,6 +116,7 @@ const mapDispatchToProps = dispatch => ({
   onAddProductDetail: params => dispatch(addProductDetailAction(params)),
   onAddProductPrice: params => dispatch(addProductPriceAction(params)),
   getAllProduct: params => dispatch(getAllDataAction(params)),
+  editProductImage: params => dispatch(updateProductImageAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

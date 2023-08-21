@@ -30,7 +30,7 @@ const EditProductPrice = props => {
           onNextClick();
           NavigationService.goBack();
           showAlert({
-            title: 'Product price updated.',
+            title: 'Product updated successfully.',
           });
         } else if (res?.type.includes('rejected')) {
           showAlert({

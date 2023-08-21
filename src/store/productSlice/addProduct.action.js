@@ -70,7 +70,7 @@ export const getAllProductModelAction = createAsyncThunk(
 export const addProductImageAction = createAsyncThunk(
   `addProduct/addProductImageAction`,
   async (params, thunkAPI) => {
-    console.log(params, "Add Image")
+    console.log(params, 'Add Image');
     try {
       const response = await axiosRequest({
         url: 'add-product-mobile',
@@ -99,16 +99,15 @@ export const addProductImageAction = createAsyncThunk(
 export const updateProductImageAction = createAsyncThunk(
   `addProduct/updateProductImageAction`,
   async (params, thunkAPI) => {
-    console.log(params, "Params ActionData=====>>")
     try {
       const response = await axiosRequest({
         url: `add-product-mobile?productID=${params?.product_id}`,
         method: 'POST',
         data: params?.Data,
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        //   // Accept: 'application/json',
-        // },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Accept: 'application/json',
+        },
         // params: {
         //   step: 'first',
         // },

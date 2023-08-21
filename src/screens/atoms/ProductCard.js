@@ -138,16 +138,20 @@ const ProductCard = ({
                   />
                 </Pressable>
               }>
-              <Menu.Item
-                onPress={() => {
-                  NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
-                    product_id: item.id,
-                  });
-                  setVisible(false);
-                }}
-                title="Edit Details"
-              />
-              <Divider />
+              {item?.product_status == 'available' && (
+                <>
+                  <Menu.Item
+                    onPress={() => {
+                      NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
+                        product_id: item.id,
+                      });
+                      setVisible(false);
+                    }}
+                    title="Edit Details"
+                  />
+                  <Divider />
+                </>
+              )}
               <Menu.Item
                 onPress={
                   onSoldClick

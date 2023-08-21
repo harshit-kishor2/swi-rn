@@ -162,7 +162,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
     } else {
       onAddProductDetail({
         ...productState?.productDetails,
-        dated: moment(productState?.productDetails.dated).format('MMM, YYYY'),
+        dated: moment(productState?.productDetails.dated).format('YYYY-MM-DD'),
       }).then(res => {
         if (res?.type.includes('fulfilled')) {
           onNextClick();

@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Container,
   CustomIcon,
@@ -14,18 +14,18 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
-import { FontsConst } from '@app/assets/assets';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { AndroidCameraPermission } from '../../../../androidcamerapermission';
-import { showAlert } from '@app/helper/commonFunction';
+import {FontsConst} from '@app/assets/assets';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {AndroidCameraPermission} from '../../../../androidcamerapermission';
+import {showAlert} from '@app/helper/commonFunction';
 import ImageCropPicker from 'react-native-image-crop-picker';
-import { Alert } from 'react-native';
-import { Platform } from 'react-native';
+import {Alert} from 'react-native';
+import {Platform} from 'react-native';
 import Video from 'react-native-video';
-import { LoadingStatus } from '@app/helper/strings';
-import { COLORS } from '@app/resources';
+import {LoadingStatus} from '@app/helper/strings';
+import {COLORS} from '@app/resources';
 
-const AddProductImage = ({ onNextClick, ...props }) => {
+const AddProductImage = ({onNextClick, ...props}) => {
   const {
     productReducer,
     updateProductImage,
@@ -63,7 +63,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
       } else {
         showAlert({
           title: 'Warning',
-          message: 'You can add more than 5 images or videos',
+          message: 'You can not add more than 5 images or videos',
           actions: [
             {
               text: 'OK',
@@ -136,7 +136,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
       if (image?.size <= 10485760) {
         updateProductImage(image);
       } else {
-        Alert.alert('video length exceed 10MB');
+        Alert.alert('Video length exceed 10MB');
       }
     });
   };
@@ -162,7 +162,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
       if (video?.size <= 10485760) {
         updateProductImage(video);
       } else {
-        Alert.alert('video length exceed 10MB');
+        Alert.alert('Video length exceed 10MB');
       }
     });
   };
@@ -241,7 +241,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
         style={{
           fontFamily: FontsConst.OpenSans_Bold,
         }}>
-        Upload watch images<CustomText style={{ color: 'red' }}>*</CustomText>
+        Upload watch images<CustomText style={{color: 'red'}}>*</CustomText>
       </CustomText>
       <Spacer />
       <CustomText
@@ -264,7 +264,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
               <Pressable style={{}} onPress={() => setPause(!pause)}>
                 <Video
                   controls={false}
-                  source={{ uri: selected?.path }}
+                  source={{uri: selected?.path}}
                   resizeMode="cover"
                   style={{
                     height: 250,
@@ -298,7 +298,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
               </Pressable>
             ) : (
               <Image
-                source={{ uri: selected?.path }}
+                source={{uri: selected?.path}}
                 style={styles.selected_image}
               />
             )
@@ -348,7 +348,7 @@ const AddProductImage = ({ onNextClick, ...props }) => {
               {item.mime === 'video/mp4' && Platform.OS === 'ios' ? (
                 <Video
                   controls={false}
-                  source={{ uri: item?.path }}
+                  source={{uri: item?.path}}
                   resizeMode="cover"
                   style={{
                     height: 70,
@@ -356,11 +356,11 @@ const AddProductImage = ({ onNextClick, ...props }) => {
                     borderRadius: 8,
                   }}
                   paused={true}
-                // repeat={true}
+                  // repeat={true}
                 />
               ) : (
                 <Image
-                  source={{ uri: item?.path }}
+                  source={{uri: item?.path}}
                   resizeMode="stretch"
                   style={{
                     height: 70,

@@ -1,5 +1,5 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { LoadingStatus } from '@app/helper/strings';
+import {createEntityAdapter, createSlice} from '@reduxjs/toolkit';
+import {LoadingStatus} from '@app/helper/strings';
 import {
   addProductDetailAction,
   addProductImageAction,
@@ -52,13 +52,11 @@ const initialState = entityAdapter.getInitialState({
   getAllDataAction: [],
   getAllDataActionError: null,
 
-
   // Get Product Details
 
   updateProductImageActionLoadingStatus: LoadingStatus.NOT_LOADED,
   updateProductImageAction: [],
   updateProductImageActionError: null,
-
 });
 
 /**
@@ -144,7 +142,6 @@ const reduxSlice = createSlice({
         state.addProductPriceLoadingStatus = LoadingStatus.FAILED;
       })
 
-
       // ############################ Edit Product Details ########################################
 
       // addProductPriceAction
@@ -161,7 +158,7 @@ const reduxSlice = createSlice({
       })
       // Update Product  Image Action
       .addCase(updateProductImageAction.pending, state => {
-        state.getAllDataActionLoadingStatus = LoadingStatus.LOADING;
+        state.updateProductImageActionLoadingStatus = LoadingStatus.LOADING;
       })
       .addCase(updateProductImageAction.fulfilled, (state, action) => {
         state.updateProductImageActionLoadingStatus = LoadingStatus.LOADED;
@@ -171,7 +168,6 @@ const reduxSlice = createSlice({
         state.updateProductImageActionLoadingStatus = LoadingStatus.FAILED;
         state.updateProductImageActionError = action.payload;
       });
-
   },
 });
 
@@ -179,6 +175,6 @@ const reduxSlice = createSlice({
  * Export reducer for store configuration.
  */
 
-export const { resetSliceState } = reduxSlice.actions;
+export const {resetSliceState} = reduxSlice.actions;
 
 export const productReducer = reduxSlice.reducer;

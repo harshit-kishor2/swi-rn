@@ -1,20 +1,13 @@
-import {
-  CustomIcon,
-  CustomText,
-  DatePicker,
-  Spacer,
-  SubmitButton,
-} from '@app/components';
-import React from 'react';
+import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import {useEffect, useState} from 'react';
-import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
-import {List, TextInput} from 'react-native-paper';
 import {showAlert} from '@app/helper/commonFunction';
 import {LoadingStatus} from '@app/helper/strings';
-import MonthYearPicker from '@app/components/MonthYearPicker';
-import MonthPicker from 'react-native-month-year-picker';
+import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
+import {useEffect, useState} from 'react';
+import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import MonthPicker from 'react-native-month-year-picker';
+import {List, TextInput} from 'react-native-paper';
 import DropDownWithModel from '../AddProduct1/DropDownWithModel';
 import FactoryGemRow from '../AddProduct1/FactoryGemRow';
 import LocationModal from './LocationModal';
@@ -22,19 +15,15 @@ const DIFF_MODEL = ['Rolex', 'Audemars Piguet', 'Patek Philippe'];
 const EditProductDetails = props => {
   const {
     productReducer,
-    productState,
-    updateProductDetails,
     getAllProductModel,
     getAllProduct,
     onNextClick,
-    getAllProductDropdown,
-    locationData,
     onAddProductDetail,
   } = props;
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
-
+  const isFocused = useIsFocused();
   const [state, setState] = useState({
     brand_id: '',
     model_id: '',
@@ -79,81 +68,85 @@ const EditProductDetails = props => {
   } = props?.productReducer?.getAllProductDropdown;
 
   useEffect(() => {
-    getAllProduct({product_id: props?.route?.params?.product_id}).then(res => {
-      if (res?.type.includes('fulfilled')) {
-        const tempData = res?.payload?.data;
-        console.log('tempData', tempData);
-        setState(item => {
-          return {
-            ...item,
-            brand_id: tempData.brand_id ?? '',
-            model_id: tempData?.model_id,
-            watch_condition:
-              tempData.watch_condition === 'Pre-Owned'
-                ? 'pre_owned'
-                : 'brand_new',
-            title: tempData?.title ?? '',
-            no_certain: tempData?.no_certain ?? 'no', //yes or no
-            dated: tempData?.dated ?? '',
-            accessories: ACCESSORIES?.filter(
-              item => item.name == tempData.accessories,
-            )[0]?.id,
-            description: tempData.description ?? '',
-            gender_type: tempData?.gender_type ?? 'Male',
-            dial: DIAL?.filter(item => item.name == tempData.dial)[0]?.id,
-            dial_markers: DIALMARKERS?.filter(
-              item => item.name == tempData.dial_markers,
-            )[0]?.id,
-            case_size: CASESIZE?.filter(
-              item => item.name == tempData.case_size,
-            )[0]?.id,
-            movement: MOVEMENT?.filter(
-              item => item.name == tempData.movement,
-            )[0]?.id,
-            case_materials: CASEMATERIAL?.filter(
-              item => item.id == tempData.case_materials,
-            )[0]?.id,
-            bracelet: STRAPBRACELET?.filter(
-              item => item.id == tempData.bracelet,
-            )[0]?.id,
-            clasp: CLASP?.filter(item => item.id == tempData.clasp)[0]?.id,
-            factory_gem_set: tempData?.factory_gem_set ?? 'No',
-            factory_gem:
-              tempData?.factory_gem_set_data?.map(item => {
-                const obj = {
-                  id: FACTTORYGEM?.filter(fg => fg.name == item.gem_position)[0]
-                    ?.id,
-                  name: item.gem_position,
-                  type: 'FACTTORYGEM',
-                  text: item.value,
-                };
-                return obj;
-              }) ?? [],
-            custom_gem_set: tempData?.custom_gem_set ?? 'No',
-            custom_gem:
-              tempData?.custom_gem_set_data?.map(item => {
-                const obj = {
-                  id: CUSTOMFACTTORYGEM?.filter(
-                    fg => fg.name == item.gem_position,
-                  )[0]?.id,
-                  name: item.gem_position,
-                  type: 'CUSTOMFACTTORYGEM',
-                  text: item.value,
-                };
-                return obj;
-              }) ?? [],
-            location: tempData?.location ?? '',
-            latitude: tempData?.latitude ?? '',
-            longitude: tempData?.longitude ?? '',
-            product_id: tempData?.id,
-            productID: tempData?.id,
-            new_brand: false,
-            new_model: false,
-          };
-        });
-      }
-    });
-  }, []);
+    if (isFocused) {
+      getAllProduct({product_id: props?.route?.params?.product_id}).then(
+        res => {
+          if (res?.type.includes('fulfilled')) {
+            const tempData = res?.payload?.data;
+            setState(item => {
+              return {
+                ...item,
+                brand_id: tempData.brand_id ?? '',
+                model_id: tempData?.model_id,
+                watch_condition:
+                  tempData.watch_condition === 'Pre-Owned'
+                    ? 'pre_owned'
+                    : 'brand_new',
+                title: tempData?.title ?? '',
+                no_certain: tempData?.no_certain ?? 'no', //yes or no
+                dated: tempData?.dated ?? '',
+                accessories: ACCESSORIES?.filter(
+                  item => item.name == tempData.accessories,
+                )[0]?.id,
+                description: tempData.description ?? '',
+                gender_type: tempData?.gender_type ?? 'Male',
+                dial: DIAL?.filter(item => item.name == tempData.dial)[0]?.id,
+                dial_markers: DIALMARKERS?.filter(
+                  item => item.name == tempData.dial_markers,
+                )[0]?.id,
+                case_size: CASESIZE?.filter(
+                  item => item.name == tempData.case_size,
+                )[0]?.id,
+                movement: MOVEMENT?.filter(
+                  item => item.name == tempData.movement,
+                )[0]?.id,
+                case_materials: CASEMATERIAL?.filter(
+                  item => item.id == tempData.case_materials,
+                )[0]?.id,
+                bracelet: STRAPBRACELET?.filter(
+                  item => item.id == tempData.bracelet,
+                )[0]?.id,
+                clasp: CLASP?.filter(item => item.id == tempData.clasp)[0]?.id,
+                factory_gem_set: tempData?.factory_gem_set ?? 'No',
+                factory_gem:
+                  tempData?.factory_gem_set_data?.map(item => {
+                    const obj = {
+                      id: FACTTORYGEM?.filter(
+                        fg => fg.name == item.gem_position,
+                      )[0]?.id,
+                      name: item.gem_position,
+                      type: 'FACTTORYGEM',
+                      text: item.value,
+                    };
+                    return obj;
+                  }) ?? [],
+                custom_gem_set: tempData?.custom_gem_set ?? 'No',
+                custom_gem:
+                  tempData?.custom_gem_set_data?.map(item => {
+                    const obj = {
+                      id: CUSTOMFACTTORYGEM?.filter(
+                        fg => fg.name == item.gem_position,
+                      )[0]?.id,
+                      name: item.gem_position,
+                      type: 'CUSTOMFACTTORYGEM',
+                      text: item.value,
+                    };
+                    return obj;
+                  }) ?? [],
+                location: tempData?.location ?? '',
+                latitude: tempData?.latitude ?? '',
+                longitude: tempData?.longitude ?? '',
+                product_id: tempData?.id,
+                productID: tempData?.id,
+                new_brand: false,
+                new_model: false,
+              };
+            });
+          }
+        },
+      );
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     if (state?.brand_id) {
@@ -280,13 +273,10 @@ const EditProductDetails = props => {
     } else {
       onAddProductDetail({
         ...state,
-        dated: moment(state.dated).format('MMM, YYYY'),
+        dated: moment(state.dated).format('YYYY-MM-DD'),
       }).then(res => {
         if (res?.type.includes('fulfilled')) {
           onNextClick();
-          showAlert({
-            title: 'Product details updated.',
-          });
         } else if (res?.type.includes('rejected')) {
           showAlert({
             title: 'Server error !',
