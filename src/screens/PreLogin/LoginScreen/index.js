@@ -72,7 +72,7 @@ const LoginScreen = props => {
             SharedPreference.keys.DEVICE_TOKEN,
             '',
           );
-          console.log('device token==', deviceToken, params);
+          console.log('Login device token==', deviceToken);
           let params = {
             // name: val?.name,
             email: val?.email,

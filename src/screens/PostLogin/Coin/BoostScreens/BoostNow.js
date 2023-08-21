@@ -9,7 +9,7 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   BackHeader,
   Container,
@@ -18,25 +18,25 @@ import {
   Spacer,
   SubmitButton,
 } from '@app/components';
-import { IMAGES, SPACING } from '@app/resources';
+import {IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
-import { RoutesName } from '@app/helper/strings';
-import { ScrollView } from 'react-native-gesture-handler';
-import { connect, useSelector } from 'react-redux';
+import {RoutesName} from '@app/helper/strings';
+import {ScrollView} from 'react-native-gesture-handler';
+import {connect, useSelector} from 'react-redux';
 import {
   boostPlans,
   boostProduct,
 } from '@app/store/exploreProductSlice/boostProduct.action';
-import { useEffect } from 'react';
-import { userProfile } from '@app/store/authSlice';
-import { showAlert } from '@app/helper/commonFunction';
-import { FontsConst } from '@app/assets/assets';
+import {useEffect} from 'react';
+import {userProfile} from '@app/store/authSlice';
+import {addEllipsis, showAlert} from '@app/helper/commonFunction';
+import {FontsConst} from '@app/assets/assets';
 
 const BoostNow = props => {
   const [selected, setSelected] = useState();
   const [selectedPlan, setSelectedPlan] = useState();
 
-  const { boostProduct, boostProductReducer, boostPlans, authReducer } = props;
+  const {boostProduct, boostProductReducer, boostPlans, authReducer} = props;
 
   const params = {
     pid: props?.route?.params?.product_id,
@@ -62,7 +62,7 @@ const BoostNow = props => {
             source={IMAGES.sandWatch}
             style={styles.ImageBackgroudContainer}>
             <Image
-              style={{ top: SPACING.SCALE__35, marginLeft: 30 }}
+              style={{top: SPACING.SCALE__35, marginLeft: 30}}
               source={IMAGES.CoinBoostNow}
             />
           </ImageBackground>
@@ -74,7 +74,7 @@ const BoostNow = props => {
           </Text>
         </View>
 
-        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+        <View style={{alignItems: 'center', marginBottom: 20}}>
           <Text style={styles.TextStyle1}>
             You have {<Image source={IMAGES.coin} />}{' '}
             {authReducer?.userProfileDetails?.coins} coins with you now
@@ -83,7 +83,7 @@ const BoostNow = props => {
         {boostProductReducer?.boostPlansData?.data?.length !== 0 ? (
           <FlatList
             data={boostProductReducer?.boostPlansData?.data}
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
@@ -119,22 +119,21 @@ const BoostNow = props => {
                         for{' '}
                         <Text style={styles.innerText}>
                           {' '}
-                          {item?.plan_name}{' '}
+                          {addEllipsis(item?.plan_name, 15)}{' '}
                         </Text>{' '}
                       </Text>
-                      {
-                        item?.coins_value == 0 ? <View style={styles.CardCoinStyle}>
-
-                          <Text style={styles.NumberStyle}>
-                            Free
-                          </Text>
-                        </View> : <View style={styles.CardCoinStyle}>
+                      {item?.coins_value == 0 ? (
+                        <View style={styles.CardCoinStyle}>
+                          <Text style={styles.NumberStyle}>Free</Text>
+                        </View>
+                      ) : (
+                        <View style={styles.CardCoinStyle}>
                           <Image source={IMAGES.coin} />
                           <Text style={styles.NumberStyle}>
                             {item?.coins_value}
                           </Text>
                         </View>
-                      }
+                      )}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -168,7 +167,7 @@ const BoostNow = props => {
           }}
         />
         <Spacer height={20} />
-        <TouchableOpacity style={{ alignSelf: 'center' }}>
+        <TouchableOpacity style={{alignSelf: 'center'}}>
           <Text
             style={{
               fontSize: 14,

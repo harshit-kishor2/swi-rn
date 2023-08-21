@@ -5,28 +5,28 @@ import {
   CustomInput,
   SubmitButton,
 } from '@app/components';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { showAlert } from '@app/helper/commonFunction';
-import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {showAlert} from '@app/helper/commonFunction';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
-import { COLORS, IMAGES } from '@app/resources';
+import {COLORS, IMAGES} from '@app/resources';
 import LoginHeader from '@app/screens/atoms/LoginHeader';
-import { changePasswordAction } from '@app/store/authSlice';
-import { useFormik } from 'formik';
+import {changePasswordAction} from '@app/store/authSlice';
+import {useFormik} from 'formik';
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { connect } from 'react-redux';
+import {Pressable, Text, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import {connect} from 'react-redux';
 import * as Yup from 'yup';
 
-const ChangePassword = (props) => {
-  const { updatePassword, authReducer } = props;
-  console.log(props)
+const ChangePassword = props => {
+  const {updatePassword, authReducer} = props;
+  console.log(props);
   const validationSchema = Yup.object({
     current_password: Yup.string()
       .trim()
-      .min(8, ({ min }) => `Password must be at least ${min} characters`)
-      .max(15, ({ max }) => `Password must not exceed ${max} characters`)
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .max(15, ({max}) => `Password must not exceed ${max} characters`)
       .required('Required*')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -34,8 +34,8 @@ const ChangePassword = (props) => {
       ),
     new_password: Yup.string()
       .trim()
-      .min(8, ({ min }) => `Password must be at least ${min} characters`)
-      .max(15, ({ max }) => `Password must not exceed ${max} characters`)
+      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .max(15, ({max}) => `Password must not exceed ${max} characters`)
       .required('Required*')
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#\$%\^&\*])(?=.{8,})/,
@@ -64,12 +64,16 @@ const ChangePassword = (props) => {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: val => {
-      console.log('VAlues =========================', val, typeof updatePassword);
+      console.log(
+        'VAlues =========================',
+        val,
+        typeof updatePassword,
+      );
 
       updatePassword({
         current_password: val?.current_password,
         new_password: val?.new_password,
-        confirm_password: val?.confirm_password
+        confirm_password: val?.confirm_password,
       }).then(res => {
         if (res?.type.includes('fulfilled')) {
           showAlert({
@@ -86,28 +90,28 @@ const ChangePassword = (props) => {
           });
         }
       });
-    }
-
+    },
   });
-
-
 
   // console.log(values);
 
   return (
     <Container useSafeAreaView={true}>
-      <ScrollView style={{ margin: 15 }} showsVerticalScrollIndicator={false}>
-        <BackHeader />
-
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <BackHeader />
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingHorizontal: 20,
+          paddingBottom: 50,
+        }}
+        showsVerticalScrollIndicator={false}>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <LoginHeader title={'Change Password'} />
         </View>
         <View
           style={{
-            // // alignContent: 'center',
             justifyContent: 'center',
             alignContent: 'center',
-            marginHorizontal: 50,
           }}>
           <CustomInput
             placeholder="Enter old Password"
@@ -142,12 +146,10 @@ const ChangePassword = (props) => {
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'lock'}
                 color={COLORS.BLACK}
-                style={{ marginRight: 10 }}
+                style={{marginRight: 10}}
               />
             }
           />
-
-
 
           <CustomInput
             placeholder="Confirm New Password"
@@ -162,11 +164,20 @@ const ChangePassword = (props) => {
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'lock'}
                 color={COLORS.BLACK}
-                style={{ marginRight: 10 }}
+                style={{marginRight: 10}}
               />
             }
           />
-          <SubmitButton loading={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} disabled={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} lable="Change" onPress={handleSubmit} />
+          <SubmitButton
+            loading={
+              authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING
+            }
+            disabled={
+              authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING
+            }
+            lable="Change"
+            onPress={handleSubmit}
+          />
           {/* <Pressable style={{ justifyContent: 'center', alignItems: 'center', borderWidth: 1, height: 50, borderRadius: 20, backgroundColor: 'black' }}
             onPress={handleSubmit}>
             <Text style={{ fontFamily: 'OpenSans-SemiBold', color: 'white' }}>Change Password</Text>
@@ -177,16 +188,13 @@ const ChangePassword = (props) => {
   );
 };
 
-
 const mapStateToProps = state => {
   return {
     authReducer: state.authReducer,
-
   };
 };
 const mapDispatchToProps = dispatch => ({
   updatePassword: params => dispatch(changePasswordAction(params)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

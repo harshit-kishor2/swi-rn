@@ -28,6 +28,7 @@ import {AssestsConst} from '@app/assets/assets';
 import NavigationService from '@app/navigations/NavigationService';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {useIsFocused} from '@react-navigation/native';
+import {addEllipsis} from '@app/helper/commonFunction';
 
 const MyProfileScreen = props => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -129,7 +130,9 @@ const MyProfileScreen = props => {
                 marginTop: SPACING.SCALE_10,
               }}>
               <View style={styles.NameBadgeStyle}>
-                <Text style={styles.NameStyle}>{profileData?.name}</Text>
+                <Text style={styles.NameStyle}>
+                  {addEllipsis(profileData?.name, 15)}
+                </Text>
                 <Spacer width={SPACING.SCALE_8} />
                 <View style={styles.BadgeStyle}>
                   {profileData?.premium_user === 'yes' ? (

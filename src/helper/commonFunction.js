@@ -53,18 +53,20 @@ export const mergeArrays = (baseArray, newArray) => {
   return [...mergedArray, ...newItems];
 };
 
-export function addObjectAndUpdate(array, newObject) {
-  const index = array.findIndex(obj => obj.id === newObject.id);
+export function addObjectAndUpdate(objArray, newObject) {
+  const index = objArray.findIndex(obj => {
+    return obj.id === newObject.id;
+  });
 
   if (index !== -1) {
     // Update the existing object
-    array[index] = newObject;
+    objArray[index] = newObject;
   } else {
     // Add the new object at the start of the array
-    array.unshift(newObject);
+    objArray.unshift(newObject);
   }
 
-  return array;
+  return objArray;
 }
 
 export function getTimeDifferenceString(date) {

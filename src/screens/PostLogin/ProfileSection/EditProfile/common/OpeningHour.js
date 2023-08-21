@@ -29,6 +29,7 @@ const OpeningHour = ({openingHours, setOpeningHours}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              height: 50,
             }}>
             <View
               style={{
@@ -65,8 +66,15 @@ const OpeningHour = ({openingHours, setOpeningHours}) => {
             <View
               style={{
                 width: '60%',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
               }}>
               <CustomInput
+                style={{
+                  height: 30,
+                  width: '100%',
+                }}
                 placeholder="--"
                 keyboardType="email-address"
                 returnKeyType="next"

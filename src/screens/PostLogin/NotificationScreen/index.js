@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   Image,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import { COLORS, IMAGES, SPACING } from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
 import {
   BackHeader,
   Container,
@@ -21,15 +21,20 @@ import {
 } from '@app/components';
 import NotificationCard from '@app/screens/atoms/NotificationCard';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import { FontsConst } from '@app/assets/assets';
-import { Avatar, Divider } from 'react-native-paper';
-import { LoadingStatus, RoutesName } from '@app/helper/strings';
-import { connect } from 'react-redux';
-import authReducer, { NotificationListing, UpdateNotificationStatus } from '@app/store/authSlice';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { EmptyList } from '../ChatScreen/commn';
+import {FontsConst} from '@app/assets/assets';
+import {Avatar, Divider} from 'react-native-paper';
+import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import {connect} from 'react-redux';
+import authReducer, {
+  NotificationCount,
+  NotificationListing,
+  UpdateNotificationStatus,
+} from '@app/store/authSlice';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {EmptyList} from '../ChatScreen/commn';
 import moment from 'moment';
 import NavigationService from '@app/navigations/NavigationService';
+import {useIsFocused} from '@react-navigation/native';
 
 export function getTimeDifferenceString(date) {
   const now = new Date();
@@ -54,32 +59,46 @@ export function getTimeDifferenceString(date) {
 }
 
 const NotificationScreen = props => {
-  const { navigation, route, getNotificationList, authReducer, updateNotificationStatus } = props;
-  console.log("=======================", props)
+  const {
+    navigation,
+    route,
+    getNotificationList,
+    authReducer,
+    updateNotificationStatus,
+    NotificationCount,
+  } = props;
+  const isFocused = useIsFocused();
   const onRowClick = item => {
+    console.log('Alert===', item);
     switch (item.type) {
-      case 'price-alert':
-        {
-          updateNotificationStatus({ id: item?.id })
-          // console.log("clicked")
-          NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
-            userId: "item.id",
-          });
-        }
-      case 'follow-visit':
-        {
-          updateNotificationStatus({ id: item?.id })
-          console.log("clicked")
-          props.navigation?.navigate(RoutesName.NOTIFICATION_SCREEN);
-        }
+      case 'price-alert': {
+        NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+          userId: 'item.id',
+        });
+        break;
+      }
+      case 'follow-visit': {
+        props.navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+          userId: item?.followed_by?.id,
+        });
+        break;
+      }
+      case 'interest-list': {
+        props.navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+          userId: item?.followed_by?.id,
+        });
+        break;
+      }
       default:
         break;
     }
   };
   useEffect(() => {
-    getNotificationList();
-
-  }, []);
+    if (isFocused) {
+      getNotificationList();
+      NotificationCount();
+    }
+  }, [isFocused]);
 
   // Function to categorize notifications
   function categorizeNotifications(notifications) {
@@ -92,7 +111,6 @@ const NotificationScreen = props => {
 
       // Calculate the time difference in days
       const timeDiff = (Date.now() - createdAt) / (1000 * 60 * 60 * 24);
-      console.log('timeDiff', timeDiff, createdAt);
       if (timeDiff >= 0 && timeDiff < 1) {
         today.push(notification);
       } else if (timeDiff <= 7) {
@@ -129,10 +147,10 @@ const NotificationScreen = props => {
   const modified = categorizeNotifications(
     props?.authReducer?.NotificationListing?.data?.notifications ?? [],
   );
-  console.log('Modified==', modified);
+
   const renderSection = item => {
     const {
-      section: { title, data },
+      section: {title, data},
     } = item;
     if (data.length)
       return (
@@ -142,15 +160,27 @@ const NotificationScreen = props => {
       );
   };
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({item}) => {
     return (
-      <View style={[item?.pivot?.read_status == "unread" && {
-        backgroundColor: '#F0F2FA'
-        // backgroundColor: 'red'
-      }]}>
-        < Pressable onPress={() => onRowClick(item)} style={styles.row} >
+      <View
+        style={[
+          item?.pivot?.read_status == 'unread' && {
+            backgroundColor: '#F0F2FA',
+            // backgroundColor: 'red'
+          },
+        ]}>
+        <Pressable
+          onPress={() => {
+            if (item?.pivot?.read_status == 'unread') {
+              updateNotificationStatus({id: item?.id});
+            }
+            onRowClick(item);
+          }}
+          style={styles.row}>
           <Avatar.Image
-            source={{ uri: props?.authReducer?.NotificationListing?.data?.image }}
+            source={{
+              uri: item?.followed_by?.image,
+            }}
             size={50}
           />
           <View
@@ -165,9 +195,9 @@ const NotificationScreen = props => {
               {getTimeDifferenceString(`${item?.created_at}`)}
             </CustomText>
           </View>
-        </Pressable >
-        <Divider style={{ marginTop: 10 }} />
-      </View >
+        </Pressable>
+        <Divider style={{marginTop: 10}} />
+      </View>
     );
   };
 
@@ -215,11 +245,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: FontsConst.OpenSans_Regular,
     color: '#000000',
+    marginTop: 5,
   },
   notification_price: {
     fontSize: 12,
     fontFamily: FontsConst.OpenSans_Regular,
     color: '#00000080',
+    marginTop: 5,
   },
 });
 
@@ -230,7 +262,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   getNotificationList: params => dispatch(NotificationListing()),
-  updateNotificationStatus: params => dispatch(UpdateNotificationStatus(params)),
+  updateNotificationStatus: params =>
+    dispatch(UpdateNotificationStatus(params)),
+  NotificationCount: params => dispatch(NotificationCount(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationScreen);

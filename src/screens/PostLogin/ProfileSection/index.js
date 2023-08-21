@@ -1,5 +1,5 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import {BackHeader, Container, CustomIcon, Spacer} from '@app/components';
 import SellerProfile from './SellerProfile';
@@ -15,6 +15,7 @@ import {
 import {addWishListAction} from '@app/store/exploreProductSlice';
 import {useIsFocused} from '@react-navigation/native';
 import {showAlert} from '@app/helper/commonFunction';
+import branch from 'react-native-branch';
 
 const ProfileSection = props => {
   const {
@@ -34,12 +35,18 @@ const ProfileSection = props => {
     profileSectionReducer?.profileAbout?.role === 'seller' ? true : false;
 
   const useDetail = profileSectionReducer?.profileAbout;
-
+  const buoRef = useRef();
   useEffect(() => {
     if (isFocused) {
       getProfileAbout({userId: userId});
       getProfileListing({userId: userId});
     }
+    return () => {
+      if (buoRef.current) {
+        console.log('buo release');
+        buoRef.current?.release();
+      }
+    };
   }, [isFocused]);
 
   const onClickFollow = () => {
@@ -62,6 +69,46 @@ const ProfileSection = props => {
         });
       }
     });
+  };
+
+  const onSharePerson = async () => {
+    let linkProperties = {
+      feature: 'share',
+      channel: 'RNApp',
+      campaign: `User ID - ${useDetail.id}`,
+    };
+    let shareOptions = {
+      messageHeader: 'Visit my profile',
+      messageBody: 'Visit my profile for more details.',
+    };
+    let controlParams = {
+      $desktop_url: 'https://www.sgwatchinsider.com/',
+    };
+
+    buoRef.current = await branch.createBranchUniversalObject(
+      `user/${useDetail.id}`,
+      {
+        title: 'Product Title',
+        contentDescription: 'Product Description',
+        canonicalUrl: '',
+        contentMetadata: {
+          customMetadata: {
+            userID: `${useDetail.id}`,
+          },
+        },
+      },
+    );
+    let {url} = await buoRef.current?.generateShortUrl(
+      linkProperties,
+      controlParams,
+    );
+    console.log('url', url);
+    let {channel, completed, error} = await buoRef.current?.showShareSheet(
+      shareOptions,
+      linkProperties,
+      controlParams,
+    );
+    console.log('test', {channel, completed, error});
   };
 
   return (
@@ -112,7 +159,7 @@ const ProfileSection = props => {
               </Pressable> */}
             </View>
           ) : isSeller ? null : (
-            <Pressable style={styles.button} onPress={() => {}}>
+            <Pressable style={styles.button} onPress={() => onSharePerson()}>
               <CustomIcon
                 origin={ICON_TYPE.FEATHER_ICONS}
                 name={'share-2'}

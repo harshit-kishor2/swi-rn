@@ -1,7 +1,7 @@
 import {Container, CustomText, Loader} from '@app/components';
 import PageTitle from '@app/screens/atoms/PageTitle';
 import SearchHeader from '@app/screens/atoms/SearchHeader';
-import {FlatList, Image, Pressable, StyleSheet, View} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import ProductCard from '@app/screens/atoms/ProductCard';
 import {useEffect, useState} from 'react';
@@ -10,15 +10,19 @@ import {freshFindsAction} from '@app/store/exploreProductSlice';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
 import SearchBarComponent from '@app/components/SearchBarComponent';
-import {IMAGES, SPACING} from '@app/resources';
+import {COLORS, IMAGES, SPACING} from '@app/resources';
+import {NotificationCount} from '@app/store/authSlice';
 
 const FreshFindScreen = props => {
-  const {exploreProduct, onFreshFinds} = props;
+  const {exploreProduct, onFreshFinds, getNotificationCount} = props;
   const [searchQuery, onChangeSearch] = useState('');
   const query = useDebounce(searchQuery, 1000);
+  const NotifyCount = props?.authReducer?.NotificationCountStatus;
+  console.log('NotifyCount', NotifyCount);
 
   useEffect(() => {
     onFreshFinds({keyWord: query});
+    getNotificationCount();
   }, [query]);
 
   const renderItem = ({item, index}) => {
@@ -48,6 +52,32 @@ const FreshFindScreen = props => {
           }}
           style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
           <Image source={IMAGES.notificationBell} />
+          {NotifyCount?.total_unread ? (
+            <View
+              style={{
+                height: 20,
+                width: 20,
+                borderRadius: 10,
+                backgroundColor: 'black',
+                position: 'absolute',
+                marginLeft: 15,
+                marginTop: -15,
+                justifyContent: 'center',
+                alignContent: 'center',
+              }}>
+              <Text
+                style={{
+                  color: COLORS.BLACK,
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+
+                  alignSelf: 'center',
+                  color: 'white',
+                }}>
+                {NotifyCount?.total_unread}
+              </Text>
+            </View>
+          ) : null}
         </Pressable>
       </View>
 
@@ -90,6 +120,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onFreshFinds: params => dispatch(freshFindsAction(params)),
+  getNotificationCount: params => dispatch(NotificationCount()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FreshFindScreen);

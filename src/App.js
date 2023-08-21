@@ -17,7 +17,6 @@ const App = () => {
             barStyle="light-content"
             // backgroundColor={'#00958C'}
           />
-          <NotificationController />
           <CustomSplash />
           <AlertBox />
         </Provider>

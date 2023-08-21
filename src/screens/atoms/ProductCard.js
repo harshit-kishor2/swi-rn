@@ -104,14 +104,14 @@ const ProductCard = ({
           Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
-        {isSelf && isActionButton ? (
+        {isSelf && isActionButton && item?.product_status == 'available' ? (
           <Pressable
             style={styles.boostButton}
             onPress={() => {
               NavigationService.navigate(
                 RoutesName.BOOST_PRODUCT_INTRODUCTION,
                 {
-                  product_id: item.id,
+                  product_id: item?.id,
                 },
               );
             }}>

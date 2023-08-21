@@ -1,4 +1,4 @@
-import {Container} from '@app/components';
+import {Container, CustomText} from '@app/components';
 import {showAlert} from '@app/helper/commonFunction';
 import {LoadingStatus} from '@app/helper/strings';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@app/store/chatSlice';
 import {getProductDetailsAction} from '@app/store/exploreProductSlice';
 import {useEffect, useRef, useState} from 'react';
-import {Platform, StyleSheet, View} from 'react-native';
+import {Platform, Pressable, StyleSheet, View} from 'react-native';
 import {connect} from 'react-redux';
 import {AndroidCameraPermission} from '../../../../androidcamerapermission';
 import ActionContainer from './ActionContainer';
@@ -39,7 +39,9 @@ import {
   onFollowClickAction,
   profileAboutAction,
 } from '@app/store/profileSectionSlice';
+import {Chip} from 'react-native-paper';
 
+const customMessage = ['Hello', 'Hi', "I'm interested in this product."];
 const ChatDetailScreen = props => {
   const {
     chatReducer,
@@ -74,7 +76,7 @@ const ChatDetailScreen = props => {
   const {chat_item, isOffer} = route.params;
   console.log('============chat_item=============', chat_item);
   //  Use socket
-  useSocket(updateNewMessage);
+  useSocket({updateNewMessage, chat_item});
 
   // First render
   useEffect(() => {
@@ -241,7 +243,11 @@ const ChatDetailScreen = props => {
   const hasEnabledObject = chatReducer?.chatHistory.some(
     obj => obj.isOfferAccepted === 'accepted',
   );
-  console.log('hasEnabledObject===', hasEnabledObject);
+  console.log(
+    'hasEnabledObject===',
+    hasEnabledObject,
+    chatReducer?.chatHistory,
+  );
 
   return (
     <Container
@@ -285,6 +291,37 @@ const ChatDetailScreen = props => {
           }}
           minInputToolbarHeight={5}
           renderInputToolbar={props => {}}
+          renderFooter={
+            modifyData.length
+              ? null
+              : () => {
+                  return (
+                    <View
+                      style={{
+                        paddingHorizontal: 20,
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                      }}>
+                      {customMessage.map((item, index) => {
+                        return (
+                          <Chip
+                            style={{
+                              margin: 5,
+                            }}
+                            onPress={() =>
+                              sendMessage({
+                                type: 'text',
+                                message: item,
+                              })
+                            }>
+                            {item}
+                          </Chip>
+                        );
+                      })}
+                    </View>
+                  );
+                }
+          }
         />
       </View>
       {hasEnabledObject ? null : (
@@ -304,11 +341,13 @@ const ChatDetailScreen = props => {
         sendMessage={sendMessage}
       />
       {/* Make Offer Modal */}
-      <MakeOfferModal
-        modalVisible={offerModalVisible}
-        setModalVisible={setOfferModalVisible}
-        sendMessage={sendMessage}
-      />
+      {hasEnabledObject ? null : (
+        <MakeOfferModal
+          modalVisible={offerModalVisible}
+          setModalVisible={setOfferModalVisible}
+          sendMessage={sendMessage}
+        />
+      )}
       {/* Interest List Modal */}
       <InterestModal
         modalVisible={interestModalVisible}

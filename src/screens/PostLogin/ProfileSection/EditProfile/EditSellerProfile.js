@@ -97,15 +97,22 @@ const EditSellerProfile = props => {
           //
         }
         if (val.openingHours.length) {
-          val.openingHours.forEach((item, index) => {
-            console.log('Item---', item.text);
-            if (item?.text) {
-              for (let key in item) {
-                formData.append(
-                  `opening_hours[${index}][${key}]`,
-                  item[key] ? item[key] : '',
-                );
-              }
+          const newArr = val.openingHours.map(elem => {
+            return Object.assign(
+              {},
+              {
+                ...elem,
+                isEnable:
+                  elem?.text && elem.isEnable == 'true' ? 'true' : 'false',
+              },
+            );
+          });
+          newArr.forEach((item, index) => {
+            for (let key in item) {
+              formData.append(
+                `opening_hours[${index}][${key}]`,
+                item[key] ? item[key] : '',
+              );
             }
           });
         }
@@ -347,27 +354,29 @@ const EditSellerProfile = props => {
               width: '100%',
             }}>
             <Text style={{}}>Announcement ends on</Text>
-            <View style={styles.datePickerContainer}>
-              <DatePicker
-                Value={new Date()}
-                children={
+            <DatePicker
+              minimumDate={Date.now()}
+              Value={new Date()}
+              children={
+                <View style={styles.datePickerContainer}>
                   <CustomText>
                     {values.announcementEnd
                       ? moment(values.announcementEnd).format('DD MMM YYYY')
                       : 'DD MMM YYYY'}
                   </CustomText>
-                }
-                onChangeDate={d => {
-                  setFieldValue('announcementEnd', moment(d).format());
-                }}
-              />
-              <CustomIcon
-                name={'calendar'}
-                origin={ICON_TYPE.FEATHER_ICONS}
-                style={styles.calenderIcon}
-                size={20}
-              />
-            </View>
+
+                  <CustomIcon
+                    name={'calendar'}
+                    origin={ICON_TYPE.FEATHER_ICONS}
+                    style={styles.calenderIcon}
+                    size={20}
+                  />
+                </View>
+              }
+              onChangeDate={d => {
+                setFieldValue('announcementEnd', moment(d).format());
+              }}
+            />
           </View>
           <SubmitButton
             buttonStyle={styles.submit}
@@ -401,6 +410,7 @@ const styles = StyleSheet.create({
     marginRight: 20,
     borderBottomColor: 'grey',
     paddingVertical: 10,
+    width: '100%',
   },
   notNow: {
     alignSelf: 'center',

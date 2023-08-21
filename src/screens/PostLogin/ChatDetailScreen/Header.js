@@ -9,6 +9,7 @@ import NavigationService from '@app/navigations/NavigationService';
 import {Avatar} from 'react-native-paper';
 import moment from 'moment';
 import {RoutesName} from '@app/helper/strings';
+import {addEllipsis} from '@app/helper/commonFunction';
 const Header = ({
   onFollowClick,
   chat_item,
@@ -44,7 +45,7 @@ const Header = ({
           <Avatar.Image size={35} source={{uri: chat_item?.user_image}} />
           <Spacer width={10} />
           <CustomText style={styles.title_text}>
-            {chat_item?.user_name}
+            {addEllipsis(chat_item?.user_name, 15)}
           </CustomText>
         </Pressable>
         <Pressable style={styles.follow_button} onPress={onFollowClick}>

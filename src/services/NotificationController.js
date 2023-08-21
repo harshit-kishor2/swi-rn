@@ -6,12 +6,54 @@ import notifee, {AuthorizationStatus, EventType} from '@notifee/react-native';
 import {RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import {SharedPreference} from '@app/helper';
+import {ChatScreen} from '@app/screens';
+import {useDispatch, useSelector} from 'react-redux';
+import {NotificationCount} from '@app/store/authSlice';
 
 let channelId;
 const TOPIC = 'test_notification';
 
 // ! Notification logic
 export const NotificationController = () => {
+  const dispatch = useDispatch();
+
+  //  Function for navigation on proper screen
+  const naviagteToScreen = type => {
+    console.log('Navigate to ====', type);
+    switch (type) {
+      case 'chat':
+        NavigationService.navigate(RoutesName.CHAT_TAB);
+        break;
+      default:
+        NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
+        break;
+    }
+  };
+
+  const onNotifiClick = ({type, detail}) => {
+    try {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS || EventType.ACTION_PRESS:
+          console.log(
+            'User pressed notification of background',
+            detail.notification,
+          );
+          if (detail.notification?.data?.type === 'chat') {
+            naviagteToScreen('chat');
+          } else {
+            naviagteToScreen();
+          }
+          break;
+      }
+    } catch (error) {
+      console.log('hello Error');
+    }
+  };
+
+  //  Functon for request permission
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
     return (
@@ -21,35 +63,19 @@ export const NotificationController = () => {
   };
 
   useEffect(() => {
-    return notifee.onBackgroundEvent(({type, detail}) => {
-      switch (type) {
-        case EventType.DISMISSED:
-          console.log('User dismissed notification', detail.notification);
-          break;
-        case EventType.PRESS && EventType.ACTION_PRESS:
-          console.log(
-            'User pressed notification of background',
-            detail.notification,
-          );
-          NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
-          break;
-      }
+    const unsubscribe = notifee.onBackgroundEvent(async ({type, detail}) => {
+      console.log('notifee.onBackgroundEvent', type, detail);
+      onNotifiClick({type, detail});
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
-    return notifee.onForegroundEvent(({type, detail}) => {
-      switch (type) {
-        case EventType.DISMISSED:
-          console.log('User dismissed notification', detail.notification);
-          break;
-        case EventType.PRESS:
-          console.log('User pressed notification', detail?.notification);
-
-          NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
-          break;
-      }
+    const unsubscribe = notifee.onForegroundEvent(({type, detail}) => {
+      console.log('notifee.onForegroundEvent', type, detail);
+      onNotifiClick({type, detail});
     });
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
@@ -64,12 +90,6 @@ export const NotificationController = () => {
      * the current application before messages can be
      * received or sent
      */
-    // messaging()
-    //   .getToken()
-    //   .then(async fcmToken => {
-    //     SharedPreference.setItem(SharedPreference.keys.DEVICE_TOKEN, fcmToken);
-    //     console.log('FCM Token->', fcmToken);
-    //   });
 
     if (requestUserPermission()) {
       /**
@@ -102,9 +122,12 @@ export const NotificationController = () => {
             'getInitialNotification:' +
               'Notification caused app to open from quit state',
           );
-
-          NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
           console.log(remoteMessage, 'remoteMessage====');
+          if (remoteMessage.data?.type === 'chat') {
+            naviagteToScreen('chat');
+          } else {
+            naviagteToScreen();
+          }
         }
       });
 
@@ -121,8 +144,12 @@ export const NotificationController = () => {
           'onNotificationOpenedApp: ' +
             'Notification caused app to open from background state',
         );
-
         console.log(remoteMessage);
+        if (remoteMessage.data?.type === 'chat') {
+          naviagteToScreen('chat');
+        } else {
+          naviagteToScreen();
+        }
       }
     });
 
@@ -134,8 +161,8 @@ export const NotificationController = () => {
      * local storage, or sending a network request.
      */
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
       console.log('Message handled in the background!', remoteMessage);
+      dispatch(NotificationCount());
     });
 
     /**
@@ -149,8 +176,10 @@ export const NotificationController = () => {
         displayNotification(
           `${remoteMessage?.notification?.title}`,
           `${remoteMessage?.notification?.body}`,
+          remoteMessage?.data,
         );
       }
+      dispatch(NotificationCount());
     });
 
     /**
@@ -195,10 +224,11 @@ export const configureNotification = async () => {
 };
 
 // Function for displaying local notifications in app
-export const displayNotification = async (title, body) => {
+export const displayNotification = async (title, body, data) => {
   return await notifee.displayNotification({
     title: title ?? 'Notification Title',
     body: body ?? 'Main body content of the notification',
+    data: data,
     android: {
       channelId: channelId?.id ?? 'default',
       // smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.

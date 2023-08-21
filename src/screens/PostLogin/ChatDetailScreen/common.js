@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import React from 'react';
 import {ActivityIndicator} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Video from 'react-native-video';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {FontsConst} from '@app/assets/assets';
@@ -43,8 +43,8 @@ export function RenderItem(props) {
           borderBottomLeftRadius: isSelf ? 30 : 0,
           borderBottomRightRadius: 30,
           borderTopLeftRadius: 30,
-          paddingHorizontal: 20,
-          paddingVertical: 10,
+          paddingHorizontal: 15,
+          paddingVertical: 15,
         }}>
         {currentMessage?.image !== null ? (
           <Pressable
@@ -60,6 +60,7 @@ export function RenderItem(props) {
               style={{
                 height: 200,
                 width: 200,
+                borderRadius: 15,
               }}
             />
           </Pressable>
@@ -105,8 +106,8 @@ export function RenderItem(props) {
                 alignItems: 'center',
               }}>
               <CustomIcon
-                name={'video'}
-                origin={ICON_TYPE.MATERIAL_COMMUNITY}
+                name={'picture-as-pdf'}
+                origin={ICON_TYPE.MATERIAL_ICONS}
                 size={20}
                 color={'#000'}
               />
@@ -162,7 +163,10 @@ export function RenderItem(props) {
           alignSelf: isSelf ? 'flex-end' : 'flex-start',
         }}>
         <CustomText style={styles.timestamp}>
-          {moment(currentMessage?.createdAt).format('HH:mm A')}
+          {moment
+            .tz(currentMessage?.createdAt, 'HH:mm A', 'Asia/Singapore')
+            .format('HH:mm A')}
+          {/* {moment(currentMessage?.createdAt).format('HH:mm A')} */}
         </CustomText>
       </View>
     </View>

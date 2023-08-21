@@ -4,25 +4,26 @@ import {
   CustomIcon,
   NavigationBar,
 } from '@app/components';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { COLORS, IMAGES } from '@app/resources';
-import { margin } from '@app/resources/mixins';
-import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, ScrollView } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { Rating } from 'react-native-ratings';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {COLORS, IMAGES} from '@app/resources';
+import {margin} from '@app/resources/mixins';
+import React, {useEffect, useState} from 'react';
+import {Alert, FlatList, ScrollView} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {AirbnbRating, Rating} from 'react-native-ratings';
 import styles from '../ItemComparison/styles';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
   ratingReviewAction,
   ratingReviewAsBuyerAction,
 } from '@app/store/ratingReviewSlice';
-import { RenderItem } from './RenderList';
-import { EmptyList } from '../ChatScreen/commn';
-import { RenderItemBuyer } from './RenderListBuyer';
-import { Button, Divider, Menu } from 'react-native-paper';
+import {RenderItem} from './RenderList';
+import {EmptyList} from '../ChatScreen/commn';
+import {RenderItemBuyer} from './RenderListBuyer';
+import {Button, Divider, Menu} from 'react-native-paper';
 import Filter from './Filter';
+import {addEllipsis} from '@app/helper/commonFunction';
 
 const RatingAndReviews = props => {
   const {
@@ -44,7 +45,7 @@ const RatingAndReviews = props => {
   const userPic = item?.rated_user?.image;
   const userName = item?.rated_user?.name;
   const ratingList = item?.list;
-  const sortData = ratingList?.slice(0, 2);
+  const sortData = ratingList?.slice(0, 10);
   // console.log(, "sortData======================>>>>>>>>>>>")
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,7 +65,6 @@ const RatingAndReviews = props => {
       user_id: props?.route?.params?.userID,
       filter: filter,
     });
-
 
     // Implement your filter logic here based on the selected filter value
   };
@@ -118,7 +118,7 @@ const RatingAndReviews = props => {
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
-      <View style={{ marginHorizontal: 20, flex: 1 }}>
+      <View style={{marginHorizontal: 20, flex: 1}}>
         <View
           style={{
             flexDirection: 'row',
@@ -160,7 +160,7 @@ const RatingAndReviews = props => {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10 }}>
+        <View style={{flexDirection: 'row', marginTop: 10}}>
           <View
             style={[
               style.lineStyle,
@@ -190,7 +190,7 @@ const RatingAndReviews = props => {
             marginTop: 30,
           }}>
           <Image
-            source={{ uri: userPic }}
+            source={{uri: userPic}}
             style={{
               width: 90,
               height: 90,
@@ -204,37 +204,53 @@ const RatingAndReviews = props => {
               color: '#000000',
               marginTop: 10,
             }}>
-            {userName}
+            {addEllipsis(userName, 15)}
           </Text>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: 15,
-            }}>
-            <Rating
+          {selected === 'seller' && (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 15,
+              }}>
+              {/* <Rating
               type="star"
               ratingCount={ratingCount}
               startingValue={average}
               imageSize={16}
               readonly
-            />
-            <Text
-              style={{
-                fontSize: 13,
-                fontFamily: 'OpenSans-SemiBold',
-                color: '#454545',
-                marginLeft: 5,
-              }}>
-              {item?.count} reviews
-            </Text>
-          </View>
+            /> */}
+              <AirbnbRating
+                count={ratingCount}
+                showRating={false}
+                defaultRating={average}
+                isDisabled
+                size={15}
+                style={{marginHorizontal: 10}}
+                ratingContainerStyle={{marginHorizontal: 10}}
+                starContainerStyle={{
+                  paddingVertical: 10,
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'OpenSans-SemiBold',
+                  color: '#454545',
+                  marginLeft: 5,
+                }}>
+                {item?.count} reviews
+              </Text>
+            </View>
+          )}
         </View>
 
         {selected === 'seller' && (
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
             <Text
               style={{
                 fontSize: 18,
@@ -251,7 +267,7 @@ const RatingAndReviews = props => {
               <View>
                 <Text
                   style={{
-                    fontSize: 55,
+                    fontSize: 50,
                     fontFamily: 'Cabin-SemiBold',
                     // marginTop: 15,
                     // marginLeft: 5,
@@ -269,8 +285,22 @@ const RatingAndReviews = props => {
                   </Text>
                 </Text>
               </View>
-              <View style={{ marginTop: 30 }}>
-                <Rating
+              <View style={{marginTop: 30}}>
+                <AirbnbRating
+                  count={ratingCount}
+                  showRating={false}
+                  defaultRating={average}
+                  isDisabled
+                  size={15}
+                  style={{marginHorizontal: 10}}
+                  ratingContainerStyle={{marginHorizontal: 10}}
+                  starContainerStyle={{
+                    paddingVertical: 10,
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                  }}
+                />
+                {/* <Rating
                   type="star"
                   ratingCount={ratingCount}
                   startingValue={average}
@@ -279,7 +309,7 @@ const RatingAndReviews = props => {
                   style={{
                     marginLeft: -10,
                   }}
-                />
+                /> */}
                 <Text
                   style={{
                     alignItems: 'center',
@@ -312,7 +342,7 @@ const RatingAndReviews = props => {
                 handleFilterChange={handleFilterChange}
               />
             </View>
-            <View style={{ flex: 1, paddingBottom: 20 }}>
+            <View style={{flex: 1, paddingBottom: 20}}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                   data={show === true ? ratingList : sortData}
@@ -325,16 +355,16 @@ const RatingAndReviews = props => {
         )}
 
         {selected === 'buyer' && (
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            <Text
+          <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
+            {/* <Text
               style={{
                 fontSize: 18,
                 fontFamily: 'Cabin-Regular',
                 color: '#090909',
               }}>
               Overall Rating
-            </Text>
-            <View
+            </Text> */}
+            {/* <View
               style={{
                 flexDirection: 'row',
                 // backgroundColor: 'red'
@@ -342,7 +372,7 @@ const RatingAndReviews = props => {
               <View>
                 <Text
                   style={{
-                    fontSize: 55,
+                    fontSize: 50,
                     fontFamily: 'Cabin-SemiBold',
                     // marginTop: 15,
                     // marginLeft: 5,
@@ -360,17 +390,22 @@ const RatingAndReviews = props => {
                   </Text>
                 </Text>
               </View>
-              <View style={{ marginTop: 30 }}>
-                <Rating
-                  type="star"
-                  ratingCount={ratingCount}
-                  startingValue={averageBuyer}
-                  imageSize={16}
-                  readonly
-                  style={{
-                    marginLeft: -10,
+              <View style={{marginTop: 30}}>
+                <AirbnbRating
+                  count={ratingCount}
+                  showRating={false}
+                  defaultRating={averageBuyer}
+                  isDisabled
+                  size={15}
+                  style={{marginHorizontal: 10}}
+                  ratingContainerStyle={{marginHorizontal: 10}}
+                  starContainerStyle={{
+                    paddingVertical: 10,
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
                   }}
                 />
+                
                 <Text
                   style={{
                     alignItems: 'center',
@@ -382,7 +417,7 @@ const RatingAndReviews = props => {
                   Based on {item?.count} reviews
                 </Text>
               </View>
-            </View>
+            </View> */}
             <View
               style={{
                 flexDirection: 'row',
@@ -404,7 +439,7 @@ const RatingAndReviews = props => {
                 handleFilterChange={handleFilterChange}
               />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <FlatList
                   data={show === true ? ratingListBuyer : sortDataBuyer}
@@ -415,29 +450,32 @@ const RatingAndReviews = props => {
             </View>
           </ScrollView>
         )}
-        <View
-          style={{
-            alignItems: 'center',
-            paddingBottom: 10,
-          }}>
-          {show === false && (
-            <TouchableOpacity
-              onPress={() => {
-                setShow(true);
-              }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily: 'Cabin-SemiBold',
-                  color: '#00958C',
-                  marginTop: 5,
-                  textDecorationLine: 'underline',
+        {((ratingListBuyer?.length > 10 && selected === 'buyer') ||
+          (ratingList?.length > 10 && selected === 'seller')) && (
+          <View
+            style={{
+              alignItems: 'center',
+              paddingBottom: 10,
+            }}>
+            {show === false && (
+              <TouchableOpacity
+                onPress={() => {
+                  setShow(true);
                 }}>
-                See all reviews
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'Cabin-SemiBold',
+                    color: '#00958C',
+                    marginTop: 5,
+                    textDecorationLine: 'underline',
+                  }}>
+                  See all reviews
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
       </View>
     </Container>
   );

@@ -55,27 +55,30 @@ const Insight = props => {
   const data = [
     {
       label: 'Last 7 days',
-      value: '1',
+      value: '',
     },
     {
-      label: 'Last 8 days',
-      value: '2',
+      label: 'Last 30 days',
+      value: 'lastdays',
     },
     {
-      label: 'Last 9 days',
-      value: '3',
+      label: 'Last 6 months',
+      value: 'lastmonths',
     },
     {
-      label: 'Last 10 days',
-      value: '4',
+      label: 'Last 1 Year',
+      value: 'lastyear',
     },
   ];
 
   useEffect(() => {
     if (props?.route?.params?.productId) {
-      productInsights(props?.route?.params);
+      productInsights({
+        productId: props?.route?.params?.productId,
+        value: value,
+      });
     }
-  }, []);
+  }, [value]);
 
   return (
     <Container
@@ -273,7 +276,7 @@ const Insight = props => {
               }}>
               Number of {select}
             </Text>
-            <View>
+            {/* <View>
               <Dropdown
                 style={{
                   width: 130,
@@ -304,7 +307,7 @@ const Insight = props => {
                   />
                 )}
               />
-            </View>
+            </View> */}
           </View>
 
           {select === 'Impressions' && (
