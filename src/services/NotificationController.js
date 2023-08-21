@@ -7,12 +7,16 @@ import {RoutesName} from '@app/helper/strings';
 import NavigationService from '@app/navigations/NavigationService';
 import {SharedPreference} from '@app/helper';
 import {ChatScreen} from '@app/screens';
+import {useDispatch, useSelector} from 'react-redux';
+import {NotificationCount} from '@app/store/authSlice';
 
 let channelId;
 const TOPIC = 'test_notification';
 
 // ! Notification logic
 export const NotificationController = () => {
+  const dispatch = useDispatch();
+
   //  Function for navigation on proper screen
   const naviagteToScreen = type => {
     console.log('Navigate to ====', type);
@@ -158,6 +162,7 @@ export const NotificationController = () => {
      */
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
+      dispatch(NotificationCount());
     });
 
     /**
@@ -174,6 +179,7 @@ export const NotificationController = () => {
           remoteMessage?.data,
         );
       }
+      dispatch(NotificationCount());
     });
 
     /**

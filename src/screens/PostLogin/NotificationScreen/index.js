@@ -26,6 +26,7 @@ import {Avatar, Divider} from 'react-native-paper';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';
 import {connect} from 'react-redux';
 import authReducer, {
+  NotificationCount,
   NotificationListing,
   UpdateNotificationStatus,
 } from '@app/store/authSlice';
@@ -33,6 +34,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {EmptyList} from '../ChatScreen/commn';
 import moment from 'moment';
 import NavigationService from '@app/navigations/NavigationService';
+import {useIsFocused} from '@react-navigation/native';
 
 export function getTimeDifferenceString(date) {
   const now = new Date();
@@ -63,8 +65,9 @@ const NotificationScreen = props => {
     getNotificationList,
     authReducer,
     updateNotificationStatus,
+    NotificationCount,
   } = props;
-
+  const isFocused = useIsFocused();
   const onRowClick = item => {
     console.log('Alert===', item);
     switch (item.type) {
@@ -91,8 +94,11 @@ const NotificationScreen = props => {
     }
   };
   useEffect(() => {
-    getNotificationList();
-  }, []);
+    if (isFocused) {
+      getNotificationList();
+      NotificationCount();
+    }
+  }, [isFocused]);
 
   // Function to categorize notifications
   function categorizeNotifications(notifications) {
@@ -258,6 +264,7 @@ const mapDispatchToProps = dispatch => ({
   getNotificationList: params => dispatch(NotificationListing()),
   updateNotificationStatus: params =>
     dispatch(UpdateNotificationStatus(params)),
+  NotificationCount: params => dispatch(NotificationCount(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationScreen);

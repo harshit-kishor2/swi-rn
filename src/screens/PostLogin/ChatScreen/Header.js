@@ -9,7 +9,6 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 const Header = props => {
   const {getChatHistory, navigation, authReducer, getNotificationCount} = props;
   const NotifyCount = props?.authReducer.NotificationCountStatus;
-  console.log('ABC', NotifyCount);
 
   const [search, setSearch] = useState('');
   const searchQuery = useDebounce(search);
@@ -34,7 +33,7 @@ const Header = props => {
         }}
         style={{marginLeft: SPACING.SCALE_10, marginTop: SPACING.SCALE_8}}>
         <Image source={IMAGES.notificationBell} />
-        {NotifyCount?.total_unread ? (
+        {NotifyCount?.total_unread > 0 ? (
           <View
             style={{
               height: 20,
@@ -58,7 +57,7 @@ const Header = props => {
 
                 // fontSize: 24,
               }}>
-              1
+              {NotifyCount?.total_unread}
             </Text>
           </View>
         ) : null}
