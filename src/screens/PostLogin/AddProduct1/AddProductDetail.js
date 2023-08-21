@@ -31,6 +31,10 @@ const AddProductDetail = ({onNextClick, ...props}) => {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
 
+  console.log('xcvbhnjkl', {
+    ...productState?.productDetails,
+    dated: moment(productState?.productDetails.dated).format('MMM, YYYY'),
+  });
   useEffect(() => {
     if (productState?.productDetails?.brand_id) {
       getAllProductModel({id: productState?.productDetails?.brand_id});
@@ -151,6 +155,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
       return errorObj;
     }
   };
+
   const onProductDetailSubmit = () => {
     let errorObj = checkValidation();
     if (errorObj.status) {
@@ -159,7 +164,10 @@ const AddProductDetail = ({onNextClick, ...props}) => {
         message: errorObj.error,
       });
     } else {
-      onAddProductDetail(productState?.productDetails).then(res => {
+      onAddProductDetail({
+        ...productState?.productDetails,
+        dated: moment(productState?.productDetails.dated).format('MMM, YYYY'),
+      }).then(res => {
         if (res?.type.includes('fulfilled')) {
           onNextClick();
         } else if (res?.type.includes('rejected')) {
@@ -807,6 +815,7 @@ const AddProductDetail = ({onNextClick, ...props}) => {
         <MonthPicker
           mode="short"
           onChange={(event, newDate) => {
+            console.log('dated', newDate);
             setShow(false);
             updateProductDetails({
               key: 'dated',

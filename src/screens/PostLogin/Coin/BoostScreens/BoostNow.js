@@ -69,9 +69,9 @@ const BoostNow = props => {
         </View>
 
         <View style={styles.TextContainer}>
-          <Text style={styles.TopText}>
-            You can select a time frame to increase the visibility of your post.
-          </Text>
+          <Text style={styles.TopText}>You can select a</Text>
+          <Text style={styles.TopText}>time frame to increase the </Text>
+          <Text style={styles.TopText}>visibility of your post.</Text>
         </View>
 
         <View style={{alignItems: 'center', marginBottom: 20}}>
@@ -128,7 +128,10 @@ const BoostNow = props => {
                         </View>
                       ) : (
                         <View style={styles.CardCoinStyle}>
-                          <Image source={IMAGES.coin} />
+                          <Image
+                            source={IMAGES.coin}
+                            style={{marginRight: 7}}
+                          />
                           <Text style={styles.NumberStyle}>
                             {item?.coins_value}
                           </Text>

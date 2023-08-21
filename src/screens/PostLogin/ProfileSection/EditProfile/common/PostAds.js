@@ -113,7 +113,7 @@ const PostAds = ({postAdsImage, postAdsImagePath, setPostAds}) => {
             height: 200,
           }}
           horizontal>
-          {postAdsImagePath.map((item, index) => {
+          {postAdsImagePath?.map((item, index) => {
             return (
               <Image
                 key={index}

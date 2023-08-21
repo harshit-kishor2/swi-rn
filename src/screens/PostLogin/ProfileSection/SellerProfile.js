@@ -5,7 +5,7 @@ import {Avatar, Divider, List} from 'react-native-paper';
 import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
 import {AssestsConst, FontsConst} from '@app/assets/assets';
 import {ICON_TYPE} from '@app/components/CustomIcon';
-import {IMAGES} from '@app/resources';
+import {FONTS, IMAGES} from '@app/resources';
 import {AirbnbRating, Rating} from 'react-native-ratings';
 import {AboutRow, GetAboutRow, PostFollowVisitor, getAboutRow} from './common';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
@@ -251,7 +251,11 @@ const SellerProfile = props => {
           value={
             <View>
               {userDetail?.additional_info?.social_media?.map((item, index) => {
-                return item.value ? <CustomText>{item.value}</CustomText> : '-';
+                return item?.value ? (
+                  <CustomText>{item?.value}</CustomText>
+                ) : (
+                  '-'
+                );
               }) ?? <CustomText>{'-'}</CustomText>}
             </View>
           }
@@ -261,14 +265,14 @@ const SellerProfile = props => {
           value={`${
             userDetail?.additional_info?.payment_method
               ?.filter((item, index) => item.isEnable === 'true')
-              ?.map((item, index) => item.type)
+              ?.map((item, index) => item?.type)
               ?.join(',') ?? '-'
           }`}
         />
         <AboutRow
           title={'Joined since'}
           value={`${
-            moment(userDetail?.created_at).format('DD/MM/YYYY') ?? '-'
+            moment(userDetail?.created_at).format('DD MMMM YYYY') ?? '-'
           }`}
         />
       </View>
@@ -335,9 +339,9 @@ const SellerProfile = props => {
             />
             <CustomText
               style={{
-                fontFamily: FontsConst.Cabin_Bold,
+                fontFamily: FontsConst.Cabin_SemiBold,
                 color: '#737373',
-                fontSize: 14,
+                fontSize: 16,
               }}>
               Premium Seller
             </CustomText>
@@ -447,13 +451,17 @@ const styles = StyleSheet.create({
   getTabText: activeTab => {
     return {
       color: activeTab ? '#00958C' : '#868686',
-      fontFamily: activeTab ? FontsConst.Cabin_Bold : FontsConst.Cabin_Regular,
+      fontSize: 17,
+      fontFamily: activeTab
+        ? FontsConst.OpenSans_Bold
+        : FontsConst.OpenSans_Regular,
     };
   },
   tabcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
+    marginHorizontal: 20,
   },
   ratingcontainer: {
     flexDirection: 'row',
@@ -466,6 +474,7 @@ const styles = StyleSheet.create({
     fontFamily: FontsConst.OpenSans_SemiBold,
     color: '#454545',
     fontSize: 14,
+    textDecorationLine: 'underline',
   },
   verified_text: {
     fontFamily: FontsConst.Cabin_Bold,

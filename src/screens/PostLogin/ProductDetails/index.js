@@ -833,6 +833,7 @@ const ProductDetails = props => {
                       chat_item: {
                         product_id: productDetailData?.data?.id,
                         user_id: productDetailData?.data?.user?.id,
+                        sender_id: authReducer?.userProfileDetails?.id,
                         id: 0,
                         user_image: productDetailData?.data?.user?.image,
                         user_name: productDetailData?.data?.user?.name,
@@ -850,6 +851,7 @@ const ProductDetails = props => {
                       chat_item: {
                         product_id: productDetailData?.data?.id,
                         user_id: productDetailData?.data?.user?.id,
+                        sender_id: authReducer?.userProfileDetails?.id,
                         id: 0,
                         user_image: productDetailData?.data?.user?.image,
                         user_name: productDetailData?.data?.user?.name,

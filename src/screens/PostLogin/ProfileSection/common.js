@@ -91,7 +91,7 @@ export function PostFollowVisitor({post, follow, visitor}) {
         <CustomText
           style={{
             color: '#7C7C7C',
-            fontFamily: FontsConst.OpenSans_Regular,
+            fontFamily: FontsConst.OpenSans_SemiBold,
             fontSize: 15,
           }}>
           Posts
@@ -113,7 +113,7 @@ export function PostFollowVisitor({post, follow, visitor}) {
         <CustomText
           style={{
             color: '#7C7C7C',
-            fontFamily: FontsConst.OpenSans_Regular,
+            fontFamily: FontsConst.OpenSans_SemiBold,
             fontSize: 15,
           }}>
           Followers
@@ -135,7 +135,7 @@ export function PostFollowVisitor({post, follow, visitor}) {
         <CustomText
           style={{
             color: '#7C7C7C',
-            fontFamily: FontsConst.OpenSans_Regular,
+            fontFamily: FontsConst.OpenSans_SemiBold,
             fontSize: 15,
           }}>
           Visitors

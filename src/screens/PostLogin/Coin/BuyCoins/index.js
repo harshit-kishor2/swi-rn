@@ -10,7 +10,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   BackHeader,
   Container,
@@ -18,21 +18,21 @@ import {
   Custombutton,
   NavigationBar,
 } from '@app/components';
-import { IMAGES, SPACING } from '@app/resources';
+import {IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { connect } from 'react-redux';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {connect} from 'react-redux';
 import {
   boostProduct,
   coinPlans,
   purchaseCoins,
 } from '@app/store/exploreProductSlice/boostProduct.action';
-import { useEffect } from 'react';
-import { showAlert } from '@app/helper/commonFunction';
-import { RoutesName } from '@app/helper/strings';
+import {useEffect} from 'react';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
 
 const BuyCoins = props => {
-  const { boostProductReducer, boostProduct, purchaseCoins, coinPlans } = props;
+  const {boostProductReducer, boostProduct, purchaseCoins, coinPlans} = props;
   const [selected, setSelected] = useState();
   const [purchaseCoinItem, setPurchaseCoinItem] = useState();
   const [pick, setPick] = useState(false);
@@ -40,7 +40,7 @@ const BuyCoins = props => {
   useEffect(() => {
     coinPlans();
   }, []);
-  console.log(boostProductReducer?.coinPlansData?.data, "Coins Data")
+  console.log(boostProductReducer?.coinPlansData?.data, 'Coins Data');
   return (
     <Container useSafeAreaView={true}>
       <BackHeader />
@@ -73,19 +73,19 @@ const BuyCoins = props => {
           <Text style={styles.TopText}> to boost.</Text>
         </View>
 
-        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+        <View style={{alignItems: 'center', marginBottom: 20}}>
           <Text style={styles.TextStyle1}>Get it Now</Text>
         </View>
         {boostProductReducer?.coinPlansData?.data?.length != 0 ? (
           <FlatList
             data={boostProductReducer?.coinPlansData?.data}
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
                   onPress={() => {
                     setSelected(index);
                     setPurchaseCoinItem(item);
-                    setPick(true)
+                    setPick(true);
                   }}>
                   <View
                     style={[
@@ -98,10 +98,13 @@ const BuyCoins = props => {
                         flexDirection: 'row',
                       }}>
                       <Text style={styles.outerText}>
-                        Get
-                        <Image source={IMAGES.coin} style={{ marginLeft: 2 }} />
+                        Get{'  '}
+                        <Image
+                          source={IMAGES.coin}
+                          style={{marginHorizontal: 5}}
+                        />
                         <Text style={styles.innerText}>
-                          {' '}
+                          {'  '}
                           {item.coins_value}{' '}
                         </Text>
                         <Text
@@ -120,9 +123,11 @@ const BuyCoins = props => {
                           name={'dollar'}
                           color={'#00958C'}
                           size={30}
-                          style={{ marginTop: -8 }}
+                          style={{marginTop: -8}}
                         />
-                        <Text style={styles.NumberStyle}>{item?.cost == 0 ? "Free" : item?.cost}</Text>
+                        <Text style={styles.NumberStyle}>
+                          {item?.cost == 0 ? 'Free' : item?.cost}
+                        </Text>
                       </View>
                     </View>
                   </View>
@@ -156,7 +161,7 @@ const BuyCoins = props => {
                 });
               } else {
                 if (purchaseCoinItem?.id) {
-                  purchaseCoins({ planid: purchaseCoinItem.id }).then(result => {
+                  purchaseCoins({planid: purchaseCoinItem.id}).then(result => {
                     if (
                       result?.payload?.message ===
                       'Coins purchased successfully.'
@@ -208,7 +213,7 @@ const BuyCoins = props => {
               props?.navigation?.goBack();
             }
           }}
-          style={{ alignSelf: 'center', marginTop: 30 }}>
+          style={{alignSelf: 'center', marginTop: 30}}>
           <Text
             style={{
               fontSize: 14,
