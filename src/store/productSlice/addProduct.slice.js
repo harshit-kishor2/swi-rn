@@ -8,6 +8,7 @@ import {
   getAllDataAction,
   getAllProductDropdownAction,
   getAllProductModelAction,
+  updateProductImageAction,
 } from './addProduct.action';
 
 // =============================== Redux : Test Slice ==================================
@@ -50,6 +51,13 @@ const initialState = entityAdapter.getInitialState({
   getAllDataActionLoadingStatus: LoadingStatus.NOT_LOADED,
   getAllDataAction: [],
   getAllDataActionError: null,
+
+
+  // Get Product Details
+
+  updateProductImageActionLoadingStatus: LoadingStatus.NOT_LOADED,
+  updateProductImageAction: [],
+  updateProductImageActionError: null,
 
 });
 
@@ -150,6 +158,18 @@ const reduxSlice = createSlice({
       .addCase(getAllDataAction.rejected, (state, action) => {
         state.getAllDataActionLoadingStatus = LoadingStatus.FAILED;
         state.getAllDataActionError = action.payload;
+      })
+      // Update Product  Image Action
+      .addCase(updateProductImageAction.pending, state => {
+        state.getAllDataActionLoadingStatus = LoadingStatus.LOADING;
+      })
+      .addCase(updateProductImageAction.fulfilled, (state, action) => {
+        state.updateProductImageActionLoadingStatus = LoadingStatus.LOADED;
+        state.updateProductImageAction = action.payload?.data;
+      })
+      .addCase(updateProductImageAction.rejected, (state, action) => {
+        state.updateProductImageActionLoadingStatus = LoadingStatus.FAILED;
+        state.updateProductImageActionError = action.payload;
       });
 
   },

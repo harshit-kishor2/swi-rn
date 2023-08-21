@@ -25,7 +25,7 @@ import Video from 'react-native-video';
 import { LoadingStatus } from '@app/helper/strings';
 import { COLORS } from '@app/resources';
 import { connect } from 'react-redux';
-import { getAllDataAction } from '@app/store/productSlice';
+import { getAllDataAction, updateProductImageAction } from '@app/store/productSlice';
 
 const EditProductImage = ({ onNextClick, ...props }) => {
     const {
@@ -35,25 +35,43 @@ const EditProductImage = ({ onNextClick, ...props }) => {
         updateProductDetails,
         onAddProductImage,
         authReducer,
-        getAllProduct
+        getAllProduct,
+        editProductImage
     } = props;
-    // const [getPath, setGetPath] = useState(null)
-    const ProductData = props?.productReducer?.getAllDataAction?.files;
-    // ProductData?.map((item, index) => {
-    //     setGetPath(item?.file);
-    // })
+    const [getPath, setGetPath] = useState([])
+    // const ProductData = props?.productReducer?.getAllDataAction?.files;
 
+    // ProductData.forEach(item => {
+    //     if (item?.file) {
+    //         setGetPath(prevPaths => [...prevPaths, item.file]);
+    //     }
+    // });
+
+
+    console.log(getPath
+        , "path");
     const [selected, setSelected] = useState(null);
     const [pause, setPause] = useState(false);
     const [imagess, setImage] = useState([]);
     const [Imagepath, setImagePath] = useState([]);
-    console.log(ProductData, "propsdataImage==")
-    console.log(imagess, "Imagesss========")
-    console.log(productState?.productImage, "Product State =============")
+    // console.log(ProductData, "propsdataImage==")
+    // console.log(imagess, "Imagesss========")
+    // console.log(productState?.productImage, "Product State =============")
     // create two state
 
     useEffect(() => {
-        getAllProduct({ product_id: props?.route?.params?.product_id })
+        getAllProduct({ product_id: props?.route?.params?.product_id }).then(res => {
+            console.log(res, "res============")
+            if (res?.type.includes('fulfilled')) {
+                const Data = res?.payload?.data?.files;
+                Data.forEach(item => {
+                    if (item?.file) {
+                        setGetPath(prevPaths => [...prevPaths, item.file]);
+                    }
+                });
+            }
+
+        })
     }, [])
 
     // ProductData?.files.map((item, index) => {
@@ -91,7 +109,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
         const permissionStatus = await AndroidCameraPermission();
         if (permissionStatus) {
             console.log(productState?.productImage.length, 'length');
-            if (productState?.productImage.length < 5) {
+            if (getPath.length < 5) {
                 showAlert({
                     title: 'Choose Mode',
                     actions: [
@@ -173,8 +191,12 @@ const EditProductImage = ({ onNextClick, ...props }) => {
             cropping: true,
         }).then(image => {
             if (image?.size <= 5242880) {
-                updateProductImage(image);
-                setImage(image);
+                // updateProductImage(image);
+                // setImage(image);
+                console.log("Choose pic from camera", image)
+                setGetPath(prevPaths => [...prevPaths, image?.path]);
+                setImagePath((Imagepath) => [...Imagepath, image]);
+
             } else {
                 Alert.alert('Image size exceed 5MB');
             }
@@ -186,6 +208,9 @@ const EditProductImage = ({ onNextClick, ...props }) => {
         }).then(image => {
             if (image?.size <= 10485760) {
                 updateProductImage(image);
+                console.log(image, "Video=========")
+                setGetPath(prevPaths => [...prevPaths, image?.path]);
+                setImagePath((Imagepath) => [...Imagepath, image]);
             } else {
                 Alert.alert('video length exceed 10MB');
             }
@@ -198,7 +223,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
             cropping: true,
         }).then(image => {
             if (image?.size <= 5242880) {
-                updateProductImage(image);
+                // updateProductImage(image);
                 // setImage(image => [...imagess, image])
                 // setNewData((data) => {
                 //     return {
@@ -209,6 +234,8 @@ const EditProductImage = ({ onNextClick, ...props }) => {
 
                 //     }
                 // });
+                setGetPath(prevPaths => [...prevPaths, image?.path]);
+                setImagePath((Imagepath) => [...Imagepath, image]);
                 console.log(image, "IMAGEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE>>>>>>>>>>>>>>>>>>>.")
 
             } else {
@@ -223,13 +250,60 @@ const EditProductImage = ({ onNextClick, ...props }) => {
             width: 300,
         }).then(video => {
             if (video?.size <= 10485760) {
-                updateProductImage(video);
+                // updateProductImage(video);
+                console.log(video, "Video=========")
+                setGetPath(prevPaths => [...prevPaths, video?.path]);
+                setImagePath((Imagepath) => [...Imagepath, image]);
+
             } else {
                 Alert.alert('video length exceed 10MB');
             }
         });
     };
+    console.log(Imagepath, "Images and videos===================");
     const onImageSubmit = () => {
+
+        const formData = new FormData();
+
+        Imagepath?.forEach((image, index) => {
+            const d = image?.path?.split('/');
+            const name = d[d.length - 1];
+
+            //Set images in key
+            formData.append(`product_file[${index}]`, {
+                name: name ?? 'Image' + index + '.jpg',
+                type: image.mime,
+                uri:
+                    Platform.OS === 'ios'
+                        ? image.path.replace('file://', '')
+                        : image.path,
+            });
+
+        });
+
+        if (Imagepath.length <= 0) {
+            showAlert({
+                title: 'Please choose image/video.',
+            });
+        } else {
+            // Submit data
+
+            editProductImage({ product_id: props?.route?.params?.product_id, Data: formData }).then(res => {
+                if (res?.type.includes('fulfilled')) {
+                    showAlert({
+                        title: 'Updated!',
+                    });
+                    onNextClick();
+                } else if (res?.type.includes('rejected')) {
+                    showAlert({
+                        title: 'Server error !',
+                    });
+                }
+            });
+        }
+
+
+
         // console.log('authReducer', authReducer);
         // if (productState?.productImage.length <= 0) {
         //     showAlert({
@@ -239,7 +313,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
         //     // Submit data
 
         // }
-        onNextClick();
+
 
         // const formData = new FormData();
         // let thumbImage = false;
@@ -363,7 +437,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
                             </Pressable>
                         ) : (
                             <Image
-                                source={{ uri: selected?.path }}
+                                source={{ uri: selected }}
                                 style={styles.selected_image}
                             />
                         )
@@ -394,7 +468,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
                     flexGrow: 1,
                     alignItems: 'center',
                 }}>
-                {productState?.productImage.map((item, index) => {
+                {getPath?.map((item, index) => {
                     return (
                         <Pressable
                             style={{
@@ -407,7 +481,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 borderColor:
-                                    selected?.path === item?.path ? '#00958C' : '#F0F2FA',
+                                    selected === item ? '#00958C' : '#F0F2FA',
                             }}
                             onPress={() => setSelected(item)}>
                             {item.mime === 'video/mp4' && Platform.OS === 'ios' ? (
@@ -425,7 +499,7 @@ const EditProductImage = ({ onNextClick, ...props }) => {
                                 />
                             ) : (
                                 <Image
-                                    source={{ uri: item?.path }}
+                                    source={{ uri: item }}
                                     resizeMode="stretch"
                                     style={{
                                         height: 70,
@@ -521,6 +595,7 @@ const mapDispatchToProps = dispatch => ({
     // updateProductPrice: params => dispatch(updateProductPrice(params)),
     // updateProductImage: params => dispatch(updateProductImage(params)),
     // resetProductState: params => dispatch(resetProductState()),
+    editProductImage: params => dispatch(updateProductImageAction(params)),
     getAllProduct: params => dispatch(getAllDataAction(params)),
 });
 

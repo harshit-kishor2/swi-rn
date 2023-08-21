@@ -33,7 +33,7 @@ const EditProduct = props => {
         getAllBrand,
         getAllProductDropdown,
         resetProductState,
-        getAllProduct,
+        // getAllProduct,
     } = props;
     const [currentPage, setCurrentPage] = React.useState(0);
     const [isVisible, setIsVisible] = React.useState(true);
@@ -42,10 +42,10 @@ const EditProduct = props => {
     useEffect(() => {
         getAllBrand();
         getAllProductDropdown()
-        getAllProduct({ product_id: props?.route?.params?.product_id })
-        return () => {
-            resetProductState();
-        };
+        // getAllProduct({ product_id: props?.route?.params?.product_id })
+        // return () => {
+        //     resetProductState();
+        // };
     }, []);
     const ProductData = props?.productReducer?.getAllDataAction
     console.log("Props value at edit=====>>>>>>?", ProductData)
@@ -143,7 +143,7 @@ const mapDispatchToProps = dispatch => ({
     updateProductPrice: params => dispatch(updateProductPrice(params)),
     updateProductImage: params => dispatch(updateProductImage(params)),
     resetProductState: params => dispatch(resetProductState()),
-    getAllProduct: params => dispatch(getAllDataAction(params)),
+    // getAllProduct: params => dispatch(getAllDataAction(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

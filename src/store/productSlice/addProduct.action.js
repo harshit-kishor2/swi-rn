@@ -70,6 +70,7 @@ export const getAllProductModelAction = createAsyncThunk(
 export const addProductImageAction = createAsyncThunk(
   `addProduct/addProductImageAction`,
   async (params, thunkAPI) => {
+    console.log(params, "Add Image")
     try {
       const response = await axiosRequest({
         url: 'add-product-mobile',
@@ -82,6 +83,35 @@ export const addProductImageAction = createAsyncThunk(
         params: {
           step: 'first',
         },
+      });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error?.response ? error.response?.data : error?.message,
+      );
+    }
+  },
+);
+
+/**
+ * Api Action
+ */
+export const updateProductImageAction = createAsyncThunk(
+  `addProduct/updateProductImageAction`,
+  async (params, thunkAPI) => {
+    console.log(params, "Params ActionData=====>>")
+    try {
+      const response = await axiosRequest({
+        url: `add-product-mobile?productID=${params?.product_id}`,
+        method: 'POST',
+        data: params?.Data,
+        // headers: {
+        //   'Content-Type': 'multipart/form-data',
+        //   // Accept: 'application/json',
+        // },
+        // params: {
+        //   step: 'first',
+        // },
       });
       return response;
     } catch (error) {
