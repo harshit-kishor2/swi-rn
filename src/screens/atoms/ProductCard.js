@@ -7,12 +7,12 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import React, { useState } from 'react';
-import { Avatar, Button, Card, Divider, Menu } from 'react-native-paper';
-import { CustomIcon, CustomText, Spacer, SubmitButton } from '@app/components';
-import { AssestsConst, FontsConst } from '@app/assets/assets';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { IMAGES, SPACING } from '@app/resources';
+import React, {useState} from 'react';
+import {Avatar, Button, Card, Divider, Menu} from 'react-native-paper';
+import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
+import {AssestsConst, FontsConst} from '@app/assets/assets';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {IMAGES, SPACING} from '@app/resources';
 import {
   addEllipsis,
   formatTimestamp,
@@ -20,11 +20,11 @@ import {
   showAlert,
 } from '@app/helper/commonFunction';
 import NavigationService from '@app/navigations/NavigationService';
-import { RoutesName } from '@app/helper/strings';
-import { useDispatch, useSelector } from 'react-redux';
-import { addWishListAction } from '@app/store/exploreProductSlice';
+import {RoutesName} from '@app/helper/strings';
+import {useDispatch, useSelector} from 'react-redux';
+import {addWishListAction} from '@app/store/exploreProductSlice';
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const ProductCard = ({
   item,
   onSoldClick,
@@ -64,17 +64,17 @@ const ProductCard = ({
         <Image
           resizeMode="contain"
           style={styles.cover_style}
-          source={{ uri: item?.thumb_image }}
+          source={{uri: item?.thumb_image}}
         />
       </Pressable>
       <Card.Content>
-        <CustomText style={styles.title}>
-          {addEllipsis(item?.title, 10)}
+        <CustomText numberOfLines={1} style={styles.title}>
+          {item?.title}
         </CustomText>
         <View style={styles.price_container}>
           <CustomText style={styles.price}>${item?.price}</CustomText>
           <View style={styles.seprator} />
-          <CustomText style={styles.category}>
+          <CustomText numberOfLines={1} style={styles.category}>
             {item?.watch_condition === 'pre_owned' ? 'Pre Owned' : 'Brand New'}
           </CustomText>
         </View>
@@ -86,7 +86,7 @@ const ProductCard = ({
               size={24}
               source={
                 item?.user?.image && item?.user?.image !== ''
-                  ? { uri: item?.user?.image }
+                  ? {uri: item?.user?.image}
                   : AssestsConst.AVATAR
               }
             />
@@ -138,21 +138,37 @@ const ProductCard = ({
                   />
                 </Pressable>
               }>
-              <Menu.Item onPress={() => {
-
-                NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
-                  product_id: item.id,
-                });
-                setVisible(false);
-              }} title="Edit Details" />
+              <Menu.Item
+                onPress={() => {
+                  NavigationService.navigate(RoutesName.EDIT_PRODUCT, {
+                    product_id: item.id,
+                  });
+                  setVisible(false);
+                }}
+                title="Edit Details"
+              />
               <Divider />
               <Menu.Item
                 onPress={
                   onSoldClick
                     ? () => {
-                      setVisible(false);
-                      onSoldClick();
-                    }
+                        setVisible(false);
+                        showAlert({
+                          title: 'Mark as sold this product!',
+                          actions: [
+                            {
+                              text: 'Cancel',
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'Proceed',
+                              onPress: () => {
+                                onSoldClick();
+                              },
+                            },
+                          ],
+                        });
+                      }
                     : null
                 }
                 title="Mark as sold"
@@ -162,9 +178,23 @@ const ProductCard = ({
                 onPress={
                   onReservedClick
                     ? () => {
-                      setVisible(false);
-                      onReservedClick();
-                    }
+                        setVisible(false);
+                        showAlert({
+                          title: 'Mark as reserved this product!',
+                          actions: [
+                            {
+                              text: 'Cancel',
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'Proceed',
+                              onPress: () => {
+                                onReservedClick();
+                              },
+                            },
+                          ],
+                        });
+                      }
                     : null
                 }
                 title="Mark as Reserved"
@@ -174,9 +204,23 @@ const ProductCard = ({
                 onPress={
                   onDeleteClick
                     ? () => {
-                      setVisible(false);
-                      onDeleteClick();
-                    }
+                        setVisible(false);
+                        showAlert({
+                          title: 'Mark as delete this product!',
+                          actions: [
+                            {
+                              text: 'Cancel',
+                              style: 'cancel',
+                            },
+                            {
+                              text: 'Proceed',
+                              onPress: () => {
+                                onDeleteClick();
+                              },
+                            },
+                          ],
+                        });
+                      }
                     : null
                 }
                 title="Delete"
@@ -187,9 +231,9 @@ const ProductCard = ({
               onPress={
                 onWishlistClick
                   ? () => {
-                    setInWishlist(!inWishlist);
-                    onWishlistClick();
-                  }
+                      setInWishlist(!inWishlist);
+                      onWishlistClick();
+                    }
                   : null
               }>
               <CustomIcon
@@ -231,6 +275,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //justifyContent: 'space-between',
     paddingVertical: 5,
+    flex: 1,
   },
   price: {
     color: '#00958C',
@@ -248,6 +293,7 @@ const styles = StyleSheet.create({
     color: '#00958C',
     fontSize: 12,
     fontFamily: FontsConst.Cabin_Regular,
+    flex: 1,
   },
   user_image: {
     flexDirection: 'row',
