@@ -246,7 +246,7 @@ const MyProfileScreen = props => {
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.settings} />
-                <Text style={styles.NavigationText}>Account Setting </Text>
+                <Text style={styles.NavigationText}>Account Settings </Text>
               </View>
               <View style={styles.NavigationImageStyle}>
                 <Image resizeMode="contain" source={IMAGES.Arrow} />
@@ -264,7 +264,7 @@ const MyProfileScreen = props => {
             <View style={styles.NavigationView}>
               <View style={styles.NavigationViewInner}>
                 <Image source={IMAGES.about} />
-                <Text style={styles.NavigationText}>About</Text>
+                <Text style={styles.NavigationText}>About us</Text>
               </View>
               <View style={styles.NavigationImageStyle}>
                 <Image resizeMode="contain" source={IMAGES.Arrow} />
