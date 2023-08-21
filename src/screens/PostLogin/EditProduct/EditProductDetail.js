@@ -271,8 +271,6 @@ const EditProductDetails = props => {
   };
 
   const onProductDetailSubmit = item => {
-    console.log(item, 'Onsubmit=================');
-
     let errorObj = checkValidation();
     if (errorObj.status) {
       showAlert({
@@ -280,7 +278,10 @@ const EditProductDetails = props => {
         message: errorObj.error,
       });
     } else {
-      onAddProductDetail(state).then(res => {
+      onAddProductDetail({
+        ...state,
+        dated: moment(state.dated).format('MMM, YYYY'),
+      }).then(res => {
         if (res?.type.includes('fulfilled')) {
           onNextClick();
           showAlert({

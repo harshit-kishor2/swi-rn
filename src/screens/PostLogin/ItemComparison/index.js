@@ -29,6 +29,7 @@ import {ICON_TYPE} from '@app/components/CustomIcon';
 import {addEllipsis} from '@app/helper/commonFunction';
 import {FontsConst} from '@app/assets/assets';
 import PageTitle from '@app/screens/atoms/PageTitle';
+import moment from 'moment';
 
 const ItemComparison = props => {
   const dispatch = useDispatch();
@@ -186,7 +187,7 @@ const ItemComparison = props => {
                       fontSize: SPACING.SCALE_18,
                       color: COLORS.modalViewTextColor,
                     }}>
-                    {productCompareList[0]?.dated}
+                    {moment(productCompareList[0]?.dated).format('MMM, YYYY')}
                   </CustomText>
                   <Spacer />
                   <HorizontalLine width={SPACING.SCALE_160} />
@@ -344,7 +345,7 @@ const ItemComparison = props => {
                             color: COLORS.modalViewTextColor,
                             maxWidth: SPACING.SCALE_145,
                           }}>
-                          {item?.dated}
+                          {moment(item?.dated).format('MMM, YYYY')}
                         </CustomText>
                         <Spacer />
                         <HorizontalLine width={SPACING.SCALE_160} />
