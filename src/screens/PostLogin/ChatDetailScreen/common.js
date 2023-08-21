@@ -30,6 +30,7 @@ export function RenderItem(props) {
     isSeller,
     onAcceptReject,
     hasEnabledObject,
+    callback,
   } = props;
   const isSelf = position === 'right' ?? false;
   return (
@@ -138,16 +139,28 @@ export function RenderItem(props) {
                   disabled={!isSeller}
                   lable="Accept"
                   onPress={() =>
-                    hasEnabledObject ? null : onAcceptReject('accepted')
+                    hasEnabledObject
+                      ? null
+                      : currentMessage?.isOfferAccepted == 'rejected'
+                      ? null
+                      : onAcceptReject('accepted')
                   }
                 />
                 <SubmitButton
                   disabled={!isSeller}
                   type="outlined"
                   lable="Reject"
-                  onPress={() =>
-                    hasEnabledObject ? null : onAcceptReject('rejected')
-                  }
+                  onPress={() => {
+                    if (
+                      hasEnabledObject ||
+                      currentMessage?.isOfferAccepted == 'rejected'
+                    ) {
+                      return true;
+                    } else {
+                      onAcceptReject('rejected');
+                      callback();
+                    }
+                  }}
                 />
               </View>
             ) : null}

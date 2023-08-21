@@ -72,6 +72,7 @@ const ChatDetailScreen = props => {
     uri: '',
     type: '',
   });
+  const [loading, setLoading] = useState(true);
 
   const {chat_item, isOffer} = route.params;
   console.log('============chat_item=============', chat_item);
@@ -86,6 +87,10 @@ const ChatDetailScreen = props => {
     getChatDetails({
       product_id: chat_item?.product_id,
       receiver_id: chat_item?.user_id,
+    }).then(res => {
+      if (res?.type.includes('fulfilled')) {
+        setLoading(false);
+      }
     });
     readUnread({
       product_id: chat_item?.product_id,
@@ -267,7 +272,7 @@ const ChatDetailScreen = props => {
         backgroundColor: '#FFFFFF90',
       }}
       useSafeAreaView={true}
-      loading={chatReducer.chatHistoryLoadingStatus === LoadingStatus.LOADING}>
+      loading={loading}>
       <Header chat_item={chat_item} onFollowClick={onFollowClick} {...props} />
       <View
         style={{
@@ -296,6 +301,12 @@ const ChatDetailScreen = props => {
               hasEnabledObject: hasEnabledObject,
               onAcceptReject: onAcceptReject,
               setFullImageVisible: setFullImageVisible,
+              callback: () => {
+                getChatDetails({
+                  product_id: chat_item?.product_id,
+                  receiver_id: chat_item?.user_id,
+                });
+              },
             });
           }}
           user={{

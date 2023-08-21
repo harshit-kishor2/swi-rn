@@ -170,6 +170,7 @@ export const transformedMessages = messages => {
           }
         : null,
     createdAt: new Date(message.created_at),
+    isOfferAccepted: message?.isOfferAccepted,
   }));
   return transformed;
 };
