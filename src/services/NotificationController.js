@@ -18,11 +18,21 @@ export const NotificationController = () => {
   const dispatch = useDispatch();
 
   //  Function for navigation on proper screen
-  const naviagteToScreen = type => {
-    console.log('Navigate to ====', type);
-    switch (type) {
+  const naviagteToScreen = detail => {
+    console.log('Navigate to ====', detail);
+    switch (detail?.type) {
       case 'chat':
-        NavigationService.navigate(RoutesName.CHAT_TAB);
+        // NavigationService.navigate(RoutesName.CHAT_TAB);
+        NavigationService.navigate(RoutesName.CHAT_DETAIL_SCREEN, {
+          chat_item: {
+            product_id: detail?.product_id,
+            user_id: detail?.sender_id,
+            sender_id: detail?.sender_id,
+            id: 0,
+            user_image: detail?.user_image,
+            user_name: detail?.user_name,
+          },
+        });
         break;
       default:
         NavigationService.navigate(RoutesName.NOTIFICATION_SCREEN);
@@ -41,15 +51,11 @@ export const NotificationController = () => {
             'User pressed notification of background',
             detail.notification,
           );
-          if (detail.notification?.data?.type === 'chat') {
-            naviagteToScreen('chat');
-          } else {
-            naviagteToScreen();
-          }
+          naviagteToScreen(detail?.notification?.data);
           break;
       }
     } catch (error) {
-      console.log('hello Error');
+      console.log('hello Error', error);
     }
   };
 
@@ -81,9 +87,6 @@ export const NotificationController = () => {
   useEffect(() => {
     // initialize notifee for local notification
     configureNotification();
-
-    // trigger local notification for testing purpose (When app started)
-    // displayNotification();
 
     /**
      * On iOS, messaging permission must be requested by
@@ -123,11 +126,7 @@ export const NotificationController = () => {
               'Notification caused app to open from quit state',
           );
           console.log(remoteMessage, 'remoteMessage====');
-          if (remoteMessage.data?.type === 'chat') {
-            naviagteToScreen('chat');
-          } else {
-            naviagteToScreen();
-          }
+          naviagteToScreen(remoteMessage.data);
         }
       });
 
@@ -145,11 +144,7 @@ export const NotificationController = () => {
             'Notification caused app to open from background state',
         );
         console.log(remoteMessage);
-        if (remoteMessage.data?.type === 'chat') {
-          naviagteToScreen('chat');
-        } else {
-          naviagteToScreen();
-        }
+        naviagteToScreen(remoteMessage.data);
       }
     });
 

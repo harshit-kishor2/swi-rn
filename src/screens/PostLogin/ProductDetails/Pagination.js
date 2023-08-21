@@ -13,6 +13,7 @@ const Pagination = ({data, currentPage, handleImageClick}) => {
         {data.map((item, index) => {
           return (
             <Pressable
+              key={index}
               style={{
                 height: 50,
                 width: 50,
