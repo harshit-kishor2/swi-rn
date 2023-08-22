@@ -317,7 +317,7 @@ const ChatDetailScreen = props => {
               user={{
                 _id: `${authReducer?.userProfileDetails?.id}`,
               }}
-              minInputToolbarHeight={5}
+              minInputToolbarHeight={30}
               renderInputToolbar={props => {}}
               renderFooter={
                 modifyData.length
