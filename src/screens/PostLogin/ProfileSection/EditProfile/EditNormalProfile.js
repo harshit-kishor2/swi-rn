@@ -1,5 +1,6 @@
 import {
   Keyboard,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -16,6 +17,7 @@ import {
   BackHeader,
   CustomInput,
   CustomText,
+  KeyboardAwareView,
   Spacer,
   SubmitButton,
 } from '@app/components';
@@ -135,117 +137,119 @@ const EditNormalProfile = props => {
         }
       />
       <Spacer />
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 40,
-        }}>
-        <ImageContainer handleChange={setFieldValue} value={values.path} />
-        <View
-          style={{
-            paddingHorizontal: 20,
+      <KeyboardAwareView>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 40,
           }}>
-          {/* Form */}
-          <CustomInput
-            label="Name "
-            placeholder="Enter full name"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('name')}
-            onBlur={handleBlur('name')}
-            value={values.name}
-            error={errors?.name && touched?.name}
-            errorText={errors?.name}
-          />
-          <CustomInput
-            label="Email"
-            placeholder="Enter email address"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
-            editable={false}
-            disabled={true}
-          />
+          <ImageContainer handleChange={setFieldValue} value={values.path} />
           <View
             style={{
-              paddingBottom: 10,
-              width: '100%',
+              paddingHorizontal: 20,
             }}>
-            <Text style={{}}>Phone Number</Text>
-            <TextInput
-              textColor="#000000"
-              placeholder="Enter phone number"
-              keyboardType="phone-pad"
-              returnKeyType="next"
-              onChangeText={handleChange('phone')}
-              onBlur={handleBlur('phone')}
-              value={values.phone}
-              //maxLength={12}
-              error={errors?.phone && touched?.phone}
-              errorText={errors?.phone}
-              style={{
-                backgroundColor: '#fff',
-                paddingHorizontal: 0,
-              }}
-              left={
-                <TextInput.Icon
-                  icon={() => (
-                    <CustomText style={styles.countryCode}>+65</CustomText>
-                  )}
-                />
-              }
-            />
-            <HelperText type="error" visible={errors.phone && touched?.phone}>
-              {errors.phone}
-            </HelperText>
-          </View>
-          <Spacer height={10} />
-          <View style={{}}>
+            {/* Form */}
             <CustomInput
-              label="About (Max 500 words)"
-              placeholder="Enter about"
+              label="Name "
+              placeholder="Enter full name"
               keyboardType="email-address"
-              onChangeText={handleChange('about')}
-              onBlur={handleBlur('about')}
-              value={values.about}
-              multiline={true}
-              maxLength={500}
+              returnKeyType="next"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              error={errors?.name && touched?.name}
+              errorText={errors?.name}
             />
-            <View style={{position: 'absolute', bottom: 30, right: 5}}>
-              <CustomText
+            <CustomInput
+              label="Email"
+              placeholder="Enter email address"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              editable={false}
+              disabled={true}
+            />
+            <View
+              style={{
+                paddingBottom: 10,
+                width: '100%',
+              }}>
+              <Text style={{}}>Phone Number</Text>
+              <TextInput
+                textColor="#000000"
+                placeholder="Enter phone number"
+                keyboardType="phone-pad"
+                returnKeyType="next"
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+                //maxLength={12}
+                error={errors?.phone && touched?.phone}
+                errorText={errors?.phone}
                 style={{
-                  color: '#00958C',
-                }}>
-                {values.about.length}/500
-              </CustomText>
+                  backgroundColor: '#fff',
+                  paddingHorizontal: 0,
+                }}
+                left={
+                  <TextInput.Icon
+                    icon={() => (
+                      <CustomText style={styles.countryCode}>+65</CustomText>
+                    )}
+                  />
+                }
+              />
+              <HelperText type="error" visible={errors.phone && touched?.phone}>
+                {errors.phone}
+              </HelperText>
             </View>
-          </View>
+            <Spacer height={10} />
+            <View style={{}}>
+              <CustomInput
+                label="About (Max 500 words)"
+                placeholder="Enter about"
+                keyboardType="email-address"
+                onChangeText={handleChange('about')}
+                onBlur={handleBlur('about')}
+                value={values.about}
+                multiline={true}
+                maxLength={500}
+              />
+              <View style={{position: 'absolute', bottom: 30, right: 5}}>
+                <CustomText
+                  style={{
+                    color: '#00958C',
+                  }}>
+                  {values.about.length}/500
+                </CustomText>
+              </View>
+            </View>
 
-          <SubmitButton
-            disabled={
-              authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
-            }
-            loading={
-              authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
-            }
-            buttonStyle={styles.submit}
-            lable="Save Changes"
-            onPress={handleSubmit}
-          />
-          <Spacer height={30} />
-          <Pressable
-            onPress={() => {
-              navigation?.goBack();
-            }}>
-            <CustomText style={styles.notNow}>
-              Not now, I’ll do it later{' '}
-            </CustomText>
-          </Pressable>
-        </View>
-        <Spacer height={50} />
-      </ScrollView>
+            <SubmitButton
+              disabled={
+                authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+              }
+              loading={
+                authReducer.updateProfileLoadingStatus === LoadingStatus.LOADING
+              }
+              buttonStyle={styles.submit}
+              lable="Save Changes"
+              onPress={handleSubmit}
+            />
+            <Spacer height={30} />
+            <Pressable
+              onPress={() => {
+                navigation?.goBack();
+              }}>
+              <CustomText style={styles.notNow}>
+                Not now, I’ll do it later{' '}
+              </CustomText>
+            </Pressable>
+          </View>
+          <Spacer height={50} />
+        </ScrollView>
+      </KeyboardAwareView>
     </>
   );
 };

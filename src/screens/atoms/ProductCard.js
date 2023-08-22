@@ -117,7 +117,9 @@ const ProductCard = ({
             }}>
             <CustomText>Boost Product</CustomText>
           </Pressable>
-        ) : null}
+        ) : (
+          <Spacer height={50} />
+        )}
       </Card.Content>
       {isActionButton ? (
         <View style={styles.bookmark}>

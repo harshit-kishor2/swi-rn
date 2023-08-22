@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import {useState} from 'react';
 import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 
@@ -23,28 +22,26 @@ const ActionContainer = ({
 
   return (
     <>
-      {!isKeyboardVisible ? (
-        <View style={styles.offer_row}>
-          <Pressable
-            onPress={isSeller ? onInterestClick : onMakeOfferClick}
-            style={styles.dollor_container}>
-            <CustomIcon
-              name={isSeller ? 'favorite' : 'attach-money'}
-              origin={ICON_TYPE.MATERIAL_ICONS}
-              size={30}
-              color={'#ffffff'}
-            />
-          </Pressable>
-          <View style={styles.offer_container}>
-            <View style={styles.offer_text}>
-              <CustomText>
-                {isSeller ? 'Add interest list' : 'Make an offer'}
-              </CustomText>
-            </View>
-            <View style={styles.triangle} />
+      <View style={styles.offer_row}>
+        <Pressable
+          onPress={isSeller ? onInterestClick : onMakeOfferClick}
+          style={styles.dollor_container}>
+          <CustomIcon
+            name={isSeller ? 'favorite' : 'attach-money'}
+            origin={ICON_TYPE.MATERIAL_ICONS}
+            size={30}
+            color={'#ffffff'}
+          />
+        </Pressable>
+        <View style={styles.offer_container}>
+          <View style={styles.offer_text}>
+            <CustomText>
+              {isSeller ? 'Add interest list' : 'Make an offer'}
+            </CustomText>
           </View>
+          <View style={styles.triangle} />
         </View>
-      ) : null}
+      </View>
       <View style={styles.rowContainer}>
         <Pressable style={styles.image} onPress={onAttachmentClick}>
           <CustomIcon
@@ -101,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     justifyContent: 'flex-start',
-    paddingTop: 10,
+    // paddingTop: 10,
   },
   dollor_container: {
     height: 50,

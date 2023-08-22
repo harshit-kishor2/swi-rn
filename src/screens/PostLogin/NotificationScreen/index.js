@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import {
   FlatList,
   Image,
@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 
-import {COLORS, IMAGES, SPACING} from '@app/resources';
+import { COLORS, IMAGES, SPACING } from '@app/resources';
 import {
   BackHeader,
   Container,
@@ -21,20 +21,20 @@ import {
 } from '@app/components';
 import NotificationCard from '@app/screens/atoms/NotificationCard';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {FontsConst} from '@app/assets/assets';
-import {Avatar, Divider} from 'react-native-paper';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
-import {connect} from 'react-redux';
+import { FontsConst } from '@app/assets/assets';
+import { Avatar, Divider } from 'react-native-paper';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
+import { connect } from 'react-redux';
 import authReducer, {
   NotificationCount,
   NotificationListing,
   UpdateNotificationStatus,
 } from '@app/store/authSlice';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {EmptyList} from '../ChatScreen/commn';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { EmptyList } from '../ChatScreen/commn';
 import moment from 'moment';
 import NavigationService from '@app/navigations/NavigationService';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 export function getTimeDifferenceString(date) {
   const now = new Date();
@@ -72,9 +72,12 @@ const NotificationScreen = props => {
     console.log('Alert===', item);
     switch (item.type) {
       case 'price-alert': {
-        NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
-          userId: 'item.id',
+        NavigationService.navigate(RoutesName.PRODUCT_DETAILS, {
+          userId: item?.extra_info,
         });
+        // NavigationService.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
+        //   userId: 'item.id',
+        // });
         break;
       }
       case 'follow-visit': {
@@ -150,17 +153,19 @@ const NotificationScreen = props => {
 
   const renderSection = item => {
     const {
-      section: {title, data},
+      section: { title, data },
     } = item;
-    if (data.length)
+    if (data.length) {
       return (
         <View style={styles.section}>
           <CustomText style={styles.titleText}>{title}</CustomText>
         </View>
       );
+    }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
+    console.log("Item value is ===================>>>>>>>>>>>>>", item)
     return (
       <View
         style={[
@@ -171,8 +176,9 @@ const NotificationScreen = props => {
         ]}>
         <Pressable
           onPress={() => {
+
             if (item?.pivot?.read_status == 'unread') {
-              updateNotificationStatus({id: item?.id});
+              updateNotificationStatus({ id: item?.id });
             }
             onRowClick(item);
           }}
@@ -196,7 +202,7 @@ const NotificationScreen = props => {
             </CustomText>
           </View>
         </Pressable>
-        <Divider style={{marginTop: 10}} />
+        <Divider style={{ marginTop: 10 }} />
       </View>
     );
   };
@@ -216,6 +222,7 @@ const NotificationScreen = props => {
         renderItem={renderItem}
         renderSectionHeader={renderSection}
         ListEmptyComponent={EmptyList}
+        stickySectionHeadersEnabled={false}
       />
     </Container>
   );
