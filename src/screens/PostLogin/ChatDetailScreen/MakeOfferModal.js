@@ -1,5 +1,10 @@
 import {FontsConst} from '@app/assets/assets';
-import {CustomText, Spacer, SubmitButton} from '@app/components';
+import {
+  CustomText,
+  KeyboardAwareView,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
 import {showAlert} from '@app/helper/commonFunction';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 import {useState} from 'react';
@@ -57,7 +62,7 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}>
-      <View style={styles.container}>
+      <KeyboardAwareView style={styles.container}>
         <Pressable
           style={styles.backdrop}
           onPress={() =>
@@ -85,7 +90,7 @@ const MakeOfferModal = ({modalVisible, setModalVisible, sendMessage}) => {
             <SubmitButton lable="Send" onPress={onOfferClick} />
           </View>
         </Card>
-      </View>
+      </KeyboardAwareView>
     </Modal>
   );
 };
