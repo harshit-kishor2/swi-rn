@@ -1,4 +1,10 @@
-import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
+import {
+  CustomIcon,
+  CustomText,
+  KeyboardAwareView,
+  Spacer,
+  SubmitButton,
+} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {showAlert} from '@app/helper/commonFunction';
 import {LoadingStatus} from '@app/helper/strings';
@@ -296,7 +302,7 @@ const EditProductDetails = props => {
   return isLoading ? (
     <ActivityIndicator />
   ) : (
-    <>
+    <KeyboardAwareView>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
@@ -912,7 +918,7 @@ const EditProductDetails = props => {
           maximumDate={new Date()}
         />
       )}
-    </>
+    </KeyboardAwareView>
   );
 };
 
