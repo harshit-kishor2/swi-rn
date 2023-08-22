@@ -82,17 +82,32 @@ const PostedSuccessfully = props => {
         </View>
 
         <View>
-          <View>
+          <View style={{height: 200}}>
             <Text style={styles.text}>
               If you want to make any changes to your post you can do that from
               your posted ads section.
-              <TouchableOpacity style={{textAlign: 'center'}}>
+              <Text
+                onPress={() => {
+                  NavigationService.navigate(
+                    RoutesName.PROFILE_SECTION_SCREEN,
+                    {userID: user?.id},
+                  );
+                }}
+                style={{
+                  fontSize: 14,
+                  color: '#00958C',
+                  fontFamily: 'OpenSans-SemiBold',
+                  textDecorationLine: 'underline',
+                }}>
+                View post
+              </Text>
+              {/* <TouchableOpacity style={{marginRight: 30, marginTop: 20}}>
                 <Text
                   style={{
                     fontSize: 14,
                     color: '#00958C',
                     fontFamily: 'OpenSans-SemiBold',
-                    textDecorationLine: 'underline',
+                    // textDecorationLine: 'underline',
                   }}
                   onPress={() => {
                     NavigationService.navigate(
@@ -102,7 +117,7 @@ const PostedSuccessfully = props => {
                   }}>
                   View post
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </Text>
           </View>
         </View>
