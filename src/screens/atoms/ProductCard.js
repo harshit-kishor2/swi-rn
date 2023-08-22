@@ -104,23 +104,20 @@ const ProductCard = ({
           Posted {getTimeDifferenceString(item?.created_at)}
         </CustomText>
         <Spacer height={13} />
-        {isSelf && isActionButton && item?.product_status == 'available' ? (
-          <Pressable
-            style={styles.boostButton}
-            onPress={() => {
-              NavigationService.navigate(
-                RoutesName.BOOST_PRODUCT_INTRODUCTION,
-                {
-                  product_id: item?.id,
-                },
-              );
-            }}>
-            <CustomText>Boost Product</CustomText>
-          </Pressable>
-        ) : (
-          <Spacer height={50} />
-        )}
       </Card.Content>
+      {isSelf && isActionButton && item?.product_status == 'available' ? (
+        <Pressable
+          style={styles.boostButton}
+          onPress={() => {
+            NavigationService.navigate(RoutesName.BOOST_PRODUCT_INTRODUCTION, {
+              product_id: item?.id,
+            });
+          }}>
+          <CustomText>Boost Product</CustomText>
+        </Pressable>
+      ) : (
+        <Spacer />
+      )}
       {isActionButton ? (
         <View style={styles.bookmark}>
           {isSelf ? (
@@ -325,11 +322,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   boostButton: {
-    height: 30,
+    height: 35,
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderRadius: 10,
     marginVertical: 10,
+    marginHorizontal: 10,
   },
 });
