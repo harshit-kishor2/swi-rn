@@ -15,7 +15,7 @@ import {
 } from '@app/store/chatSlice';
 import {getProductDetailsAction} from '@app/store/exploreProductSlice';
 import {useEffect, useRef, useState} from 'react';
-import {Platform, Pressable, StyleSheet, View} from 'react-native';
+import {Platform, Pressable, StyleSheet, View, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {AndroidCameraPermission} from '../../../../androidcamerapermission';
 import ActionContainer from './ActionContainer';
@@ -40,6 +40,7 @@ import {
   profileAboutAction,
 } from '@app/store/profileSectionSlice';
 import {Chip} from 'react-native-paper';
+import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 
 const customMessage = ['Hello', 'Hi', "I'm interested in this product."];
 const ChatDetailScreen = props => {
@@ -73,7 +74,7 @@ const ChatDetailScreen = props => {
     type: '',
   });
   const [loading, setLoading] = useState(true);
-
+  const isKeyboardVisible = useKeyboardVisible();
   const {chat_item, isOffer} = route.params;
   console.log('============chat_item=============', chat_item);
   //  Use socket
@@ -274,88 +275,172 @@ const ChatDetailScreen = props => {
       useSafeAreaView={true}
       loading={loading}>
       <Header chat_item={chat_item} onFollowClick={onFollowClick} {...props} />
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <GiftedChat
-          messageContainerRef={ref => (flatRef.current = ref)}
-          keyboardShouldPersistTaps="never"
-          messages={modifyData}
-          listViewProps={{
-            contentContainerStyle: {
-              margin: 0,
-              padding: 0,
-            },
-          }}
-          renderComposer={null}
-          bottomOffset={0}
-          renderAvatar={null}
-          renderActions={() => null}
-          renderChatFooter={() => null}
-          renderSend={() => null}
-          renderBubble={props => {
-            return RenderItem({
-              ...props,
-              isSeller: isSeller,
-              hasEnabledObject: hasEnabledObject,
-              onAcceptReject: onAcceptReject,
-              setFullImageVisible: setFullImageVisible,
-              callback: () => {
-                getChatDetails({
-                  product_id: chat_item?.product_id,
-                  receiver_id: chat_item?.user_id,
+      {Platform.select({
+        ios: (
+          <ScrollView
+            contentContainerStyle={{
+              height: isKeyboardVisible ? 800 : '100%',
+            }}>
+            <GiftedChat
+              messageContainerRef={ref => (flatRef.current = ref)}
+              keyboardShouldPersistTaps="never"
+              messages={modifyData}
+              listViewProps={{
+                contentContainerStyle: {
+                  margin: 0,
+                  padding: 0,
+                },
+              }}
+              renderComposer={null}
+              bottomOffset={0}
+              renderAvatar={null}
+              renderActions={() => null}
+              renderChatFooter={() => null}
+              renderSend={() => null}
+              renderBubble={props => {
+                return RenderItem({
+                  ...props,
+                  isSeller: isSeller,
+                  hasEnabledObject: hasEnabledObject,
+                  onAcceptReject: onAcceptReject,
+                  setFullImageVisible: setFullImageVisible,
+                  callback: () => {
+                    getChatDetails({
+                      product_id: chat_item?.product_id,
+                      receiver_id: chat_item?.user_id,
+                    });
+                  },
                 });
-              },
-            });
-          }}
-          user={{
-            _id: `${authReducer?.userProfileDetails?.id}`,
-          }}
-          minInputToolbarHeight={5}
-          renderInputToolbar={props => {}}
-          renderFooter={
-            modifyData.length
-              ? null
-              : () => {
-                  return (
-                    <View
-                      style={{
-                        paddingHorizontal: 20,
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                      }}>
-                      {customMessage.map((item, index) => {
-                        return (
-                          <Chip
-                            style={{
-                              margin: 5,
-                            }}
-                            onPress={() =>
-                              sendMessage({
-                                type: 'text',
-                                message: item,
-                              })
-                            }>
-                            {item}
-                          </Chip>
-                        );
-                      })}
-                    </View>
-                  );
-                }
-          }
-        />
-      </View>
+              }}
+              user={{
+                _id: `${authReducer?.userProfileDetails?.id}`,
+              }}
+              minInputToolbarHeight={5}
+              renderInputToolbar={props => {}}
+              renderFooter={
+                modifyData.length
+                  ? null
+                  : () => {
+                      return (
+                        <View
+                          style={{
+                            paddingHorizontal: 20,
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                          }}>
+                          {customMessage.map((item, index) => {
+                            return (
+                              <Chip
+                                style={{
+                                  margin: 5,
+                                }}
+                                onPress={() =>
+                                  sendMessage({
+                                    type: 'text',
+                                    message: item,
+                                  })
+                                }>
+                                {item}
+                              </Chip>
+                            );
+                          })}
+                        </View>
+                      );
+                    }
+              }
+            />
+          </ScrollView>
+        ),
+        android: (
+          <View
+            style={{
+              flex: 1,
+            }}>
+            <GiftedChat
+              messageContainerRef={ref => (flatRef.current = ref)}
+              keyboardShouldPersistTaps="never"
+              messages={modifyData}
+              listViewProps={{
+                contentContainerStyle: {
+                  margin: 0,
+                  padding: 0,
+                },
+              }}
+              renderComposer={null}
+              bottomOffset={0}
+              renderAvatar={null}
+              renderActions={() => null}
+              renderChatFooter={() => null}
+              renderSend={() => null}
+              renderBubble={props => {
+                return RenderItem({
+                  ...props,
+                  isSeller: isSeller,
+                  hasEnabledObject: hasEnabledObject,
+                  onAcceptReject: onAcceptReject,
+                  setFullImageVisible: setFullImageVisible,
+                  callback: () => {
+                    getChatDetails({
+                      product_id: chat_item?.product_id,
+                      receiver_id: chat_item?.user_id,
+                    });
+                  },
+                });
+              }}
+              user={{
+                _id: `${authReducer?.userProfileDetails?.id}`,
+              }}
+              minInputToolbarHeight={5}
+              renderInputToolbar={props => {}}
+              renderFooter={
+                modifyData.length
+                  ? null
+                  : () => {
+                      return (
+                        <View
+                          style={{
+                            paddingHorizontal: 20,
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
+                          }}>
+                          {customMessage.map((item, index) => {
+                            return (
+                              <Chip
+                                style={{
+                                  margin: 5,
+                                }}
+                                onPress={() =>
+                                  sendMessage({
+                                    type: 'text',
+                                    message: item,
+                                  })
+                                }>
+                                {item}
+                              </Chip>
+                            );
+                          })}
+                        </View>
+                      );
+                    }
+              }
+            />
+          </View>
+        ),
+      })}
+
       {hasEnabledObject ? null : (
-        <ActionContainer
-          isSeller={isSeller}
-          onAttachmentClick={sendAttachment}
-          onSendMessageClick={sendMessage}
-          onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
-          onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
-          {...props}
-        />
+        <KeyboardAwareView>
+          <ActionContainer
+            isSeller={isSeller}
+            onAttachmentClick={sendAttachment}
+            onSendMessageClick={sendMessage}
+            onInterestClick={() =>
+              setInterestModalVisible(!interestModalVisible)
+            }
+            onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
+            {...props}
+          />
+        </KeyboardAwareView>
       )}
       {/* Image Modal */}
       <ImageModal
