@@ -152,12 +152,13 @@ const NotificationScreen = props => {
     const {
       section: {title, data},
     } = item;
-    if (data.length)
+    if (data.length) {
       return (
         <View style={styles.section}>
           <CustomText style={styles.titleText}>{title}</CustomText>
         </View>
       );
+    }
   };
 
   const renderItem = ({item}) => {
@@ -216,6 +217,7 @@ const NotificationScreen = props => {
         renderItem={renderItem}
         renderSectionHeader={renderSection}
         ListEmptyComponent={EmptyList}
+        stickySectionHeadersEnabled={false}
       />
     </Container>
   );

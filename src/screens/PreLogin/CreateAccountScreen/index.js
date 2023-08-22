@@ -8,6 +8,7 @@ import {
   SubmitButton,
 } from '@app/components';
 import SocialLoginButton from '@app/components/SocialLogin';
+import {SharedPreference} from '@app/helper';
 import {showAlert} from '@app/helper/commonFunction';
 import {Config} from '@app/helper/config';
 import {LoadingStatus, RoutesName} from '@app/helper/strings';

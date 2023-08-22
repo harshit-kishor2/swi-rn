@@ -158,7 +158,7 @@ const SellerProfile = props => {
         }}>
         <ClearableSearch search={search} setSearch={setSearch} />
         <PageTitle
-          title={`Watch Posted by ${addEllipsis(userDetail?.name, 15)}`}
+          title={`Watches Posted by ${addEllipsis(userDetail?.name, 15)}`}
         />
         <FlatList
           scrollEnabled={false}
