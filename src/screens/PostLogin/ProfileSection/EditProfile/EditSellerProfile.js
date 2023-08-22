@@ -4,6 +4,7 @@ import {
   CustomInput,
   CustomText,
   DatePicker,
+  KeyboardAwareView,
   Spacer,
   SubmitButton,
 } from '@app/components';
@@ -185,219 +186,221 @@ const EditSellerProfile = props => {
         }
       />
       <Spacer />
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingBottom: 40,
-        }}>
-        <ProfilePicture
-          profilePath={values.profileImagePath}
-          coverPath={values.coverImagePath}
-          setProfileValue={val => {
-            setFieldValue('profileImage', val?.image);
-            setFieldValue('profileImagePath', val?.path);
-          }}
-          setCoverValue={val => {
-            setFieldValue('coverImage', val?.image);
-            setFieldValue('coverImagePath', val?.path);
-          }}
-        />
-        <View>
-          <SubmitButton
-            lable="Retrieve My Info"
-            buttonStyle={styles.retrievInfo}
-          />
-        </View>
-        <Spacer />
-        <View
-          style={{
-            paddingHorizontal: 20,
+      <KeyboardAwareView>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 40,
           }}>
-          {/* Form */}
-          <CustomInput
-            label="Seller’s Name "
-            placeholder="Enter full name"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('name')}
-            onBlur={handleBlur('name')}
-            value={values.name}
-            error={errors?.name && touched?.name}
-            errorText={errors?.name}
+          <ProfilePicture
+            profilePath={values.profileImagePath}
+            coverPath={values.coverImagePath}
+            setProfileValue={val => {
+              setFieldValue('profileImage', val?.image);
+              setFieldValue('profileImagePath', val?.path);
+            }}
+            setCoverValue={val => {
+              setFieldValue('coverImage', val?.image);
+              setFieldValue('coverImagePath', val?.path);
+            }}
           />
-          <CustomInput
-            label="Email"
-            placeholder="Enter email address"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
-            editable={false}
-            disabled={true}
-          />
+          <View>
+            <SubmitButton
+              lable="Retrieve My Info"
+              buttonStyle={styles.retrievInfo}
+            />
+          </View>
+          <Spacer />
           <View
             style={{
-              paddingBottom: 10,
-              width: '100%',
+              paddingHorizontal: 20,
             }}>
-            <Text style={{}}>Phone Number</Text>
-            <TextInput
-              textColor="#000000"
-              placeholder="Enter phone number"
-              keyboardType="phone-pad"
-              returnKeyType="next"
-              onChangeText={handleChange('phone')}
-              onBlur={handleBlur('phone')}
-              value={values.phone}
-              //maxLength={12}
-              error={errors?.phone && touched?.phone}
-              errorText={errors?.phone}
-              style={{
-                backgroundColor: '#fff',
-                paddingHorizontal: 0,
-              }}
-              left={
-                <TextInput.Icon
-                  icon={() => (
-                    <CustomText style={styles.countryCode}>+65</CustomText>
-                  )}
-                />
-              }
-            />
-            <HelperText type="error" visible={errors.phone && touched?.phone}>
-              {errors.phone}
-            </HelperText>
-          </View>
-          <Spacer height={10} />
-          <View style={{}}>
+            {/* Form */}
             <CustomInput
-              label="About (Max 500 words)"
-              placeholder="Enter about"
+              label="Seller’s Name "
+              placeholder="Enter full name"
               keyboardType="email-address"
-              onChangeText={handleChange('about')}
-              onBlur={handleBlur('about')}
-              value={values.about}
-              multiline={true}
-              maxLength={500}
+              returnKeyType="next"
+              onChangeText={handleChange('name')}
+              onBlur={handleBlur('name')}
+              value={values.name}
+              error={errors?.name && touched?.name}
+              errorText={errors?.name}
             />
-            <View style={{position: 'absolute', bottom: 30, right: 5}}>
-              <CustomText
+            <CustomInput
+              label="Email"
+              placeholder="Enter email address"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
+              value={values.email}
+              editable={false}
+              disabled={true}
+            />
+            <View
+              style={{
+                paddingBottom: 10,
+                width: '100%',
+              }}>
+              <Text style={{}}>Phone Number</Text>
+              <TextInput
+                textColor="#000000"
+                placeholder="Enter phone number"
+                keyboardType="phone-pad"
+                returnKeyType="next"
+                onChangeText={handleChange('phone')}
+                onBlur={handleBlur('phone')}
+                value={values.phone}
+                //maxLength={12}
+                error={errors?.phone && touched?.phone}
+                errorText={errors?.phone}
                 style={{
-                  color: '#00958C',
-                }}>
-                {values.about.length}/500
-              </CustomText>
-            </View>
-          </View>
-
-          <CustomInput
-            label="Location"
-            placeholder="Enter shop location"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('location')}
-            onBlur={handleBlur('location')}
-            value={values.location}
-            error={errors?.location && touched?.location}
-            errorText={errors?.location}
-            maxLength={100}
-          />
-          <OpeningHour
-            openingHours={values.openingHours}
-            setOpeningHours={val => {
-              setFieldValue('openingHours', val);
-            }}
-          />
-          <CustomInput
-            label="Website"
-            placeholder="Enter website"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('website')}
-            onBlur={handleBlur('website')}
-            value={values.website}
-            error={errors?.website && touched?.website}
-            errorText={errors?.website}
-            maxLength={100}
-          />
-          <SocialMedia
-            socialLinks={values.socialLinks}
-            setSocialLinks={val => {
-              setFieldValue('socialLinks', val);
-            }}
-          />
-          <PaymentMode
-            paymentMode={values.paymentMode}
-            setPaymentMode={val => {
-              setFieldValue('paymentMode', val);
-            }}
-          />
-          <PostAds
-            postAdsImage={values.postAdsImage}
-            postAdsImagePath={values.postAdsImagePath}
-            setPostAds={val => {
-              setFieldValue('postAdsImage', val?.image);
-              setFieldValue('postAdsImagePath', val?.path);
-            }}
-          />
-          <CustomInput
-            label="Announcements"
-            placeholder="Enter announcements"
-            keyboardType="email-address"
-            returnKeyType="next"
-            onChangeText={handleChange('announcement')}
-            onBlur={handleBlur('announcement')}
-            value={values.announcement}
-            maxLength={300}
-          />
-          <View
-            style={{
-              paddingBottom: 10,
-              width: '100%',
-            }}>
-            <Text style={{}}>Announcement ends on</Text>
-            <DatePicker
-              minimumDate={Date.now()}
-              Value={new Date()}
-              children={
-                <View style={styles.datePickerContainer}>
-                  <CustomText>
-                    {values.announcementEnd
-                      ? moment(values.announcementEnd).format('DD MMM YYYY')
-                      : 'DD MMM YYYY'}
-                  </CustomText>
-
-                  <CustomIcon
-                    name={'calendar'}
-                    origin={ICON_TYPE.FEATHER_ICONS}
-                    style={styles.calenderIcon}
-                    size={20}
+                  backgroundColor: '#fff',
+                  paddingHorizontal: 0,
+                }}
+                left={
+                  <TextInput.Icon
+                    icon={() => (
+                      <CustomText style={styles.countryCode}>+65</CustomText>
+                    )}
                   />
-                </View>
-              }
-              onChangeDate={d => {
-                setFieldValue('announcementEnd', moment(d).format());
+                }
+              />
+              <HelperText type="error" visible={errors.phone && touched?.phone}>
+                {errors.phone}
+              </HelperText>
+            </View>
+            <Spacer height={10} />
+            <View style={{}}>
+              <CustomInput
+                label="About (Max 500 words)"
+                placeholder="Enter about"
+                keyboardType="email-address"
+                onChangeText={handleChange('about')}
+                onBlur={handleBlur('about')}
+                value={values.about}
+                multiline={true}
+                maxLength={500}
+              />
+              <View style={{position: 'absolute', bottom: 30, right: 5}}>
+                <CustomText
+                  style={{
+                    color: '#00958C',
+                  }}>
+                  {values.about.length}/500
+                </CustomText>
+              </View>
+            </View>
+
+            <CustomInput
+              label="Location"
+              placeholder="Enter shop location"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('location')}
+              onBlur={handleBlur('location')}
+              value={values.location}
+              error={errors?.location && touched?.location}
+              errorText={errors?.location}
+              maxLength={100}
+            />
+            <OpeningHour
+              openingHours={values.openingHours}
+              setOpeningHours={val => {
+                setFieldValue('openingHours', val);
               }}
             />
+            <CustomInput
+              label="Website"
+              placeholder="Enter website"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('website')}
+              onBlur={handleBlur('website')}
+              value={values.website}
+              error={errors?.website && touched?.website}
+              errorText={errors?.website}
+              maxLength={100}
+            />
+            <SocialMedia
+              socialLinks={values.socialLinks}
+              setSocialLinks={val => {
+                setFieldValue('socialLinks', val);
+              }}
+            />
+            <PaymentMode
+              paymentMode={values.paymentMode}
+              setPaymentMode={val => {
+                setFieldValue('paymentMode', val);
+              }}
+            />
+            <PostAds
+              postAdsImage={values.postAdsImage}
+              postAdsImagePath={values.postAdsImagePath}
+              setPostAds={val => {
+                setFieldValue('postAdsImage', val?.image);
+                setFieldValue('postAdsImagePath', val?.path);
+              }}
+            />
+            <CustomInput
+              label="Announcements"
+              placeholder="Enter announcements"
+              keyboardType="email-address"
+              returnKeyType="next"
+              onChangeText={handleChange('announcement')}
+              onBlur={handleBlur('announcement')}
+              value={values.announcement}
+              maxLength={300}
+            />
+            <View
+              style={{
+                paddingBottom: 10,
+                width: '100%',
+              }}>
+              <Text style={{}}>Announcement ends on</Text>
+              <DatePicker
+                // minimumDate={Date.now()}
+                Value={new Date()}
+                children={
+                  <View style={styles.datePickerContainer}>
+                    <CustomText>
+                      {values.announcementEnd
+                        ? moment(values.announcementEnd).format('DD MMM YYYY')
+                        : 'DD MMM YYYY'}
+                    </CustomText>
+
+                    <CustomIcon
+                      name={'calendar'}
+                      origin={ICON_TYPE.FEATHER_ICONS}
+                      style={styles.calenderIcon}
+                      size={20}
+                    />
+                  </View>
+                }
+                onChangeDate={d => {
+                  setFieldValue('announcementEnd', moment(d).format());
+                }}
+              />
+            </View>
+            <SubmitButton
+              buttonStyle={styles.submit}
+              lable="Save Changes"
+              onPress={handleSubmit}
+            />
+            <Spacer height={30} />
+            <Pressable
+              onPress={() => {
+                navigation?.goBack();
+              }}>
+              <CustomText style={styles.notNow}>
+                Not now, I’ll do it later{' '}
+              </CustomText>
+            </Pressable>
           </View>
-          <SubmitButton
-            buttonStyle={styles.submit}
-            lable="Save Changes"
-            onPress={handleSubmit}
-          />
-          <Spacer height={30} />
-          <Pressable
-            onPress={() => {
-              navigation?.goBack();
-            }}>
-            <CustomText style={styles.notNow}>
-              Not now, I’ll do it later{' '}
-            </CustomText>
-          </Pressable>
-        </View>
-        <Spacer height={50} />
-      </ScrollView>
+          <Spacer height={50} />
+        </ScrollView>
+      </KeyboardAwareView>
     </>
   );
 };

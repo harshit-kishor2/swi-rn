@@ -133,7 +133,7 @@ const ChatDetailScreen = props => {
     if (type === 'text' || type === 'make_offer') {
       formData.append('message', message);
     } else if (type === 'pdf') {
-      formData.append(`media`, {
+      formData.append('media', {
         name: message?.name ?? 'PDF' + Date.now() + '.pdf',
         type: message.type,
         uri: message?.uri,
@@ -142,7 +142,7 @@ const ChatDetailScreen = props => {
     } else if (type === 'image') {
       const d = message?.path?.split('/');
       const name = d[d.length - 1];
-      formData.append(`media`, {
+      formData.append('media', {
         name: name ?? 'Image' + Date.now() + '.jpg',
         type: message.mime,
         uri:
@@ -154,7 +154,7 @@ const ChatDetailScreen = props => {
     } else if (type === 'video') {
       const d = message?.path?.split('/');
       const name = d[d.length - 1];
-      formData.append(`media`, {
+      formData.append('media', {
         name: name ?? 'Video' + Date.now() + '.mp4',
         type: message.mime,
         uri:

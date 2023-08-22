@@ -4,6 +4,7 @@ import {
   CustomIcon,
   CustomInput,
   CustomText,
+  KeyboardAwareView,
   Spacer,
   SubmitButton,
 } from '@app/components';
@@ -62,233 +63,240 @@ const RateUser = props => {
         ratingReviewReducer.singleUserRatingDetailsActionLoadingStatus ==
         LoadingStatus.LOADING
       }>
-      <ScrollView style={{margin: 15}} showsVerticalScrollIndicator={false}>
-        <BackHeader />
+      <BackHeader />
 
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <LoginHeader title={'Rate and Review'} />
-        </View>
-
-        <View
-          style={{
-            alignItems: 'center',
-            marginTop: 1,
-          }}>
-          <Image
-            source={{uri: item?.image}}
-            style={{
-              width: 90,
-              height: 90,
-              borderRadius: 45,
-            }}
-          />
-          <Text
-            style={{
-              fontSize: 24,
-              fontFamily: 'OpenSans-Bold',
-              color: '#000000',
-              marginTop: 12,
-            }}>
-            {item?.name}
-          </Text>
-
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <LoginHeader title={'Rate and Review'} />
+      </View>
+      <KeyboardAwareView style={{flex: 1}}>
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: 40,
+            flexGrow: 1,
+          }}
+          showsVerticalScrollIndicator={false}>
           <View
             style={{
-              flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'center',
-              margin: 15,
+              marginTop: 1,
             }}>
-            {/* <Rating
+            <Image
+              source={{uri: item?.image}}
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 45,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 24,
+                fontFamily: 'OpenSans-Bold',
+                color: '#000000',
+                marginTop: 12,
+              }}>
+              {item?.name}
+            </Text>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 15,
+              }}>
+              {/* <Rating
               type="star"
               ratingCount={5}
               startingValue={data?.average}
               imageSize={16}
               readonly
             /> */}
-            <AirbnbRating
-              count={5}
-              showRating={false}
-              defaultRating={data?.average}
-              isDisabled
-              size={15}
-              style={{marginHorizontal: 10}}
-              ratingContainerStyle={{marginHorizontal: 10}}
-              starContainerStyle={{
-                paddingVertical: 10,
-                justifyContent: 'space-evenly',
-                alignItems: 'center',
-              }}
-            />
+              <AirbnbRating
+                count={5}
+                showRating={false}
+                defaultRating={data?.average}
+                isDisabled
+                size={15}
+                style={{marginHorizontal: 10}}
+                ratingContainerStyle={{marginHorizontal: 10}}
+                starContainerStyle={{
+                  paddingVertical: 10,
+                  justifyContent: 'space-evenly',
+                  alignItems: 'center',
+                }}
+              />
 
-            <Text
-              style={{
-                fontSize: 13,
-                fontFamily: 'OpenSans-SemiBold',
-                color: '#454545',
-                marginLeft: 5,
-              }}>
-              {data?.count} reviews
-            </Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            // // alignContent: 'center',
-            justifyContent: 'center',
-            alignContent: 'center',
-            marginHorizontal: 50,
-          }}>
-          <Text
-            style={{
-              fontFamily: 'OpenSans-SemiBold',
-              fontSize: 20,
-              color: 'black',
-              marginVertical: 20,
-              textAlign: 'center',
-            }}>
-            Your Response
-          </Text>
-          <View style={{marginBottom: 20}}>
-            <AirbnbRating
-              count={5}
-              reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
-              defaultRating={RatingValue?.id ? RatingValue?.rating : 0}
-              isDisabled={RatingValue?.rating ? true : false}
-              size={30}
-              onFinishRating={handleRating}
-            />
-
-            {validation == true ? (
-              <View>
-                <Text
-                  style={{
-                    fontFamily: 'OpenSans-Regular',
-                    fontSize: 16,
-                    color: 'red',
-                    textAlign: 'center',
-                    marginTop: 3,
-                  }}>
-                  Please rate this product
-                </Text>
-              </View>
-            ) : null}
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontFamily: 'OpenSans-SemiBold',
+                  color: '#454545',
+                  marginLeft: 5,
+                }}>
+                {data?.count} reviews
+              </Text>
+            </View>
           </View>
 
           <View
             style={{
-              position: 'relative',
-              marginBottom: 20,
+              // // alignContent: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+              marginHorizontal: 50,
             }}>
-            <CustomText
+            <Text
               style={{
-                color: '#000000',
                 fontFamily: 'OpenSans-SemiBold',
-                fontSize: 18,
+                fontSize: 20,
+                color: 'black',
+                marginVertical: 20,
+                textAlign: 'center',
               }}>
-              Description
-            </CustomText>
-
-            {RatingValue?.id ? (
-              <Text>{descriptionValue}</Text>
-            ) : (
-              <TextInput
-                style={{
-                  backgroundColor: '#fff',
-                  minWidth: '45%',
-                  textAlignVertical: 'top',
-                  paddingBottom: 10,
-                  paddingHorizontal: 0,
-                  borderBottomEndRadius: 1,
-                  paddingBottom: 20,
-                  height: 150,
-                  borderColor: COLORS.APPGREEN,
-                  //  borderBottomWidth: RatingValue?.id ? null : 0.5,
-                  borderBottomWidth: 0.5,
-                }}
-                fontSize={16}
-                fontFamily={'OpenSans-Regular'}
-                maxLength={500}
-                multiline={true}
-                numberOfLines={5}
-                value={description}
-                //  editable={RatingValue?.description ? false : true}
-                placeholder="Enter description..."
-                onChangeText={val => {
-                  setDescription(val);
-                }}
+              Your Response
+            </Text>
+            <View style={{marginBottom: 20}}>
+              <AirbnbRating
+                count={5}
+                reviews={['Terrible', 'Bad', 'OK', 'Good', 'Excellent']}
+                defaultRating={RatingValue?.id ? RatingValue?.rating : 0}
+                isDisabled={RatingValue?.rating ? true : false}
+                size={30}
+                onFinishRating={handleRating}
               />
-            )}
 
-            {RatingValue?.id ? null : (
-              <View
+              {validation == true ? (
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: 'OpenSans-Regular',
+                      fontSize: 16,
+                      color: 'red',
+                      textAlign: 'center',
+                      marginTop: 3,
+                    }}>
+                    Please rate this product
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+
+            <View
+              style={{
+                position: 'relative',
+                marginBottom: 20,
+              }}>
+              <CustomText
                 style={{
-                  position: 'absolute',
-                  bottom: 5,
-                  right: 5,
-                  //   paddingTop:5
+                  color: '#000000',
+                  fontFamily: 'OpenSans-SemiBold',
+                  fontSize: 18,
                 }}>
-                <CustomText style={{color: '#00958C'}}>
-                  {description.length}/500
-                </CustomText>
-              </View>
+                Description
+              </CustomText>
+
+              {RatingValue?.id ? (
+                <Text>{descriptionValue}</Text>
+              ) : (
+                <TextInput
+                  style={{
+                    backgroundColor: '#fff',
+                    minWidth: '45%',
+                    textAlignVertical: 'top',
+                    paddingBottom: 10,
+                    paddingHorizontal: 0,
+                    borderBottomEndRadius: 1,
+                    paddingBottom: 20,
+                    height: 150,
+                    borderColor: COLORS.APPGREEN,
+                    //  borderBottomWidth: RatingValue?.id ? null : 0.5,
+                    borderBottomWidth: 0.5,
+                  }}
+                  fontSize={16}
+                  fontFamily={'OpenSans-Regular'}
+                  maxLength={500}
+                  multiline={true}
+                  numberOfLines={5}
+                  value={description}
+                  //  editable={RatingValue?.description ? false : true}
+                  placeholder="Enter description..."
+                  onChangeText={val => {
+                    setDescription(val);
+                  }}
+                />
+              )}
+
+              {RatingValue?.id ? null : (
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 5,
+                    right: 5,
+                    //   paddingTop:5
+                  }}>
+                  <CustomText style={{color: '#00958C'}}>
+                    {description.length}/500
+                  </CustomText>
+                </View>
+              )}
+            </View>
+
+            {/* <SubmitButton loading={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} disabled={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} lable="Change" onPress={handleSubmit} /> */}
+            {RatingValue?.id ? null : (
+              <Pressable
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 1,
+                  height: 50,
+                  borderRadius: 20,
+                  backgroundColor: 'black',
+                }}
+                onPress={() => {
+                  if (rating == 0 || rating == null) {
+                    setValidation(true);
+                  } else {
+                    postData({
+                      user_id: userid,
+                      rating: rating,
+                      description: description,
+                      product_id: product_id,
+                    }).then(res => {
+                      if (res?.type.includes('fulfilled')) {
+                        showAlert({
+                          title: 'success',
+                          message:
+                            res?.payload?.message ??
+                            ' Rate Posted Successfully!',
+                        });
+                        NavigationService.navigate(RoutesName.PRODUCT_HISTORY);
+                      }
+                      if (res?.type.includes('rejected')) {
+                        // setButtonDisabled(false);
+                        showAlert({
+                          title: 'Error',
+                          message:
+                            res?.payload?.message ?? 'Internal server error!',
+                        });
+                      }
+                    });
+                  }
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'OpenSans-SemiBold',
+                    color: 'white',
+                    fontSize: 20,
+                  }}>
+                  Rate Now
+                </Text>
+              </Pressable>
             )}
           </View>
-
-          {/* <SubmitButton loading={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} disabled={authReducer.changePasswordLoadingStatus === LoadingStatus.LOADING} lable="Change" onPress={handleSubmit} /> */}
-          {RatingValue?.id ? null : (
-            <Pressable
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderWidth: 1,
-                height: 50,
-                borderRadius: 20,
-                backgroundColor: 'black',
-              }}
-              onPress={() => {
-                if (rating == 0 || rating == null) {
-                  setValidation(true);
-                } else {
-                  postData({
-                    user_id: userid,
-                    rating: rating,
-                    description: description,
-                    product_id: product_id,
-                  }).then(res => {
-                    if (res?.type.includes('fulfilled')) {
-                      showAlert({
-                        title: 'success',
-                        message:
-                          res?.payload?.message ?? ' Rate Posted Successfully!',
-                      });
-                      NavigationService.navigate(RoutesName.PRODUCT_HISTORY);
-                    }
-                    if (res?.type.includes('rejected')) {
-                      // setButtonDisabled(false);
-                      showAlert({
-                        title: 'Error',
-                        message:
-                          res?.payload?.message ?? 'Internal server error!',
-                      });
-                    }
-                  });
-                }
-              }}>
-              <Text
-                style={{
-                  fontFamily: 'OpenSans-SemiBold',
-                  color: 'white',
-                  fontSize: 20,
-                }}>
-                Rate Now
-              </Text>
-            </Pressable>
-          )}
-        </View>
-        <Spacer />
-      </ScrollView>
+          <Spacer />
+        </ScrollView>
+      </KeyboardAwareView>
     </Container>
   );
 };
