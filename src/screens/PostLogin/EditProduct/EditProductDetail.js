@@ -5,7 +5,13 @@ import {LoadingStatus} from '@app/helper/strings';
 import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
 import {useEffect, useState} from 'react';
-import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import MonthPicker from 'react-native-month-year-picker';
 import {List, TextInput} from 'react-native-paper';
 import DropDownWithModel from '../AddProduct1/DropDownWithModel';
@@ -23,6 +29,7 @@ const EditProductDetails = props => {
   const [selectedBrand, setSelectedBrand] = useState(null);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
   const [state, setState] = useState({
     brand_id: '',
@@ -142,6 +149,7 @@ const EditProductDetails = props => {
                 new_model: false,
               };
             });
+            setIsLoading(false);
           }
         },
       );
@@ -285,7 +293,9 @@ const EditProductDetails = props => {
       });
     }
   };
-  return (
+  return isLoading ? (
+    <ActivityIndicator />
+  ) : (
     <>
       <ScrollView
         showsHorizontalScrollIndicator={false}
