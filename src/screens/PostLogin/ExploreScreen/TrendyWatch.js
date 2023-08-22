@@ -10,7 +10,11 @@ import Filter from './Filter';
 const TrendyWatch = props => {
   const {exploreProduct, onAddWishList, setIsFilter} = props;
   const renderItem = ({item, index}) => {
-    return <ProductCard key={index} item={item} />;
+    return (
+      <View>
+        <ProductCard key={index} item={item} />
+      </View>
+    );
   };
   return (
     <View style={{paddingHorizontal: 10}}>
