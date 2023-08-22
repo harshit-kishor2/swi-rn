@@ -30,7 +30,7 @@ const Insight = props => {
   //   'Insights data<<=====',
   // );
 
-  console.log(exploreProduct, '^^^^^^^^');
+  console.log(exploreProduct, 'prd');
   const [value, setValue] = useState(null);
   const [value1, setValue1] = useState(null);
   const [select, setSelect] = useState('Clicks');

@@ -40,11 +40,11 @@ const MyProfileScreen = props => {
   const dispatch = useDispatch();
 
   const logout = async () => {
-    await AsyncStorage.setItem('Token', '');
-    SharedPreference.multiRemove([
-      SharedPreference.keys.IS_AUTHENTICATE,
-      SharedPreference.keys.TOKEN,
-    ]);
+    // await AsyncStorage.setItem('Token', '');
+    // SharedPreference.multiRemove([
+    //   SharedPreference.keys.IS_AUTHENTICATE,
+    //   SharedPreference.keys.TOKEN,
+    // ]);
     dispatch(logoutAction());
   };
 

@@ -103,15 +103,16 @@ export const logoutAction = createAsyncThunk(
   `auth/logoutAction`,
   async (params, thunkAPI) => {
     try {
-      // const response = await axiosRequest({
-      //   url: `/forgot-password`,
-      //   method: 'POST',
-      //   data: params,
-      // });
+      const response = await axiosRequest({
+        url: `logout`,
+        method: 'POST',
+        // data: {params},
+      });
       SharedPreference.multiRemove([
         SharedPreference.keys.IS_AUTHENTICATE,
         SharedPreference.keys.TOKEN,
       ]);
+      console.log('logout ', response);
       return true;
     } catch (error) {
       return thunkAPI.rejectWithValue(
