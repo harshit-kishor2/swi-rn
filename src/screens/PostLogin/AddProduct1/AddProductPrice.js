@@ -115,7 +115,8 @@ const AddProductPrice = ({onNextClick, ...props}) => {
           }}
         />
       </View>
-      <CustomText
+      <Spacer height={40} />
+      {/* <CustomText
         style={{
           alignSelf: 'center',
           paddingVertical: 20,
@@ -124,7 +125,7 @@ const AddProductPrice = ({onNextClick, ...props}) => {
         }}>
         Get your watch listed on top{' '}
         <CustomText style={{color: '#00958C'}}>Boost Now</CustomText>
-      </CustomText>
+      </CustomText> */}
       <SubmitButton
         onPress={onButtonSubmit}
         lable="Post Now"

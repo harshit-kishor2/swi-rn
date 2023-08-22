@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import {View, Text, StyleSheet, PixelRatio} from 'react-native';
+import { View, Text, StyleSheet, PixelRatio } from 'react-native';
 import React from 'react';
-import {COLORS, SPACING} from '@app/resources';
+import { COLORS, SPACING } from '@app/resources';
 
 export default styles = StyleSheet.create({
   CoinContainer: {
@@ -21,15 +21,15 @@ export default styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   TopText: {
-    fontFamily: 'OpenSans-SemiBold',
-    fontSize: 24,
+    fontFamily: 'OpenSans-Bold',
+    fontSize: 20,
     color: COLORS.BLACK,
     textAlign: 'center',
   },
   TextStyle1: {
     color: COLORS.HYPERLINK,
     fontFamily: 'OpenSans-Bold',
-    fontSize: 16,
+    fontSize: 14,
     margin: 10,
   },
   cardStyle: {

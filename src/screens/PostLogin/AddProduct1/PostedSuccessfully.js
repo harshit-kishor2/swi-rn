@@ -82,11 +82,11 @@ const PostedSuccessfully = props => {
         </View>
 
         <View>
-          <View style={{marginTop: 100}}>
+          <View>
             <Text style={styles.text}>
               If you want to make any changes to your post you can do that from
               your posted ads section.
-              <TouchableOpacity style={{alignSelf: 'center'}}>
+              <TouchableOpacity style={{textAlign: 'center'}}>
                 <Text
                   style={{
                     fontSize: 14,
@@ -100,7 +100,7 @@ const PostedSuccessfully = props => {
                       {userID: user?.id},
                     );
                   }}>
-                  ViewPost
+                  View post
                 </Text>
               </TouchableOpacity>
             </Text>
