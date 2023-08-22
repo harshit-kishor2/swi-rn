@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Pressable, StyleSheet, TextInput, View} from 'react-native';
 
-import {CustomText} from '@app/components';
+import {CustomText, KeyboardAwareView} from '@app/components';
 import CustomIcon, {ICON_TYPE} from '@app/components/CustomIcon';
 import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 

@@ -41,7 +41,7 @@ const AddInterestModal = props => {
     authReducer.userProfileDetails.id;
 
   const addDraftIntersetList = () => {
-    if (brand.brand_id && model.model_id) {
+    if (brand?.brand_id && model?.model_id) {
       onAddDraftInteresetList({
         seller_id: sellerID,
         user_id: userID,
@@ -61,10 +61,10 @@ const AddInterestModal = props => {
         }
       });
     } else {
-      showAlert({
-        title: 'Alert!',
-        message: 'Choose brand and model of watch.',
-      });
+      // showAlert({
+      //   title: 'Alert!',
+      //   message: 'Choose brand and model of watch.',
+      // });
     }
   };
 

@@ -9,33 +9,35 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  Pressable,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   BackHeader,
   Container,
   CustomIcon,
+  CustomText,
   Custombutton,
   NavigationBar,
 } from '@app/components';
-import { IMAGES, SPACING } from '@app/resources';
+import {IMAGES, SPACING} from '@app/resources';
 import styles from './styles';
-import { ICON_TYPE } from '@app/components/CustomIcon';
-import { connect } from 'react-redux';
+import {ICON_TYPE} from '@app/components/CustomIcon';
+import {connect} from 'react-redux';
 import {
   boostProduct,
   coinPlans,
   purchaseCoins,
 } from '@app/store/exploreProductSlice/boostProduct.action';
-import { useEffect } from 'react';
-import { showAlert } from '@app/helper/commonFunction';
-import { RoutesName } from '@app/helper/strings';
+import {useEffect} from 'react';
+import {showAlert} from '@app/helper/commonFunction';
+import {RoutesName} from '@app/helper/strings';
+import {FontsConst} from '@app/assets/assets';
 
 const BuyCoins = props => {
-  const { boostProductReducer, boostProduct, purchaseCoins, coinPlans } = props;
+  const {boostProductReducer, boostProduct, purchaseCoins, coinPlans} = props;
   const [selected, setSelected] = useState();
   const [purchaseCoinItem, setPurchaseCoinItem] = useState();
-  const [pick, setPick] = useState(false);
 
   useEffect(() => {
     coinPlans();
@@ -73,19 +75,18 @@ const BuyCoins = props => {
           <Text style={styles.TopText}> to boost.</Text>
         </View>
 
-        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+        <View style={{alignItems: 'center', marginBottom: 20}}>
           <Text style={styles.TextStyle1}>Get it Now</Text>
         </View>
         {boostProductReducer?.coinPlansData?.data?.length != 0 ? (
           <FlatList
             data={boostProductReducer?.coinPlansData?.data}
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               return (
-                <TouchableOpacity
+                <Pressable
                   onPress={() => {
                     setSelected(index);
                     setPurchaseCoinItem(item);
-                    setPick(true);
                   }}>
                   <View
                     style={[
@@ -97,12 +98,50 @@ const BuyCoins = props => {
                         justifyContent: 'space-between',
                         flexDirection: 'row',
                       }}>
-                      <Text style={styles.outerText}>
-                        Get{'  '}
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          paddingHorizontal: 5,
+                        }}>
+                        <CustomText
+                          style={{
+                            fontSize: 18,
+                            marginHorizontal: 5,
+                            fontFamily: 'OpenSans-Regular',
+                            color: '#000',
+                          }}>
+                          Get
+                        </CustomText>
                         <Image
                           source={IMAGES.coin}
-                          style={{ marginHorizontal: 5, height: 18, width: 22 }}
+                          style={{
+                            height: 20,
+                            width: 20,
+                          }}
                         />
+                        <CustomText
+                          style={{
+                            fontSize: 18,
+                            marginHorizontal: 5,
+                            fontFamily: FontsConst.OpenSans_Bold,
+                            color: '#000',
+                          }}>
+                          {item.coins_value}
+                        </CustomText>
+                        <CustomText
+                          style={{
+                            fontSize: 18,
+                            marginHorizontal: 5,
+                            fontFamily: 'OpenSans-Regular',
+                            color: '#000',
+                          }}>
+                          for
+                        </CustomText>
+                      </View>
+                      {/* <Text style={styles.outerText}>
+                        Get{'  '}
                         <Text style={styles.innerText}>
                           {'  '}
                           {item.coins_value}{' '}
@@ -115,7 +154,7 @@ const BuyCoins = props => {
                           }}>
                           for
                         </Text>
-                      </Text>
+                      </Text> */}
 
                       <View style={styles.CardCoinStyle}>
                         <CustomIcon
@@ -123,7 +162,7 @@ const BuyCoins = props => {
                           name={'dollar'}
                           color={'#00958C'}
                           size={30}
-                          style={{ marginTop: -8 }}
+                          style={{marginTop: -8}}
                         />
                         <Text style={styles.NumberStyle}>
                           {item?.cost == 0 ? 'Free' : item?.cost}
@@ -131,7 +170,7 @@ const BuyCoins = props => {
                       </View>
                     </View>
                   </View>
-                </TouchableOpacity>
+                </Pressable>
               );
             }}
           />
@@ -161,7 +200,7 @@ const BuyCoins = props => {
                 });
               } else {
                 if (purchaseCoinItem?.id) {
-                  purchaseCoins({ planid: purchaseCoinItem.id }).then(result => {
+                  purchaseCoins({planid: purchaseCoinItem.id}).then(result => {
                     if (
                       result?.payload?.message ===
                       'Coins purchased successfully.'
@@ -213,7 +252,7 @@ const BuyCoins = props => {
               props?.navigation?.goBack();
             }
           }}
-          style={{ alignSelf: 'center', marginTop: 30 }}>
+          style={{alignSelf: 'center', marginTop: 30}}>
           <Text
             style={{
               fontSize: 14,
