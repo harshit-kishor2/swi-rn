@@ -215,14 +215,14 @@ const RatingAndReviews = props => {
                 justifyContent: 'center',
                 margin: 15,
               }}>
-              {/* <Rating
-              type="star"
-              ratingCount={ratingCount}
-              startingValue={average}
-              imageSize={16}
-              readonly
-            /> */}
-              <AirbnbRating
+              <Rating
+                type="star"
+                ratingCount={ratingCount}
+                startingValue={average}
+                imageSize={16}
+                readonly
+              />
+              {/* <AirbnbRating
                 count={ratingCount}
                 showRating={false}
                 defaultRating={average}
@@ -235,7 +235,7 @@ const RatingAndReviews = props => {
                   justifyContent: 'space-evenly',
                   alignItems: 'center',
                 }}
-              />
+              /> */}
               <Text
                 style={{
                   fontSize: 13,
@@ -286,11 +286,12 @@ const RatingAndReviews = props => {
                 </Text>
               </View>
               <View style={{marginTop: 30}}>
-                <AirbnbRating
+                {/* <AirbnbRating
                   count={ratingCount}
                   showRating={false}
-                  defaultRating={average}
+                  // defaultRating={average}
                   isDisabled
+                  defaultRating={average}
                   size={15}
                   style={{marginHorizontal: 10}}
                   ratingContainerStyle={{marginHorizontal: 10}}
@@ -299,17 +300,19 @@ const RatingAndReviews = props => {
                     justifyContent: 'space-evenly',
                     alignItems: 'center',
                   }}
-                />
-                {/* <Rating
+                /> */}
+                <Rating
                   type="star"
                   ratingCount={ratingCount}
                   startingValue={average}
-                  imageSize={16}
+                  jumpValue={0.1}
+                  imageSize={25}
                   readonly
                   style={{
                     marginLeft: -10,
                   }}
-                /> */}
+                />
+
                 <Text
                   style={{
                     alignItems: 'center',
