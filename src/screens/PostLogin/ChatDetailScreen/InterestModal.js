@@ -1,5 +1,10 @@
 import {FontsConst} from '@app/assets/assets';
-import {CustomIcon, CustomText, SubmitButton} from '@app/components';
+import {
+  CustomIcon,
+  CustomText,
+  KeyboardAwareView,
+  SubmitButton,
+} from '@app/components';
 import {ICON_TYPE} from '@app/components/CustomIcon';
 import {LoadingStatus} from '@app/helper/strings';
 import useDebounce from '@app/hooks/useDebounce';
@@ -161,8 +166,14 @@ const InterestModal = props => {
             size={20}
           />
         </Pressable>
-        <View style={styles.product}>
-          <CustomIcon name={'picture'} origin={ICON_TYPE.ANT_ICON} size={40} />
+        <View style={[styles.product]}>
+          <CustomIcon
+            style={{borderWidth: 1, borderRadius: 8, borderColor: '#00000040'}}
+            name={'watch'}
+            origin={ICON_TYPE.MATERIAL_ICONS}
+            size={40}
+            color={'#000000'}
+          />
           <View
             style={{
               paddingLeft: 15,
@@ -202,7 +213,10 @@ const InterestModal = props => {
           />
         </View>
         <Pressable
-          onPress={() => setAddModalVisible(true)}
+          onPress={() => {
+            setModalVisible(false);
+            setAddModalVisible(true);
+          }}
           style={[
             styles.product,
             {
@@ -231,11 +245,11 @@ const InterestModal = props => {
       transparent={true}
       visible={modalVisible}
       onRequestClose={() => {
-        setModalVisible(!modalVisible);
+        setModalVisible(false);
         setData(chatReducer.getIntersetList?.data);
         setdraftData(chatReducer.getIntersetList?.drafts);
       }}>
-      <View style={styles.container}>
+      <KeyboardAwareView style={styles.container}>
         <Pressable
           style={styles.backdrop}
           onPress={() => {
@@ -275,7 +289,7 @@ const InterestModal = props => {
             onPress={addIntersetList}
           />
         </View>
-      </View>
+      </KeyboardAwareView>
       {/* <AddInterestModal
         modalVisible={addModalVisible}
         setModalVisible={setAddModalVisible}
