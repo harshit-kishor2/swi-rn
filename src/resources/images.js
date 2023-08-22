@@ -84,10 +84,9 @@ export const handCoin = require('../assets/images/handCoin/Rectangle53.png');
 //Sellers Profile
 export const BackgroundImage = require('../assets/images/BackgroundImage.png');
 export const Star = require('../assets/images/Star.png');
-export const singpass = require('../assets/images/singpass.png');
 export const phone = require('../assets/images/phone.png');
-export const facebook = require('../assets/images/facebook.png');
-export const gmail = require('../assets/images/gmail.png');
+
+
 
 //Coin History
 
@@ -118,3 +117,11 @@ export const badge = require('../assets/images/badge/badge.png');
 
 // BuyCoin
 export const bag = require('../assets/images/buyCoin/bag.png');
+
+
+
+// gmail facebook
+
+export const gmail = require('../assets/images/GmailVarified/gmail.png');
+export const facebook = require('../assets/images/FacebookVarified/facebook.png');
+export const singpass = require('../assets/images/SingpassVarified/singpass.png');
