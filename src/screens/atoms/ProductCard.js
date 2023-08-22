@@ -54,7 +54,7 @@ const ProductCard = ({
   };
 
   return (
-    <Card style={styles.card_container}>
+    <Card style={[styles.card_container, {height: '100%'}]}>
       <Pressable
         onPress={() => {
           NavigationService.navigate(RoutesName.PRODUCT_DETAILS, {
