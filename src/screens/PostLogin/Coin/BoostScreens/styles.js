@@ -18,8 +18,7 @@ export default styles = StyleSheet.create({
     // justifyContent: 'center',
     alignItems: 'center',
     marginTop: SPACING.SCALE_40,
-
-    marginHorizontal: 25,
+    marginHorizontal: 20,
   },
   TopText: {
     fontFamily: 'OpenSans-SemiBold',

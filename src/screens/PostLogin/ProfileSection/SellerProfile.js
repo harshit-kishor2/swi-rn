@@ -354,7 +354,7 @@ const SellerProfile = props => {
             })
           }
           style={styles.ratingcontainer}>
-          <AirbnbRating
+          {/* <AirbnbRating
             count={5}
             showRating={false}
             defaultRating={userDetail?.averageRating}
@@ -366,6 +366,16 @@ const SellerProfile = props => {
               paddingVertical: 10,
               justifyContent: 'space-evenly',
               alignItems: 'center',
+            }}
+          /> */}
+          <Rating
+            type="star"
+            ratingCount={5}
+            startingValue={userDetail?.averageRating}
+            imageSize={16}
+            readonly
+            style={{
+              marginRight: 6,
             }}
           />
           <CustomText style={styles.reviewText}>
