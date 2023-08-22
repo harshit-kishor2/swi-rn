@@ -278,8 +278,10 @@ const ChatDetailScreen = props => {
       {Platform.select({
         ios: (
           <ScrollView
+            scrollEnabled={false}
+            nestedScrollEnabled={false}
             contentContainerStyle={{
-              height: isKeyboardVisible ? 800 : '100%',
+              height: isKeyboardVisible ? 700 : '100%',
             }}>
             <GiftedChat
               messageContainerRef={ref => (flatRef.current = ref)}
@@ -327,6 +329,7 @@ const ChatDetailScreen = props => {
                             paddingHorizontal: 20,
                             flexDirection: 'row',
                             flexWrap: 'wrap',
+                            paddingBottom: 20,
                           }}>
                           {customMessage.map((item, index) => {
                             return (
