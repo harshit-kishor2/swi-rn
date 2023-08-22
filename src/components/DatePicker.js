@@ -74,8 +74,8 @@ const DatePicker = ({
               onChange={(event, value) => {
                 setIosDate(value);
               }}
-              maximumDate={maximumDate ?? new Date()}
-              minimumDate={minimumDate}
+              // maximumDate={maximumDate ?? new Date()}
+              minimumDate={minimumDate ?? new Date()}
             />
           </View>
         </Modal>
