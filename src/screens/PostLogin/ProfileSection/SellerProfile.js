@@ -1,19 +1,19 @@
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Avatar, Divider, List} from 'react-native-paper';
-import {CustomIcon, CustomText, Spacer, SubmitButton} from '@app/components';
-import {AssestsConst, FontsConst} from '@app/assets/assets';
-import {ICON_TYPE} from '@app/components/CustomIcon';
-import {FONTS, IMAGES} from '@app/resources';
-import {AirbnbRating, Rating} from 'react-native-ratings';
-import {AboutRow, GetAboutRow, PostFollowVisitor, getAboutRow} from './common';
+import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Avatar, Divider, List } from 'react-native-paper';
+import { CustomIcon, CustomText, Spacer, SubmitButton } from '@app/components';
+import { AssestsConst, FontsConst } from '@app/assets/assets';
+import { ICON_TYPE } from '@app/components/CustomIcon';
+import { FONTS, IMAGES } from '@app/resources';
+import { AirbnbRating, Rating } from 'react-native-ratings';
+import { AboutRow, GetAboutRow, PostFollowVisitor, getAboutRow } from './common';
 import ClearableSearch from '@app/screens/atoms/ClearableSearch';
 import PageTitle from '@app/screens/atoms/PageTitle';
-import {EmptyList} from '../ChatScreen/commn';
+import { EmptyList } from '../ChatScreen/commn';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {RoutesName} from '@app/helper/strings';
-import {addEllipsis, showAlert} from '@app/helper/commonFunction';
+import { RoutesName } from '@app/helper/strings';
+import { addEllipsis, showAlert } from '@app/helper/commonFunction';
 import useDebounce from '@app/hooks/useDebounce';
 import branch from 'react-native-branch';
 import Banner from './EditProfile/common/Banner';
@@ -36,7 +36,7 @@ const SellerProfile = props => {
   const query = useDebounce(search);
   const buoRef = useRef();
   useEffect(() => {
-    getProfileListing({userId: userDetail.id, keyword: query});
+    getProfileListing({ userId: userDetail.id, keyword: query });
     return () => {
       if (buoRef.current) {
         console.log('buo release');
@@ -73,21 +73,21 @@ const SellerProfile = props => {
         },
       },
     );
-    let {url} = await buoRef.current?.generateShortUrl(
+    let { url } = await buoRef.current?.generateShortUrl(
       linkProperties,
       controlParams,
     );
     console.log('url', url);
-    let {channel, completed, error} = await buoRef.current?.showShareSheet(
+    let { channel, completed, error } = await buoRef.current?.showShareSheet(
       shareOptions,
       linkProperties,
       controlParams,
     );
-    console.log('test', {channel, completed, error});
+    console.log('test', { channel, completed, error });
   };
 
   const getListings = () => {
-    const renderItem = ({item, index}) => {
+    const renderItem = ({ item, index }) => {
       return (
         <ProductCard
           key={index}
@@ -99,7 +99,7 @@ const SellerProfile = props => {
               product_status: 'sold_out',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({userId: userDetail.id});
+                getProfileListing({ userId: userDetail.id });
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as sold.',
@@ -117,7 +117,7 @@ const SellerProfile = props => {
               product_status: 'reserved',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({userId: userDetail.id});
+                getProfileListing({ userId: userDetail.id });
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as reserved.',
@@ -135,7 +135,7 @@ const SellerProfile = props => {
               product_status: 'deleted',
             }).then(res => {
               if (res?.type.includes('fulfilled')) {
-                getProfileListing({userId: userDetail.id});
+                getProfileListing({ userId: userDetail.id });
                 showAlert({
                   title: 'Success !',
                   message: 'Product status changed as deleted.',
@@ -262,18 +262,16 @@ const SellerProfile = props => {
         />
         <AboutRow
           title={'Payment Mode'}
-          value={`${
-            userDetail?.additional_info?.payment_method
-              ?.filter((item, index) => item.isEnable === 'true')
-              ?.map((item, index) => item?.type)
-              ?.join(',') ?? '-'
-          }`}
+          value={`${userDetail?.additional_info?.payment_method
+            ?.filter((item, index) => item.isEnable === 'true')
+            ?.map((item, index) => item?.type)
+            ?.join(',') ?? '-'
+            }`}
         />
         <AboutRow
           title={'Joined since'}
-          value={`${
-            moment(userDetail?.created_at).format('DD MMMM YYYY') ?? '-'
-          }`}
+          value={`${moment(userDetail?.created_at).format('DD MMMM YYYY') ?? '-'
+            }`}
         />
       </View>
     );
@@ -297,7 +295,7 @@ const SellerProfile = props => {
           <Image
             source={
               userDetail?.cover_image
-                ? {uri: userDetail?.cover_image}
+                ? { uri: userDetail?.cover_image }
                 : IMAGES.coverSellerProfile
             }
             resizeMode="cover"
@@ -310,7 +308,7 @@ const SellerProfile = props => {
         <View style={styles.profile_container}>
           <Avatar.Image
             source={
-              userDetail?.image ? {uri: userDetail?.image} : AssestsConst.AVATAR
+              userDetail?.image ? { uri: userDetail?.image } : AssestsConst.AVATAR
             }
             size={100}
           />
@@ -335,7 +333,7 @@ const SellerProfile = props => {
             }}>
             <Image
               source={IMAGES.ProfileBadge}
-              style={{marginTop: 5, marginRight: 5}}
+              style={{ marginTop: 5, marginRight: 5 }}
             />
             <CustomText
               style={{
@@ -360,8 +358,8 @@ const SellerProfile = props => {
             defaultRating={userDetail?.averageRating}
             isDisabled
             size={15}
-            style={{marginHorizontal: 10}}
-            ratingContainerStyle={{marginHorizontal: 10}}
+            style={{ marginHorizontal: 10 }}
+            ratingContainerStyle={{ marginHorizontal: 10 }}
             starContainerStyle={{
               paddingVertical: 10,
               justifyContent: 'space-evenly',
@@ -384,16 +382,13 @@ const SellerProfile = props => {
         </Pressable>
         <View style={styles.varify_container}>
           <CustomText style={styles.verified_text}>Verified :</CustomText>
-          <Image
-            source={IMAGES.Seller__Singpass}
-            style={styles.verifiedImage}
-          />
-          <Image source={IMAGES.Seller_gmail} style={styles.verifiedImage} />
-          <Image
-            source={IMAGES.Seller_phone_call}
-            style={styles.verifiedImage}
-          />
-          <Image source={IMAGES.Seller_facebook} style={styles.verifiedImage} />
+          {userDetail?.social_id ? <Image source={IMAGES.singpass} style={styles.verifiedImage} /> : null}
+          {userDetail?.email ?
+            <Image source={IMAGES.gmail} style={styles.verifiedImage} /> : null
+          }
+
+          {userDetail?.facebook_id
+            ? <Image source={IMAGES.facebook} style={styles.verifiedImage} /> : null}
         </View>
       </View>
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -16,8 +16,8 @@ import {
   SafeAreaView,
   Platform,
 } from 'react-native';
-import branch, {BranchEvent} from 'react-native-branch';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import branch, { BranchEvent } from 'react-native-branch';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import {
   CustomIcon,
@@ -36,11 +36,11 @@ import {
 } from '@app/helper/commonFunction';
 import ImageView from 'react-native-image-viewing';
 
-import {exploreProductDetail, productChart} from '@app/store/explore.slice';
-import {COLORS, IMAGES, SPACING} from '@app/resources';
+import { exploreProductDetail, productChart } from '@app/store/explore.slice';
+import { COLORS, IMAGES, SPACING } from '@app/resources';
 import Chartdemo from './chartdemo';
 import styles from './styles';
-import {LoadingStatus, RoutesName} from '@app/helper/strings';
+import { LoadingStatus, RoutesName } from '@app/helper/strings';
 import {
   addPriceAlert,
   addProductInterestList,
@@ -49,19 +49,19 @@ import {
   removePriceAlert,
 } from '@app/store/exploreProductSlice';
 import Video from 'react-native-video';
-import {ICON_TYPE} from '@app/components/CustomIcon';
+import { ICON_TYPE } from '@app/components/CustomIcon';
 import ProductCard from '@app/screens/atoms/ProductCard';
-import {FlatList} from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import ReadMore from '@app/components/ReadMore';
 import ProductImageDetail from './ProductImageDetail';
 import NavigationService from '@app/navigations/NavigationService';
-import {changeProductStatusAction} from '@app/store/profileSectionSlice';
+import { changeProductStatusAction } from '@app/store/profileSectionSlice';
 
 const selectKey = [
-  {id: 1, name: 'Last 7 Days', key: 'seven_days'},
-  {id: 2, name: 'Last 30 Days', key: 'lastdays'},
-  {id: 3, name: 'Last 6 Months', key: 'lastmonths'},
-  {id: 4, name: 'Last 1 Year', key: 'lastyear'},
+  { id: 1, name: 'Last 7 Days', key: 'seven_days' },
+  { id: 2, name: 'Last 30 Days', key: 'lastdays' },
+  { id: 3, name: 'Last 6 Months', key: 'lastmonths' },
+  { id: 4, name: 'Last 1 Year', key: 'lastyear' },
 ];
 
 const ProductDetails = props => {
@@ -176,21 +176,21 @@ const ProductDetails = props => {
       eventParams,
     );
     event.logEvent();
-    let {url} = await buoRef.current?.generateShortUrl(
+    let { url } = await buoRef.current?.generateShortUrl(
       linkProperties,
       controlParams,
     );
     console.log('url', url);
-    let {channel, completed, error} = await buoRef.current?.showShareSheet(
+    let { channel, completed, error } = await buoRef.current?.showShareSheet(
       shareOptions,
       linkProperties,
       controlParams,
     );
-    console.log('test', {channel, completed, error});
+    console.log('test', { channel, completed, error });
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {productDetailLoading === false ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -215,7 +215,7 @@ const ProductDetails = props => {
                 source={IMAGES.BACKARROW}
               />
             </TouchableOpacity>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <TouchableOpacity onPress={onShareClick}>
                 <Image
                   style={{
@@ -229,7 +229,7 @@ const ProductDetails = props => {
               {!isSelf && (
                 <>
                   {exploreProduct.addWishListLoadingStatus ===
-                  LoadingStatus.LOADING ? (
+                    LoadingStatus.LOADING ? (
                     <ActivityIndicator />
                   ) : (
                     <TouchableOpacity
@@ -322,20 +322,20 @@ const ProductDetails = props => {
               justifyContent: 'center',
               marginVertical: 5,
             }}>
-            <Text style={{fontFamily: 'Cabin-Bold', fontSize: 18}}>
+            <Text style={{ fontFamily: 'Cabin-Bold', fontSize: 18 }}>
               {productDetailData?.data?.gender_type}'s Watch with{' '}
               {productDetailData?.data?.bracelet} Strap
             </Text>
-            <Text style={{fontFamily: 'OpenSans-SemiBold', fontSize: 18}}>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold', fontSize: 18 }}>
               {productDetailData?.data?.brand?.name} - Model{' '}
               {productDetailData?.data?.model?.name}
             </Text>
-            <View style={{flexDirection: 'row'}}>
-              <Text style={{fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK}}>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontFamily: 'Cabin-Bold', color: COLORS.HYPERLINK }}>
                 ${productDetailData?.data?.price}{' '}
               </Text>
               <Text
-                style={{fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK}}>
+                style={{ fontFamily: 'Cabin-Regular', color: COLORS.HYPERLINK }}>
                 .{productDetailData?.data?.watch_condition}
               </Text>
             </View>
@@ -353,7 +353,7 @@ const ProductDetails = props => {
               width: '100%',
               marginVertical: 5,
             }}>
-            <Text style={{fontFamily: 'OpenSans-SemiBold', color: '#454545'}}>
+            <Text style={{ fontFamily: 'OpenSans-SemiBold', color: '#454545' }}>
               {capitalizeFirstLetter(productDetailData?.data?.product_status)}
             </Text>
           </View>
@@ -390,7 +390,7 @@ const ProductDetails = props => {
                     );
                   }
                 }}
-                buttonStyle={{width: '85%', alignSelf: 'center'}}
+                buttonStyle={{ width: '85%', alignSelf: 'center' }}
                 lable="I'm interested in this product"
               />
             )}
@@ -423,10 +423,10 @@ const ProductDetails = props => {
                   // backgroundColor: 'red',
                   //maxWidth:SPACING.SCALE_00
                 }}>
-                <View style={{marginTop: SPACING.SCALE_3}}>
+                <View style={{ marginTop: SPACING.SCALE_3 }}>
                   {productDetailData?.data?.user?.image ? (
                     <Image
-                      source={{uri: productDetailData?.data?.user?.image}}
+                      source={{ uri: productDetailData?.data?.user?.image }}
                       style={{
                         height: 45,
                         width: 45,
@@ -437,7 +437,7 @@ const ProductDetails = props => {
                   ) : (
                     <Image
                       source={IMAGES.userProfile}
-                      style={{height: 45, width: 45, borderRadius: 45 / 2}}
+                      style={{ height: 45, width: 45, borderRadius: 45 / 2 }}
                     />
                   )}
                 </View>
@@ -505,10 +505,10 @@ const ProductDetails = props => {
                             justifyContent: 'center',
                           }}>
                           <Image
-                            style={{height: 18, width: 14.5, marginRight: 6}}
+                            style={{ height: 18, width: 14.5, marginRight: 6 }}
                             source={IMAGES.locationIcon}
                           />
-                          <View style={{maxWidth: 200}}>
+                          <View style={{ maxWidth: 200 }}>
                             <Text
                               style={{
                                 fontFamily: 'OpenSans-Regular',
@@ -797,11 +797,11 @@ const ProductDetails = props => {
                 <Spacer height={SPACING.SCALE_13} />
 
                 {productDetailData?.data?.suggested_data?.length != 0 ? (
-                  <View style={{marginLeft: SPACING.SCALE_14}}>
+                  <View style={{ marginLeft: SPACING.SCALE_14 }}>
                     <FlatList
                       data={productDetailData?.data?.suggested_data}
                       horizontal={true}
-                      renderItem={({item, index}) => {
+                      renderItem={({ item, index }) => {
                         console.log('Product_item======>>>>>>', item);
                         return <ProductCard item={item} />;
                       }}
@@ -812,7 +812,7 @@ const ProductDetails = props => {
                   //   data={productDetailData?.data?.suggested_data}
                   // />
                   <View
-                    style={{alignItems: 'center', justifyContent: 'center'}}>
+                    style={{ alignItems: 'center', justifyContent: 'center' }}>
                     <Text>No Suggested watches</Text>
                   </View>
                 )}
@@ -862,10 +862,10 @@ const ProductDetails = props => {
                   //marginTop={50}
                   height={SPACING.SCALE_50}
                   width={SPACING.SCALE_160}
-                  // marginHorizontal={20}
-                  // onPress={() => {
-                  // // Alert.alert('Chat');
-                  // }}
+                // marginHorizontal={20}
+                // onPress={() => {
+                // // Alert.alert('Chat');
+                // }}
                 />
               </View>
 
@@ -939,11 +939,11 @@ const ProductDetails = props => {
                             }
                           }
                         }}>
-                        <Text style={{marginLeft: 0}}>Add to compare</Text>
+                        <Text style={{ marginLeft: 0 }}>Add to compare</Text>
                       </TouchableOpacity>
                     </>
                   ) : (
-                    <Text style={{color: 'green'}}>
+                    <Text style={{ color: 'green' }}>
                       Product Added{'\n'} in compare list
                     </Text>
                   )}
@@ -965,7 +965,7 @@ const ProductDetails = props => {
                   {productDetailData?.data?.alert === true ? (
                     <>
                       {exploreProduct?.removePriceAlertLoadingStatus ===
-                      LoadingStatus.LOADING ? (
+                        LoadingStatus.LOADING ? (
                         <ActivityIndicator />
                       ) : (
                         <TouchableOpacity
@@ -999,8 +999,8 @@ const ProductDetails = props => {
                               });
                             }
                           }}
-                          style={{justifyContent: 'center'}}>
-                          <Text style={{color: 'red'}}>
+                          style={{ justifyContent: 'center' }}>
+                          <Text style={{ color: 'red' }}>
                             Product already {'\n'} added for alert.
                           </Text>
                         </TouchableOpacity>
@@ -1009,7 +1009,7 @@ const ProductDetails = props => {
                   ) : (
                     <View>
                       {exploreProduct?.priceAlertLoadingStatus ===
-                      LoadingStatus.LOADING ? (
+                        LoadingStatus.LOADING ? (
                         <ActivityIndicator />
                       ) : (
                         <TouchableOpacity
@@ -1107,14 +1107,14 @@ const ProductDetails = props => {
                   </Pressable>
                 </View>
                 <Pressable
-                  style={{flex: 1}}
+                  style={{ flex: 1 }}
                   onPress={() => {
                     setIsVideoPause(!isVideoPause);
                   }}>
                   <Video
                     ref={videoRef}
-                    source={{uri: selectedVideo.uri}} // Replace with your video URL
-                    style={{flex: 1}}
+                    source={{ uri: selectedVideo.uri }} // Replace with your video URL
+                    style={{ flex: 1 }}
                     controls
                     paused={isVideoPause}
                     resizeMode="contain"
