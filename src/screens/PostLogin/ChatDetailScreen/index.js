@@ -15,7 +15,7 @@ import {
 } from '@app/store/chatSlice';
 import {getProductDetailsAction} from '@app/store/exploreProductSlice';
 import {useEffect, useRef, useState} from 'react';
-import {Platform, Pressable, StyleSheet, View} from 'react-native';
+import {Platform, Pressable, StyleSheet, View, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
 import {AndroidCameraPermission} from '../../../../androidcamerapermission';
 import ActionContainer from './ActionContainer';
@@ -40,6 +40,7 @@ import {
   profileAboutAction,
 } from '@app/store/profileSectionSlice';
 import {Chip} from 'react-native-paper';
+import useKeyboardVisible from '@app/hooks/useKeyboardVisible';
 
 const customMessage = ['Hello', 'Hi', "I'm interested in this product."];
 const ChatDetailScreen = props => {
@@ -73,7 +74,7 @@ const ChatDetailScreen = props => {
     type: '',
   });
   const [loading, setLoading] = useState(true);
-
+  const isKeyboardVisible = useKeyboardVisible();
   const {chat_item, isOffer} = route.params;
   console.log('============chat_item=============', chat_item);
   //  Use socket
@@ -274,9 +275,9 @@ const ChatDetailScreen = props => {
       useSafeAreaView={true}
       loading={loading}>
       <Header chat_item={chat_item} onFollowClick={onFollowClick} {...props} />
-      <View
-        style={{
-          flex: 1,
+      <ScrollView
+        contentContainerStyle={{
+          height: isKeyboardVisible ? 800 : '100%',
         }}>
         <GiftedChat
           messageContainerRef={ref => (flatRef.current = ref)}
@@ -346,16 +347,21 @@ const ChatDetailScreen = props => {
                 }
           }
         />
-      </View>
+      </ScrollView>
+
       {hasEnabledObject ? null : (
-        <ActionContainer
-          isSeller={isSeller}
-          onAttachmentClick={sendAttachment}
-          onSendMessageClick={sendMessage}
-          onInterestClick={() => setInterestModalVisible(!interestModalVisible)}
-          onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
-          {...props}
-        />
+        <KeyboardAwareView>
+          <ActionContainer
+            isSeller={isSeller}
+            onAttachmentClick={sendAttachment}
+            onSendMessageClick={sendMessage}
+            onInterestClick={() =>
+              setInterestModalVisible(!interestModalVisible)
+            }
+            onMakeOfferClick={() => setOfferModalVisible(!offerModalVisible)}
+            {...props}
+          />
+        </KeyboardAwareView>
       )}
       {/* Image Modal */}
       <ImageModal
