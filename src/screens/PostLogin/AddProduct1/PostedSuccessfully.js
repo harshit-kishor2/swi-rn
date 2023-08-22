@@ -10,11 +10,16 @@ import {
   ScrollView,
 } from 'react-native';
 import {Container, Custombutton2, Spacer, StoryScreen} from '@app/components';
-import {IMAGES, SPACING} from '@app/resources';
+import {FONTS, IMAGES, SPACING} from '@app/resources';
 import {RoutesName} from '@app/helper/strings';
+import NavigationService from '@app/navigations/NavigationService';
+import {useSelector} from 'react-redux';
 
 const PostedSuccessfully = props => {
-  console.log('=======>>>>', props);
+  // console.log('=======>>>>121', props);
+  const user = useSelector(state => state?.authReducer?.userProfileDetails);
+  console.log('=======>>>>121', user);
+
   return (
     <Container useSafeAreaView={true}>
       <ScrollView
@@ -67,7 +72,8 @@ const PostedSuccessfully = props => {
                   textDecorationLine: 'underline',
                 }}
                 onPress={() => {
-                  // Alert.alert('in process');
+                  // NavigationService.navigate(RoutesName.CHANGE_PASSWORD_SCREEN);
+                  NavigationService.navigate(RoutesName.EXPLORE_TAB);
                 }}>
                 Not now, I'll do it later
               </Text>
@@ -85,11 +91,14 @@ const PostedSuccessfully = props => {
                   style={{
                     fontSize: 14,
                     color: '#00958C',
-                    fontFamily: 'OpenSans-Regular',
+                    fontFamily: 'OpenSans-SemiBold',
                     textDecorationLine: 'underline',
                   }}
                   onPress={() => {
-                    // Alert.alert('in process');
+                    NavigationService.navigate(
+                      RoutesName.PROFILE_SECTION_SCREEN,
+                      {userID: user?.id},
+                    );
                   }}>
                   ViewPost
                 </Text>
@@ -128,7 +137,7 @@ const styles = StyleSheet.create({
   text: {
     justifyContent: 'center',
     alignSelf: 'center',
-    fontSize: 12,
+    fontSize: 14,
     fontFamily: 'OpenSans-Regular',
     marginTop: 5,
   },
