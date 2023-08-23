@@ -215,6 +215,9 @@ const EditNormalProfile = props => {
                 value={values.about}
                 multiline={true}
                 maxLength={500}
+                style={{
+                  paddingBottom: 10,
+                }}
               />
               <View style={{position: 'absolute', bottom: 30, right: 5}}>
                 <CustomText
