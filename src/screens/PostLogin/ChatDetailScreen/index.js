@@ -282,6 +282,7 @@ const ChatDetailScreen = props => {
             nestedScrollEnabled={false}
             contentContainerStyle={{
               height: isKeyboardVisible ? 700 : '100%',
+              paddingBottom: isKeyboardVisible ? 90 : 0,
             }}>
             <GiftedChat
               messageContainerRef={ref => (flatRef.current = ref)}
@@ -317,8 +318,8 @@ const ChatDetailScreen = props => {
               user={{
                 _id: `${authReducer?.userProfileDetails?.id}`,
               }}
-              minInputToolbarHeight={30}
-              renderInputToolbar={props => {}}
+              minInputToolbarHeight={0}
+              renderInputToolbar={props => null}
               renderFooter={
                 modifyData.length
                   ? null
