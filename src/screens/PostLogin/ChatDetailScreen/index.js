@@ -111,8 +111,9 @@ const ChatDetailScreen = props => {
       readUnread({
         product_id: chat_item?.product_id,
         receiver_id: chat_item?.user_id,
+      }).then(res => {
+        getChatHistory();
       });
-      getChatHistory();
     };
   }, []);
 
@@ -282,7 +283,6 @@ const ChatDetailScreen = props => {
             nestedScrollEnabled={false}
             contentContainerStyle={{
               height: isKeyboardVisible ? 700 : '100%',
-              paddingBottom: isKeyboardVisible ? 90 : 0,
             }}>
             <GiftedChat
               messageContainerRef={ref => (flatRef.current = ref)}
@@ -318,8 +318,8 @@ const ChatDetailScreen = props => {
               user={{
                 _id: `${authReducer?.userProfileDetails?.id}`,
               }}
-              minInputToolbarHeight={0}
-              renderInputToolbar={props => null}
+              minInputToolbarHeight={5}
+              renderInputToolbar={props => {}}
               renderFooter={
                 modifyData.length
                   ? null

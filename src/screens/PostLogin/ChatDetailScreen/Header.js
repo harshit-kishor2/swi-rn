@@ -38,14 +38,14 @@ const Header = ({
         <Pressable
           onPress={() =>
             navigation?.navigate(RoutesName.PROFILE_SECTION_SCREEN, {
-              userId: chat_item?.user_id,
+              userId: userDetail?.id,
             })
           }
           style={styles.title_container}>
-          <Avatar.Image size={35} source={{uri: chat_item?.user_image}} />
+          <Avatar.Image size={35} source={{uri: userDetail?.image}} />
           <Spacer width={10} />
           <CustomText style={styles.title_text}>
-            {addEllipsis(chat_item?.user_name, 15)}
+            {addEllipsis(userDetail?.name, 15)}
           </CustomText>
         </Pressable>
         <Pressable style={styles.follow_button} onPress={onFollowClick}>
